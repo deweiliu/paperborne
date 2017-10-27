@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import uk.ac.qub.eeecs.gage.Game;
+import uk.ac.qub.eeecs.game.platformDemo.PlatformDemoScreen;
 
 /**
  * Sample demo game that is create within the MainActivity class
@@ -46,7 +47,6 @@ public class DemoGame extends Game {
         // will layout the buttons based on the size of the view.
         MenuScreen stubMenuScreen = new MenuScreen(this);
         mScreenManager.addScreen(stubMenuScreen);
-
         return view;
     }
 
@@ -57,9 +57,17 @@ public class DemoGame extends Game {
             return false;
 
         // Go back to the menu screen
+        //stops background music
+        switch(mScreenManager.getCurrentScreen().getName()){
+            case "PlatformDemoScreen": this.getAssetManager().getMusic("PlatformBackgroundMusic").stop(); break;
+           // case "SpaceshipDemoScreen": this.getAssetManager().getMusic("").stop(); break;
+        }
+
         getScreenManager().removeScreen(mScreenManager.getCurrentScreen().getName());
         MenuScreen menuScreen = new MenuScreen(this);
         getScreenManager().addScreen(menuScreen);
+
         return true;
     }
+
 }

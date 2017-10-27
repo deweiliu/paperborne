@@ -1,6 +1,7 @@
 package uk.ac.qub.eeecs.game.platformDemo;
 
 import android.util.Log;
+import android.graphics.Bitmap;
 
 import java.util.List;
 
@@ -62,6 +63,8 @@ public class PlayerSphere extends Sprite {
      */
     private float ANGULAR_VELOCITY_SCALE = 1.5f;
 
+    private Bitmap bitmap;
+
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
@@ -74,8 +77,19 @@ public class PlayerSphere extends Sprite {
      * @param gameScreen Gamescreen to which sphere belongs
      */
     public PlayerSphere(float startX, float startY, GameScreen gameScreen) {
-        super(startX, startY, 50.0f, 50.0f, gameScreen.getGame()
-                .getAssetManager().getBitmap("Ball"), gameScreen);
+       // super(startX, startY, 50.0f, 50.0f, gameScreen.getGame()
+        //        .getAssetManager().getBitmap("Ball"), gameScreen);
+        super(gameScreen);
+        gameScreen.getGame().getAssetManager().loadAndAddBitmap("Ball", "img/Ball.png");
+
+        mBitmap = gameScreen.getGame().getAssetManager().getBitmap("Ball");
+        position.x = startX;
+        position.y = startY;
+
+        mBound.x = startX;
+        mBound.y = startY;
+        mBound.halfWidth = 50.0f / 2.0f;
+        mBound.halfHeight = 50.0f / 2.0f;
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -115,6 +129,7 @@ public class PlayerSphere extends Sprite {
         if (jumpUp && (velocity.y > -JUMP_VELOCITY_THRESHOLD
                 && velocity.y < JUMP_VELOCITY_THRESHOLD)) {
             velocity.y = JUMP_VELOCITY;
+
         }
 
         // We want the player's sphere to rotate to give the appearance

@@ -52,6 +52,7 @@ public class PlayerSpaceship extends Sprite {
         maxVelocity = 100.0f;
         maxAngularVelocity = 1440.0f;
         maxAngularAcceleration = 1440.0f;
+
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -79,6 +80,7 @@ public class PlayerSpaceship extends Sprite {
             // Convert into an input acceleration
             acceleration.x = playerTouchAcceleration.x * maxAcceleration;
             acceleration.y = playerTouchAcceleration.y * maxAcceleration;
+
         }
 
         // Ensure that the ships points in the direction of movement

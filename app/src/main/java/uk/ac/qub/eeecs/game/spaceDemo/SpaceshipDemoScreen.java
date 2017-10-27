@@ -15,7 +15,7 @@ import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
-
+import uk.ac.qub.eeecs.gage.engine.audio.Sound;
 /**
  * Simple steering game world
  * 
@@ -48,7 +48,7 @@ public class SpaceshipDemoScreen extends GameScreen {
 	 * Define the player's spaceship
 	 */
 	private PlayerSpaceship mPlayerSpaceship;
-
+	private Sound mSound;
 	/**
 	 * Define asteroids in the game world
 	 */
@@ -99,14 +99,20 @@ public class SpaceshipDemoScreen extends GameScreen {
 		assetManager.loadAndAddBitmap("Spaceship2", "img/Spaceship2.png");
 		assetManager.loadAndAddBitmap("Spaceship3", "img/Spaceship3.png");
 		assetManager.loadAndAddBitmap("Turret", "img/Turret.png");
-
+		assetManager.loadAndAddMusic("RocketThrusters", "music/rocket_thrusters.mp3");
+		assetManager.getMusic("RocketThrusters").setLopping(true);
+		assetManager.getMusic("RocketThrusters").setVolume(10);
 		// Create the space background
 		mSpaceBackground = new GameObject(LEVEL_WIDTH / 2.0f,
 				LEVEL_HEIGHT / 2.0f, LEVEL_WIDTH, LEVEL_HEIGHT, getGame()
 						.getAssetManager().getBitmap("SpaceBackground"), this);
 
+
 		// Create the player spaceship
 		mPlayerSpaceship = new PlayerSpaceship(100, 100, this);
+
+
+
 
 		// Create a number of randomly positioned asteroids
 		Random random = new Random();
@@ -188,6 +194,19 @@ public class SpaceshipDemoScreen extends GameScreen {
 		// Focus the layer viewport on the player
 		mLayerViewport.x = mPlayerSpaceship.position.x;
 		mLayerViewport.y = mPlayerSpaceship.position.y;
+
+		// Play sound if spaceship is moving
+		if (mPlayerSpaceship.velocity.lengthSquared() > 0.1f ){
+
+			//Adjusts the volume in relation to the velocity of the Player Spaceship
+			getGame().getAssetManager().getMusic("RocketThrusters")
+					.setVolume((mPlayerSpaceship.velocity.lengthSquared() /
+							(mPlayerSpaceship.maxVelocity * mPlayerSpaceship.maxVelocity)));
+			getGame().getAssetManager().getMusic("RocketThrusters").play();
+
+		} else{
+			getGame().getAssetManager().getMusic("RocketThrusters").stop();
+		}
 
 		// Ensure the viewport cannot leave the confines of the world
 		if (mLayerViewport.getLeft() < 0)
