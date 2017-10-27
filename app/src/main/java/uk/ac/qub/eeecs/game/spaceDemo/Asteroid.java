@@ -39,7 +39,8 @@ public class Asteroid extends Sprite {
                 .getBitmap(random.nextBoolean() ? "Asteroid1" : "Asteroid2");
 
 
-        /*User story 2 : Asteroid Size Variety
+        /*
+        User story 2 : Asteroid Size Variety
         Dewei
         mBound.halfHeight and mBound.halfWidth were changed
          */

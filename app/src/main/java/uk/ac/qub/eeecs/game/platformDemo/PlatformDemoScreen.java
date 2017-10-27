@@ -78,7 +78,8 @@ public class PlatformDemoScreen extends GameScreen {
 
         // Load in the assets used by this layer
         AssetStore assetManager = mGame.getAssetManager();
-        assetManager.loadAndAddBitmap("Platform", "img/Platform1.png");
+        assetManager.loadAndAddBitmap("Platform1", "img/Platform1.png");
+        assetManager.loadAndAddBitmap("Platform2", "img/Platform2.png");
         assetManager.loadAndAddBitmap("Ground", "img/Ground.png");
         assetManager.loadAndAddBitmap("Ball", "img/Ball.png");
         assetManager.loadAndAddBitmap("RightArrow", "img/RightArrow.png");
@@ -117,13 +118,25 @@ public class PlatformDemoScreen extends GameScreen {
         // Add a number of randomly positioned platforms. They are not added in
         // the first 300 units of the level to avoid overlap with the player.
         Random random = new Random();
+        String platform;
+
+        /*
+        User Story 21 (2/2): Platform Variety
+        Dewei
+        Add "Platform2" and make them appeared randomly.
+         */
         int platformWidth = 70, platformHeight = 70, nNumRandomPlatforms = 30;
         for (int idx = 0; idx < nNumRandomPlatforms; idx++) {
+            switch (random.nextInt()%2    ){
+                case 0:platform="Platform2";break;
+                case 1:platform="Platform1";break;
+                default:platform="Platform1";break;
+            }
             mPlatforms.add(new Platform(
                     300.0f + (random.nextFloat() * LEVEL_WIDTH),
                     (random.nextFloat() * (LEVEL_HEIGHT - platformHeight)),
                     platformWidth, platformHeight,
-                    "Platform", this));
+                    platform, this));
         }
     }
 

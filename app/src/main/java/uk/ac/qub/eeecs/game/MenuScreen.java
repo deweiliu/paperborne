@@ -46,6 +46,11 @@ public class MenuScreen extends GameScreen {
     public MenuScreen(Game game) {
         super("MenuScreen", game);
 
+         /*
+        User Story 21 (1/2): Platform Variety
+        Dewei
+        Add "Platform2".
+         */
         // Load in the bitmaps used on the main menu screen
         AssetStore assetManager = mGame.getAssetManager();
         assetManager.loadAndAddBitmap("SpaceshipDemoIcon", "img/Spaceship1.png");
