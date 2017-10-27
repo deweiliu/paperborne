@@ -115,9 +115,10 @@ public class Platform extends GameObject {
             for (int tileXIdx = 0; tileXIdx < mTileXCount; tileXIdx++)
                 for (int tileYIdx = 0; tileYIdx < mTileYCount; tileYIdx++) {
 
-                    // Build a layer bound for the tile
-                    tileBound.x = platformLeft + (tileXIdx + 0.5f) * tileWidth;
-                    tileBound.y = platformBottom + (tileYIdx + 0.5f) * tileHeight;
+                        // Build a layer bound for the tile
+                        tileBound.x = platformLeft + (tileXIdx + 0.5f) * tileWidth;
+                        tileBound.y = platformBottom + (tileYIdx + 0.5f) * tileHeight;
+
 
                     // If the layer tile is visible then draw tne tile
                     if (GraphicsHelper.getClippedSourceAndScreenRect(

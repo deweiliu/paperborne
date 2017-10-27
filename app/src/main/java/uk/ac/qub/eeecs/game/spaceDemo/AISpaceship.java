@@ -1,5 +1,7 @@
 package uk.ac.qub.eeecs.game.spaceDemo;
 
+import java.util.Random;
+
 import uk.ac.qub.eeecs.gage.ai.SteeringBehaviours;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.util.Vector2;
@@ -55,20 +57,45 @@ public class AISpaceship extends Sprite {
 
         mShipBehaviour = shipBehaviour;
 
+        //Added code
+        //Generates a random number, if the number is even choose 1 image, if odd choose another
+        Random randomImage = new Random();
+        /*
+        int chosenImage = 0;
+        if (randomImage.nextInt() % 2 == 0) {
+            chosenImage = 1;
+        }*/
+
         switch (mShipBehaviour) {
             case Turret:
                 maxAcceleration = 0.0f;
                 maxVelocity = 0.0f;
                 maxAngularVelocity = 50.0f;
                 maxAngularAcceleration = 50.0f;
-                mBitmap = gameScreen.getGame().getAssetManager().getBitmap("Turret");
+                /*if (chosenImage == 1) {
+                    mBitmap = gameScreen.getGame().getAssetManager().getBitmap("Turret2");
+                } else {
+                    mBitmap = gameScreen.getGame().getAssetManager().getBitmap("Turret1");
+                }*/
+                mBitmap = gameScreen.getGame().getAssetManager().getBitmap(randomImage.nextBoolean() ? "Turret2" : "Turret1");
+
                 break;
             case Seeker:
                 maxAcceleration = 30.0f;
                 maxVelocity = 50.0f;
                 maxAngularVelocity = 150.0f;
                 maxAngularAcceleration = 300.0f;
-                mBitmap = gameScreen.getGame().getAssetManager().getBitmap("Spaceship2");
+                /*if (chosenImage == 1) {
+                    mBitmap = gameScreen.getGame().getAssetManager().getBitmap("Spaceship3");
+                } else {
+
+                    mBitmap = gameScreen.getGame().getAssetManager().getBitmap("Spaceship4");
+                }*/
+
+                //User Story 5
+                mBitmap = gameScreen.getGame().getAssetManager()
+                        .getBitmap(randomImage.nextBoolean() ? "Spaceship4" : "Spaceship3");
+
                 break;
         }
     }

@@ -12,6 +12,7 @@ import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.util.BoundingBox;
+import uk.ac.qub.eeecs.gage.util.CollisionDetector;
 import uk.ac.qub.eeecs.gage.util.GraphicsHelper;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
@@ -125,6 +126,7 @@ public class PlatformDemoScreen extends GameScreen {
                     platformWidth, platformHeight,
                     "Platform", this));
         }
+
     }
 
     // /////////////////////////////////////////////////////////////////////////

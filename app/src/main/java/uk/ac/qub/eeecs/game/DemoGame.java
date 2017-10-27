@@ -60,6 +60,7 @@ public class DemoGame extends Game {
         getScreenManager().removeScreen(mScreenManager.getCurrentScreen().getName());
         MenuScreen menuScreen = new MenuScreen(this);
         getScreenManager().addScreen(menuScreen);
+        getAssetManager().getMusic("SpaceBackgroundMusic").pause();
         return true;
     }
 }
