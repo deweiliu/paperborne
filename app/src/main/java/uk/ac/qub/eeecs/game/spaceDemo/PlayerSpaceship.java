@@ -50,8 +50,8 @@ public class PlayerSpaceship extends Sprite {
         // Define the maximum velocities and accelerations of the spaceship
         maxAcceleration = 600.0f;
         maxVelocity = 100.0f;
-        maxAngularVelocity = 1440.0f;
-        maxAngularAcceleration = 1440.0f;
+        maxAngularVelocity = 1400.0f;
+        maxAngularAcceleration = 1400.0f;
     }
 
     // /////////////////////////////////////////////////////////////////////////

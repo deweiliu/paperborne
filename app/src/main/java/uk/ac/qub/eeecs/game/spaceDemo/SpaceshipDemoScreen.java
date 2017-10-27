@@ -62,6 +62,14 @@ public class SpaceshipDemoScreen extends GameScreen {
 	private final int NUM_TURRETS = 5;
 	private List<AISpaceship> mAISpaceships;
 
+
+	/*User story 4 (2/3): AI Spaceship Size Variety
+		Dewei
+		Define AISpaceshipWidth and AISpaceshipHeight.
+		*/
+
+	private float AISpaceshipWidth; //50.0f former
+	private float AISpaceshipHeight;     //50.0f former
 	// /////////////////////////////////////////////////////////////////////////
 	// Constructors
 	// /////////////////////////////////////////////////////////////////////////
@@ -117,14 +125,24 @@ public class SpaceshipDemoScreen extends GameScreen {
 
 		// Create a number of randomly positioned AI controlled ships
 		mAISpaceships = new ArrayList<AISpaceship>(NUM_SEEKERS + NUM_TURRETS);
-		for (int idx = 0; idx < NUM_SEEKERS; idx++)
+
+		/*User story 4 (2/3): AI Spaceship Size Variety
+		Dewei
+		Add AI spaceship with random width and height.
+		*/
+		for (int idx = 0; idx < NUM_SEEKERS; idx++){
+			AISpaceshipHeight=random.nextInt(50)+25.0f;
+			AISpaceshipWidth=AISpaceshipHeight;
 			mAISpaceships.add(new AISpaceship(random.nextFloat() * LEVEL_WIDTH,
-					random.nextFloat() * LEVEL_HEIGHT,
+					random.nextFloat() * LEVEL_HEIGHT,AISpaceshipWidth,AISpaceshipHeight,
 					AISpaceship.ShipBehaviour.Seeker, this));
-		for (int idx = 0; idx < NUM_TURRETS; idx++)
+		}
+		for (int idx = 0; idx < NUM_TURRETS; idx++){
+			AISpaceshipHeight=random.nextInt(50)+25.0f;
+			AISpaceshipWidth=AISpaceshipHeight;
 			mAISpaceships.add(new AISpaceship(random.nextFloat() * LEVEL_WIDTH,
-					random.nextFloat() * LEVEL_HEIGHT,
-					AISpaceship.ShipBehaviour.Turret, this));
+					random.nextFloat() * LEVEL_HEIGHT,AISpaceshipWidth,AISpaceshipHeight,
+					AISpaceship.ShipBehaviour.Turret, this));}
 	}
 
 	// /////////////////////////////////////////////////////////////////////////
