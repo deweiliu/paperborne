@@ -30,8 +30,8 @@ public class DemoGame extends Game {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Go with a default 20 UPS/FPS
-        setTargetFramesPerSecond(20);
+        // Go with a default 30 UPS/FPS
+        setTargetFramesPerSecond(30);
     }
 
     @Override

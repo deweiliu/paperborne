@@ -7,11 +7,14 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Paint;
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
+import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
+import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
@@ -29,6 +32,18 @@ public class PerformanceScreen extends GameScreen{
     // /////////////////////////////////////////////////////////////////////////
     // Properties
     // /////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Make the buttons
+     */
+    private PushButton mRectanglesUp;
+    private PushButton mRectanglesDown;
+
+    /**
+     * Create paint for FPS display
+     */
+
+    private Paint paintFPS;
 
     /**
      * Define viewports for this layer and the associated screen projection
@@ -87,10 +102,17 @@ public class PerformanceScreen extends GameScreen{
                     / mScreenViewport.width, 240.0f, 240.0f
                     * mScreenViewport.height / mScreenViewport.width, 240);
 
+        // init paint params
+        paintFPS = new Paint();
+        paintFPS.setTextSize(48);
+
         // load assets
         AssetStore assetManager = mGame.getAssetManager();
 
         assetManager.loadAndAddBitmap("Rectangle", "img/Platform1.png");
+        assetManager.loadAndAddBitmap("PlusButton", "img/plus.png");
+        assetManager.loadAndAddBitmap("MinusButton", "img/minus.png");
+
         Bitmap rect = assetManager.getBitmap("Rectangle");
 
         // create rectangles
@@ -100,6 +122,15 @@ public class PerformanceScreen extends GameScreen{
             mRectangles.add(new Sprite(random.nextFloat() * game.getScreenWidth()/4, random.nextFloat() * game.getScreenHeight()/4,
                     random.nextFloat() * maxRectWidth, random.nextFloat() * maxRectHeight, rect, this));
         }
+
+        // make buttons
+        int spacingX = game.getScreenWidth() / 10;
+        int spacingY = game.getScreenHeight() / 6;
+        mRectanglesUp = new PushButton(
+                spacingX * 0.5f, spacingY * 5.5f, spacingX, spacingY, "PlusButton", this);
+        mRectanglesDown = new PushButton(
+                spacingX * 1.5f, spacingY * 5.5f, spacingX, spacingY, "MinusButton", this);
+
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -115,6 +146,19 @@ public class PerformanceScreen extends GameScreen{
     public void update(ElapsedTime elapsedTime) {
         // Process any touch events occurring since the last update
         Input input = mGame.getInput();
+
+        List<TouchEvent> touchEvents = input.getTouchEvents();
+        if (touchEvents.size() > 0) {
+            TouchEvent touchEvent = touchEvents.get(0);
+
+            mRectanglesUp.update(elapsedTime);
+            mRectanglesDown.update(elapsedTime);
+
+            if(mRectanglesUp.isPushTriggered())
+                numRectangles += rectangleStepChange;
+            else if (mRectanglesDown.isPushTriggered())
+                numRectangles -=rectangleStepChange;
+        }
 
         // Ensure the viewport cannot leave the confines of the world
         if (mLayerViewport.getLeft() < 0)
@@ -152,6 +196,11 @@ public class PerformanceScreen extends GameScreen{
 
         for (Sprite rect : mRectangles)
             rect.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+
+        String fps = "FPS: " + this.getGame().getAverageFramesPerSecond();
+        graphics2D.drawText(fps, 10, 50, paintFPS);
+        mRectanglesUp.draw(elapsedTime, graphics2D, null, null);
+        mRectanglesDown.draw(elapsedTime, graphics2D, null, null);
 
     }
 

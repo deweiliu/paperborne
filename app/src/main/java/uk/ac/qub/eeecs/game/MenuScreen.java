@@ -103,7 +103,7 @@ public class MenuScreen extends GameScreen {
 
             if(mPerformanceButton.isPushTriggered())
                 changeToScreen(new PerformanceScreen(mGame));
-            if (mSpaceshipDemoButton.isPushTriggered())
+            else if (mSpaceshipDemoButton.isPushTriggered())
                 changeToScreen(new SpaceshipDemoScreen(mGame));
             else if (mCardDemoButton.isPushTriggered())
                 changeToScreen(new CardDemoScreen(mGame));
