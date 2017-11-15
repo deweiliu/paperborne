@@ -12,6 +12,7 @@ import uk.ac.qub.eeecs.gage.world.Sprite;
  *
  * @version 1.0
  */
+
 public class PlayerSpaceship extends Sprite {
 
     // /////////////////////////////////////////////////////////////////////////
@@ -52,6 +53,7 @@ public class PlayerSpaceship extends Sprite {
         maxVelocity = 100.0f;
         maxAngularVelocity = 1440.0f;
         maxAngularAcceleration = 1440.0f;
+
     }
 
     // /////////////////////////////////////////////////////////////////////////
