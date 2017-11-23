@@ -178,19 +178,6 @@ public class PlatformDemoScreen extends GameScreen {
             this.getGame().getAssetManager().getSound("Bounce").play();
         }
 
-        //increase layer viewport when the player is moving
-    /*    if(mPlayer.velocity.lengthSquared() != 0.0f){
-
-                this.mLayerViewport.halfWidth = ((mPlayer.velocity.x /
-                        (mPlayer.maxVelocity))
-                        * 240.0f) + 240.0f;
-                this.mLayerViewport.x = this.mLayerViewport.halfWidth;
-                this.mLayerViewport.halfHeight =((mPlayer.velocity.x /
-                        (mPlayer.maxVelocity))
-                        * 160.0f) + 160.0f;
-                this.mLayerViewport.y = this.mLayerViewport.halfHeight;
-        }
-*/
 
         // Ensure the player cannot leave the confines of the world
         BoundingBox playerBound = mPlayer.getBound();
@@ -232,7 +219,6 @@ public class PlatformDemoScreen extends GameScreen {
 
         // Draw the player
         mPlayer.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
-
 
         // Draw each of the platforms
         for (Platform platform : mPlatforms)
