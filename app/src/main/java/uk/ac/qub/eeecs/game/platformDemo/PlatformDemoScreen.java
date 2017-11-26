@@ -5,6 +5,7 @@ import android.graphics.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.lang.Math;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
@@ -79,11 +80,19 @@ public class PlatformDemoScreen extends GameScreen {
         // Load in the assets used by this layer
         AssetStore assetManager = mGame.getAssetManager();
         assetManager.loadAndAddBitmap("Platform", "img/Platform1.png");
+        assetManager.loadAndAddBitmap("Platform2", "img/Platform2.png");
         assetManager.loadAndAddBitmap("Ground", "img/Ground.png");
-        assetManager.loadAndAddBitmap("Ball", "img/Ball.png");
+       // assetManager.loadAndAddBitmap("Ball", "img/Ball.png");
         assetManager.loadAndAddBitmap("RightArrow", "img/RightArrow.png");
         assetManager.loadAndAddBitmap("LeftArrow", "img/LeftArrow.png");
         assetManager.loadAndAddBitmap("UpArrow", "img/UpArrow.png");
+        assetManager.loadAndAddMusic("PlatformBackgroundMusic","music/background_music_pokemon.mp3");
+        assetManager.loadAndAddSound("Bounce", "sound/bounce.mp3");
+
+        //Plays the background music
+        this.getGame().getAssetManager().getMusic("PlatformBackgroundMusic").setLopping(true);
+
+        this.getGame().getAssetManager().getMusic("PlatformBackgroundMusic").play();
 
         // Determine the screen size to correctly position the touch buttons
         int screenWidth = game.getScreenWidth();
@@ -118,14 +127,31 @@ public class PlatformDemoScreen extends GameScreen {
         // the first 300 units of the level to avoid overlap with the player.
         Random random = new Random();
         int platformWidth = 70, platformHeight = 70, nNumRandomPlatforms = 30;
+        int platform2Width = 120, platform2Height = 70;
+        int platform3Width = 70, platform3Height = 120;
         for (int idx = 0; idx < nNumRandomPlatforms; idx++) {
-            mPlatforms.add(new Platform(
-                    300.0f + (random.nextFloat() * LEVEL_WIDTH),
-                    (random.nextFloat() * (LEVEL_HEIGHT - platformHeight)),
-                    platformWidth, platformHeight,
-                    "Platform", this));
+            if (idx % 3 == 0){
+                mPlatforms.add(new Platform(
+                        300.0f + (random.nextFloat() * LEVEL_WIDTH),
+                        (random.nextFloat() * (LEVEL_HEIGHT - platformHeight)),
+                        platformWidth, platformHeight,
+                        "Platform", this));
+            } else if(idx % 3 == 1) {
+                mPlatforms.add(new Platform(
+                        300.0f + (random.nextFloat() * LEVEL_WIDTH),
+                        (random.nextFloat() * (LEVEL_HEIGHT - platform2Height)),
+                        platform2Width, platform2Height,
+                        "Platform2", this));
+            } else if (idx % 3 == 2){ mPlatforms.add(new Platform(
+                        300.0f + (random.nextFloat() * LEVEL_WIDTH),
+                        (random.nextFloat() * (LEVEL_HEIGHT - platform3Height)),
+                        platform3Width, platform3Height,
+                        "Platform2", this));
+            }
         }
+
     }
+
 
     // /////////////////////////////////////////////////////////////////////////
     // Update and Draw
@@ -146,6 +172,12 @@ public class PlatformDemoScreen extends GameScreen {
         // Update the player
         mPlayer.update(elapsedTime, moveLeft.isPushed(),
                 moveRight.isPushed(), jumpUp.isPushed(), mPlatforms);
+
+        //Plays the Bounce sound if jumpUp is triggered
+        if(jumpUp.isPushTriggered()){
+            this.getGame().getAssetManager().getSound("Bounce").play();
+        }
+
 
         // Ensure the player cannot leave the confines of the world
         BoundingBox playerBound = mPlayer.getBound();

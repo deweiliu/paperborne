@@ -1,5 +1,6 @@
 package uk.ac.qub.eeecs.game.platformDemo;
 
+import uk.ac.qub.eeecs.gage.R;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.util.BoundingBox;
@@ -8,6 +9,11 @@ import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
+
+
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 /**
  * Rectangular platform class that can be drawn using a tile base image.
@@ -119,9 +125,11 @@ public class Platform extends GameObject {
                     tileBound.x = platformLeft + (tileXIdx + 0.5f) * tileWidth;
                     tileBound.y = platformBottom + (tileYIdx + 0.5f) * tileHeight;
 
-                    // If the layer tile is visible then draw tne tile
+                    // If the layer tile is visible then draw the tile
                     if (GraphicsHelper.getClippedSourceAndScreenRect(
                             tileBound, mBitmap, layerViewport, screenViewport, drawSourceRect, drawScreenRect)) {
+                      /*  Paint newPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                        newPaint.setColor();*/
                         graphics2D
                                 .drawBitmap(mBitmap, drawSourceRect, drawScreenRect, null);
                     }
