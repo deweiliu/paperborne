@@ -13,6 +13,7 @@ import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
+import uk.ac.qub.eeecs.game.performanceScreen.PerformanceScreen;
 import uk.ac.qub.eeecs.game.platformDemo.PlatformDemoScreen;
 import uk.ac.qub.eeecs.game.spaceDemo.SpaceshipDemoScreen;
 import uk.ac.qub.eeecs.game.options.OptionsScreen;
@@ -34,6 +35,7 @@ public class MenuScreen extends GameScreen {
     private PushButton mPlatformDemoButton;
     private PushButton mCardDemoButton;
     private PushButton mOptionsScreen;
+    private PushButton mPerformanceButton;
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
@@ -53,12 +55,15 @@ public class MenuScreen extends GameScreen {
         assetManager.loadAndAddBitmap("CardDemoIcon", "img/CardBackground1.png");
         assetManager.loadAndAddBitmap("PlatformDemoIcon", "img/Platform1.png");
         assetManager.loadAndAddBitmap("OptionsScreenIcon", "img/OptionsScreen.png");
+        assetManager.loadAndAddBitmap("PerformanceIcon", "img/Performance.png");
 
         // Define the spacing that will be used to position the buttons
         int spacingX = game.getScreenWidth() / 5;
         int spacingY = game.getScreenHeight() / 3;
 
         // Create the trigger buttons
+        mPerformanceButton = new PushButton(
+                spacingX * 0.25f, game.getScreenHeight() - (spacingY/4), spacingX/2, spacingY/2, "PerformanceIcon", this);
         mSpaceshipDemoButton = new PushButton(
                 spacingX * 1.0f, spacingY * 1.5f, spacingX, spacingY, "SpaceshipDemoIcon", this);
         mCardDemoButton = new PushButton(
@@ -94,12 +99,16 @@ public class MenuScreen extends GameScreen {
 
             // Update each button and transition if needed
 
+            mPerformanceButton.update(elapsedTime);
             mSpaceshipDemoButton.update(elapsedTime);
             mCardDemoButton.update(elapsedTime);
             mPlatformDemoButton.update(elapsedTime);
             mOptionsScreen.update(elapsedTime);
 
-            if (mSpaceshipDemoButton.isPushTriggered())
+
+            if(mPerformanceButton.isPushTriggered())
+                changeToScreen(new PerformanceScreen(mGame));
+            else if (mSpaceshipDemoButton.isPushTriggered())
                 changeToScreen(new SpaceshipDemoScreen(mGame));
             else if (mCardDemoButton.isPushTriggered())
                 changeToScreen(new CardDemoScreen(mGame));
@@ -132,6 +141,7 @@ public class MenuScreen extends GameScreen {
         // Clear the screen and draw the buttons
         graphics2D.clear(Color.WHITE);
 
+        mPerformanceButton.draw(elapsedTime, graphics2D, null, null);
         mSpaceshipDemoButton.draw(elapsedTime, graphics2D, null, null);
         mCardDemoButton.draw(elapsedTime, graphics2D, null, null);
         mPlatformDemoButton.draw(elapsedTime, graphics2D, null, null);
