@@ -15,7 +15,7 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.platformDemo.PlatformDemoScreen;
 import uk.ac.qub.eeecs.game.spaceDemo.SpaceshipDemoScreen;
-
+import uk.ac.qub.eeecs.game.options.OptionsScreen;
 /**
  * An exceedingly basic menu screen with a couple of touch buttons
  *
@@ -33,7 +33,7 @@ public class MenuScreen extends GameScreen {
     private PushButton mSpaceshipDemoButton;
     private PushButton mPlatformDemoButton;
     private PushButton mCardDemoButton;
-
+    private PushButton mOptionsScreen;
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
@@ -46,11 +46,13 @@ public class MenuScreen extends GameScreen {
     public MenuScreen(Game game) {
         super("MenuScreen", game);
 
+
         // Load in the bitmaps used on the main menu screen
         AssetStore assetManager = mGame.getAssetManager();
         assetManager.loadAndAddBitmap("SpaceshipDemoIcon", "img/Spaceship1.png");
         assetManager.loadAndAddBitmap("CardDemoIcon", "img/CardBackground1.png");
         assetManager.loadAndAddBitmap("PlatformDemoIcon", "img/Platform1.png");
+        assetManager.loadAndAddBitmap("OptionsScreenIcon", "img/OptionsScreen.png");
 
         // Define the spacing that will be used to position the buttons
         int spacingX = game.getScreenWidth() / 5;
@@ -63,6 +65,8 @@ public class MenuScreen extends GameScreen {
                 spacingX * 2.5f, spacingY * 1.5f, spacingX, spacingY, "CardDemoIcon", this);
         mPlatformDemoButton = new PushButton(
                 spacingX * 4.0f, spacingY * 1.5f, spacingX, spacingY, "PlatformDemoIcon", this);
+        mOptionsScreen = new PushButton(
+                spacingX * 4.0f, spacingY * 0.5f, spacingX, spacingY, "OptionsScreenIcon", this);
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -93,6 +97,7 @@ public class MenuScreen extends GameScreen {
             mSpaceshipDemoButton.update(elapsedTime);
             mCardDemoButton.update(elapsedTime);
             mPlatformDemoButton.update(elapsedTime);
+            mOptionsScreen.update(elapsedTime);
 
             if (mSpaceshipDemoButton.isPushTriggered())
                 changeToScreen(new SpaceshipDemoScreen(mGame));
@@ -100,6 +105,8 @@ public class MenuScreen extends GameScreen {
                 changeToScreen(new CardDemoScreen(mGame));
             else if (mPlatformDemoButton.isPushTriggered())
                 changeToScreen(new PlatformDemoScreen(mGame));
+            else if(mOptionsScreen.isPushTriggered())
+                changeToScreen(new OptionsScreen(mGame));
         }
     }
 
@@ -128,5 +135,6 @@ public class MenuScreen extends GameScreen {
         mSpaceshipDemoButton.draw(elapsedTime, graphics2D, null, null);
         mCardDemoButton.draw(elapsedTime, graphics2D, null, null);
         mPlatformDemoButton.draw(elapsedTime, graphics2D, null, null);
+        mOptionsScreen.draw(elapsedTime, graphics2D, null, null);
     }
 }

@@ -1,5 +1,7 @@
 package uk.ac.qub.eeecs.game.spaceDemo;
 
+import java.util.Random;
+
 import uk.ac.qub.eeecs.gage.ai.SteeringBehaviours;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.util.Vector2;
@@ -25,17 +27,27 @@ public class AISpaceship extends Sprite {
 
     private ShipBehaviour mShipBehaviour;
 
+
     /**
      * Distance at which the spaceship should avoid other game objects
      */
-    private float separateThresholdShip = 75.0f;
-    private float separateThresholdAsteroid = 125.0f;
+    /*
+    User story 7 (1/2) : AI Spaceship avoidance Behaviour
+    Dewei
+    Changed the value of separateThresholdShip from 75 to 180.
+    Changed the value of separateThresholdAsteroid from 125 to 200.
+    Define repulsion DecayFactor with value of 3.0f.
+     */
+    private float repulsionDecayFactor=3.0f;            //1.0f former
+    private float separateThresholdShip = 180.0f;       //75.0f former
+    private float separateThresholdAsteroid = 200.0f;   //125.0f former
 
     /**
      * Accumulators used to build up the net steering outcome
      */
     private Vector2 accAccumulator = new Vector2();
     private Vector2 accComponent = new Vector2();
+
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
@@ -49,9 +61,13 @@ public class AISpaceship extends Sprite {
      * @param shipBehaviour Steering behaviour to be used by the AI ship
      * @param gameScreen    Gamescreen to which AI belongs
      */
-    public AISpaceship(float startX, float startY, ShipBehaviour shipBehaviour,
-                       SpaceshipDemoScreen gameScreen) {
-        super(startX, startY, 50.0f, 50.0f, null, gameScreen);
+    /*User story 4 (3/3): AI Spaceship Size Variety
+     Dewei
+     Change the class constructor of AISpaceship
+      */
+    public AISpaceship(float startX, float startY,float AISpaceshipWidth,float AISpaceshipHeight,
+                       ShipBehaviour shipBehaviour, SpaceshipDemoScreen gameScreen) {
+        super(startX, startY, AISpaceshipWidth, AISpaceshipHeight, null, gameScreen);
 
         mShipBehaviour = shipBehaviour;
 
@@ -98,22 +114,26 @@ public class AISpaceship extends Sprite {
                         ((SpaceshipDemoScreen) mGameScreen).getPlayerSpaceship().position,
                         acceleration);
 
+                /*User story 7 (2/2) : AI Space ship Avoidance Behaviour
+                Dewei
+                Change the 4th argument of function SteeringBehaviours.separate from 1.0 to the valuable repulsionDecayFactor.
+                 */
                 // Try to avoid a collision with the player ship
                 SteeringBehaviours.separate(this,
                         ((SpaceshipDemoScreen) mGameScreen).getPlayerSpaceship(),
-                        separateThresholdShip, 1.0f, accComponent);
+                        separateThresholdShip, repulsionDecayFactor, accComponent);
                 accAccumulator.set(accComponent);
 
                 // Try to avoid a collision with the other spaceships
                 SteeringBehaviours.separate(this,
                         ((SpaceshipDemoScreen) mGameScreen).getAISpaceships(),
-                        separateThresholdShip, 1.0f, accComponent);
+                        separateThresholdShip, repulsionDecayFactor, accComponent);
                 accAccumulator.add(accComponent);
 
                 // Try to avoid a collision with the asteroids
                 SteeringBehaviours.separate(this,
                         ((SpaceshipDemoScreen) mGameScreen).getAsteroids(),
-                        separateThresholdAsteroid, 1.0f, accComponent);
+                        separateThresholdAsteroid, repulsionDecayFactor, accComponent);
                 accAccumulator.add(accComponent);
 
                 // If we are trying to avoid a collision then combine

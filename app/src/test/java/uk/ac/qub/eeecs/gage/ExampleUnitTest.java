@@ -83,6 +83,7 @@ public class ExampleUnitTest {
     }
 
     @Test
+
     public void aiSpaceShip_TurretConstruction_ExpectedProperties() {
         // Define expected properties
         float expectedXPosition = 100.0f;
@@ -91,6 +92,13 @@ public class ExampleUnitTest {
         float expectedMaxVelocity = 0.0f;
         float expectedMaxAngularVelocity = 50.0f;
         float expectedMaxAngularAcceleration = 50.0f;
+
+        /*User story 4 (2/3): AI Spaceship Size Variety
+		Dewei
+		Define 2 valuable.
+		*/
+        float expectedWidth=50.0f;
+        float expectedHeight=50.0f;
         String expectedBitmap = "Turret";
 
         // Add in a mock that could not be defined as part of the setup as it relies
@@ -98,7 +106,7 @@ public class ExampleUnitTest {
         when(spaceShipAssetManager.getBitmap(expectedBitmap)).thenReturn(spaceShipBitmap);
 
         // Create a new aiSpaceship turret instance
-        AISpaceship aiSpaceship = new AISpaceship(expectedXPosition, expectedYPosition,
+        AISpaceship aiSpaceship = new AISpaceship(expectedXPosition, expectedYPosition, expectedWidth, expectedHeight,
                 AISpaceship.ShipBehaviour.Turret, spaceShipGameScreen);
 
         // Test that the constructed values are as expected
