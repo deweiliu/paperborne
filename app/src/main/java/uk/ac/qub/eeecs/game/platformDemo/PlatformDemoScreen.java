@@ -142,18 +142,18 @@ public class PlatformDemoScreen extends GameScreen {
                         300.0f + (random.nextFloat() * LEVEL_WIDTH),
                         (random.nextFloat() * (LEVEL_HEIGHT - platformHeight)),
                         platformWidth, platformHeight,
-                        "Platform", this));
+                        "Platform1", this));
             } else if(idx % 3 == 1) {
                 mPlatforms.add(new Platform(
                         300.0f + (random.nextFloat() * LEVEL_WIDTH),
                         (random.nextFloat() * (LEVEL_HEIGHT - platform2Height)),
                         platform2Width, platform2Height,
-                        "Platform2", this));
+                        "Platform1", this));
             } else if (idx % 3 == 2){ mPlatforms.add(new Platform(
                         300.0f + (random.nextFloat() * LEVEL_WIDTH),
                         (random.nextFloat() * (LEVEL_HEIGHT - platform3Height)),
                         platform3Width, platform3Height,
-                        "Platform2", this));
+                        "Platform1", this));
             }
         }
 
