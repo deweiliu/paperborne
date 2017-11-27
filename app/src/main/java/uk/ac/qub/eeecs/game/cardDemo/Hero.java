@@ -34,4 +34,11 @@ public class Hero extends Sprite {
             currentManga++;
         }
     }
+
+    public void TakeDamage(int DamageDealt){
+        currentHealth -= DamageDealt;
+        if(currentHealth < 0){
+            currentHealth = 0;
+        }
+    }
 }
