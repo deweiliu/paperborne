@@ -10,28 +10,28 @@ import uk.ac.qub.eeecs.gage.world.Sprite;
 public class Hero extends Sprite {
 
     private final int MAX_HEALTH = 30;
-    private final int MAX_MANGA = 10;
+    private final int MAX_MANA = 10;
 
     private int currentHealth;
-    private int currentManga;
-    private int mangaLimit;
+    private int currentMana;
+    private int manaLimit;
 
     public Hero(GameScreen gameScreen){
         super(gameScreen);
         currentHealth = 30;
-        mangaLimit = 1;
-        currentManga = mangaLimit;
+        manaLimit = 1;
+        currentMana = manaLimit;
     }
 
     public void IncrementMangaLimit(){
-        if (mangaLimit < MAX_MANGA){
-            mangaLimit++;
+        if (manaLimit < MAX_MANA){
+            manaLimit++;
         }
     }
 
     public void IncrementManga(){
-        if(currentManga < mangaLimit){
-            currentManga++;
+        if(currentMana < manaLimit){
+            currentMana++;
         }
     }
 
