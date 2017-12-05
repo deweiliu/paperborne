@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
-
+import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 
 /**
  * Created by nshah on 03/12/2017.
