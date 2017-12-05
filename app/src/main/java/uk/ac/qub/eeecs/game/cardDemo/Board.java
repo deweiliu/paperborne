@@ -17,7 +17,8 @@ public class Board extends Sprite {
 
     private Hero userHero;
     private Hero oponentHero;
-    private ArrayList<Card> ActiveCards;
+    private ArrayList<Card> userActiveCards;
+    private ArrayList<Card> oponentActiveCards;
 
 
     public Board(float x, float y, Bitmap bitmap, GameScreen gameScreen, Hero userHero, Hero oponentHero) {
