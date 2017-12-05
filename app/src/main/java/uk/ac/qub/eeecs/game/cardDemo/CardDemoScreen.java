@@ -63,7 +63,9 @@ public class CardDemoScreen extends GameScreen {
         assetManager.loadAndAddBitmap("Back", "img/Hearthstone_Card_Back.png");
 
         //Sets cards x,y position to the centre of the screen
-        //mCards = new Card(mScreenViewport.centerX(),mScreenViewport.centerY(),this);
+        mCards = new Card(1, "Test Card",
+                mScreenViewport.centerX(),mScreenViewport.centerY(),
+                mGame.getAssetManager().getBitmap("Card"), this, 1,1,1);
 
 
 

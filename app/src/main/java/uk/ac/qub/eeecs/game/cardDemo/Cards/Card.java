@@ -143,9 +143,7 @@ public class Card extends Sprite {
         return cardPressedDown;
     }
 
-    public void setCardPressedDown(boolean cardPressedDown) {
-        this.cardPressedDown = cardPressedDown;
-    }
+    public void setCardPressedDown(boolean cardPressedDown) {this.cardPressedDown = cardPressedDown;}
 
     public boolean isFinishedMove() {
         return finishedMove;
@@ -155,19 +153,13 @@ public class Card extends Sprite {
         this.finishedMove = finishedMove;
     }
 
-    public String getCardName() {
-
-        return cardName;
-    }
+    public String getCardName() {return cardName;}
 
     public void setCardName(String cardName) {
         this.cardName = cardName;
     }
 
-    public int getCardID() {
-
-        return cardID;
-    }
+    public int getCardID() { return cardID;}
 
     public void setCardID(int cardID) {
         this.cardID = cardID;
