@@ -1,22 +1,16 @@
 package uk.ac.qub.eeecs.game.cardDemo;
 
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-
-import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
-import uk.ac.qub.eeecs.gage.engine.graphics.CanvasGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
-import uk.ac.qub.eeecs.gage.util.BoundingBox;
-import uk.ac.qub.eeecs.gage.util.GraphicsHelper;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
-
+import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 
 
 /**
@@ -47,6 +41,8 @@ public class CardDemoScreen extends GameScreen {
         super("CardScreen", game);
 
 
+
+
 // Create the screen viewport
         mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
                 game.getScreenHeight());
@@ -67,7 +63,7 @@ public class CardDemoScreen extends GameScreen {
         assetManager.loadAndAddBitmap("Back", "img/Hearthstone_Card_Back.png");
 
         //Sets cards x,y position to the centre of the screen
-        mCards = new Card(mScreenViewport.centerX(),mScreenViewport.centerY(),this);
+        //mCards = new Card(mScreenViewport.centerX(),mScreenViewport.centerY(),this);
 
 
 
@@ -106,9 +102,9 @@ public class CardDemoScreen extends GameScreen {
      */
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+        Paint paint = new Paint(Color.BLACK);
         graphics2D.clear(Color.WHITE);
         mCards.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
-
 
         //Code for bounding the card within the players viewpoint
         /*
