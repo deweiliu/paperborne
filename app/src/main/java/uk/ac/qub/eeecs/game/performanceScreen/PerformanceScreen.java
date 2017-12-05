@@ -109,7 +109,7 @@ public class PerformanceScreen extends GameScreen{
         // load assets
         AssetStore assetManager = mGame.getAssetManager();
 
-        assetManager.loadAndAddBitmap("Rectangle", "img/Platform1.png");
+        assetManager.loadAndAddBitmap("Rectangle", "img/Hearthstone_Card_Template.png");
         assetManager.loadAndAddBitmap("PlusButton", "img/plus.png");
         assetManager.loadAndAddBitmap("MinusButton", "img/minus.png");
 

@@ -1,7 +1,10 @@
 package uk.ac.qub.eeecs.game.cardDemo;
 
+import android.graphics.Bitmap;
+
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.Sprite;
+import uk.ac.qub.eeecs.game.cardDemo.Card;
 
 /**
  * Created by nshah on 27/11/2017.
@@ -10,28 +13,28 @@ import uk.ac.qub.eeecs.gage.world.Sprite;
 public class Hero extends Sprite {
 
     private final int MAX_HEALTH = 30;
-    private final int MAX_MANGA = 10;
+    private final int MAX_MANA = 10;
 
     private int currentHealth;
-    private int currentManga;
-    private int mangaLimit;
+    private int currentMana;
+    private int manaLimit;
 
-    public Hero(GameScreen gameScreen){
-        super(gameScreen);
+    public Hero(float x, float y, Bitmap bitmap, GameScreen gameScreen){
+        super(x, y, bitmap, gameScreen);
         currentHealth = 30;
-        mangaLimit = 1;
-        currentManga = mangaLimit;
+        manaLimit = 1;
+        currentMana = manaLimit;
     }
 
     public void IncrementMangaLimit(){
-        if (mangaLimit < MAX_MANGA){
-            mangaLimit++;
+        if (manaLimit < MAX_MANA){
+            manaLimit++;
         }
     }
-
+    
     public void IncrementManga(){
-        if(currentManga < mangaLimit){
-            currentManga++;
+        if(currentMana < manaLimit){
+            currentMana++;
         }
     }
 

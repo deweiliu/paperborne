@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import uk.ac.qub.eeecs.gage.Game;
-import uk.ac.qub.eeecs.game.platformDemo.PlatformDemoScreen;
 
 /**
  * Sample demo game that is create within the MainActivity class
@@ -58,13 +57,6 @@ public class DemoGame extends Game {
         // If we are already at the menu screen then exit
         if (mScreenManager.getCurrentScreen().getName().equals("MenuScreen"))
             return false;
-
-        // Go back to the menu screen
-        //stops background music
-        switch(mScreenManager.getCurrentScreen().getName()){
-            case "PlatformDemoScreen": this.getAssetManager().getMusic("PlatformBackgroundMusic").stop(); break;
-           // case "SpaceshipDemoScreen": this.getAssetManager().getMusic("").stop(); break;
-        }
 
         getScreenManager().removeScreen(mScreenManager.getCurrentScreen().getName());
         MenuScreen menuScreen = new MenuScreen(this);
