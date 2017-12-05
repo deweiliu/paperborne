@@ -16,15 +16,15 @@ import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 public class Board extends Sprite {
 
     private Hero userHero;
-    private Hero oponentHero;
+    private Hero opponentHero;
     private ArrayList<Card> userActiveCards;
-    private ArrayList<Card> oponentActiveCards;
+    private ArrayList<Card> opponentActiveCards;
 
 
-    public Board(float x, float y, Bitmap bitmap, GameScreen gameScreen, Hero userHero, Hero oponentHero) {
+    public Board(float x, float y, Bitmap bitmap, GameScreen gameScreen, Hero userHero, Hero opponentHero) {
         super(x, y, bitmap, gameScreen);
         this.userHero = userHero;
-        this.oponentHero = oponentHero;
+        this.opponentHero = opponentHero;
     }
 
 }
