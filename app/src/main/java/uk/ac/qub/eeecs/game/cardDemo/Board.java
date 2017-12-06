@@ -17,14 +17,12 @@ public class Board extends Sprite {
 
     private Hero userHero;
     private Hero opponentHero;
-    private ArrayList<Card> userActiveCards;
-    private ArrayList<Card> opponentActiveCards;
-
 
     public Board(float x, float y, Bitmap bitmap, GameScreen gameScreen, Hero userHero, Hero opponentHero) {
         super(x, y, bitmap, gameScreen);
         this.userHero = userHero;
         this.opponentHero = opponentHero;
     }
+
 
 }

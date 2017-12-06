@@ -62,7 +62,6 @@ public class SplashScreen extends GameScreen {
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
         graphics2D.clear(Color.BLACK);
-        // graphics2D.drawBitmap(getGame().getAssetManager().getBitmap("SplashScreen"), );
         SplashBackground.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
     }
 
