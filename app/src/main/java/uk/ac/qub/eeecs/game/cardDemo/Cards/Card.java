@@ -23,6 +23,9 @@ import uk.ac.qub.eeecs.gage.engine.input.GestureHandler;
 
 public class Card extends Sprite {
 
+    private final float LEVEL_WIDTH = 500.0f;
+    private final float LEVEL_HEIGHT = 1000.0f;
+
     //Holds ID for a card
     private int cardID;
 
@@ -96,16 +99,18 @@ public class Card extends Sprite {
     public void update(ElapsedTime elapsedTime) {
         Input input = mGameScreen.getGame().getInput();
         for(TouchEvent touch: input.getTouchEvents() ) {
+
             //Checks if the touch event happens on the card
             if (touch.type == TouchEvent.TOUCH_DOWN && ((input.getTouchX(touch.pointer) > position.x - cardCentre.x)
                     && (input.getTouchX(touch.pointer) < position.x + cardCentre.x)
-                    && (input.getTouchY(touch.pointer) > (screenDimensions.y)- position.y - cardCentre.y)
-                    && (input.getTouchY(touch.pointer) < (screenDimensions.y) - position.y + cardCentre.y))) {
+                    && (input.getTouchY(touch.pointer) > (LEVEL_HEIGHT)- position.y - cardCentre.y)
+                    && (input.getTouchY(touch.pointer) < (LEVEL_HEIGHT) - position.y + cardCentre.y))) {
                 cardPressedDown = true;
+                activeIsCard = true;
                 finishedMove = false;
 
                 //Checks what image is held on card, if clicked, swaps it with the alternative
-                if(touch.type != TouchEvent.TOUCH_DRAGGED) {
+                if(touch.type == TouchEvent.TOUCH_DOWN && touch.type != TouchEvent.TOUCH_DRAGGED) {
                     if (mBitmap == mGameScreen.getGame().getAssetManager().getBitmap("Card")) {
                         mBitmap = mGameScreen.getGame().getAssetManager().getBitmap("Back");
                     } else {
@@ -123,7 +128,7 @@ public class Card extends Sprite {
                 if (!Float.isNaN(input.getTouchX(touch.pointer))) {
                     position.x = input.getTouchX(touch.pointer);
                     //screenDimensions used to invert Y values
-                    position.y = screenDimensions.y - input.getTouchY(touch.pointer);
+                    position.y = LEVEL_HEIGHT - input.getTouchY(touch.pointer);
                 }
             }
             super.update(elapsedTime);

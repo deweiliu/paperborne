@@ -73,7 +73,7 @@ public class CardDemoScreen extends GameScreen {
 
         //Sets cards x,y position to the centre of the screen
         mCards = new Card(1, "Test Card",
-                mScreenViewport.centerX(),mScreenViewport.centerY(),
+                LEVEL_WIDTH/2,LEVEL_HEIGHT/2,
                 mGame.getAssetManager().getBitmap("Card"), this, 1,1,1);
 
 
@@ -93,13 +93,12 @@ public class CardDemoScreen extends GameScreen {
      */
     @Override
     public void update(ElapsedTime elapsedTime) {
+        //Sets the layer viewport to the position of the background
+        mLayerViewport.x=LEVEL_WIDTH /2;
+        mLayerViewport.y=LEVEL_HEIGHT/2;
 
         // Update the card
         mCards.update(elapsedTime);
-
-        //Sets the layer viewport to the position of the background
-        mLayerViewport.x=mCardDemoScreen.position.x;
-        mLayerViewport.y=mCardDemoScreen.position.y;
 
 
     }
@@ -113,10 +112,10 @@ public class CardDemoScreen extends GameScreen {
      */
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
-        Paint paint = new Paint(Color.BLACK);
-        graphics2D.clear(Color.WHITE);
-        mCards.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+        /*Paint paint = new Paint(Color.BLACK);
+        graphics2D.clear(Color.WHITE);*/
         mCardDemoScreen.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+        mCards.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
 
         //Code for bounding the card within the players viewpoint
         /*
