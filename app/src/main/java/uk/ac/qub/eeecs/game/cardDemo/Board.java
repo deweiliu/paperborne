@@ -23,6 +23,4 @@ public class Board extends Sprite {
         this.userHero = userHero;
         this.opponentHero = opponentHero;
     }
-
-
 }

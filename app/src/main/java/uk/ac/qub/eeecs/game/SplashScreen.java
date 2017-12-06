@@ -22,7 +22,6 @@ import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 /**
  * Created by nshah on 12/11/2017.
  */
-
 public class SplashScreen extends GameScreen {
     private double timeFromLoading;
     private GameObject SplashBackground;
@@ -37,7 +36,7 @@ public class SplashScreen extends GameScreen {
         timeFromLoading = 0;
         mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
                 game.getScreenHeight());
-//starts the viewport from below the screen
+        //starts the viewport from below the screen
         if (mScreenViewport.width > mScreenViewport.height)
             mLayerViewport = new LayerViewport(240.0f, 400.0f, 240,
                     240.0f * mScreenViewport.height / mScreenViewport.width);
@@ -91,5 +90,4 @@ public class SplashScreen extends GameScreen {
         mGame.getScreenManager().removeScreen(this.getName());
         mGame.getScreenManager().addScreen(screen);
     }
-
 }
