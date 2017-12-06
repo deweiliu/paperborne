@@ -84,6 +84,14 @@ public class Card extends Sprite {
                 blankCard.getBitmap(), blankCard.mGameScreen, blankCard.getManaCost(), blankCard.getAttackValue(), blankCard.getHealthValue() );
     }
 
+    public void TakeDamage(int damageDealt){
+        healthValue -= damageDealt;
+        if(healthValue < 0){
+            healthValue = 0;
+        }
+
+    }
+
 
     public void update(ElapsedTime elapsedTime) {
         Input input = mGameScreen.getGame().getInput();
