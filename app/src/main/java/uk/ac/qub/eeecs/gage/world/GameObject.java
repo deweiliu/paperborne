@@ -167,7 +167,7 @@ public class GameObject {
      */
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
         drawScreenRect.set((int) (position.x - mBound.halfWidth),
-                (int) (position.y - mBound.halfWidth),
+                (int) (position.y - mBound.halfHeight),
                 (int) (position.x + mBound.halfWidth),
                 (int) (position.y + mBound.halfHeight));
         graphics2D.drawBitmap(mBitmap, null, drawScreenRect, null);

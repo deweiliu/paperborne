@@ -6,5 +6,9 @@
 
     <string name="ERROR_TAG">Gage Error: </string>
 	<string name="WARNING_TAG">Gage Warning:</string>
-    
+    <string name="fps_description">FPS Counter</string>
+    <string name="effects_description">Enable Visual Effects</string>
+    <string name="music_description">Music Volume</string>
+    <string name="sound_description">Sound Effects Volume</string>
+
 </resources>
