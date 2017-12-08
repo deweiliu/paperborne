@@ -99,7 +99,6 @@ public class SpaceshipDemoScreen extends GameScreen {
 
 		// Load in the assets used by the steering demo
 		AssetStore assetManager = mGame.getAssetManager();
-
 		assetManager.loadAndAddBitmap("SpaceBackground", "img/SpaceBackground.png");
 		assetManager.loadAndAddBitmap("Asteroid1", "img/Asteroid1.png");
 		assetManager.loadAndAddBitmap("Asteroid2", "img/Asteroid2.png");

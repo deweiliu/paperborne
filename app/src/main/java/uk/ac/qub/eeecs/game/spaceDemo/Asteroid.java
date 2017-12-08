@@ -44,8 +44,8 @@ public class Asteroid extends Sprite {
         Dewei
         mBound.halfHeight and mBound.halfWidth were changed
          */
-        mBound.halfWidth = random.nextInt(30)+10.0f;//20.0f former
-        mBound.halfHeight =  mBound.halfWidth;      //20.0f former
+        mBound.halfWidth = random.nextInt(30) + 10.0f;//20.0f former
+        mBound.halfHeight = mBound.halfWidth;      //20.0f former
 
         angularVelocity = random.nextFloat() * 240.0f - 20.0f;
     }
