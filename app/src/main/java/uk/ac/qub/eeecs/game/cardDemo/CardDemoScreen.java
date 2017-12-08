@@ -7,6 +7,7 @@ import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
+import uk.ac.qub.eeecs.gage.util.BoundingBox;
 import uk.ac.qub.eeecs.gage.util.GraphicsHelper;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
@@ -67,13 +68,12 @@ public class CardDemoScreen extends GameScreen {
         assetManager.loadAndAddBitmap("Board", "img/Board.png");
 
 
-        mCardDemoScreen = new GameObject(LEVEL_WIDTH / 2.0f,
-                LEVEL_HEIGHT / 2.0f, LEVEL_WIDTH, LEVEL_HEIGHT/2.5f, getGame()
+        mCardDemoScreen = new GameObject(mScreenViewport.centerX(),mScreenViewport.centerY(), LEVEL_WIDTH, LEVEL_HEIGHT/2.5f, getGame()
                 .getAssetManager().getBitmap("Board"), this);
 
         //Sets cards x,y position to the centre of the screen
         mCards = new Card(1, "Test Card",
-                LEVEL_WIDTH/2,LEVEL_HEIGHT/2,
+                mScreenViewport.centerX(),mScreenViewport.centerY(),
                 mGame.getAssetManager().getBitmap("Card"), this, 1,1,1);
 
 
@@ -94,8 +94,8 @@ public class CardDemoScreen extends GameScreen {
     @Override
     public void update(ElapsedTime elapsedTime) {
         //Sets the layer viewport to the position of the background
-        mLayerViewport.x=LEVEL_WIDTH /2;
-        mLayerViewport.y=LEVEL_HEIGHT/2;
+        mLayerViewport.x=mScreenViewport.centerX();
+        mLayerViewport.y=mScreenViewport.centerY();
 
         // Update the card
         mCards.update(elapsedTime);
@@ -118,7 +118,6 @@ public class CardDemoScreen extends GameScreen {
         mCards.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
 
         //Code for bounding the card within the players viewpoint
-        /*
         BoundingBox cardBound = mCards.getBound();
         if (cardBound.getLeft() < 0)
             mCards.position.x -= cardBound.getLeft();
@@ -128,7 +127,7 @@ public class CardDemoScreen extends GameScreen {
         if (cardBound.getBottom() < 0)
             mCards.position.y -= cardBound.getBottom();
         else if (cardBound.getTop() > mScreenViewport.height)
-            mCards.position.y -= (cardBound.getTop() - mScreenViewport.height);*/
+            mCards.position.y -= (cardBound.getTop() - mScreenViewport.height);
 
     }
 

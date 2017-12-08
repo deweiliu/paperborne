@@ -87,6 +87,7 @@ public class Card extends Sprite {
                 blankCard.getBitmap(), blankCard.mGameScreen, blankCard.getManaCost(), blankCard.getAttackValue(), blankCard.getHealthValue() );
     }
 
+    //Method for card to take damage
     public void TakeDamage(int damageDealt){
         healthValue -= damageDealt;
         if(healthValue < 0){
@@ -103,14 +104,14 @@ public class Card extends Sprite {
             //Checks if the touch event happens on the card
             if (touch.type == TouchEvent.TOUCH_DOWN && ((input.getTouchX(touch.pointer) > position.x - cardCentre.x)
                     && (input.getTouchX(touch.pointer) < position.x + cardCentre.x)
-                    && (input.getTouchY(touch.pointer) > (LEVEL_HEIGHT)- position.y - cardCentre.y)
-                    && (input.getTouchY(touch.pointer) < (LEVEL_HEIGHT) - position.y + cardCentre.y))) {
+                    && (input.getTouchY(touch.pointer) > (screenDimensions.y)- position.y - cardCentre.y)
+                    && (input.getTouchY(touch.pointer) < (screenDimensions.y) - position.y + cardCentre.y))) {
                 cardPressedDown = true;
                 activeIsCard = true;
                 finishedMove = false;
 
                 //Checks what image is held on card, if clicked, swaps it with the alternative
-                if(touch.type == TouchEvent.TOUCH_DOWN && touch.type != TouchEvent.TOUCH_DRAGGED) {
+                if(touch.type != TouchEvent.TOUCH_DRAGGED && touch.type != TouchEvent.TOUCH_UP) {
                     if (mBitmap == mGameScreen.getGame().getAssetManager().getBitmap("Card")) {
                         mBitmap = mGameScreen.getGame().getAssetManager().getBitmap("Back");
                     } else {
@@ -121,6 +122,7 @@ public class Card extends Sprite {
             }
             //Checks if card is released
             if (touch.type == TouchEvent.TOUCH_UP) {
+                activeIsCard = false;
                 cardPressedDown = false;
                 finishedMove = true;
                 //Checks if card is dragged
@@ -128,7 +130,7 @@ public class Card extends Sprite {
                 if (!Float.isNaN(input.getTouchX(touch.pointer))) {
                     position.x = input.getTouchX(touch.pointer);
                     //screenDimensions used to invert Y values
-                    position.y = LEVEL_HEIGHT - input.getTouchY(touch.pointer);
+                    position.y = screenDimensions.y - input.getTouchY(touch.pointer);
                 }
             }
             super.update(elapsedTime);
@@ -138,6 +140,12 @@ public class Card extends Sprite {
     //Getters and Setters
     public Vector2 getLastPosition() {
         return lastPosition;
+    }
+
+    public void setLastPosition(){
+        setPosition(this.lastPosition.x,this.lastPosition.y);
+        finishedMove = false;
+        activeIsCard = false;
     }
 
     public void setLastPosition(Vector2 lastPosition) {
