@@ -44,7 +44,9 @@ public class Input {
      * @param pointerId Touch pointer ID to test for
      * @return true if there is an ongoing touch event, otherwise false
      */
-    public boolean existsTouch(int pointerId) { return mTouchHandler.existsTouch(pointerId); }
+    public boolean existsTouch(int pointerId) {
+        return mTouchHandler.existsTouch(pointerId);
+    }
 
     /**
      * Get the x-coordinate for the specified pointer ID.
@@ -54,7 +56,9 @@ public class Input {
      * @param pointerId Touch pointer ID to retrieve
      * @return x touch location
      */
-    public float getTouchX(int pointerId) { return mTouchHandler.getTouchX(pointerId); }
+    public float getTouchX(int pointerId) {
+        return mTouchHandler.getTouchX(pointerId);
+    }
 
     /**
      * Get the y-coordinate for the specified pointer ID.
@@ -64,14 +68,18 @@ public class Input {
      * @param pointerId Touch pointer ID to retrieve
      * @return y touch location
      */
-    public float getTouchY(int pointerId) { return mTouchHandler.getTouchY(pointerId); }
+    public float getTouchY(int pointerId) {
+        return mTouchHandler.getTouchY(pointerId);
+    }
 
     /**
      * Return a list of captured touch events occurring for this update tick.
      *
      * @return List of captured touch events
      */
-    public List<TouchEvent> getTouchEvents() { return mTouchHandler.getTouchEvents(); }
+    public List<TouchEvent> getTouchEvents() {
+        return mTouchHandler.getTouchEvents();
+    }
 
     // /////////////////////////////////////////////////////////////////////////
     // Accelerometer Input Events //
