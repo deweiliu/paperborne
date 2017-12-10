@@ -11,6 +11,8 @@ import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
+import uk.ac.qub.eeecs.gage.ui.ToggleButton;
+import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.performanceScreen.PerformanceScreen;
@@ -28,12 +30,28 @@ public class MenuScreen extends GameScreen {
     // /////////////////////////////////////////////////////////////////////////
 
     /**
-     * Define the buttons for playing the 'games'
+     * Define the buttons for navigating the game
      */
     private PushButton mCardDemoButton;
-    private PushButton mOptionsScreen;
+    private PushButton mOptionsButton;
     private PushButton mPerformanceButton;
-    private PushButton mHelpScreen;
+    private PushButton mHelpButton;
+    private PushButton mSinglePlayerButton;
+    private PushButton mMultiPlayerButton;
+    private ToggleButton mMuteButton;
+
+    /**
+     * Make variable for mute toggle
+     */
+
+    private boolean soundOn = true;
+
+    /**
+     * Make the title and background
+     */
+    private GameObject mTitleBackground;
+    private GameObject mGameTitle;
+
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
@@ -49,26 +67,44 @@ public class MenuScreen extends GameScreen {
 
         // Load in the bitmaps used on the main menu screen
         AssetStore assetManager = mGame.getAssetManager();
+        assetManager.loadAndAddBitmap("Title", "img/Title.png");
         assetManager.loadAndAddBitmap("CardDemoIcon", "img/CardBackground1.png");
-        assetManager.loadAndAddBitmap("OptionsScreenIcon", "img/OptionsScreen.png");
+        assetManager.loadAndAddBitmap("OptionsScreenIcon", "img/cog-icon.png");
         assetManager.loadAndAddBitmap("PerformanceIcon", "img/Performance.png");
-        assetManager.loadAndAddBitmap("HelpScreenIcon", "img/HelpScreen.png");
+        assetManager.loadAndAddBitmap("HelpScreenIcon", "img/QuestionMark.png");
+        assetManager.loadAndAddBitmap("SPButton", "img/Singleplayer-Button.png");
+        assetManager.loadAndAddBitmap("MPButton", "img/Multiplayer-Button.png");
+        assetManager.loadAndAddBitmap("Mute", "img/SoundOn.png");
+        assetManager.loadAndAddBitmap("Unmute", "img/SoundOff.png");
+        assetManager.loadAndAddBitmap("MainBackground", "img/Lined-Paper.png");
 
 
         // Define the spacing that will be used to position the buttons
         int spacingX = game.getScreenWidth() / 5;
         int spacingY = game.getScreenHeight() / 3;
 
+        //make the title and background object
+        mTitleBackground = new GameObject(
+                game.getScreenWidth()/2, mGame.getScreenHeight() / 2, mGame.getScreenWidth(), mGame.getScreenHeight(), assetManager.getBitmap("MainBackground"), this);
+        mGameTitle = new GameObject(
+                spacingX * 1.0f, (game.getScreenHeight() - (spacingY * 1.5f)), spacingX, spacingY *2, assetManager.getBitmap("Title"), this);
+
+
         // Create the trigger buttons
         mPerformanceButton = new PushButton(
-                spacingX * 0.25f, game.getScreenHeight() - (spacingY/4), spacingX/2, spacingY/2, "PerformanceIcon", this);
+                spacingX * 4.75f, spacingY * 0.25f, spacingX/2, spacingY/2, "PerformanceIcon", this);
         mCardDemoButton = new PushButton(
-                spacingX * 2.5f, spacingY * 1.5f, spacingX, spacingY, "CardDemoIcon", this);
-        mOptionsScreen = new PushButton(
-                spacingX * 4.0f, spacingY * 0.5f, spacingX, spacingY, "OptionsScreenIcon", this);
-        mHelpScreen = new PushButton(
-                game.getScreenWidth()-spacingX/2,  game.getScreenHeight()-spacingY /2, spacingX, spacingY, "HelpScreenIcon", this);
-
+                spacingX * 4.75f, game.getScreenHeight() / 2, spacingX/2, spacingY/2, "CardDemoIcon", this);
+        mOptionsButton = new PushButton(
+                spacingX * 0.25f, spacingY * 0.25f, spacingX/2, spacingY/2, "OptionsScreenIcon", this);
+        mHelpButton = new PushButton(
+                spacingX * 4.75f,  game.getScreenHeight() - (spacingY/4), spacingX/2, spacingY/2, "HelpScreenIcon", this);
+        mSinglePlayerButton = new PushButton(
+                spacingX * 2.0f, game.getScreenHeight() / 2, spacingX, spacingY * 2, "SPButton", this);
+        mMultiPlayerButton = new PushButton(
+                spacingX * 3.0f, game.getScreenHeight() / 2, spacingX, spacingY * 2, "MPButton", this);
+        mMuteButton = new ToggleButton(
+                spacingX * 0.25f, game.getScreenHeight() - (spacingY/4), spacingX/2, spacingY/2, "Mute", "Unmute", this);
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -98,18 +134,27 @@ public class MenuScreen extends GameScreen {
 
             mPerformanceButton.update(elapsedTime);
             mCardDemoButton.update(elapsedTime);
-            mOptionsScreen.update(elapsedTime);
-            mHelpScreen.update(elapsedTime);
+            mOptionsButton.update(elapsedTime);
+            mHelpButton.update(elapsedTime);
+            mSinglePlayerButton.update(elapsedTime);
+            mMultiPlayerButton.update(elapsedTime);
+            mMuteButton.update(elapsedTime);
 
 
             if(mPerformanceButton.isPushTriggered())
                 changeToScreen(new PerformanceScreen(mGame));
             else if (mCardDemoButton.isPushTriggered())
                 changeToScreen(new CardDemoScreen(mGame));
-            else if(mOptionsScreen.isPushTriggered())
+            else if(mOptionsButton.isPushTriggered())
                 changeToScreen(new OptionsScreen(mGame));
-            else if(mHelpScreen.isPushTriggered())
+            else if(mHelpButton.isPushTriggered())
                 changeToScreen(new HelpScreen(mGame));
+            else if(mSinglePlayerButton.isPushTriggered());
+                //do nothing
+            else if(mMultiPlayerButton.isPushTriggered());
+                //do nothing
+            else if(soundOn != mMuteButton.isToggledOn())
+                soundOn = mMuteButton.isToggledOn();
         }
     }
 
@@ -135,9 +180,15 @@ public class MenuScreen extends GameScreen {
         // Clear the screen and draw the buttons
         graphics2D.clear(Color.WHITE);
 
-        mPerformanceButton.draw(elapsedTime, graphics2D, null, null);
-        mCardDemoButton.draw(elapsedTime, graphics2D, null, null);
-        mOptionsScreen.draw(elapsedTime, graphics2D, null, null);
-        mHelpScreen.draw(elapsedTime, graphics2D, null, null);
+        mTitleBackground.draw(elapsedTime, graphics2D);
+        mGameTitle.draw(elapsedTime, graphics2D);
+        mPerformanceButton.draw(elapsedTime, graphics2D);
+        mCardDemoButton.draw(elapsedTime, graphics2D);
+        mOptionsButton.draw(elapsedTime, graphics2D);
+        mHelpButton.draw(elapsedTime, graphics2D);
+        mSinglePlayerButton.draw(elapsedTime, graphics2D);
+        mMultiPlayerButton.draw(elapsedTime, graphics2D);
+        mMuteButton.draw(elapsedTime, graphics2D);
+
     }
 }

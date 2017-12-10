@@ -82,7 +82,7 @@ public class OptionsScreen extends GameScreen
 		// Methods
 		// /////////////////////////////////////////////////////////////////////////
 		// Create the view ports
-		
+
 		mLayerViewport = new LayerViewport(240, 160, 240, 160);
 		mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
 				game.getScreenHeight());
