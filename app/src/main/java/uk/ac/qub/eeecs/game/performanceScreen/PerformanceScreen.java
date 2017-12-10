@@ -204,4 +204,15 @@ public class PerformanceScreen extends GameScreen{
 
     }
 
+    public int getNumRectangles() {
+        return numRectangles;
+    }
+
+    public PushButton getmRectanglesUp() {
+        return mRectanglesUp;
+    }
+
+    public PushButton getmRectanglesDown() {
+        return mRectanglesDown;
+    }
 }
