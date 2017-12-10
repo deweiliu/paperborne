@@ -83,10 +83,20 @@ public class OptionsScreen extends GameScreen
 		// /////////////////////////////////////////////////////////////////////////
 		// Create the view ports
 
-		mLayerViewport = new LayerViewport(240, 160, 240, 160);
+		// Create the screen viewport
 		mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
 				game.getScreenHeight());
-		GraphicsHelper.create3To2AspectRatioScreenViewport(game, mScreenViewport);
+
+		// Create the layer viewport, taking into account the orientation
+		// and aspect ratio of the screen.
+		if (mScreenViewport.width > mScreenViewport.height)
+			mLayerViewport = new LayerViewport(240.0f, 240.0f
+					* mScreenViewport.height / mScreenViewport.width, 240,
+					240.0f * mScreenViewport.height / mScreenViewport.width);
+		else
+			mLayerViewport = new LayerViewport(240.0f * mScreenViewport.height
+					/ mScreenViewport.width, 240.0f, 240.0f
+					* mScreenViewport.height / mScreenViewport.width, 240);
 		
 		activity = game.getActivity();
 		
