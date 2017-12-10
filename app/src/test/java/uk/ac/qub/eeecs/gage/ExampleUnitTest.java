@@ -1,6 +1,6 @@
 package uk.ac.qub.eeecs.gage;
 
-import android.graphics.Bitmap;
+/*import android.graphics.Bitmap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,11 +21,11 @@ import uk.ac.qub.eeecs.game.spaceDemo.SpaceshipDemoScreen;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
-/**
+*//**
  * Example local unit tests, which will execute on the development machine (host).
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
+ *//*
 @RunWith(MockitoJUnitRunner.class)
 public class ExampleUnitTest {
 
@@ -93,10 +93,10 @@ public class ExampleUnitTest {
         float expectedMaxAngularVelocity = 50.0f;
         float expectedMaxAngularAcceleration = 50.0f;
 
-        /*User story 4 (2/3): AI Spaceship Size Variety
+        *//*User story 4 (2/3): AI Spaceship Size Variety
 		Dewei
 		Define 2 valuable.
-		*/
+		*//*
         float expectedWidth=50.0f;
         float expectedHeight=50.0f;
         String expectedBitmap = "Turret";
@@ -118,7 +118,7 @@ public class ExampleUnitTest {
         assertTrue(aiSpaceship.maxAngularAcceleration == expectedMaxAngularAcceleration);
         assertEquals(aiSpaceship.getBitmap(), spaceShipBitmap);
     }
-}
+}*/
 
 
 
