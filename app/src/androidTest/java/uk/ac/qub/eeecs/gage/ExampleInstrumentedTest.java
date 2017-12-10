@@ -1,23 +1,15 @@
 package uk.ac.qub.eeecs.gage;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.io.FileIO;
-import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.DemoGame;
-import uk.ac.qub.eeecs.game.spaceDemo.PlayerSpaceship;
-import uk.ac.qub.eeecs.game.spaceDemo.SpaceshipDemoScreen;
-
-import static junit.framework.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Example instrumentation tests, which will execute on an Android device.
@@ -45,12 +37,5 @@ public class ExampleInstrumentedTest {
         // which game objects can use to load assets.
         AssetStore assetStore = new AssetStore(new FileIO(appContext));
         demo.mAssetManager = assetStore;
-
-        // Create the spaceship steering demo
-        SpaceshipDemoScreen steeringDemoGameScreen = new SpaceshipDemoScreen(demo);
-
-        // Test that we can extract the player spaceship from the demo
-        PlayerSpaceship playerSpaceship = steeringDemoGameScreen.getPlayerSpaceship();
-        assertNotNull(playerSpaceship);
     }
 }
