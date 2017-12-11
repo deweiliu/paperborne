@@ -1,20 +1,13 @@
 package uk.ac.qub.eeecs.game.cardDemo.Cards;
 
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.GradientDrawable;
 
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
-import uk.ac.qub.eeecs.gage.engine.graphics.CanvasGraphics2D;
+import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
-import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
-import uk.ac.qub.eeecs.gage.util.BoundingBox;
-import uk.ac.qub.eeecs.gage.util.GraphicsHelper;
 import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.Sprite;
-import uk.ac.qub.eeecs.gage.engine.input.Input;
-import uk.ac.qub.eeecs.gage.engine.input.GestureHandler;
 
 /**
  * Created by user on 14/11/2017.
@@ -111,12 +104,10 @@ public class Card extends Sprite {
                 finishedMove = false;
 
                 //Checks what image is held on card, if clicked, swaps it with the alternative
-                if(touch.type != TouchEvent.TOUCH_DRAGGED && touch.type != TouchEvent.TOUCH_UP) {
-                    if (mBitmap == mGameScreen.getGame().getAssetManager().getBitmap("Card")) {
-                        mBitmap = mGameScreen.getGame().getAssetManager().getBitmap("Back");
-                    } else {
-                        mBitmap = mGameScreen.getGame().getAssetManager().getBitmap("Card");
-                    }
+                if (mBitmap == mGameScreen.getGame().getAssetManager().getBitmap("Card")) {
+                    mBitmap = mGameScreen.getGame().getAssetManager().getBitmap("Back");
+                } else {
+                    mBitmap = mGameScreen.getGame().getAssetManager().getBitmap("Card");
                 }
 
             }
