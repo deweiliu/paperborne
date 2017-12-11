@@ -1,32 +1,11 @@
 package uk.ac.qub.eeecs.gage;
 
-/*import android.graphics.Bitmap;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import uk.ac.qub.eeecs.gage.engine.AssetStore;
-import uk.ac.qub.eeecs.gage.util.BoundingBox;
-import uk.ac.qub.eeecs.gage.util.CollisionDetector;
-import uk.ac.qub.eeecs.gage.util.Vector2;
-import uk.ac.qub.eeecs.gage.world.GameObject;
-import uk.ac.qub.eeecs.gage.world.Sprite;
-import uk.ac.qub.eeecs.game.spaceDemo.AISpaceship;
-import uk.ac.qub.eeecs.game.spaceDemo.SpaceshipDemoScreen;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
-
-*//**
+/**
  * Example local unit tests, which will execute on the development machine (host).
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- *//*
-@RunWith(MockitoJUnitRunner.class)
+ */
+/*@RunWith(MockitoJUnitRunner.class)
 public class ExampleUnitTest {
 
     // /////////////////////////////////////////////////////////////////////////
@@ -93,11 +72,11 @@ public class ExampleUnitTest {
         float expectedMaxAngularVelocity = 50.0f;
         float expectedMaxAngularAcceleration = 50.0f;
 
-        *//*User story 4 (2/3): AI Spaceship Size Variety
+        /*User story 4 (2/3): AI Spaceship Size Variety
 		Dewei
 		Define 2 valuable.
-		*//*
-        float expectedWidth=50.0f;
+		*/
+        /*float expectedWidth=50.0f;
         float expectedHeight=50.0f;
         String expectedBitmap = "Turret";
 
