@@ -17,58 +17,61 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 
 /**
- * Created by Jamie on 08/12/2017.
+ * Created by Jamie T on 08/12/2017.
+ * Slider UI element for changing values in a range
  */
 
 public class Slider extends Button
 {
+	/**
+	 * Minimum, maximum and current slider values
+	 */
 	private int max;
 	private int min;
 	private int val;
 	
-	final private int TEXT_SEPERATION = 48;
+	// Separation between the size labels and the slider bar
+	final private int TEXT_SEPARATION = 48;
 	
-	private boolean mProcessInLayerSpace = false;
+	private boolean mProcessInLayerSpace;
 	
+	// Slider text style
 	private Paint textStyle;
 	
-	/**
-	 * Graphical asset used to represent the slider
-	 */
+	// Graphical asset used to represent the slider
 	protected Bitmap sliderBitmap;
 	
+	// Graphical asset used to represent the slider fill
 	protected Bitmap sliderFillBitmap;
 	
-	
-	/**
-	 * Name of the sound asset to be played whenever the button is triggered
-	 */
+	// Sound played whenever the slider is pressed
 	protected Sound mTriggerSound;
 	
-	// /////////////////////////////////////////////////////////////////////////
-	// Constructors
-	// /////////////////////////////////////////////////////////////////////////
-	
 	/**
-	 * Create a new push button.
+	 * Create new slider with sound
 	 *
-	 * @param x                   Centre y location of the button
-	 * @param y                   Centre x location of the button
-	 * @param width               Width of the button
-	 * @param height              Height of the button
-	 * @param defaultBitmap       Bitmap used to represent this control
-	 * @param triggerSound        Sound to play once per button trigger
-	 *                            space (screen by default)
-	 * @param gameScreen          Gamescreen to which this control belongs
+	 * @param x             Centre y location of the slider
+	 * @param y             Centre x location of the slider
+	 * @param width         Width of the slider
+	 * @param height        Height of the slider
+	 * @param defaultBitmap Bitmap used to represent this control
+	 * @param triggerSound  Sound to play once per touch
+	 *                      space (screen by default)
+	 * @param gameScreen    Gamescreen to which this control belongs
 	 */
-	public Slider(int min, int max, int val, Paint textStyle, float x, float y, float width, float height, String defaultBitmap, String sliderFillBitmap, String triggerSound, GameScreen gameScreen) {
-		super(x, y, width, height, defaultBitmap, false, gameScreen);
+	public Slider(int min, int max, int val, Paint textStyle, float x, float y, float width, float height,
+				  String defaultBitmap, String sliderFillBitmap, String triggerSound, GameScreen gameScreen,
+				  Boolean processInLayerSpace)
+	{
+		super(x, y, width, height, defaultBitmap, processInLayerSpace, gameScreen);
+		mProcessInLayerSpace = processInLayerSpace;
+		// Load in slider fill bitmap
 		this.sliderFillBitmap = gameScreen.getGame().getAssetManager().getBitmap(sliderFillBitmap);
 		this.textStyle = textStyle;
 		this.min = min;
 		this.max = max;
 		this.val = val;
-		// Retrieve the assets used by this button
+		// Retrieve the assets used by this slider
 		AssetStore assetStore = gameScreen.getGame().getAssetManager();
 		sliderBitmap = assetStore.getBitmap(defaultBitmap);
 		mTriggerSound = (triggerSound == null)
@@ -76,38 +79,39 @@ public class Slider extends Button
 	}
 	
 	/**
-	 * Create a new push button.
+	 * Create a new slider without sound
 	 *
-	 * @param x          Centre y location of the button
-	 * @param y          Centre x location of the button
-	 * @param width      Width of the button
-	 * @param height     Height of the button
+	 * @param x          Centre y location of the slider
+	 * @param y          Centre x location of the slider
+	 * @param width      Width of the slider
+	 * @param height     Height of the slider
 	 * @param bitmap     Bitmap used to represent this control
 	 * @param gameScreen Gamescreen to which this control belongs
 	 */
-	public Slider(int min, int max, int val, Paint textStyle, float x, float y, float width, float height, String bitmap, String sliderFillBitmap, GameScreen gameScreen) {
-		this(min, max, val, textStyle, x, y, width, height, bitmap, sliderFillBitmap, null, gameScreen);
+	public Slider(int min, int max, int val, Paint textStyle, float x, float y, float width, float height,
+				  String bitmap, String sliderFillBitmap, GameScreen gameScreen, Boolean processInLayerSpace)
+	{
+		this(min, max, val, textStyle, x, y, width, height, bitmap, sliderFillBitmap, null, gameScreen, processInLayerSpace);
 	}
 	
-	// /////////////////////////////////////////////////////////////////////////
-	// Methods
-	// /////////////////////////////////////////////////////////////////////////
-	
 	@Override
-	protected void updateTriggerActions(TouchEvent touchEvent, Vector2 touchLocation) {
+	protected void updateTriggerActions(TouchEvent touchEvent, Vector2 touchLocation)
+	{
 	}
 	
 	/**
-	 * Undertake touch actions for the button, updating the state
-	 * and bitmap.
+	 * Undertake touch actions for the slider, updating the current value
 	 *
 	 * @param touchLocation Touch location at which the trigger occurred
 	 */
 	@Override
-	protected void updateTouchActions(Vector2 touchLocation) {
+	protected void updateTouchActions(Vector2 touchLocation)
+	{
+		// Increment the value
 		val++;
-		if(val > max)
+		if (val > max)
 		{
+			// If the value is greater than the maximum, set the value to the minimum
 			val = min;
 		}
 	}
@@ -117,7 +121,8 @@ public class Slider extends Button
 	 * to the default bitmap and state.
 	 */
 	@Override
-	protected void updateDefaultActions() {
+	protected void updateDefaultActions()
+	{
 		mBitmap = sliderBitmap;
 	}
 	
@@ -129,10 +134,20 @@ public class Slider extends Button
 			// If in layer space, then determine an appropriate screen space bound
 			if (GraphicsHelper.getClippedSourceAndScreenRect(this, layerViewport, screenViewport, drawSourceRect, drawScreenRect))
 			{
-				Rect fillRect = new Rect(drawScreenRect.left, drawScreenRect.top, (drawScreenRect.left + (int)((float)drawScreenRect.width() * ((float)val/(float)max))), drawScreenRect.bottom);
-				float textY = drawScreenRect.exactCenterY() + (drawScreenRect.height()/2) + TEXT_SEPERATION;
+				// Create a rect for the fill bitmap
+				// the right position is calculated by:
+				// SliderLeft + (SliderWidth * (SliderValue / SliderMax))
+				Rect fillRect = new Rect(
+						drawScreenRect.left,
+						drawScreenRect.top,
+						(drawScreenRect.left + (int) ((float) drawScreenRect.width() * ((float) val / (float) max))),
+						drawScreenRect.bottom);
+				// Calculate the text Y position from the slider center Y position, slider height and text separation value
+				float textY = drawScreenRect.exactCenterY() + (drawScreenRect.height() / 2) + TEXT_SEPARATION;
+				// Draw slider base and fill bitmaps
 				graphics2D.drawBitmap(mBitmap, drawSourceRect, drawScreenRect, null);
 				graphics2D.drawBitmap(sliderFillBitmap, fillRect, fillRect, null);
+				// Draw the slider axis text
 				graphics2D.drawText(String.valueOf(min), (float) drawScreenRect.left, textY, textStyle);
 				graphics2D.drawText(String.valueOf(max), (float) drawScreenRect.right, textY, textStyle);
 				graphics2D.drawText(String.valueOf(val), drawScreenRect.exactCenterX(), textY, textStyle);
@@ -140,33 +155,54 @@ public class Slider extends Button
 		}
 		else
 		{
-			Rect fillRect = new Rect(drawScreenRect.left, drawScreenRect.top, (drawScreenRect.left + (int)((float)drawScreenRect.width() * ((float)val/(float)max))), drawScreenRect.bottom);
-			float textY = drawScreenRect.exactCenterY() + (drawScreenRect.height()/2) + TEXT_SEPERATION;
+			// Create a rect for the fill bitmap
+			// the right position is calculated by:
+			// SliderLeft + (SliderWidth * (SliderValue / SliderMax))
+			Rect fillRect = new Rect(
+					drawScreenRect.left,
+					drawScreenRect.top,
+					(drawScreenRect.left + (int) ((float) drawScreenRect.width() * ((float) val / (float) max))),
+					drawScreenRect.bottom);
+			// Calculate the text Y position from the slider center Y position, slider height and text separation value
+			float textY = drawScreenRect.exactCenterY() + (drawScreenRect.height() / 2) + TEXT_SEPARATION;
+			// Draw slider base and fill bitmaps
 			draw(elapsedTime, graphics2D);
 			graphics2D.drawBitmap(sliderFillBitmap, fillRect, fillRect, null);
+			// Draw the slider axis text
 			graphics2D.drawText(String.valueOf(min), (float) drawScreenRect.left, textY, textStyle);
 			graphics2D.drawText(String.valueOf(max), (float) drawScreenRect.right, textY, textStyle);
 			graphics2D.drawText(String.valueOf(val), drawScreenRect.exactCenterX(), textY, textStyle);
 		}
 	}
 	
+	/**
+	 * Get the current slider value
+	 * @return the slider value
+	 */
 	public int getVal()
 	{
 		return val;
 	}
 	
+	/**
+	 * Set the slider value
+	 * @param val the value to set the slider to
+	 */
 	public void setVal(int val)
 	{
-		if(val > max)
+		if (val > max)
 		{
+			// If the value is greater than the maximum, set the value to the maximum
 			this.val = max;
 		}
-		else if(val < min)
+		else if (val < min)
 		{
+			// If the value is less than the minimum, set the value to the minimum
 			this.val = min;
 		}
 		else
 		{
+			// If the value is within the min-max range, set it to the value provided
 			this.val = val;
 		}
 	}
