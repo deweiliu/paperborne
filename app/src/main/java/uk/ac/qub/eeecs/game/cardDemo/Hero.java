@@ -41,10 +41,8 @@ public class Hero extends Sprite {
         }
     }
 
-    public void IncrementManga(){
-        if(currentMana < manaLimit){
-            currentMana++;
-        }
+    public void refillMana(){
+        currentMana = manaLimit;
     }
 
     public void TakeDamage(int DamageDealt){
