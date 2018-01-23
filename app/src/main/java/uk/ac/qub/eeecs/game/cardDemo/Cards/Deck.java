@@ -56,7 +56,6 @@ public class Deck {
         }
         cardsInDeck.add(15, fiveCostCard);
 
-
     }
 
     //Generates a random number between 0 and 14, gets the index of the card
@@ -81,8 +80,8 @@ public class Deck {
             cardsInDeck.remove(card);
         }
         return firstHand;
-
     }
+
     //Checks of the Deck is empty
     public boolean isDeckEmpty(){
         if(cardsInDeck.isEmpty()){
@@ -91,8 +90,9 @@ public class Deck {
         return false;
     }
 
-    public int addCardToHand(Deck deck){
-        int drawnCard = deck.drawCard();
-        return drawnCard;
+    //Returns a random card from the deck
+    public Card addCardToHand(){
+        int drawnCard = this.drawCard();
+        return cardsInDeck.get(drawnCard);
     }
 }

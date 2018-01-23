@@ -25,6 +25,7 @@ public class Hero extends Sprite {
     private ArrayList<Card> activeCards;
     private Deck deck;
     private Hand hand;
+    private boolean heroIsDead;
 
     public Hero(float x, float y, Bitmap bitmap, GameScreen gameScreen, Game game){
         super(x, y, bitmap, gameScreen);
@@ -32,26 +33,48 @@ public class Hero extends Sprite {
         manaLimit = 1;
         currentMana = manaLimit;
         deck = new Deck(gameScreen, game);
-        hand = new Hand();
+        hand = new Hand(deck);
+
+        heroIsDead = false;
     }
 
-    public void IncrementMangaLimit(){
+    //Increases the mana limit, at the end of every turn, up to a max value
+    public void IncrementManaLimit(){
         if (manaLimit < MAX_MANA){
             manaLimit++;
         }
     }
 
+    //Refills the hero's mana at the start of every move
     public void refillMana(){
         currentMana = manaLimit;
     }
 
-    public void TakeDamage(int DamageDealt){
+    public void takeDamage(int DamageDealt){
         currentHealth -= DamageDealt;
         if(currentHealth < 0){
             currentHealth = 0;
         }
+
+        //Checks the currentHealth to determine if the Hero is dead
+        if(currentHealth == 0){
+            heroIsDead = true;
+        }
     }
 
+
+    public void playCard(Card cardToPlay){
+        if (this.activeCards.size() < 7 && currentMana >= cardToPlay.getManaCost()){
+            this.activeCards.add(cardToPlay);
+            this.currentMana -= cardToPlay.getManaCost();
+        } else {
+
+            //Warning message to be displayed
+            //Hero can only have a maximum of 7 cards active at any time
+        }
+    }
+
+    //Getters
     public int getCurrentHealth(){
         return this.currentHealth;
     }
@@ -61,16 +84,18 @@ public class Hero extends Sprite {
     }
 
     public ArrayList<Card> getActiveCards() {
-        return activeCards;
+        return this.activeCards;
     }
 
-    public void playCard(Card cardToPlay){
-        if (this.activeCards.size() < 7 && currentMana >= cardToPlay.getManaCost()){
-            this.activeCards.add(cardToPlay);
-            this.currentMana -= cardToPlay.getManaCost();
-        } else {
-            //Warning message to be displayed
-            //Hero can only have a maximum of 7 cards active at any time
-        }
+    public Hand getHand(){
+        return this.hand;
+    }
+
+    public Deck getDeck(){
+        return this.deck;
+    }
+
+    public boolean getHeroIsDead(){
+        return this.heroIsDead;
     }
 }

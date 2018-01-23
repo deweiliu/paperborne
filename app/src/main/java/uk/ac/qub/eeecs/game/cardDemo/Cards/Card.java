@@ -32,7 +32,7 @@ public class Card extends Sprite {
     private Vector2 lastPosition = new Vector2();
 
     //Checks if the card is active
-    private boolean activeIsCard;
+    private boolean cardIsActive;
 
     //Checks if the card is pressed down
     private  boolean cardPressedDown;
@@ -49,7 +49,8 @@ public class Card extends Sprite {
     //Holds card health value
     private int healthValue;
 
-
+    //Checks if card is dead
+    private boolean cardIsDead;
 
 
     public Card (int cardID, String cardName, float startX, float startY, Bitmap bitmap, GameScreen gameScreen, int manaCost, int attackValue, int healthValue) {
@@ -69,8 +70,9 @@ public class Card extends Sprite {
         */
 
         cardPressedDown = false;
-        activeIsCard = false;
+        cardIsActive = false;
         finishedMove = false;
+        cardIsDead = false;
 
     }
 
@@ -87,6 +89,10 @@ public class Card extends Sprite {
             healthValue = 0;
         }
 
+        //Checks the healthValue to determine if the Card is dead
+        if(healthValue == 0){
+            cardIsDead = true;
+        }
     }
 
 
@@ -100,7 +106,7 @@ public class Card extends Sprite {
                     && (input.getTouchY(touch.pointer) > (screenDimensions.y)- position.y - cardCentre.y)
                     && (input.getTouchY(touch.pointer) < (screenDimensions.y) - position.y + cardCentre.y))) {
                 cardPressedDown = true;
-                activeIsCard = true;
+                cardIsActive = true;
                 finishedMove = false;
 
                 //Checks what image is held on card, if clicked, swaps it with the alternative
@@ -113,7 +119,7 @@ public class Card extends Sprite {
             }
             //Checks if card is released
             if (touch.type == TouchEvent.TOUCH_UP) {
-                activeIsCard = false;
+                cardIsActive = false;
                 cardPressedDown = false;
                 finishedMove = true;
                 //Checks if card is dragged
@@ -136,19 +142,19 @@ public class Card extends Sprite {
     public void setLastPosition(){
         setPosition(this.lastPosition.x,this.lastPosition.y);
         finishedMove = false;
-        activeIsCard = false;
+        cardIsActive = false;
     }
 
     public void setLastPosition(Vector2 lastPosition) {
         this.lastPosition = lastPosition;
     }
 
-    public boolean isActiveIsCard() {
-        return activeIsCard;
+    public boolean isCardIsActive() {
+        return cardIsActive;
     }
 
-    public void setActiveIsCard(boolean activeIsCard) {
-        this.activeIsCard = activeIsCard;
+    public void setCardIsActive(boolean cardIsActive) {
+        this.cardIsActive = cardIsActive;
     }
 
     public boolean isCardPressedDown() {
@@ -201,6 +207,9 @@ public class Card extends Sprite {
         this.healthValue = healthValue;
     }
 
+    public boolean getCardIsDead(){
+        return this.cardIsDead;
+    }
 }
 
 
