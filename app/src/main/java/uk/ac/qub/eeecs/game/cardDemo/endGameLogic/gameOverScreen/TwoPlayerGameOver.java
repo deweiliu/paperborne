@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.cardDemo.endGameLogic.gameOverAnimations;
+package uk.ac.qub.eeecs.game.cardDemo.endGameLogic.gameOverScreen;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -8,6 +8,7 @@ import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameScreen;
+import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.animationsOfGameObject.MovingAnimation;
 
 /**
  * Created by 40216004 Dewei Liu on 23/01/2018.
@@ -16,7 +17,7 @@ import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameScreen;
 public class TwoPlayerGameOver implements GameOverAnimation {
     private boolean isFinished = false;
     private Game mGame;
-    private MovingObject player1, player2;
+    private MovingAnimation player1, player2;
     private EndGameScreen mScreen;
     private final static float SCALE = 0.25f;
 
@@ -28,10 +29,10 @@ public class TwoPlayerGameOver implements GameOverAnimation {
         LayerViewport layerViewport = mScreen.getLayerViewport();
         float pictureWidth = layerViewport.getWidth() * SCALE;
         float pictureHeight = layerViewport.getHeight() * SCALE;
-        this.player1 = new MovingObject(0, layerViewport.getBottom() - pictureHeight / 2,
-                pictureWidth, pictureHeight, player1Animation, this.mScreen.getGemeScreen());
-        this.player2 = new MovingObject(0, layerViewport.getTop() + pictureHeight / 2,
-                pictureWidth, pictureHeight, player2Animation, this.mScreen.getGemeScreen());
+        this.player1 = new MovingAnimation(0, layerViewport.getBottom() - pictureHeight / 2,
+                pictureWidth, pictureHeight, player1Animation, this.mScreen.getGameScreen());
+        this.player2 = new MovingAnimation(0, layerViewport.getTop() + pictureHeight / 2,
+                pictureWidth, pictureHeight, player2Animation, this.mScreen.getGameScreen());
 
         this.player1.setDestination(mScreen.getLayerViewport().x, mScreen.getLayerViewport().y - layerViewport.halfHeight / 2);
         this.player2.setDestination(mScreen.getLayerViewport().x, mScreen.getLayerViewport().y + layerViewport.halfHeight / 2);

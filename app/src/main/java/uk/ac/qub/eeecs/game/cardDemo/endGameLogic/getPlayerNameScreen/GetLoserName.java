@@ -1,16 +1,18 @@
-package uk.ac.qub.eeecs.game.cardDemo.endGameLogic.playerName;
+package uk.ac.qub.eeecs.game.cardDemo.endGameLogic.getPlayerNameScreen;
 
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
+import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameScreen;
 
 /**
  * Created by 40216004 Dewei Liu on 22/01/2018.
  */
 
-public class GetWinnerName extends PlayerName {
-    public GetWinnerName(boolean isSinglePlayer) {
-        super(isSinglePlayer);
+public class GetLoserName extends GetName {
+    public GetLoserName(EndGameScreen gameScreen) {
+        super(gameScreen, false);
     }
+
 
     @Override
     public void update(ElapsedTime elapsedTime) {
@@ -19,11 +21,12 @@ public class GetWinnerName extends PlayerName {
 
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+        graphics2D.drawText("Here is get loser name screen", 0, super.mEndGameScreen.getLayerViewport().getTop() - 200, super.mPaint);
         super.draw(elapsedTime, graphics2D);
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return super.isFinished();
     }
 }

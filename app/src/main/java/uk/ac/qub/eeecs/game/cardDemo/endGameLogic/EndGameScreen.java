@@ -13,7 +13,7 @@ import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 public interface EndGameScreen extends EndGameStuff {
 
 
-    GameScreen getGemeScreen();
+    GameScreen getGameScreen();
 
     Game getGame();
 

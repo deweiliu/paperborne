@@ -1,13 +1,13 @@
-package uk.ac.qub.eeecs.game.cardDemo.endGameLogic.gameOverAnimations;
+package uk.ac.qub.eeecs.game.cardDemo.endGameLogic.gameOverScreen;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameScreen;
+import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.animationsOfGameObject.MovingAnimation;
 
 /**
  * Created by 40216004 Dewei Liu on 23/01/2018.
@@ -16,7 +16,7 @@ import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameScreen;
 public class SinglePlayerGameOver implements GameOverAnimation {
     private boolean isFinished = false;
     private Game mGame;
-    private MovingObject animation;
+    private MovingAnimation animation;
     private EndGameScreen mScreen;
     private final static float SCALE = 0.5f;
 
@@ -27,8 +27,8 @@ public class SinglePlayerGameOver implements GameOverAnimation {
         float pictureHeight = layerViewport.getHeight() * SCALE;
         float pictureWidth = layerViewport.getWidth() * SCALE;
 
-        this.animation = new MovingObject(0, layerViewport.getBottom() - pictureHeight / 2,
-                pictureWidth, pictureHeight, winAnimation, this.mScreen.getGemeScreen());
+        this.animation = new MovingAnimation(0, layerViewport.getBottom() - pictureHeight / 2,
+                pictureWidth, pictureHeight, winAnimation, this.mScreen.getGameScreen());
 
         this.animation.setDestination(mScreen.getLayerViewport().x, mScreen.getLayerViewport().y);
 
@@ -55,7 +55,6 @@ public class SinglePlayerGameOver implements GameOverAnimation {
 
     @Override
     public boolean start(long movingTimeInMillis) {
-        Log.d("Single player game over", ".start(long) called.");
         return this.animation.start(movingTimeInMillis);
     }
 }

@@ -14,17 +14,17 @@ import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.gameOverAnimations.MovingObject;
+import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.animationsOfGameObject.MovingAnimation;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * Created by 40216004 Dewei Liu on 24/01/2018.
- * Test for /app/src/main/java/uk/ac/qub/eeecs/game/cardDemo/endGameLogic/gameOverAnimations/MovingObject.java
+ * Test for uk.ac.qub.eeecs.game.cardDemo.endGameLogic.animationsOfGameObject.MovingAnimation.java
  */
 @RunWith(MockitoJUnitRunner.class)
-public class MovingObjectTest {
-    private MovingObject movingObject;
+public class MovingAnimationTest {
+    private MovingAnimation movingObject;
     @Mock
     private Bitmap bitmap = Mockito.mock(Bitmap.class);
 
@@ -32,7 +32,7 @@ public class MovingObjectTest {
     private GameScreen gameScreen = Mockito.mock(GameScreen.class);
     @Mock
     private Game mGame = Mockito.mock(Game.class);
-    private final static float variable = 100;
+    private final static float VALUE = 100;
     private final static long PERIOD = 4000;//4s
     @Mock
     private ElapsedTime elapsedTime = Mockito.mock(ElapsedTime.class);
@@ -50,7 +50,7 @@ public class MovingObjectTest {
             }
         };
 
-        movingObject = new MovingObject(variable, variable, variable, variable, bitmap, gameScreen);
+        movingObject = new MovingAnimation(VALUE, VALUE, VALUE, VALUE, bitmap, gameScreen);
     }
 
     @Test
@@ -58,14 +58,14 @@ public class MovingObjectTest {
         //Don't set destination
         assertEquals(false, movingObject.start(PERIOD));
 
-        movingObject.setDestination(variable * 2, variable * 2);
+        movingObject.setDestination(VALUE * 2, VALUE * 2);
         //Set destination and the moving object can start to play animation
         assertEquals(true, movingObject.start(PERIOD));
     }
 
     @Test
     public void movingObject_Test() throws Exception {
-        movingObject.setDestination(variable * 2, variable * 2);
+        movingObject.setDestination(VALUE * 2, VALUE * 2);
 
         movingObject.start(PERIOD);//Animation period is 4 seconds
 
@@ -78,6 +78,8 @@ public class MovingObjectTest {
         assertEquals(false, isFinished_AfterSleep(900));//Now is (2.7 + 0.9)s = 3.6s < 4s and it is not finished
 
         assertEquals(true, isFinished_AfterSleep(900));//Now is (3.6 + 0.9)s = 4.5s > 4s and it is finished
+
+        //If you run this test with a very very low performance device, it may fail.
     }
 
     private boolean isFinished_AfterSleep(long millis) {

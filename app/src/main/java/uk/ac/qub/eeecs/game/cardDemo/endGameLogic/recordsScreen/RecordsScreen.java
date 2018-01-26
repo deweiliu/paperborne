@@ -2,16 +2,19 @@ package uk.ac.qub.eeecs.game.cardDemo.endGameLogic.recordsScreen;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
+import uk.ac.qub.eeecs.gage.ui.PushButton;
+import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameLogic;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.playerName.PlayerName;
+import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.getPlayerNameScreen.GetName;
 import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameScreen;
 
 /**
@@ -24,34 +27,75 @@ public class RecordsScreen implements EndGameScreen {
     private LayerViewport mLayerViewport;
     private EndGameLogic mEndGameLogic;
     private ScreenViewport mScreenViewport;
+    private boolean isFinished;
+    private PushButton mainMenuButton;
+    private GameObject backGround;
+    private AllGameRecords showRecords;
 
-    public RecordsScreen(EndGameLogic gameScreen, PlayerName playerName) {
+
+
+    public RecordsScreen(EndGameLogic gameScreen, GetName playerName) {
         mEndGameLogic = gameScreen;
         mPaint = new Paint();
         mPaint.setColor(Color.WHITE);
         mPaint.setTextSize(100);
-        mScreenViewport = new ScreenViewport(0, 0, getGame().getScreenWidth(), getGame().getScreenHeight());
-        mLayerViewport = new LayerViewport(0, 0, getGame().getScreenWidth() / 2, getGame().getScreenHeight() / 2);
+        mScreenViewport = gameScreen.getScreenViewport();
+        mLayerViewport = gameScreen.getLayerViewport();
+
+        isFinished = false;
+
+        //Set up return to main menu button
+        final String MAIN_MENU_BUTTON_NAME = "ReturnMainMenuButton";
+        getAssetManager().loadAndAddBitmap(MAIN_MENU_BUTTON_NAME, "img/End Game Logic/return-menu.png");
+        final float MAIN_MENU_BUTTON_SIZE = mLayerViewport.getHeight() / 3;
+        this.mainMenuButton = new PushButton(mLayerViewport.getLeft() + MAIN_MENU_BUTTON_SIZE / 2,
+                mLayerViewport.getBottom() + MAIN_MENU_BUTTON_SIZE / 2,
+                MAIN_MENU_BUTTON_SIZE, MAIN_MENU_BUTTON_SIZE, MAIN_MENU_BUTTON_NAME, this.mEndGameLogic);
+        this.mainMenuButton.processInLayerSpace(true);
+
+        //Add Background to records screen
+        backGround = new GameObject(0, 0, mLayerViewport.getWidth(), mLayerViewport.getHeight(),
+                mEndGameLogic.getBackGround(), this.mEndGameLogic);
+        showRecords = new CurrentPlayers(this);
+
     }
 
     @Override
     public void update(ElapsedTime elapsedTime) {
 
+        mainMenuButton.update(elapsedTime, mLayerViewport, mScreenViewport);
+        backGround.update(elapsedTime);
+        if (mainMenuButton.isPushTriggered()) {
+            this.isFinished = true;
+        }
+        showRecords.update(elapsedTime);
+        if (showRecords.isFinished()) {
+            if (showRecords instanceof CurrentPlayers) {
+                showRecords = new HistoryPlayers(this);
+            } else if (showRecords instanceof HistoryPlayers) {
+                showRecords = new CurrentPlayers(this);
+            } else {
+                Log.d("Some thing goes wrong.", "");
+            }
+        }
+
     }
 
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
-        graphics2D.clear(Color.BLACK);
-        graphics2D.drawText("Here is RecordsScreen.", 0, getGame().getScreenHeight() / 2, mPaint);
+        backGround.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+        showRecords.draw(elapsedTime, graphics2D);
+        mainMenuButton.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return this.isFinished;
     }
 
     @Override
-    public GameScreen getGemeScreen() {
+    public GameScreen getGameScreen() {
         return mEndGameLogic;
     }
 
@@ -62,7 +106,7 @@ public class RecordsScreen implements EndGameScreen {
 
     @Override
     public Game getGame() {
-        return this.getGemeScreen().getGame();
+        return this.getGameScreen().getGame();
     }
 
     @Override

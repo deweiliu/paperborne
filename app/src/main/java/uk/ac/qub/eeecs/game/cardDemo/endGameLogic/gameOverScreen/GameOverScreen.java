@@ -1,8 +1,9 @@
-package uk.ac.qub.eeecs.game.cardDemo.endGameLogic.gameOverAnimations;
+package uk.ac.qub.eeecs.game.cardDemo.endGameLogic.gameOverScreen;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
@@ -36,14 +37,14 @@ public class GameOverScreen implements EndGameScreen {
         super();
         isFinished = false;
         mEndGameLogicScreen = endGameLogicScreen;
-        this.mBattleScreen = endGameLogicScreen.getmBattleScreen();
+        this.mBattleScreen = endGameLogicScreen.getBattleScreen();
 
         mPaint = new Paint();
         this.mPaint.setColor(Color.BLACK);
         this.mPaint.setTextSize(TEXT_SIZE);
 
-        mScreenViewport = new ScreenViewport(0, 0, getGame().getScreenWidth(), getGame().getScreenHeight());
-        mLayerViewport = new LayerViewport(0, 0, getGame().getScreenWidth() / 2, getGame().getScreenHeight() / 2);
+        mScreenViewport = mEndGameLogicScreen.getScreenViewport();
+        mLayerViewport = mEndGameLogicScreen.getLayerViewport();
 
         AssetStore assetManager = getGame().getAssetManager();
         String winAnimationName = "WinAnimation";
@@ -109,7 +110,7 @@ public class GameOverScreen implements EndGameScreen {
 
 
     @Override
-    public GameScreen getGemeScreen() {
+    public GameScreen getGameScreen() {
         return mEndGameLogicScreen;
     }
 
@@ -120,7 +121,7 @@ public class GameOverScreen implements EndGameScreen {
 
     @Override
     public Game getGame() {
-        return this.getGemeScreen().getGame();
+        return this.getGameScreen().getGame();
     }
 
     @Override
@@ -135,7 +136,11 @@ public class GameOverScreen implements EndGameScreen {
 
     @Override
     public LayerViewport getLayerViewport() {
+        if (mLayerViewport == null) {
+            Log.d("Game over Screen", "getlayerview port is null");
+        }
         return mLayerViewport;
+
     }
 
     @Override
