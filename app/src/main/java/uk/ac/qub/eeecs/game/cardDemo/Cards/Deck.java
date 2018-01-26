@@ -13,12 +13,13 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 
 public class Deck {
     private final int MAX_DECK_SIZE = 15;
-    private ArrayList<Card> cardsInDeck = new ArrayList<>();
+    private ArrayList<Card> cardsInDeck;
 
     public Deck(GameScreen gameScreen, Game game) {
 
 
         game.getAssetManager().loadAndAddBitmap("Card", "img/Hearthstone_Card_Template.png");
+        cardsInDeck = new ArrayList<Card>();
 
         //Creates a card with certain values
         Card oneCostCard = new Card(1, "Weak Man",
@@ -43,18 +44,18 @@ public class Deck {
 
         //Adds 5 1-cost minions, 4 2-cost minions, 3 3-cost minions, 2 4-cost minions and a 5-cost minion into the deck
         for (int i = 1; i < 6; i++) {
-            cardsInDeck.add(i, oneCostCard);
+            cardsInDeck.add(oneCostCard);
         }
         for (int i = 6; i < 10; i++) {
-            cardsInDeck.add(i, twoCostCard);
+            cardsInDeck.add(twoCostCard);
         }
         for (int i = 10; i < 13; i++) {
-            cardsInDeck.add(i, threeCostCard);
+            cardsInDeck.add(threeCostCard);
         }
         for (int i = 13; i < 15; i++) {
-            cardsInDeck.add(i, fourCostCard);
+            cardsInDeck.add(fourCostCard);
         }
-        cardsInDeck.add(15, fiveCostCard);
+        cardsInDeck.add(fiveCostCard);
 
     }
 
@@ -63,8 +64,8 @@ public class Deck {
         int drawnCard;
         Random randomCard = new Random();
         int low = 0;
-        int high = 14;
-        int result = randomCard.nextInt(high - low) + low;
+        int high = MAX_DECK_SIZE - 1;
+        int result = (int)(Math.random() * (high - low)) + low;
         drawnCard = cardsInDeck.indexOf(result);
 
         return drawnCard;
@@ -90,9 +91,8 @@ public class Deck {
         return false;
     }
 
-    //Returns a random card from the deck
-    public Card addCardToHand(){
-        int drawnCard = this.drawCard();
-        return cardsInDeck.get(drawnCard);
+
+    public ArrayList<Card> getCardsInDeck() {
+        return cardsInDeck;
     }
 }
