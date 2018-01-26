@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 
 public class CamUnitTest {
 
-    String cardDemoScreenName = "CardDemo";
+    String cardDemoScreenName = "CardDemoScreen";
 
     @Mock
     Game game;

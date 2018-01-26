@@ -74,7 +74,7 @@ public class Card extends Sprite {
 
     }
 
-    //Copy constructor for the Card game object to allow mulitple cards to be created
+    //Copy constructor for the Card game object to allow multiple cards to be created
     public Card(Card blankCard){
         this(blankCard.getCardID(), blankCard.getCardName(), blankCard.position.x, blankCard.position.y,
                 blankCard.getBitmap(), blankCard.mGameScreen, blankCard.getManaCost(), blankCard.getAttackValue(), blankCard.getHealthValue() );
