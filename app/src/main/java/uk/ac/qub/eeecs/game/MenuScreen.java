@@ -15,6 +15,7 @@ import uk.ac.qub.eeecs.gage.ui.ToggleButton;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
+import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameLogic;
 import uk.ac.qub.eeecs.game.performanceScreen.PerformanceScreen;
 import uk.ac.qub.eeecs.game.helpScreen.HelpScreen;
 import uk.ac.qub.eeecs.game.options.OptionsScreen;
