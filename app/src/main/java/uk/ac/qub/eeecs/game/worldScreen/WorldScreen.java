@@ -262,7 +262,7 @@ public class WorldScreen extends GameScreen
 		try
 		{
 			// Open the JSON file with an input stream
-			InputStream is = mGame.getContext().getApplicationContext().getAssets().open(filename);
+			InputStream is = context.getAssets().open(filename);
 			// Gets the estimated size of the file
 			int size = is.available();
 			// Create a byte buffer to read into
@@ -286,5 +286,10 @@ public class WorldScreen extends GameScreen
 	public List<GameLevel> getLevels()
 	{
 		return mLevels;
+	}
+	
+	public int getCurrentLevel()
+	{
+		return mCurrentLevel;
 	}
 }
