@@ -9,11 +9,12 @@ import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.util.BoundingBox;
 import uk.ac.qub.eeecs.gage.util.GraphicsHelper;
+import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
-import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
+import uk.ac.qub.eeecs.game.cardDemo.Cards.*;
 
 
 /**
@@ -25,14 +26,12 @@ import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 
 public class CardDemoScreen extends GameScreen {
 
-    private Card mCards;
+    private Hero player, opponent;
     private ScreenViewport mScreenViewport;
     private LayerViewport mLayerViewport;
     private final float LEVEL_WIDTH = 500.0f;
     private final float LEVEL_HEIGHT = 1000.0f;
     private GameObject mCardDemoScreen;
-
-
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
@@ -50,7 +49,7 @@ public class CardDemoScreen extends GameScreen {
                 game.getScreenHeight());
         GraphicsHelper.create3To2AspectRatioScreenViewport(game, mScreenViewport);
 
-// Create the layer viewport, taking into account the orientation
+        // Create the layer viewport, taking into account the orientation
         // and aspect ratio of the screen.
         if (mScreenViewport.width > mScreenViewport.height)
             mLayerViewport = new LayerViewport(240.0f, 240.0f
@@ -66,18 +65,33 @@ public class CardDemoScreen extends GameScreen {
         assetManager.loadAndAddBitmap("Card", "img/Hearthstone_Card_Template.png");
         assetManager.loadAndAddBitmap("Back", "img/Hearthstone_Card_Back.png");
         assetManager.loadAndAddBitmap("Board", "img/Board.png");
+        assetManager.loadAndAddBitmap("Hero", "img/Hero_Base.png");
+        assetManager.loadAndAddBitmap("Enemy", "img/Enemy_Base.png");
 
 
         mCardDemoScreen = new GameObject(mScreenViewport.centerX(),mScreenViewport.centerY(), LEVEL_WIDTH, LEVEL_HEIGHT/2.5f, getGame()
                 .getAssetManager().getBitmap("Board"), this);
 
-        //Sets cards x,y position to the centre of the screen
-        mCards = new Card(1, "Test Card",
-                mScreenViewport.centerX(),mScreenViewport.centerY(),
-                mGame.getAssetManager().getBitmap("Card"), this, 1,1,1);
+        player = new Hero(mGame.getScreenWidth()/2, (mGame.getScreenHeight()/16)*6, assetManager.getBitmap("Hero"), this, mGame);
+        opponent = new Hero(mGame.getScreenWidth()/2, (mGame.getScreenHeight()/16)*10, assetManager.getBitmap("Enemy"), this, mGame);
+        for(Card card : player.getHand().getCards()) {
+            card.setPosition(mGame.getScreenWidth()/2, (mGame.getScreenHeight()/16)*7);
+        }
+        float widthSteps = ((mGame.getScreenWidth())/24), heightSteps = (mGame.getScreenHeight())/16;
+        float len = player.getHand().getCards().size();
+        for(int i = 0; i < len; i++) {
+            Card activeCard = player.getHand().getCards().get(i);
+            Vector2 initPos = activeCard.getPosition();
 
-
-
+            if(i<len/2) {
+                int modifier = 5 - i;
+                activeCard.setPosition((initPos.x - widthSteps*modifier), heightSteps*7);
+            }
+            else {
+                int modifier = i - 4;
+                activeCard.setPosition((initPos.x + widthSteps*modifier), heightSteps*7);
+            }
+        }
 
 
 
@@ -97,9 +111,12 @@ public class CardDemoScreen extends GameScreen {
         mLayerViewport.x=mScreenViewport.centerX();
         mLayerViewport.y=mScreenViewport.centerY();
 
-        // Update the card
-        mCards.update(elapsedTime);
 
+        player.update(elapsedTime);
+        opponent.update(elapsedTime);
+        for(Card card : player.getHand().getCards()) card.update(elapsedTime);
+        if(player.getActiveCards() != null) for(Card card : player.getActiveCards()) card.update(elapsedTime);
+        for(Card card : opponent.getHand().getCards()) card.update(elapsedTime);
 
     }
 
@@ -115,19 +132,16 @@ public class CardDemoScreen extends GameScreen {
         /*Paint paint = new Paint(Color.BLACK);
         graphics2D.clear(Color.WHITE);*/
         mCardDemoScreen.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
-        mCards.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
 
-        //Code for bounding the card within the players viewpoint
-        BoundingBox cardBound = mCards.getBound();
-        if (cardBound.getLeft() < 0)
-            mCards.position.x -= cardBound.getLeft();
-        else if (cardBound.getRight() > mScreenViewport.width)
-            mCards.position.x -= (cardBound.getRight() - mScreenViewport.width);
+        player.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
 
-        if (cardBound.getBottom() < 0)
-            mCards.position.y -= cardBound.getBottom();
-        else if (cardBound.getTop() > mScreenViewport.height)
-            mCards.position.y -= (cardBound.getTop() - mScreenViewport.height);
+        //highly inconsistent for some unknown reason
+        for(Card card : player.getHand().getCards()) card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+
+        if(player.getActiveCards() != null) for(Card card : player.getActiveCards()) card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+        opponent.draw(elapsedTime, graphics2D ,mLayerViewport, mScreenViewport);
+        for(Card card : opponent.getHand().getCards()) card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+        if(opponent.getActiveCards() != null) for(Card card : opponent.getActiveCards()) card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
 
     }
 

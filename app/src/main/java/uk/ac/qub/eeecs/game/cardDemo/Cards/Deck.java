@@ -44,44 +44,42 @@ public class Deck {
 
         //Adds 5 1-cost minions, 4 2-cost minions, 3 3-cost minions, 2 4-cost minions and a 5-cost minion into the deck
         for (int i = 1; i < 6; i++) {
-            cardsInDeck.add(oneCostCard);
+            cardsInDeck.add(new Card(oneCostCard));
         }
         for (int i = 6; i < 10; i++) {
-            cardsInDeck.add(twoCostCard);
+            cardsInDeck.add(new Card(twoCostCard));
         }
         for (int i = 10; i < 13; i++) {
-            cardsInDeck.add(threeCostCard);
+            cardsInDeck.add(new Card(threeCostCard));
         }
         for (int i = 13; i < 15; i++) {
-            cardsInDeck.add(fourCostCard);
+            cardsInDeck.add(new Card(fourCostCard));
         }
-        cardsInDeck.add(fiveCostCard);
+        cardsInDeck.add(new Card(fiveCostCard));
 
     }
 
-    //Generates a random number between 0 and 14, gets the index of the card
-    public int drawCard(){
-        int drawnCard;
+    //draws a random card
+    public Card drawCard(){
         Random randomCard = new Random();
         int low = 0;
-        int high = MAX_DECK_SIZE - 1;
+        int high = cardsInDeck.size() - 1;
         int result = (int)(Math.random() * (high - low)) + low;
-        drawnCard = cardsInDeck.indexOf(result);
-
-        return drawnCard;
+        return cardsInDeck.remove(result);
     }
 
-    //Draws 3 random cards and adds then to your first hand
+    //broke this with drawcard changes but it's not used anyway, can fix it if we need it - jc
+/*    //Draws 3 random cards and adds then to your first hand
     public ArrayList<Integer> firstHand() {
         ArrayList<Integer> firstHand = new ArrayList<>();
         ArrayList<Integer> tempArray = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             int card = drawCard();
-            firstHand.add(card);
+            firstHand.add(drawCard());
             cardsInDeck.remove(card);
         }
         return firstHand;
-    }
+    }*/
 
     //Checks of the Deck is empty
     public boolean isDeckEmpty(){

@@ -54,9 +54,9 @@ public class Card extends Sprite {
 
 
     public Card (int cardID, String cardName, float startX, float startY, Bitmap bitmap, GameScreen gameScreen, int manaCost, int attackValue, int healthValue) {
-        super(startX, startY, 140.0f, 210.0f, bitmap, gameScreen);
-        cardCentre.x = 140.0f/2;
-        cardCentre.y = 210.0f/2;
+        super(startX, startY, 70.0f, 105.0f, bitmap, gameScreen);
+        cardCentre.x = 70.0f/2;
+        cardCentre.y = 105.0f/2;
 
         this.cardID = cardID;
         this.cardName = cardName;
@@ -83,7 +83,7 @@ public class Card extends Sprite {
     }
 
     //Method for card to take damage
-    public void TakeDamage(int damageDealt){
+    public void takeDamage(int damageDealt){
         healthValue -= damageDealt;
         if(healthValue < 0){
             healthValue = 0;
@@ -149,6 +149,15 @@ public class Card extends Sprite {
         this.lastPosition = lastPosition;
     }
 
+    public Vector2 getPosition() { return position; }
+
+    public void setPosition(Vector2 position) { this.position = position; }
+
+    public void setPosition(float x, float y) {
+        this.position.x = x;
+        this.position.y = y;
+    }
+
     public boolean isCardIsActive() {
         return cardIsActive;
     }
@@ -210,6 +219,8 @@ public class Card extends Sprite {
     public boolean getCardIsDead(){
         return this.cardIsDead;
     }
+
+
 }
 
 

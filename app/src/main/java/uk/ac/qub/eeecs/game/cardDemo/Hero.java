@@ -28,7 +28,7 @@ public class Hero extends Sprite {
     private boolean heroIsDead;
 
     public Hero(float x, float y, Bitmap bitmap, GameScreen gameScreen, Game game){
-        super(x, y, bitmap, gameScreen);
+        super(x, y, 70.0f, 105.0f, bitmap, gameScreen);
         currentHealth = MAX_HEALTH;
         manaLimit = 1;
         currentMana = manaLimit;
