@@ -2,9 +2,6 @@ package uk.ac.qub.eeecs.game.cardDemo.Cards;
 
 import java.util.ArrayList;
 
-import uk.ac.qub.eeecs.gage.Game;
-import uk.ac.qub.eeecs.gage.world.GameScreen;
-
 /**
  * Created by user on 05/12/2017.
  */

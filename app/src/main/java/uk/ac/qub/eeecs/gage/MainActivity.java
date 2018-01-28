@@ -1,12 +1,12 @@
 package uk.ac.qub.eeecs.gage;
 
-import uk.ac.qub.eeecs.game.DemoGame;
-
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+
+import uk.ac.qub.eeecs.game.DemoGame;
 
 /**
  * Main game activity

@@ -1,7 +1,6 @@
 package uk.ac.qub.eeecs.game.cardDemo.endGameLogic.animationsOfGameObject;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;

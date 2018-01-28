@@ -1,14 +1,5 @@
 package uk.ac.qub.eeecs.gage;
 
-import uk.ac.qub.eeecs.gage.engine.AssetStore;
-import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
-import uk.ac.qub.eeecs.gage.engine.ScreenManager;
-import uk.ac.qub.eeecs.gage.engine.graphics.CanvasRenderSurface;
-import uk.ac.qub.eeecs.gage.engine.graphics.IRenderSurface;
-import uk.ac.qub.eeecs.gage.engine.input.Input;
-import uk.ac.qub.eeecs.gage.engine.io.FileIO;
-import uk.ac.qub.eeecs.gage.world.GameScreen;
-
 import android.app.Fragment;
 import android.media.AudioManager;
 import android.os.Build;
@@ -18,6 +9,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import uk.ac.qub.eeecs.gage.engine.AssetStore;
+import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
+import uk.ac.qub.eeecs.gage.engine.ScreenManager;
+import uk.ac.qub.eeecs.gage.engine.graphics.CanvasRenderSurface;
+import uk.ac.qub.eeecs.gage.engine.graphics.IRenderSurface;
+import uk.ac.qub.eeecs.gage.engine.input.Input;
+import uk.ac.qub.eeecs.gage.engine.io.FileIO;
+import uk.ac.qub.eeecs.gage.world.GameScreen;
 
 /**
  * Central game class, providing access to core game services and management of

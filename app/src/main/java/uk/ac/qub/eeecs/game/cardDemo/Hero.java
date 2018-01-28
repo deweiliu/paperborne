@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.Sprite;
-import uk.ac.qub.eeecs.game.cardDemo.Cards.*;
+import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
+import uk.ac.qub.eeecs.game.cardDemo.Cards.Deck;
+import uk.ac.qub.eeecs.game.cardDemo.Cards.Hand;
 
 
 /**

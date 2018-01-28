@@ -1,10 +1,9 @@
 package uk.ac.qub.eeecs.game.cardDemo.Cards;
 
-import android.graphics.Bitmap;
 import java.util.ArrayList;
 import java.util.Random;
+
 import uk.ac.qub.eeecs.gage.Game;
-import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 
 /**

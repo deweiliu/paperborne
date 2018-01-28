@@ -14,8 +14,8 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameLogic;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.getPlayerNameScreen.GetName;
 import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameScreen;
+import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.getPlayerNameScreen.GetName;
 
 /**
  * Created by 40216004 Dewei Liu on 22/01/2018.

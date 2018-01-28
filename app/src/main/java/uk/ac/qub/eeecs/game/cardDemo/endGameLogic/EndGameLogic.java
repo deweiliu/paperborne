@@ -10,10 +10,9 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.MenuScreen;
 import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.animationsOfGameObject.RotatingAnimation;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.getPlayerNameScreen.GetPlayerNameScreen;
-
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.getPlayerNameScreen.GetName;
 import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.gameOverScreen.GameOverScreen;
+import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.getPlayerNameScreen.GetName;
+import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.getPlayerNameScreen.GetPlayerNameScreen;
 import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.recordsScreen.RecordsScreen;
 
 /**

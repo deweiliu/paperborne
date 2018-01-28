@@ -7,7 +7,6 @@ import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameScreen;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameStuff;
 
 /**
  * Created by 40216004 Dewei Liu on 22/01/2018.
