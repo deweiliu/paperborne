@@ -15,9 +15,11 @@ import uk.ac.qub.eeecs.gage.ui.ToggleButton;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
-import uk.ac.qub.eeecs.game.performanceScreen.PerformanceScreen;
 import uk.ac.qub.eeecs.game.helpScreen.HelpScreen;
 import uk.ac.qub.eeecs.game.options.OptionsScreen;
+import uk.ac.qub.eeecs.game.performanceScreen.PerformanceScreen;
+import uk.ac.qub.eeecs.game.worldScreen.WorldScreen;
+
 /**
  * An exceedingly basic menu screen with a couple of touch buttons
  *
@@ -149,8 +151,8 @@ public class MenuScreen extends GameScreen {
                 changeToScreen(new OptionsScreen(mGame));
             else if(mHelpButton.isPushTriggered())
                 changeToScreen(new HelpScreen(mGame));
-            else if(mSinglePlayerButton.isPushTriggered());
-                //do nothing
+            else if(mSinglePlayerButton.isPushTriggered())
+                changeToScreen(new WorldScreen(mGame));
             else if(mMultiPlayerButton.isPushTriggered());
                 //do nothing
             else if(soundOn != mMuteButton.isToggledOn())

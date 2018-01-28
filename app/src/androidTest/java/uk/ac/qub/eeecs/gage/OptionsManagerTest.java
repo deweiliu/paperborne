@@ -21,7 +21,7 @@ public class OptionsManagerTest
 {
 	
 	@Test
-	public void optionsTest() throws Exception {
+	public void makeScreen() throws Exception {
 		Context appContext = InstrumentationRegistry.getTargetContext();
 		
 		// Clear any existing shared preferences

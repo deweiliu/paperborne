@@ -1,0 +1,35 @@
+{
+  "levels":
+  [
+    {
+      "id":"level_one",
+      "name": "Level One",
+      "bitmap":"LevelOne",
+      "bitmapPath":"img/GameLevel.png",
+      "xPercent": 0.25,
+      "yPercent": 0.50,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id":"level_two",
+      "name": "Level Two",
+      "bitmap":"LevelTwo",
+      "bitmapPath":"img/GameLevel.png",
+      "xPercent": 0.50,
+      "yPercent": 0.50,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id":"level_three",
+      "name": "Level Three",
+      "bitmap":"LevelThree",
+      "bitmapPath":"img/GameLevel.png",
+      "xPercent": 0.75,
+      "yPercent": 0.50,
+      "width": 128,
+      "height": 128
+    }
+  ]
+}

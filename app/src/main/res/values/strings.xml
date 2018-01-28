@@ -10,5 +10,6 @@
     <string name="effects_description">Enable Visual Effects</string>
     <string name="music_description">Music Volume</string>
     <string name="sound_description">Sound Effects Volume</string>
+    <string name="broken_level_file">Level file missing or corrupted</string>
 
 </resources>
