@@ -20,7 +20,7 @@ public class OptionsManager
 	public static final String SOUND_VOLUME = "sound_volume";
 	
 	// Shared Preferences for interacting with Android's Key-Value storage
-	private SharedPreferences sharedPref;
+	private SharedPreferences mSharedPrefs;
 	
 	/**
 	 * @param context calling context
@@ -28,7 +28,7 @@ public class OptionsManager
 	public OptionsManager(Context context)
 	{
 		// Set up shared preferences with the activity provided
-		sharedPref = context.getSharedPreferences(PREFERENCES_STORAGE_KEY, Context.MODE_PRIVATE);
+		mSharedPrefs = context.getSharedPreferences(PREFERENCES_STORAGE_KEY, Context.MODE_PRIVATE);
 	}
 	
 	/**
@@ -39,7 +39,7 @@ public class OptionsManager
 	public void setOption(String option, Boolean value)
 	{
 		// Open the shared preferences editor, update the value and apply the changes
-		SharedPreferences.Editor editor = sharedPref.edit();
+		SharedPreferences.Editor editor = mSharedPrefs.edit();
 		editor.putBoolean(option, value);
 		editor.apply();
 	}
@@ -52,7 +52,7 @@ public class OptionsManager
 	public void setOption(String option, Integer value)
 	{
 		// Open the shared preferences editor, update the value and apply the changes
-		SharedPreferences.Editor editor = sharedPref.edit();
+		SharedPreferences.Editor editor = mSharedPrefs.edit();
 		editor.putInt(option, value);
 		editor.apply();
 	}
@@ -76,7 +76,7 @@ public class OptionsManager
 	public Boolean getBoolOption(String option, Boolean def)
 	{
 		// Open shared preferences and return the value with the matching key
-		return sharedPref.getBoolean(option, def);
+		return mSharedPrefs.getBoolean(option, def);
 	}
 	
 	/**
@@ -97,6 +97,6 @@ public class OptionsManager
 	 */
 	public Integer getIntOption(String option, Integer def)
 	{
-		return sharedPref.getInt(option, def);
+		return mSharedPrefs.getInt(option, def);
 	}
 }

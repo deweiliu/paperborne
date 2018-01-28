@@ -26,9 +26,9 @@ public class Slider extends Button
 	/**
 	 * Minimum, maximum and current slider values
 	 */
-	private int max;
-	private int min;
-	private int val;
+	private int mMax;
+	private int mMin;
+	private int mVal;
 	
 	// Separation between the size labels and the slider bar
 	final private int TEXT_SEPARATION = 48;
@@ -36,13 +36,13 @@ public class Slider extends Button
 	private boolean mProcessInLayerSpace;
 	
 	// Slider text style
-	private Paint textStyle;
+	private Paint mTextStyle;
 	
 	// Graphical asset used to represent the slider
-	protected Bitmap sliderBitmap;
+	protected Bitmap mSliderBitmap;
 	
 	// Graphical asset used to represent the slider fill
-	protected Bitmap sliderFillBitmap;
+	protected Bitmap mSliderFillBitmap;
 	
 	// Sound played whenever the slider is pressed
 	protected Sound mTriggerSound;
@@ -66,14 +66,14 @@ public class Slider extends Button
 		super(x, y, width, height, defaultBitmap, processInLayerSpace, gameScreen);
 		mProcessInLayerSpace = processInLayerSpace;
 		// Load in slider fill bitmap
-		this.sliderFillBitmap = gameScreen.getGame().getAssetManager().getBitmap(sliderFillBitmap);
-		this.textStyle = textStyle;
-		this.min = min;
-		this.max = max;
-		this.val = val;
+		this.mSliderFillBitmap = gameScreen.getGame().getAssetManager().getBitmap(sliderFillBitmap);
+		this.mTextStyle = textStyle;
+		this.mMin = min;
+		this.mMax = max;
+		this.mVal = val;
 		// Retrieve the assets used by this slider
 		AssetStore assetStore = gameScreen.getGame().getAssetManager();
-		sliderBitmap = assetStore.getBitmap(defaultBitmap);
+		mSliderBitmap = assetStore.getBitmap(defaultBitmap);
 		mTriggerSound = (triggerSound == null)
 				? null : assetStore.getSound(triggerSound);
 	}
@@ -108,11 +108,11 @@ public class Slider extends Button
 	protected void updateTouchActions(Vector2 touchLocation)
 	{
 		// Increment the value
-		val++;
-		if (val > max)
+		mVal++;
+		if (mVal > mMax)
 		{
 			// If the value is greater than the maximum, set the value to the minimum
-			val = min;
+			mVal = mMin;
 		}
 	}
 	
@@ -123,7 +123,7 @@ public class Slider extends Button
 	@Override
 	protected void updateDefaultActions()
 	{
-		mBitmap = sliderBitmap;
+		mBitmap = mSliderBitmap;
 	}
 	
 	@Override
@@ -140,17 +140,15 @@ public class Slider extends Button
 				Rect fillRect = new Rect(
 						drawScreenRect.left,
 						drawScreenRect.top,
-						(drawScreenRect.left + (int) ((float) drawScreenRect.width() * ((float) val / (float) max))),
+						(drawScreenRect.left + (int) ((float) drawScreenRect.width() * ((float) mVal / (float) mMax))),
 						drawScreenRect.bottom);
-				// Calculate the text Y position from the slider center Y position, slider height and text separation value
-				float textY = drawScreenRect.exactCenterY() + (drawScreenRect.height() / 2) + TEXT_SEPARATION;
 				// Draw slider base and fill bitmaps
 				graphics2D.drawBitmap(mBitmap, drawSourceRect, drawScreenRect, null);
-				graphics2D.drawBitmap(sliderFillBitmap, fillRect, fillRect, null);
+				graphics2D.drawBitmap(mSliderFillBitmap, fillRect, fillRect, null);
 				// Draw the slider axis text
-				graphics2D.drawText(String.valueOf(min), (float) drawScreenRect.left, textY, textStyle);
-				graphics2D.drawText(String.valueOf(max), (float) drawScreenRect.right, textY, textStyle);
-				graphics2D.drawText(String.valueOf(val), drawScreenRect.exactCenterX(), textY, textStyle);
+				graphics2D.drawText(String.valueOf(mMin), (float) drawScreenRect.left, drawScreenRect.centerY(), mTextStyle);
+				graphics2D.drawText(String.valueOf(mMax), (float) drawScreenRect.right, drawScreenRect.centerY(), mTextStyle);
+				graphics2D.drawText(String.valueOf(mVal), drawScreenRect.exactCenterX(), drawScreenRect.centerY(), mTextStyle);
 			}
 		}
 		else
@@ -161,17 +159,17 @@ public class Slider extends Button
 			Rect fillRect = new Rect(
 					drawScreenRect.left,
 					drawScreenRect.top,
-					(drawScreenRect.left + (int) ((float) drawScreenRect.width() * ((float) val / (float) max))),
+					(drawScreenRect.left + (int) ((float) drawScreenRect.width() * ((float) mVal / (float) mMax))),
 					drawScreenRect.bottom);
 			// Calculate the text Y position from the slider center Y position, slider height and text separation value
 			float textY = drawScreenRect.exactCenterY() + (drawScreenRect.height() / 2) + TEXT_SEPARATION;
 			// Draw slider base and fill bitmaps
 			draw(elapsedTime, graphics2D);
-			graphics2D.drawBitmap(sliderFillBitmap, fillRect, fillRect, null);
+			graphics2D.drawBitmap(mSliderFillBitmap, fillRect, fillRect, null);
 			// Draw the slider axis text
-			graphics2D.drawText(String.valueOf(min), (float) drawScreenRect.left, textY, textStyle);
-			graphics2D.drawText(String.valueOf(max), (float) drawScreenRect.right, textY, textStyle);
-			graphics2D.drawText(String.valueOf(val), drawScreenRect.exactCenterX(), textY, textStyle);
+			graphics2D.drawText(String.valueOf(mMin), (float) drawScreenRect.left, textY, mTextStyle);
+			graphics2D.drawText(String.valueOf(mMax), (float) drawScreenRect.right, textY, mTextStyle);
+			graphics2D.drawText(String.valueOf(mVal), drawScreenRect.exactCenterX(), textY, mTextStyle);
 		}
 	}
 	
@@ -181,7 +179,7 @@ public class Slider extends Button
 	 */
 	public int getVal()
 	{
-		return val;
+		return mVal;
 	}
 	
 	/**
@@ -190,20 +188,20 @@ public class Slider extends Button
 	 */
 	public void setVal(int val)
 	{
-		if (val > max)
+		if (val > mMax)
 		{
 			// If the value is greater than the maximum, set the value to the maximum
-			this.val = max;
+			this.mVal = mMax;
 		}
-		else if (val < min)
+		else if (val < mMin)
 		{
 			// If the value is less than the minimum, set the value to the minimum
-			this.val = min;
+			this.mVal = mMin;
 		}
 		else
 		{
 			// If the value is within the min-max range, set it to the value provided
-			this.val = val;
+			this.mVal = val;
 		}
 	}
 }

@@ -3,7 +3,6 @@ package uk.ac.qub.eeecs.gage;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.Paint;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +18,7 @@ import java.util.List;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
+import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.game.worldScreen.GameLevel;
 import uk.ac.qub.eeecs.game.worldScreen.WorldScreen;
 
@@ -32,26 +32,27 @@ import static org.mockito.Mockito.when;
 public class WorldScreenTest {
 	
 	@Mock
-	Game game;
-	ScreenManager screenManager;
-	
-	@Mock AssetStore assetManager;
-	@Mock
-	Bitmap bitmap;
+	private Game game;
 	
 	@Mock
-	Input input;
+	private AssetStore assetManager;
+	@Mock
+	private Bitmap bitmap;
 	
 	@Mock
-	Context context;
+	private Input input;
 	
 	@Mock
-	AssetManager assets;
+	private Context context;
 	
 	@Mock
-	Paint paint;
+	private AssetManager assets;
 	
-	String mockData = "{\"levels\":[{\"id\":\"level_one\",\"name\":\"Level One\",\"bitmap\":\"LevelOne\",\"bitmapPath\":\"img/GameLevel.png\",\"xPercent\":0.25,\"yPercent\":0.5,\"width\":128,\"height\":128},{\"id\":\"level_two\",\"name\":\"Level Two\",\"bitmap\":\"LevelTwo\",\"bitmapPath\":\"img/GameLevel.png\",\"xPercent\":0.5,\"yPercent\":0.5,\"width\":128,\"height\":128},{\"id\":\"level_three\",\"name\":\"Level Three\",\"bitmap\":\"LevelThree\",\"bitmapPath\":\"img/GameLevel.png\",\"xPercent\":0.75,\"yPercent\":0.5,\"width\":128,\"height\":128}]}";
+	private ScreenManager screenManager;
+	
+	final private int EXPECTED_LEVELS = 3;
+	
+	final private String MOCK_DATA = "{\"levels\":[{\"id\":\"level_one\",\"name\":\"Level One\",\"bitmap\":\"LevelOne\",\"bitmapPath\":\"img/GameLevel.png\",\"xPercent\":0.25,\"yPercent\":0.5,\"width\":128,\"height\":128},{\"id\":\"level_two\",\"name\":\"Level Two\",\"bitmap\":\"LevelTwo\",\"bitmapPath\":\"img/GameLevel.png\",\"xPercent\":0.5,\"yPercent\":0.5,\"width\":128,\"height\":128},{\"id\":\"level_three\",\"name\":\"Level Three\",\"bitmap\":\"LevelThree\",\"bitmapPath\":\"img/GameLevel.png\",\"xPercent\":0.75,\"yPercent\":0.5,\"width\":128,\"height\":128}]}";
 	/*
 	{
 		"levels":
@@ -97,13 +98,15 @@ public class WorldScreenTest {
 		when(game.getScreenManager()).thenReturn(screenManager);
 		when(game.getAssetManager()).thenReturn(assetManager);
 		when(assetManager.getBitmap(any(String.class))).thenReturn(bitmap);
-		
 		when(game.getInput()).thenReturn(input);
+		// Mock Context
 		when(game.getContext()).thenReturn(context);
+		// Mock Android Asset Manager
 		when(context.getAssets()).thenReturn(assets);
 		try
 		{
-			when(assets.open(any(String.class))).thenReturn(new ByteArrayInputStream(mockData.getBytes()));
+			// Whenever a level file is requested to be opened, return inputstream of mock JSON data
+			when(assets.open(any(String.class))).thenReturn(new ByteArrayInputStream(MOCK_DATA.getBytes()));
 		}
 		catch(IOException e)
 		{
@@ -112,7 +115,8 @@ public class WorldScreenTest {
 	}
 	
 	@Test
-	public void worldScreenTest() {
+	public void readLevelsTest()
+	{
 		// Setup test data
 		WorldScreen worldScreen = new WorldScreen(game);
 		game.getScreenManager().addScreen(worldScreen);
@@ -121,6 +125,8 @@ public class WorldScreenTest {
 		assertNotNull(worldScreen.getLevels());
 		// Check that levels have been loaded
 		assertTrue(worldScreen.getLevels().size() > 0);
+		// Check that the expected number of levels have been loaded
+		assertTrue(worldScreen.getLevels().size() == EXPECTED_LEVELS);
 		// Get levels
 		List<GameLevel> levels = worldScreen.getLevels();
 		// List to track level IDs
@@ -136,16 +142,80 @@ public class WorldScreenTest {
 			assertFalse(levelIDs.contains(level.getId()));
 			// Add new ID to the level list
 			levelIDs.add(level.getId());
-
+			
 			// Check name and button aren't null
 			assertNotNull(level.getName());
 			assertNotNull(level.getButton());
 		}
+	}
+	
+	@Test
+	public void gameLevelCreationTest()
+	{
+		WorldScreen worldScreen = new WorldScreen(game);
+		
+		// Unit test for a game level with no prerequisites
+		GameLevel noPrerequisiteLevel = new GameLevel(
+				"test_one",
+				"Test One",
+				new PushButton(
+						1,
+						1,
+						2,
+						2,
+						"BitMap",
+						worldScreen
+				)
+		);
+		// Check each field isn't null
+		assertNotNull(noPrerequisiteLevel.getId());
+		assertNotNull(noPrerequisiteLevel.getName());
+		assertNotNull(noPrerequisiteLevel.getButton());
+		assertNotNull(noPrerequisiteLevel.getPrerequisites());
+		// Check there are no prerequisites
+		assertTrue(noPrerequisiteLevel.getPrerequisites().size() == 0);
+		
+		// Set up prerequisite list
+		List<GameLevel> prerequisites = new ArrayList<>();
+		prerequisites.add(noPrerequisiteLevel);
+		
+		// Unit test for a game level with some prerequisites
+		GameLevel prerequisiteLevel = new GameLevel(
+				"test_two",
+				"Test Two",
+				new PushButton(
+						1,
+						1,
+						2,
+						2,
+						"BitMap",
+						worldScreen
+				),
+				prerequisites
+		);
+		// Check each field isn't null
+		assertNotNull(prerequisiteLevel.getId());
+		assertNotNull(prerequisiteLevel.getName());
+		assertNotNull(prerequisiteLevel.getButton());
+		assertNotNull(prerequisiteLevel.getPrerequisites());
+		// Check there is 1 prerequisite
+		assertTrue(prerequisiteLevel.getPrerequisites().size() == 1);
+		// Check that the ID of the prerequisite is what is expected
+		// Only 1 item so the first index 0 should reference the only item
+		assertTrue(prerequisiteLevel.getPrerequisites().get(0).getId().equals(noPrerequisiteLevel.getId()));
+	}
+	
+	@Test
+	public void worldScreenTest() {
+//		WorldScreen worldScreen = new WorldScreen(game);
+//		List<GameLevel> levels = worldScreen.getLevels();
+		
 		// TODO: Fix this test below, is supposed to click each level and check the level updates
 //		for(int i = 0; i < levels.size(); i++)
 //		{
 //			ElapsedTime elapsedTime = new ElapsedTime();
 //			PushButton levelButton = levels.get(i).getButton();
+//			levelButton.setPosition(i*20, 50);
 //			TouchEvent touchPosition = new TouchEvent();
 //			touchPosition.x = levelButton.position.x;
 //			touchPosition.y = levelButton.position.y;
