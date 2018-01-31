@@ -1,9 +1,9 @@
 package uk.ac.qub.eeecs.gage.engine.graphics;
 
+import android.view.View;
+
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
-
-import android.view.View;
 
 /**
  * The render surface interface defines a graphical surface to which a game

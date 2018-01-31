@@ -41,6 +41,8 @@ public class GameObject {
      */
     protected BoundingBox mBound = new BoundingBox();
 
+    public static Vector2 screenDimensions = new Vector2();
+
     /**
      * Reusable Rect's used to draw this game object
      */
@@ -79,6 +81,8 @@ public class GameObject {
         mBound.y = y;
         mBound.halfWidth = bitmap.getWidth() / 2.0f;
         mBound.halfHeight = bitmap.getHeight() / 2.0f;
+
+
     }
 
     /**
@@ -103,6 +107,8 @@ public class GameObject {
         mBound.y = y;
         mBound.halfWidth = width / 2.0f;
         mBound.halfHeight = height / 2.0f;
+        screenDimensions.x = gameScreen.getGame().getScreenWidth();
+        screenDimensions.y = gameScreen.getGame().getScreenHeight();
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -161,7 +167,7 @@ public class GameObject {
      */
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
         drawScreenRect.set((int) (position.x - mBound.halfWidth),
-                (int) (position.y - mBound.halfWidth),
+                (int) (position.y - mBound.halfHeight),
                 (int) (position.x + mBound.halfWidth),
                 (int) (position.y + mBound.halfHeight));
         graphics2D.drawBitmap(mBitmap, null, drawScreenRect, null);

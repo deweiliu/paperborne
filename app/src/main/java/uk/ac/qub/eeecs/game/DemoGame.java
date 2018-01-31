@@ -30,8 +30,8 @@ public class DemoGame extends Game {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Go with a default 20 UPS/FPS
-        setTargetFramesPerSecond(20);
+        // Go with a default 30 UPS/FPS
+        setTargetFramesPerSecond(30);
     }
 
     @Override
@@ -44,8 +44,10 @@ public class DemoGame extends Game {
         // Create and add a stub game screen to the screen manager. We don't
         // want to do this within the onCreate method as the menu screen
         // will layout the buttons based on the size of the view.
-        MenuScreen stubMenuScreen = new MenuScreen(this);
-        mScreenManager.addScreen(stubMenuScreen);
+        //MenuScreen stubMenuScreen = new MenuScreen(this);
+        //mScreenManager.addScreen(stubMenuScreen);
+        SplashScreen splashScreen = new SplashScreen(this);
+        mScreenManager.addScreen(splashScreen);
 
         return view;
     }
@@ -56,11 +58,9 @@ public class DemoGame extends Game {
         if (mScreenManager.getCurrentScreen().getName().equals("MenuScreen"))
             return false;
 
-        // Go back to the menu screen
         getScreenManager().removeScreen(mScreenManager.getCurrentScreen().getName());
         MenuScreen menuScreen = new MenuScreen(this);
         getScreenManager().addScreen(menuScreen);
-        getAssetManager().getMusic("SpaceBackgroundMusic").pause();
         return true;
     }
 }

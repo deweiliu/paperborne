@@ -1,12 +1,12 @@
 package uk.ac.qub.eeecs.gage.engine.graphics;
 
-import uk.ac.qub.eeecs.gage.Game;
-import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
-import uk.ac.qub.eeecs.gage.world.GameScreen;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.view.View;
+
+import uk.ac.qub.eeecs.gage.Game;
+import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
+import uk.ac.qub.eeecs.gage.world.GameScreen;
 
 /**
  * Canvas based implementation of the render surface interface.

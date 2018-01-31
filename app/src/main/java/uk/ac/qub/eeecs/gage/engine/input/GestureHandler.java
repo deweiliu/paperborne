@@ -1,16 +1,10 @@
 package uk.ac.qub.eeecs.gage.engine.input;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import uk.ac.qub.eeecs.gage.util.Pool;
 
 /**
  * Gesture handler
