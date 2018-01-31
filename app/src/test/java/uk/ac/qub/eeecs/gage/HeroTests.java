@@ -73,7 +73,34 @@ public class HeroTests {
         assertTrue(hero.getBitmap() == bitmap);
     }
 
+    @Test
+    public void testHeroTakingDamage(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        game.getScreenManager().addScreen(cardDemoScreen);
 
+        hero = new Hero(0,0,bitmap,cardDemoScreen,game);
+
+        //Hero health is set at 30
+        hero.takeDamage(10);
+        assertTrue(hero.getCurrentHealth() == 20);
+
+        hero.takeDamage(10);
+        assertTrue(hero.getCurrentHealth() == 10);
+
+    }
+
+    @Test
+    public void testHeroIsDead(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        game.getScreenManager().addScreen(cardDemoScreen);
+
+        hero = new Hero(0,0,bitmap,cardDemoScreen,game);
+
+        //Hero health is set at 30, so deal 30 damage to give 0
+        hero.takeDamage(30);
+
+        assertTrue(hero.getHeroIsDead());
+    }
 
 
 

@@ -71,4 +71,6 @@ public class DeckTests {
         int sizeAfter = hero.getDeck().getCardsInDeck().size();
         assertTrue(sizeAfter == (sizeBefore - 1));
     }
+
+
 }

@@ -61,9 +61,8 @@ public class Deck {
     //draws a random card
     public Card drawCard(){
         Random randomCard = new Random();
-        int low = 0;
-        int high = cardsInDeck.size() - 1;
-        int result = (int)(Math.random() * (high - low)) + low;
+        int maximum = cardsInDeck.size() - 1;
+        int result = randomCard.nextInt(maximum);
         return cardsInDeck.remove(result);
     }
 
