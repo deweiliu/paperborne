@@ -42,16 +42,16 @@ public class Deck {
                 game.getAssetManager().getBitmap("Card"), gameScreen, 5, 5, 7);
 
         //Adds 5 1-cost minions, 4 2-cost minions, 3 3-cost minions, 2 4-cost minions and a 5-cost minion into the deck
-        for (int i = 1; i < 6; i++) {
+        for (int i = 0; i < 5; i++) {
             cardsInDeck.add(new Card(oneCostCard));
         }
-        for (int i = 6; i < 10; i++) {
+        for (int i = 5; i < 9; i++) {
             cardsInDeck.add(new Card(twoCostCard));
         }
-        for (int i = 10; i < 13; i++) {
+        for (int i = 9; i < 12; i++) {
             cardsInDeck.add(new Card(threeCostCard));
         }
-        for (int i = 13; i < 15; i++) {
+        for (int i = 12; i < 14; i++) {
             cardsInDeck.add(new Card(fourCostCard));
         }
         cardsInDeck.add(new Card(fiveCostCard));

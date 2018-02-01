@@ -72,5 +72,19 @@ public class DeckTests {
         assertTrue(sizeAfter == (sizeBefore - 1));
     }
 
+    @Test
+    public void testDeckIsEmpty(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        game.getScreenManager().addScreen(cardDemoScreen);
+
+        Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
+
+        hero.getDeck().getCardsInDeck().clear();
+
+        assertTrue(hero.getDeck().isDeckEmpty());
+
+
+    }
+
 
 }
