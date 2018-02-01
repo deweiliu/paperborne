@@ -98,7 +98,6 @@ public class HeroTests {
 
         //Hero health is set at 30, so deal 30 damage to give 0
         hero.takeDamage(30);
-
         assertTrue(hero.getHeroIsDead());
     }
 
