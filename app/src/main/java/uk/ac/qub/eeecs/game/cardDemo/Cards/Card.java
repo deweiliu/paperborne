@@ -3,11 +3,15 @@ package uk.ac.qub.eeecs.game.cardDemo.Cards;
 import android.graphics.Bitmap;
 
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
+import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.gage.world.LayerViewport;
+import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
+import uk.ac.qub.eeecs.gage.ai.SteeringBehaviours;
 
 /**
  * Created by user on 14/11/2017.
@@ -103,11 +107,13 @@ public class Card extends Sprite {
             //Checks if the touch event happens on the card
             if (touch.type == TouchEvent.TOUCH_DOWN && ((input.getTouchX(touch.pointer) > position.x - cardCentre.x)
                     && (input.getTouchX(touch.pointer) < position.x + cardCentre.x)
-                    && (input.getTouchY(touch.pointer) > (screenDimensions.y)- position.y - cardCentre.y)
-                    && (input.getTouchY(touch.pointer) < (screenDimensions.y) - position.y + cardCentre.y))) {
+                    && (input.getTouchY(touch.pointer) > position.y - cardCentre.y)
+                    && (input.getTouchY(touch.pointer) < position.y + cardCentre.y))) {
                 cardPressedDown = true;
                 cardIsActive = true;
                 finishedMove = false;
+                this.setLastPosition(this.position);
+
 
                 //Checks what image is held on card, if clicked, swaps it with the alternative
                 if (mBitmap == mGameScreen.getGame().getAssetManager().getBitmap("Card")) {
@@ -130,6 +136,7 @@ public class Card extends Sprite {
                     position.y = screenDimensions.y - input.getTouchY(touch.pointer);
                 }
             }
+
             super.update(elapsedTime);
         }
     }
