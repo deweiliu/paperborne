@@ -5,6 +5,10 @@ import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.os.Handler;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
@@ -37,6 +41,9 @@ public class CardDemoScreen extends GameScreen {
     private final float LEVEL_WIDTH = 500.0f;
     private final float LEVEL_HEIGHT = 1000.0f;
     private GameObject mCardDemoScreen;
+    private boolean playerTurn;
+    private Timer timer;
+    long startTime, turnTime;
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
@@ -57,13 +64,13 @@ public class CardDemoScreen extends GameScreen {
         // Create the layer viewport, taking into account the orientation
         // and aspect ratio of the screen.
         if (mScreenViewport.width > mScreenViewport.height)
-            mLayerViewport = new LayerViewport(240.0f, 240.0f
-                    * mScreenViewport.height / mScreenViewport.width, 240,
-                    240.0f * mScreenViewport.height / mScreenViewport.width);
+            mLayerViewport = new LayerViewport(480.0f, 480.0f
+                    * mScreenViewport.height / mScreenViewport.width, 480,
+                    480.0f * mScreenViewport.height / mScreenViewport.width);
         else
-            mLayerViewport = new LayerViewport(240.0f * mScreenViewport.height
-                    / mScreenViewport.width, 240.0f, 240.0f
-                    * mScreenViewport.height / mScreenViewport.width, 240);
+            mLayerViewport = new LayerViewport(480.0f * mScreenViewport.height
+                    / mScreenViewport.width, 480.0f, 480.0f
+                    * mScreenViewport.height / mScreenViewport.width, 480);
 
 
         AssetStore assetManager = mGame.getAssetManager();
@@ -83,26 +90,35 @@ public class CardDemoScreen extends GameScreen {
         for(Card card : player.getHand().getCards()) {
             card.setPosition(mGame.getScreenWidth()/2, (mGame.getScreenHeight()/16)*7);
         }
-        float widthSteps = ((mGame.getScreenWidth())/24), heightSteps = (mGame.getScreenHeight())/16;
         float len = player.getHand().getCards().size();
+        float widthSteps = mGame.getScreenWidth()/(len+1), heightSteps = (mGame.getScreenHeight())/16;
         for(int i = 0; i < len; i++) {
             Card activeCard = player.getHand().getCards().get(i);
-            Vector2 initPos = player.getHand().getCards().get(i).getPosition();
-
-            if(i<len/2) {
-                int modifier = 5 - i;
-                player.getHand().getCards().get(i).setPosition((initPos.x - widthSteps*modifier), heightSteps*7);
-            }
-            else {
-                int modifier = i - 4;
-                player.getHand().getCards().get(i).setPosition((initPos.x + widthSteps*modifier), heightSteps*7);
-            }
+            activeCard.setPosition((widthSteps*(i+1)), heightSteps*7);
         }
+
+        playerTurn = true;
+
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+                           @Override
+                           public void run() {
+                               playerTurn = !playerTurn;
+                               startTime = System.currentTimeMillis();
+                           }
+                       }, 0, 30000);
+        startTime = System.currentTimeMillis();
+
+
     }
 
     // /////////////////////////////////////////////////////////////////////////
     // Methods
-    // /////////////////////////////////////////////////////////////////////////
+    // /////////////////
+    //
+    //
+    //
+    // ////////////////////////////////////////////////
     /**
      * Update the card demo screen
      *
@@ -116,19 +132,29 @@ public class CardDemoScreen extends GameScreen {
 
         player.update(elapsedTime);
         opponent.update(elapsedTime);
-        for(Card card : player.getHand().getCards()) {
-            card.update(elapsedTime);
-            //place card in correct position, either on the board or back into the hand
-           if (card.isFinishedMove()) {
-                if (card.position.x == 100 && card.position.y == 100) {
 
-                } else {
-                    //SteeringBehaviours.seek(card, card.getLastPosition(), card.acceleration);
+        if(playerTurn) {
+            //if(player.getActiveCards() != null) for(Card card : player.getActiveCards()) card.update(elapsedTime);
+            for(Card card : player.getHand().getCards()) {
+                card.update(elapsedTime);
+                //place card in correct position, either on the board or back into the hand
+                if (card.isFinishedMove()) {
+                    if (card.position.x == 100 && card.position.y == 100) {
+
+                    } else {
+                        //SteeringBehaviours.seek(card, card.getLastPosition(), card.acceleration);
+                    }
                 }
             }
+        } else {
+            for(Card card : opponent.getHand().getCards()) card.update(elapsedTime);
         }
-        if(player.getActiveCards() != null) for(Card card : player.getActiveCards()) card.update(elapsedTime);
-        for(Card card : opponent.getHand().getCards()) card.update(elapsedTime);
+
+        turnTime = ((startTime + 30000) - System.currentTimeMillis())/1000;
+        if(turnTime==0) {
+            
+        }
+
     }
 
 
@@ -161,6 +187,13 @@ public class CardDemoScreen extends GameScreen {
         opponent.draw(elapsedTime, graphics2D ,mLayerViewport, mScreenViewport);
         for(Card card : opponent.getHand().getCards()) card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
         if(opponent.getActiveCards() != null) for(Card card : opponent.getActiveCards()) card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+
+        String turnRemaining = turnTime + " seconds left in current turn";
+        String whoseTurn =  "Player turn: " + playerTurn;
+        Paint paint = new Paint();
+        paint.setTextSize(48);
+        graphics2D.drawText(turnRemaining, getGame().getScreenWidth()/2, getGame().getScreenHeight()/2, paint);
+        graphics2D.drawText(whoseTurn, getGame().getScreenWidth()/2, (getGame().getScreenHeight()/2)-50, paint);
 
     }
 
