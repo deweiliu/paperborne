@@ -9,11 +9,18 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
+import uk.ac.qub.eeecs.gage.engine.input.Input;
+import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
+import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
+import uk.ac.qub.eeecs.gage.engine.graphics.*;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -45,10 +52,17 @@ public class CardTests {
     @Mock
     ScreenManager screenManager;
 
+    @Mock
+    Input input;
+
+    @Mock
+    IGraphics2D iGraphics2D;
+
     @Before
     public void setUp() {
         screenManager = new ScreenManager();
 
+        when(game.getInput()).thenReturn(input);
         when(game.getScreenManager()).thenReturn(screenManager);
         when(game.getAssetManager()).thenReturn(assetManager);
         when(game.getAssetManager().getBitmap(any(String.class))).thenReturn(bitmap);
@@ -106,5 +120,29 @@ public class CardTests {
     }
 
 
+    //Tests if the card is active when touched
+    @Test
+    public void cardActiveTest(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        game.getScreenManager().addScreen(cardDemoScreen);
 
+        card = new Card(1, "TestCard", 10, 10, bitmap, cardDemoScreen, 10, 5, 10);
+        ElapsedTime elapsedTime = new ElapsedTime();
+
+        card.draw(elapsedTime, iGraphics2D);
+
+        TouchEvent touchEvent = new TouchEvent();
+        touchEvent.type = TouchEvent.TOUCH_DOWN;
+        touchEvent.x = 10;
+        touchEvent.y = 10;
+
+        List<TouchEvent> touchEvents = new ArrayList<>();
+
+        touchEvents.add(touchEvent);
+
+        when(input.getTouchEvents()).thenReturn(touchEvents);
+
+        card.update(elapsedTime);
+        assertTrue(card.isCardIsActive());
+    }
 }
