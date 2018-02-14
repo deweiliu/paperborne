@@ -15,7 +15,6 @@ public class Hand {
         cards = new ArrayList<Card>();
         //Draws random cards from the deck and adds them to the hand
         for (int i = 0; i < MAX_HAND_SIZE; i++){
-
             this.cards.add(deck.drawCard());
         }
     }

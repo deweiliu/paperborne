@@ -1,9 +1,17 @@
 package uk.ac.qub.eeecs.game.cardDemo;
 
+import android.graphics.Color;
+import android.graphics.LightingColorFilter;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
+import uk.ac.qub.eeecs.gage.engine.input.Input;
+import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.util.GraphicsHelper;
 import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameObject;
@@ -11,6 +19,7 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
+import uk.ac.qub.eeecs.gage.ai.SteeringBehaviours;
 
 
 /**
@@ -66,7 +75,8 @@ public class CardDemoScreen extends GameScreen {
 
 
         mCardDemoScreen = new GameObject(mScreenViewport.centerX(),mScreenViewport.centerY(), LEVEL_WIDTH, LEVEL_HEIGHT/2.5f, getGame()
-                .getAssetManager().getBitmap("Board"), this);
+               .getAssetManager().getBitmap("Board"), this);
+
 
         player = new Hero(mGame.getScreenWidth()/2, (mGame.getScreenHeight()/16)*6, assetManager.getBitmap("Hero"), this, mGame);
         opponent = new Hero(mGame.getScreenWidth()/2, (mGame.getScreenHeight()/16)*10, assetManager.getBitmap("Enemy"), this, mGame);
@@ -77,20 +87,17 @@ public class CardDemoScreen extends GameScreen {
         float len = player.getHand().getCards().size();
         for(int i = 0; i < len; i++) {
             Card activeCard = player.getHand().getCards().get(i);
-            Vector2 initPos = activeCard.getPosition();
+            Vector2 initPos = player.getHand().getCards().get(i).getPosition();
 
             if(i<len/2) {
                 int modifier = 5 - i;
-                activeCard.setPosition((initPos.x - widthSteps*modifier), heightSteps*7);
+                player.getHand().getCards().get(i).setPosition((initPos.x - widthSteps*modifier), heightSteps*7);
             }
             else {
                 int modifier = i - 4;
-                activeCard.setPosition((initPos.x + widthSteps*modifier), heightSteps*7);
+                player.getHand().getCards().get(i).setPosition((initPos.x + widthSteps*modifier), heightSteps*7);
             }
         }
-
-
-
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -107,13 +114,21 @@ public class CardDemoScreen extends GameScreen {
         mLayerViewport.x=mScreenViewport.centerX();
         mLayerViewport.y=mScreenViewport.centerY();
 
-
         player.update(elapsedTime);
         opponent.update(elapsedTime);
-        for(Card card : player.getHand().getCards()) card.update(elapsedTime);
+        for(Card card : player.getHand().getCards()) {
+            card.update(elapsedTime);
+            //place card in correct position, either on the board or back into the hand
+           if (card.isFinishedMove()) {
+                if (card.position.x == 100 && card.position.y == 100) {
+
+                } else {
+                    //SteeringBehaviours.seek(card, card.getLastPosition(), card.acceleration);
+                }
+            }
+        }
         if(player.getActiveCards() != null) for(Card card : player.getActiveCards()) card.update(elapsedTime);
         for(Card card : opponent.getHand().getCards()) card.update(elapsedTime);
-
     }
 
 
@@ -132,8 +147,16 @@ public class CardDemoScreen extends GameScreen {
         player.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
 
         //highly inconsistent for some unknown reason
-        for(Card card : player.getHand().getCards()) card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
-
+        for(Card card : player.getHand().getCards()) {
+            if (card.isCardIsActive()) {
+                //Highlight the card if active
+                Paint paint = new Paint();
+                paint.setColorFilter(new LightingColorFilter(Color.GREEN, 0));
+                card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport, paint);
+            } else {
+                card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+            }
+        }
         if(player.getActiveCards() != null) for(Card card : player.getActiveCards()) card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
         opponent.draw(elapsedTime, graphics2D ,mLayerViewport, mScreenViewport);
         for(Card card : opponent.getHand().getCards()) card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);

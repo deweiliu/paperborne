@@ -63,7 +63,9 @@ public class Deck {
         Random randomCard = new Random();
         int maximum = cardsInDeck.size() - 1;
         int result = randomCard.nextInt(maximum);
-        return cardsInDeck.remove(result);
+        Card temp = new Card(cardsInDeck.get(result));
+        cardsInDeck.remove(result);
+        return temp;
     }
 
     //broke this with drawcard changes but it's not used anyway, can fix it if we need it - jc
