@@ -32,10 +32,11 @@ public class Hero extends Sprite {
     public Hero(float x, float y, Bitmap bitmap, GameScreen gameScreen, Game game){
         super(x, y, 70.0f, 105.0f, bitmap, gameScreen);
         currentHealth = MAX_HEALTH;
-        manaLimit = 1;
+        manaLimit = 5;
         currentMana = manaLimit;
         deck = new Deck(gameScreen, game);
         hand = new Hand(deck);
+        activeCards = new ArrayList<>();
 
         heroIsDead = false;
     }
@@ -69,6 +70,7 @@ public class Hero extends Sprite {
         if (this.activeCards.size() < 7 && currentMana >= cardToPlay.getManaCost()){
             this.activeCards.add(cardToPlay);
             this.currentMana -= cardToPlay.getManaCost();
+            cardToPlay.setCardState(Card.CardState.CARD_ON_BOARD);
         } else {
 
             //Warning message to be displayed

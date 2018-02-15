@@ -3,15 +3,11 @@ package uk.ac.qub.eeecs.game.cardDemo.Cards;
 import android.graphics.Bitmap;
 
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
-import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
-import uk.ac.qub.eeecs.gage.world.LayerViewport;
-import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
-import uk.ac.qub.eeecs.gage.ai.SteeringBehaviours;
 
 /**
  * Created by user on 14/11/2017.
@@ -19,15 +15,26 @@ import uk.ac.qub.eeecs.gage.ai.SteeringBehaviours;
 
 
 public class Card extends Sprite {
-
-    private final float LEVEL_WIDTH = 500.0f;
-    private final float LEVEL_HEIGHT = 1000.0f;
+    
+    /**
+     * CardState class for specifying where the card is in the game, either in the deck, hand or
+     * board
+     */
+    public static class CardState
+    {
+        public static final int CARD_IN_DECK = 0;
+        public static final int CARD_IN_HAND = 1;
+        public static final int CARD_ON_BOARD = 2;
+    }
 
     //Holds ID for a card
     private int cardID;
 
     //Holds the cards name
     private String cardName;
+    
+    //Anchor for the card to return to after being dragged
+    private Vector2 anchor = new Vector2();
 
     //Centre of the card game object
     private Vector2 cardCentre = new Vector2();
@@ -55,18 +62,23 @@ public class Card extends Sprite {
 
     //Checks if card is dead
     private boolean cardIsDead;
+    
+    // The current state the card is in in the game, either on the board, in the hand or the deck
+    private int cardState;
 
 
     public Card (int cardID, String cardName, float startX, float startY, Bitmap bitmap, GameScreen gameScreen, int manaCost, int attackValue, int healthValue) {
         super(startX, startY, 70.0f, 105.0f, bitmap, gameScreen);
         cardCentre.x = 70.0f/2;
         cardCentre.y = 105.0f/2;
+        anchor = new Vector2(position.x,position.y);
 
         this.cardID = cardID;
         this.cardName = cardName;
         this.manaCost = manaCost;
         this.attackValue = attackValue;
         this.healthValue = healthValue;
+        cardState = 0;
 
         /* Calculates the centre of the card
         this.cardCentre.x = cardDimensions.x / 2;
@@ -103,7 +115,6 @@ public class Card extends Sprite {
     public void update(ElapsedTime elapsedTime) {
         Input input = mGameScreen.getGame().getInput();
         for(TouchEvent touch: input.getTouchEvents() ) {
-
             //Checks if the touch event happens on the card
             if (touch.type == TouchEvent.TOUCH_DOWN && ((input.getTouchX(touch.pointer) > position.x - cardCentre.x)
                     && (input.getTouchX(touch.pointer) < position.x + cardCentre.x)
@@ -125,15 +136,22 @@ public class Card extends Sprite {
             }
             //Checks if card is released
             if (touch.type == TouchEvent.TOUCH_UP) {
-                cardIsActive = false;
+                if(cardState != CardState.CARD_ON_BOARD)
+                {
+                    cardIsActive = false;
+                    finishedMove = true;
+                }
                 cardPressedDown = false;
-                finishedMove = true;
+                position = new Vector2(anchor.x, anchor.y);
                 //Checks if card is dragged
             } else if (touch.type == TouchEvent.TOUCH_DRAGGED && cardPressedDown) {
                 if (!Float.isNaN(input.getTouchX(touch.pointer))) {
-                    position.x = input.getTouchX(touch.pointer);
-                    //screenDimensions used to invert Y values
-                    position.y = screenDimensions.y - input.getTouchY(touch.pointer);
+                    if(cardState != CardState.CARD_ON_BOARD)
+                    {
+                        position.x = input.getTouchX(touch.pointer);
+                        //screenDimensions used to invert Y values
+                        position.y = screenDimensions.y - input.getTouchY(touch.pointer);
+                    }
                 }
             }
 
@@ -226,8 +244,27 @@ public class Card extends Sprite {
     public boolean getCardIsDead(){
         return this.cardIsDead;
     }
-
-
+    
+    public int getCardState()
+    {
+        return cardState;
+    }
+    
+    public void setCardState(int cardState)
+    {
+        this.cardState = cardState;
+    }
+    
+    public Vector2 getAnchor()
+    {
+        return anchor;
+    }
+    
+    public void setAnchor(float x, float y)
+    {
+        this.anchor.x = x;
+        this.anchor.y = y;
+    }
 }
 
 
