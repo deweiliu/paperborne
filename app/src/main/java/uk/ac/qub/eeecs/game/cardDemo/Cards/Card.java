@@ -8,9 +8,9 @@ import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.util.InputHelper;
 import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
-import uk.ac.qub.eeecs.gage.world.Sprite;
 
 /**
  * Created by user on 14/11/2017.
@@ -19,13 +19,25 @@ import uk.ac.qub.eeecs.gage.world.Sprite;
 
 public class Card extends Sprite {
 
-
+    /**
+     * CardState class for specifying where the card is in the game, either in the deck, hand or
+     * board
+     */
+    public static class CardState
+    {
+        public static final int CARD_IN_DECK = 0;
+        public static final int CARD_IN_HAND = 1;
+        public static final int CARD_ON_BOARD = 2;
+    }
 
     //Holds ID for a card
     private int cardID;
 
     //Holds the cards name
     private String cardName;
+
+    //Anchor for the card to return to after being dragged
+    private Vector2 anchor = new Vector2();
 
     //Centre of the card game object
     private Vector2 cardCentre = new Vector2();
@@ -54,6 +66,9 @@ public class Card extends Sprite {
     //Checks if card is dead
     private boolean cardIsDead;
 
+    // The current state the card is in in the game, either on the board, in the hand or the deck
+    private int cardState;
+
 
     public Card (int cardID, String cardName, float startX, float startY, Bitmap bitmap, GameScreen gameScreen, int manaCost, int attackValue, int healthValue) {
         super(startX, startY, 40f, 77.5f, bitmap, gameScreen);
@@ -61,6 +76,7 @@ public class Card extends Sprite {
         //Dimensions of the card from the super
         this.cardCentre.x = 40f/2f;
         this.cardCentre.y = 77.5f/2f;
+        anchor = new Vector2(position.x,position.y);
 
 
         this.cardID = cardID;
@@ -68,6 +84,7 @@ public class Card extends Sprite {
         this.manaCost = manaCost;
         this.attackValue = attackValue;
         this.healthValue = healthValue;
+        cardState = 0;
 
         cardPressedDown = false;
         cardIsActive = false;
@@ -129,9 +146,12 @@ public class Card extends Sprite {
                 //Checks if card is dragged
             } else if (touch.type == TouchEvent.TOUCH_DRAGGED && cardPressedDown) {
                 if (!Float.isNaN(layerPos.x)) {
-                    this.position.x = layerPos.x;
-                    //screenDimensions used to invert Y values
-                    this.position.y = screenDimensions.y - layerPos.y;
+                    if (!Float.isNaN(layerPos.x)) {
+                        if(cardState != CardState.CARD_ON_BOARD) {
+                            this.position.x = layerPos.x;
+                            //screenDimensions used to invert Y values
+                            this.position.y = screenDimensions.y - layerPos.y;
+                        }
                 }
             }
             super.update(elapsedTime);
@@ -224,7 +244,26 @@ public class Card extends Sprite {
         return this.cardIsDead;
     }
 
+    public int getCardState()
+    {
+        return cardState;
+    }
 
+    public void setCardState(int cardState)
+    {
+        this.cardState = cardState;
+    }
+
+    public Vector2 getAnchor()
+    {
+        return anchor;
+    }
+
+    public void setAnchor(float x, float y)
+    {
+        this.anchor.x = x;
+        this.anchor.y = y;
+    }
 }
 
 

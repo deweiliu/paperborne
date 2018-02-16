@@ -65,6 +65,7 @@ public class Deck {
         int result = randomCard.nextInt(maximum);
         Card temp = new Card(cardsInDeck.get(result));
         cardsInDeck.remove(result);
+        temp.setCardState(Card.CardState.CARD_IN_HAND);
         return temp;
     }
 
