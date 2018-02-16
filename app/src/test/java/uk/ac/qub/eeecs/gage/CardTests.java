@@ -114,11 +114,13 @@ public class CardTests {
 
     @Test
     public void cardIsPressedTest(){
+        //Creates new Card
+        card = new Card(0, "Test", 10.0f, 10.0f, bitmap, cardDemoScreen, 1, 1, 1);
 
         TouchEvent touchEvent = new TouchEvent();
         touchEvent.type = TouchEvent.TOUCH_DOWN;
-        touchEvent.x = card.position.x;
-        touchEvent.y = card.position.y;
+        touchEvent.x = 10f;
+        touchEvent.y = 10f;
         List<TouchEvent> touchEvents = new ArrayList<TouchEvent>();
         touchEvents.add(touchEvent);
 
@@ -129,8 +131,7 @@ public class CardTests {
 
         ElapsedTime elapsedTime = new ElapsedTime();
 
-        //Creates new Card
-        card = new Card(0, "Test", 10.0f, 10.0f, bitmap, cardDemoScreen, 1, 1, 1);
+
 
         //Call update method
         cardDemoScreen.update(elapsedTime);

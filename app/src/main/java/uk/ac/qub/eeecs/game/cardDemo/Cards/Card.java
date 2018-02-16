@@ -3,15 +3,14 @@ package uk.ac.qub.eeecs.game.cardDemo.Cards;
 import android.graphics.Bitmap;
 
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
-import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
+import uk.ac.qub.eeecs.gage.util.InputHelper;
 import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
-import uk.ac.qub.eeecs.gage.ai.SteeringBehaviours;
 
 /**
  * Created by user on 14/11/2017.
@@ -20,8 +19,7 @@ import uk.ac.qub.eeecs.gage.ai.SteeringBehaviours;
 
 public class Card extends Sprite {
 
-    private final float LEVEL_WIDTH = 500.0f;
-    private final float LEVEL_HEIGHT = 1000.0f;
+
 
     //Holds ID for a card
     private int cardID;
@@ -58,9 +56,12 @@ public class Card extends Sprite {
 
 
     public Card (int cardID, String cardName, float startX, float startY, Bitmap bitmap, GameScreen gameScreen, int manaCost, int attackValue, int healthValue) {
-        super(startX, startY, 70.0f, 105.0f, bitmap, gameScreen);
-        cardCentre.x = 70.0f/2;
-        cardCentre.y = 105.0f/2;
+        super(startX, startY, 40f, 77.5f, bitmap, gameScreen);
+
+        //Dimensions of the card from the super
+        this.cardCentre.x = 40f/2f;
+        this.cardCentre.y = 77.5f/2f;
+
 
         this.cardID = cardID;
         this.cardName = cardName;
@@ -68,13 +69,9 @@ public class Card extends Sprite {
         this.attackValue = attackValue;
         this.healthValue = healthValue;
 
-        /* Calculates the centre of the card
-        this.cardCentre.x = cardDimensions.x / 2;
-        this.cardCentre.y = cardDimensions.y / 2;
-        */
-
         cardPressedDown = false;
         cardIsActive = false;
+
         finishedMove = false;
         cardIsDead = false;
 
@@ -99,21 +96,24 @@ public class Card extends Sprite {
         }
     }
 
-
-    public void update(ElapsedTime elapsedTime) {
+    public void update(ElapsedTime elapsedTime, ScreenViewport screenViewport, LayerViewport layerViewport) {
         Input input = mGameScreen.getGame().getInput();
         for(TouchEvent touch: input.getTouchEvents() ) {
+            Vector2 layerPos = new Vector2();
+            InputHelper.convertScreenPosIntoLayer(
+                    screenViewport,
+                    new Vector2(input.getTouchX(touch.pointer), input.getTouchY(touch.pointer)),
+                    layerViewport, layerPos);
 
             //Checks if the touch event happens on the card
-            if (touch.type == TouchEvent.TOUCH_DOWN && ((input.getTouchX(touch.pointer) > position.x - cardCentre.x)
-                    && (input.getTouchX(touch.pointer) < position.x + cardCentre.x)
-                    && (input.getTouchY(touch.pointer) > position.y - cardCentre.y)
-                    && (input.getTouchY(touch.pointer) < position.y + cardCentre.y))) {
+            if (touch.type == TouchEvent.TOUCH_DOWN && (layerPos.x > position.x - cardCentre.x)
+                    && (layerPos.x < position.x + cardCentre.x)
+                    && (layerPos.y > position.y - cardCentre.y)
+                    && (layerPos.y < position.y + cardCentre.y)) {
                 cardPressedDown = true;
                 cardIsActive = true;
                 finishedMove = false;
-                this.setLastPosition(this.position);
-
+                //this.setLastPosition(this.position);
 
                 //Checks what image is held on card, if clicked, swaps it with the alternative
                 if (mBitmap == mGameScreen.getGame().getAssetManager().getBitmap("Card")) {
@@ -121,22 +121,19 @@ public class Card extends Sprite {
                 } else {
                     mBitmap = mGameScreen.getGame().getAssetManager().getBitmap("Card");
                 }
-
             }
-            //Checks if card is released
             if (touch.type == TouchEvent.TOUCH_UP) {
                 cardIsActive = false;
                 cardPressedDown = false;
                 finishedMove = true;
                 //Checks if card is dragged
             } else if (touch.type == TouchEvent.TOUCH_DRAGGED && cardPressedDown) {
-                if (!Float.isNaN(input.getTouchX(touch.pointer))) {
-                    position.x = input.getTouchX(touch.pointer);
+                if (!Float.isNaN(layerPos.x)) {
+                    this.position.x = layerPos.x;
                     //screenDimensions used to invert Y values
-                    position.y = screenDimensions.y - input.getTouchY(touch.pointer);
+                    this.position.y = screenDimensions.y - layerPos.y;
                 }
             }
-
             super.update(elapsedTime);
         }
     }
