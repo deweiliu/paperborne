@@ -9,8 +9,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
+import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
+import uk.ac.qub.eeecs.gage.engine.input.Input;
+import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
@@ -45,6 +51,9 @@ public class CardTests {
     @Mock
     ScreenManager screenManager;
 
+    @Mock
+    Input input;
+
     @Before
     public void setUp() {
         screenManager = new ScreenManager();
@@ -52,6 +61,8 @@ public class CardTests {
         when(game.getScreenManager()).thenReturn(screenManager);
         when(game.getAssetManager()).thenReturn(assetManager);
         when(game.getAssetManager().getBitmap(any(String.class))).thenReturn(bitmap);
+        when(game.getInput()).thenReturn(input);
+
     }
 
     @Test
@@ -93,16 +104,38 @@ public class CardTests {
         game.getScreenManager().addScreen(cardDemoScreen);
 
         card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
-
         card.takeDamage(1);
-
         assertTrue(card.getCardIsDead());
 
         Card card2 = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 10);
-
         card2.takeDamage(1);
-
         assertFalse(card2.getCardIsDead());
+    }
+
+    @Test
+    public void cardIsPressedTest(){
+
+        TouchEvent touchEvent = new TouchEvent();
+        touchEvent.type = TouchEvent.TOUCH_DOWN;
+        touchEvent.x = card.position.x;
+        touchEvent.y = card.position.y;
+        List<TouchEvent> touchEvents = new ArrayList<TouchEvent>();
+        touchEvents.add(touchEvent);
+
+        when(input.getTouchEvents()).thenReturn(touchEvents);
+
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        game.getScreenManager().addScreen(cardDemoScreen);
+
+        ElapsedTime elapsedTime = new ElapsedTime();
+
+        //Creates new Card
+        card = new Card(0, "Test", 10.0f, 10.0f, bitmap, cardDemoScreen, 1, 1, 1);
+
+        //Call update method
+        cardDemoScreen.update(elapsedTime);
+
+        assertTrue(card.isCardPressedDown());
     }
 
 

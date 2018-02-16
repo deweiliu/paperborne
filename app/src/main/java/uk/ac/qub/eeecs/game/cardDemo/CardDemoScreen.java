@@ -3,9 +3,6 @@ package uk.ac.qub.eeecs.game.cardDemo;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.os.Handler;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -14,7 +11,6 @@ import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
-import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.util.GraphicsHelper;
 import uk.ac.qub.eeecs.gage.util.Vector2;
@@ -23,7 +19,6 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
-import uk.ac.qub.eeecs.gage.ai.SteeringBehaviours;
 
 
 /**
@@ -94,7 +89,7 @@ public class CardDemoScreen extends GameScreen {
         float widthSteps = mGame.getScreenWidth()/(len+1), heightSteps = (mGame.getScreenHeight())/16;
         for(int i = 0; i < len; i++) {
             Card activeCard = player.getHand().getCards().get(i);
-            Vector2 handPosition  new Vector2((widthSteps*(i+1)), heightSteps*6);
+            Vector2 handPosition = new Vector2((widthSteps*(i+1)), heightSteps*6);
             activeCard.setAnchor(handPosition.x, handPosition.y);
             activeCard.setPosition(handPosition);
         }
@@ -112,6 +107,35 @@ public class CardDemoScreen extends GameScreen {
         startTime = System.currentTimeMillis();
 
 
+        /*
+         * HARDCODING TESTING
+         * Plays 3 random cards from the player's deck
+         */
+        for(int i = 0; i < 3; i++)
+        {
+            player.refillMana();
+            player.playCard(player.getDeck().drawCard());
+        }
+        // Put one card in the middle of the screen for testing
+        Card playerCard = player.getActiveCards().get(0);
+        Vector2 playerPosition = new Vector2(mScreenViewport.centerX(), mScreenViewport.centerY());
+        playerCard.setPosition(playerPosition);
+        playerCard.setAnchor(playerPosition.x, playerPosition.y);
+        
+        // Plays 1 random cards from the opponent's deck
+        for(int i = 0; i < 1; i++)
+        {
+            opponent.refillMana();
+            opponent.playCard(opponent.getDeck().drawCard());
+        }
+        // Put one card above the player's card
+        Card opponentCard = opponent.getActiveCards().get(0);
+        Vector2 opponentPosition = new Vector2(mScreenViewport.centerX(), mScreenViewport.centerY() + opponentCard.getBound().getHeight());
+        opponentCard.setPosition(opponentPosition);
+        opponentCard.setAnchor(opponentPosition.x, opponentPosition.y);
+        /*
+         * END HARDCODED TESTING
+         */
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -149,8 +173,46 @@ public class CardDemoScreen extends GameScreen {
             {
                 touchDown = true;
             }
-        } else {
-            for(Card card : opponent.getHand().getCards()) card.update(elapsedTime);
+        }
+        
+        if(touchDown)
+        {
+            for (Card opponentCard : opponent.getActiveCards())
+            {
+                if(opponentCard.isCardIsActive())
+                {
+                    for (Card playerCard : player.getActiveCards())
+                    {
+                        if(playerCard.isCardIsActive())
+                        {
+                            opponentCard.takeDamage(playerCard.getAttackValue());
+                            playerCard.setCardIsActive(false);
+                            playerCard.setFinishedMove(true);
+                            opponentCard.setCardIsActive(false);
+                        }
+                    }
+                }
+            }
+            // If there has been a touchdown event, mark each player card on the board as inactive
+            for (Card card : player.getActiveCards())
+            {
+                card.setCardIsActive(false);
+                card.setFinishedMove(true);
+            }
+        }
+        if(player.getActiveCards() != null)
+        {
+            // If the player has played cards
+            for (Card card : player.getActiveCards())
+            {
+                card.update(elapsedTime);
+            }
+        }
+        if(opponent.getActiveCards() != null) {
+            // If the opponent has played cards
+            for (Card card : opponent.getActiveCards()) {
+                card.update(elapsedTime);
+            }
         }
 
         if(touchDown)
@@ -224,7 +286,7 @@ public class CardDemoScreen extends GameScreen {
                 card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
             }
         }
-
+        
         if(player.getActiveCards() != null)
         {
             // If there are cards on the board played by the player
@@ -252,7 +314,6 @@ public class CardDemoScreen extends GameScreen {
         paint.setTextSize(48);
         graphics2D.drawText(turnRemaining, getGame().getScreenWidth()/2, getGame().getScreenHeight()/2, paint);
         graphics2D.drawText(whoseTurn, getGame().getScreenWidth()/2, (getGame().getScreenHeight()/2)-50, paint);
-
     }
 
 
