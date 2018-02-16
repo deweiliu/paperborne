@@ -115,7 +115,7 @@ public class Card extends Sprite {
 
     public void update(ElapsedTime elapsedTime, ScreenViewport screenViewport, LayerViewport layerViewport) {
         Input input = mGameScreen.getGame().getInput();
-        for(TouchEvent touch: input.getTouchEvents() ) {
+        for (TouchEvent touch : input.getTouchEvents()) {
             Vector2 layerPos = new Vector2();
             InputHelper.convertScreenPosIntoLayer(
                     screenViewport,
@@ -147,14 +147,15 @@ public class Card extends Sprite {
             } else if (touch.type == TouchEvent.TOUCH_DRAGGED && cardPressedDown) {
                 if (!Float.isNaN(layerPos.x)) {
                     if (!Float.isNaN(layerPos.x)) {
-                        if(cardState != CardState.CARD_ON_BOARD) {
+                        if (cardState != CardState.CARD_ON_BOARD) {
                             this.position.x = layerPos.x;
                             //screenDimensions used to invert Y values
                             this.position.y = screenDimensions.y - layerPos.y;
                         }
+                    }
                 }
+                super.update(elapsedTime);
             }
-            super.update(elapsedTime);
         }
     }
 
