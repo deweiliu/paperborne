@@ -8,6 +8,7 @@ import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
+import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.util.GraphicsHelper;
 import uk.ac.qub.eeecs.gage.util.Vector2;
@@ -158,7 +159,8 @@ public class CardDemoScreen extends GameScreen {
         }
         // Check for touchdown event
         boolean touchDown = false;
-        for(TouchEvent touch : mGame.getInput().getTouchEvents())
+        Input input = mGame.getInput();
+        for(TouchEvent touch : input.getTouchEvents())
         {
             if(touch.type == TouchEvent.TOUCH_DOWN)
             {
@@ -191,7 +193,7 @@ public class CardDemoScreen extends GameScreen {
                 card.setFinishedMove(true);
             }
         }
-        if(player.getActiveCards() != null)
+        if(!player.getActiveCards().isEmpty())
         {
             // If the player has played cards
             for (Card card : player.getActiveCards())
@@ -199,10 +201,24 @@ public class CardDemoScreen extends GameScreen {
                 card.update(elapsedTime);
             }
         }
-        if(opponent.getActiveCards() != null)
+        if(!player.getHand().getCards().isEmpty())
+        {
+            for (Card card : player.getHand().getCards())
+            {
+                card.update(elapsedTime);
+            }
+        }
+        if(!opponent.getActiveCards().isEmpty())
         {
             // If the opponent has played cards
             for (Card card : opponent.getActiveCards())
+            {
+                card.update(elapsedTime);
+            }
+        }
+        if(!opponent.getHand().getCards().isEmpty())
+        {
+            for (Card card : opponent.getHand().getCards())
             {
                 card.update(elapsedTime);
             }
