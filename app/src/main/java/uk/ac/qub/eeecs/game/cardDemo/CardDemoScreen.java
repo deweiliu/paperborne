@@ -157,6 +157,9 @@ public class CardDemoScreen extends GameScreen {
         }
 //        if(player.getActiveCards() != null) for(Card card : player.getActiveCards()) card.update(elapsedTime,mScreenViewport,mLayerViewport);
 //        for(Card card : opponent.getHand().getCards()) card.update(elapsedTime,mScreenViewport,mLayerViewport);
+    
+        // Check for a touch down event, if one is found deselect all the cards
+        
         // Check for touchdown event
         boolean touchDown = false;
         Input input = mGame.getInput();
@@ -168,19 +171,27 @@ public class CardDemoScreen extends GameScreen {
             }
         }
 
+        // If there has been a touch down
         if(touchDown)
         {
+            // Go through each opponent card on the board
             for (Card opponentCard : opponent.getActiveCards())
             {
+                // If the opponent card has been tapped
                 if(opponentCard.isCardIsActive())
                 {
+                    // Check for any selected player cards on the board
                     for (Card playerCard : player.getActiveCards())
                     {
-                        if(playerCard.isCardIsActive())
+                        if(playerCard.isCardIsActive() && !playerCard.isFinishedMove())
                         {
+                            // If there is a selected player card that hasn't finished it's move
+                            // attack the tapped opponent card
                             opponentCard.takeDamage(playerCard.getAttackValue());
+                            // Deselect player card and mark it as finished its move
                             playerCard.setCardIsActive(false);
                             playerCard.setFinishedMove(true);
+                            // Mark the opponent card as no longer tapped
                             opponentCard.setCardIsActive(false);
                         }
                     }
@@ -189,8 +200,8 @@ public class CardDemoScreen extends GameScreen {
             // If there has been a touchdown event, mark each player card on the board as inactive
             for (Card card : player.getActiveCards())
             {
+                // Mark each player card on the board as deselected
                 card.setCardIsActive(false);
-                card.setFinishedMove(true);
             }
         }
         if(!player.getActiveCards().isEmpty())

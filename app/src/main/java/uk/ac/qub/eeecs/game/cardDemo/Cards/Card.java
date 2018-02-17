@@ -84,7 +84,7 @@ public class Card extends Sprite {
         this.manaCost = manaCost;
         this.attackValue = attackValue;
         this.healthValue = healthValue;
-        cardState = 0;
+        cardState = CardState.CARD_IN_DECK;
 
         cardPressedDown = false;
         cardIsActive = false;
@@ -116,12 +116,13 @@ public class Card extends Sprite {
     public void update(ElapsedTime elapsedTime, ScreenViewport screenViewport, LayerViewport layerViewport) {
         Input input = mGameScreen.getGame().getInput();
         for (TouchEvent touch : input.getTouchEvents()) {
+            // Convert touch coordinates into screen coordinates
             Vector2 layerPos = new Vector2();
             InputHelper.convertScreenPosIntoLayer(
                     screenViewport,
-                    new Vector2(input.getTouchX(touch.pointer), input.getTouchY(touch.pointer)),
+                    new Vector2(touch.x, touch.y),
                     layerViewport, layerPos);
-
+            
             //Checks if the touch event happens on the card
             if (touch.type == TouchEvent.TOUCH_DOWN && (layerPos.x > position.x - cardCentre.x)
                     && (layerPos.x < position.x + cardCentre.x)
@@ -140,12 +141,14 @@ public class Card extends Sprite {
                 }
             }
             if (touch.type == TouchEvent.TOUCH_UP) {
+                
                 if(cardState != CardState.CARD_ON_BOARD)
                 {
+                    // If the card is not on the board mark it as deselected
                     cardIsActive = false;
-                    finishedMove = true;
                 }
                 cardPressedDown = false;
+                // If there is a touch up event, return all cards to their anchor positions
                 position = new Vector2(anchor.x, anchor.y);
                 //Checks if card is dragged
             } else if (touch.type == TouchEvent.TOUCH_DRAGGED && cardPressedDown) {

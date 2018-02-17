@@ -13,6 +13,7 @@ import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
+import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Deck;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
@@ -84,6 +85,20 @@ public class DeckTests {
         assertTrue(hero.getDeck().isDeckEmpty());
 
 
+    }
+    
+    @Test
+    public void testCardStates()
+    {
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        game.getScreenManager().addScreen(cardDemoScreen);
+        
+        // Check that each card in the deck is the expected cardstate
+        Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
+        for(Card card : hero.getDeck().getCardsInDeck())
+        {
+            assertTrue(card.getCardState() == Card.CardState.CARD_IN_DECK);
+        }
     }
 
 
