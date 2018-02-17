@@ -170,6 +170,25 @@ public class CardsOnBoardTest
         assertTrue(!boardCard.isFinishedMove());
         
     }
-    
+
+    @Test
+    public void checkCardRemovedOnDeath() {
+
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        game.getScreenManager().addScreen(cardDemoScreen);
+        Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
+
+        //draw a card
+        hero.playCard(hero.getDeck().drawCard());
+
+        //damage it for 1 more than its health
+        hero.getActiveCards().get(0).takeDamage(hero.getActiveCards().get(0).getHealthValue()+1);
+
+
+        hero.clearDeadCards();
+
+        assertTrue(hero.getActiveCards().isEmpty());
+    }
+
 
 }

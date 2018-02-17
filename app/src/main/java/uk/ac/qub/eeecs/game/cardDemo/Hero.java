@@ -78,6 +78,15 @@ public class Hero extends Sprite {
         }
     }
 
+    public void clearDeadCards() {
+        ArrayList<Card> toRemove = new ArrayList<>();
+        for(Card card : activeCards) {
+            if(card.getCardIsDead())
+                toRemove.add(card);
+        }
+        activeCards.removeAll(toRemove);
+    }
+
     //Getters
     public int getCurrentHealth(){
         return this.currentHealth;
