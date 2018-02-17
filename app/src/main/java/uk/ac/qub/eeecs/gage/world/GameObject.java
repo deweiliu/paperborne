@@ -42,6 +42,7 @@ public class GameObject {
     protected BoundingBox mBound = new BoundingBox();
 
     public static Vector2 screenDimensions = new Vector2();
+    public static Vector2 cardDimensions = new Vector2();
 
     /**
      * Reusable Rect's used to draw this game object
@@ -81,6 +82,9 @@ public class GameObject {
         mBound.y = y;
         mBound.halfWidth = bitmap.getWidth() / 2.0f;
         mBound.halfHeight = bitmap.getHeight() / 2.0f;
+
+        screenDimensions.x = gameScreen.getGame().getScreenWidth();
+        screenDimensions.y = gameScreen.getGame().getScreenHeight();
 
 
     }

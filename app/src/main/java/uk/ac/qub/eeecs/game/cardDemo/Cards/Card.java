@@ -5,8 +5,11 @@ import android.graphics.Bitmap;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
+import uk.ac.qub.eeecs.gage.util.InputHelper;
 import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.gage.world.LayerViewport;
+import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 
 /**
@@ -15,7 +18,7 @@ import uk.ac.qub.eeecs.gage.world.Sprite;
 
 
 public class Card extends Sprite {
-    
+
     /**
      * CardState class for specifying where the card is in the game, either in the deck, hand or
      * board
@@ -32,7 +35,7 @@ public class Card extends Sprite {
 
     //Holds the cards name
     private String cardName;
-    
+
     //Anchor for the card to return to after being dragged
     private Vector2 anchor = new Vector2();
 
@@ -62,16 +65,19 @@ public class Card extends Sprite {
 
     //Checks if card is dead
     private boolean cardIsDead;
-    
+
     // The current state the card is in in the game, either on the board, in the hand or the deck
     private int cardState;
 
 
     public Card (int cardID, String cardName, float startX, float startY, Bitmap bitmap, GameScreen gameScreen, int manaCost, int attackValue, int healthValue) {
-        super(startX, startY, 70.0f, 105.0f, bitmap, gameScreen);
-        cardCentre.x = 70.0f/2;
-        cardCentre.y = 105.0f/2;
+        super(startX, startY, 40f, 77.5f, bitmap, gameScreen);
+
+        //Dimensions of the card from the super
+        this.cardCentre.x = 40f/2f;
+        this.cardCentre.y = 77.5f/2f;
         anchor = new Vector2(position.x,position.y);
+
 
         this.cardID = cardID;
         this.cardName = cardName;
@@ -80,13 +86,9 @@ public class Card extends Sprite {
         this.healthValue = healthValue;
         cardState = 0;
 
-        /* Calculates the centre of the card
-        this.cardCentre.x = cardDimensions.x / 2;
-        this.cardCentre.y = cardDimensions.y / 2;
-        */
-
         cardPressedDown = false;
         cardIsActive = false;
+
         finishedMove = false;
         cardIsDead = false;
 
@@ -111,20 +113,24 @@ public class Card extends Sprite {
         }
     }
 
-
-    public void update(ElapsedTime elapsedTime) {
+    public void update(ElapsedTime elapsedTime, ScreenViewport screenViewport, LayerViewport layerViewport) {
         Input input = mGameScreen.getGame().getInput();
-        for(TouchEvent touch: input.getTouchEvents() ) {
+        for (TouchEvent touch : input.getTouchEvents()) {
+            Vector2 layerPos = new Vector2();
+            InputHelper.convertScreenPosIntoLayer(
+                    screenViewport,
+                    new Vector2(input.getTouchX(touch.pointer), input.getTouchY(touch.pointer)),
+                    layerViewport, layerPos);
+
             //Checks if the touch event happens on the card
-            if (touch.type == TouchEvent.TOUCH_DOWN && ((input.getTouchX(touch.pointer) > position.x - cardCentre.x)
-                    && (input.getTouchX(touch.pointer) < position.x + cardCentre.x)
-                    && (input.getTouchY(touch.pointer) > position.y - cardCentre.y)
-                    && (input.getTouchY(touch.pointer) < position.y + cardCentre.y))) {
+            if (touch.type == TouchEvent.TOUCH_DOWN && (layerPos.x > position.x - cardCentre.x)
+                    && (layerPos.x < position.x + cardCentre.x)
+                    && (layerPos.y > position.y - cardCentre.y)
+                    && (layerPos.y < position.y + cardCentre.y)) {
                 cardPressedDown = true;
                 cardIsActive = true;
                 finishedMove = false;
-                this.setLastPosition(this.position);
-
+                //this.setLastPosition(this.position);
 
                 //Checks what image is held on card, if clicked, swaps it with the alternative
                 if (mBitmap == mGameScreen.getGame().getAssetManager().getBitmap("Card")) {
@@ -132,9 +138,7 @@ public class Card extends Sprite {
                 } else {
                     mBitmap = mGameScreen.getGame().getAssetManager().getBitmap("Card");
                 }
-
             }
-            //Checks if card is released
             if (touch.type == TouchEvent.TOUCH_UP) {
                 if(cardState != CardState.CARD_ON_BOARD)
                 {
@@ -145,17 +149,17 @@ public class Card extends Sprite {
                 position = new Vector2(anchor.x, anchor.y);
                 //Checks if card is dragged
             } else if (touch.type == TouchEvent.TOUCH_DRAGGED && cardPressedDown) {
-                if (!Float.isNaN(input.getTouchX(touch.pointer))) {
-                    if(cardState != CardState.CARD_ON_BOARD)
-                    {
-                        position.x = input.getTouchX(touch.pointer);
-                        //screenDimensions used to invert Y values
-                        position.y = screenDimensions.y - input.getTouchY(touch.pointer);
+                if (!Float.isNaN(layerPos.x)) {
+                    if (!Float.isNaN(layerPos.x)) {
+                        if (cardState != CardState.CARD_ON_BOARD) {
+                            this.position.x = layerPos.x;
+                            //screenDimensions used to invert Y values
+                            this.position.y = layerPos.y;
+                        }
                     }
                 }
+                super.update(elapsedTime);
             }
-
-            super.update(elapsedTime);
         }
     }
 
@@ -244,22 +248,22 @@ public class Card extends Sprite {
     public boolean getCardIsDead(){
         return this.cardIsDead;
     }
-    
+
     public int getCardState()
     {
         return cardState;
     }
-    
+
     public void setCardState(int cardState)
     {
         this.cardState = cardState;
     }
-    
+
     public Vector2 getAnchor()
     {
         return anchor;
     }
-    
+
     public void setAnchor(float x, float y)
     {
         this.anchor.x = x;
