@@ -110,7 +110,7 @@ public class CardDemoScreen extends GameScreen {
         }
         // Put one card in the middle of the screen for testing
         Card playerCard = player.getActiveCards().get(0);
-        Vector2 playerPosition = new Vector2(mScreenViewport.centerX(), mScreenViewport.centerY());
+        Vector2 playerPosition = new Vector2(mLayerViewport.halfWidth, mLayerViewport.halfHeight);
         playerCard.setPosition(playerPosition);
         playerCard.setAnchor(playerPosition.x, playerPosition.y);
 
@@ -122,7 +122,7 @@ public class CardDemoScreen extends GameScreen {
         }
         // Put one card above the player's card
         Card opponentCard = opponent.getActiveCards().get(0);
-        Vector2 opponentPosition = new Vector2(mScreenViewport.centerX(), mScreenViewport.centerY() + opponentCard.getBound().getHeight());
+        Vector2 opponentPosition = new Vector2(mLayerViewport.halfWidth, mLayerViewport.halfHeight + opponentCard.getBound().getHeight());
         opponentCard.setPosition(opponentPosition);
         opponentCard.setAnchor(opponentPosition.x, opponentPosition.y);
         /*
@@ -155,8 +155,8 @@ public class CardDemoScreen extends GameScreen {
                 }
             }
         }
-        if(player.getActiveCards() != null) for(Card card : player.getActiveCards()) card.update(elapsedTime,mScreenViewport,mLayerViewport);
-        for(Card card : opponent.getHand().getCards()) card.update(elapsedTime,mScreenViewport,mLayerViewport);
+//        if(player.getActiveCards() != null) for(Card card : player.getActiveCards()) card.update(elapsedTime,mScreenViewport,mLayerViewport);
+//        for(Card card : opponent.getHand().getCards()) card.update(elapsedTime,mScreenViewport,mLayerViewport);
         // Check for touchdown event
         boolean touchDown = false;
         Input input = mGame.getInput();

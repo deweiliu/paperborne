@@ -8,9 +8,9 @@ import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.util.InputHelper;
 import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
-import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
+import uk.ac.qub.eeecs.gage.world.Sprite;
 
 /**
  * Created by user on 14/11/2017.
@@ -140,9 +140,13 @@ public class Card extends Sprite {
                 }
             }
             if (touch.type == TouchEvent.TOUCH_UP) {
-                cardIsActive = false;
+                if(cardState != CardState.CARD_ON_BOARD)
+                {
+                    cardIsActive = false;
+                    finishedMove = true;
+                }
                 cardPressedDown = false;
-                finishedMove = true;
+                position = new Vector2(anchor.x, anchor.y);
                 //Checks if card is dragged
             } else if (touch.type == TouchEvent.TOUCH_DRAGGED && cardPressedDown) {
                 if (!Float.isNaN(layerPos.x)) {
@@ -150,7 +154,7 @@ public class Card extends Sprite {
                         if (cardState != CardState.CARD_ON_BOARD) {
                             this.position.x = layerPos.x;
                             //screenDimensions used to invert Y values
-                            this.position.y = screenDimensions.y - layerPos.y;
+                            this.position.y = layerPos.y;
                         }
                     }
                 }
