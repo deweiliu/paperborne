@@ -234,6 +234,20 @@ public class CardDemoScreen extends GameScreen {
         }
 
         turnTime = ((startTime + 30000) - System.currentTimeMillis())/1000;
+
+        if(turnTime == 0) {
+            for(Card card : player.getActiveCards()) {
+                if(card.getCardIsDead()) {
+                    player.getActiveCards().remove(card);
+                }
+            }
+            for(Card card : opponent.getActiveCards()) {
+                if(card.getCardIsDead()) {
+                    opponent.getActiveCards().remove(card);
+                }
+            }
+        }
+
     }
 
     /**
@@ -287,7 +301,9 @@ public class CardDemoScreen extends GameScreen {
         String whoseTurn =  "Player turn: " + playerTurn;
         Paint paint = new Paint();
         paint.setTextSize(48);
-        graphics2D.drawText(turnRemaining, getGame().getScreenWidth()/2, getGame().getScreenHeight()/2, paint);
-        graphics2D.drawText(whoseTurn, getGame().getScreenWidth()/2, (getGame().getScreenHeight()/2)-50, paint);
+        paint.setARGB(255,255,255,255);
+        paint.setShadowLayer(5.0f, 2.0f, 2.0f, Color.BLACK);
+        graphics2D.drawText(turnRemaining, mLayerViewport.getWidth()/8, mLayerViewport.getHeight()/2, paint);
+        graphics2D.drawText(whoseTurn, mLayerViewport.getWidth()/8, (mLayerViewport.getHeight()/2)-50, paint);
     }
 }
