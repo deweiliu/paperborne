@@ -133,12 +133,14 @@ public class Card extends Sprite {
                 finishedMove = false;
                 //this.setLastPosition(this.position);
 
+                /*
                 //Checks what image is held on card, if clicked, swaps it with the alternative
                 if (mBitmap == mGameScreen.getGame().getAssetManager().getBitmap("Card")) {
                     mBitmap = mGameScreen.getGame().getAssetManager().getBitmap("Back");
                 } else {
                     mBitmap = mGameScreen.getGame().getAssetManager().getBitmap("Card");
                 }
+                */
             }
             if (touch.type == TouchEvent.TOUCH_UP) {
                 

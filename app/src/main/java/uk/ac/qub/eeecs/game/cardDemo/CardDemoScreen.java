@@ -287,7 +287,14 @@ public class CardDemoScreen extends GameScreen {
         }
         opponent.draw(elapsedTime, graphics2D ,mLayerViewport, mScreenViewport);
         for(Card card : opponent.getHand().getCards()) card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
-        if(opponent.getActiveCards() != null) for(Card card : opponent.getActiveCards()) card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+        if(opponent.getActiveCards() != null) for(Card card : opponent.getActiveCards()) {
+            if(card.getCardIsDead()) {
+                Paint paint = new Paint();
+                paint.setColorFilter(new LightingColorFilter(Color.RED, 0));
+                card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport, paint);
+            } else
+                card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+        }
 
         String turnRemaining = turnTime + " seconds left in current turn";
         String whoseTurn =  "Player turn: " + playerTurn;
