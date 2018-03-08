@@ -15,7 +15,7 @@ import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
-import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
+import uk.ac.qub.eeecs.game.MenuScreen;
 
 /**
  * Starter class for Card game stories in the 3rd sprint
@@ -194,10 +194,10 @@ public class HelpScreen extends GameScreen {
         Input input = mGame.getInput();
 
 
-        //Go back to the card demo screen
+        //Go back to the menu screen
         mBackIcon.update(elapsedTime);
         if (mBackIcon.isPushTriggered()) {
-            changeToScreen(new CardDemoScreen(mGame));
+            changeToScreen(new MenuScreen(mGame));
         }
 
         // Consider any touch events occurring since the update

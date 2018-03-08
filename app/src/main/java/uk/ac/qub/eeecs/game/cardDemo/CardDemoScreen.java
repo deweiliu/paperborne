@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,6 +20,7 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
+import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 
 /**
@@ -49,7 +51,7 @@ public class CardDemoScreen extends GameScreen {
      *
      * @param game Game to which this screen belongs
      */
-    public CardDemoScreen(Game game) {
+    public CardDemoScreen(Game game, List<LevelCard> opponentDeck) {
         super("CardScreen", game);
 
         mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
@@ -79,9 +81,30 @@ public class CardDemoScreen extends GameScreen {
                 getGame()
                .getAssetManager().getBitmap("Board"), this);
 
-
+        if(opponentDeck.isEmpty())
+        {
+            // If the supplied opponent deck is empty
+            // Set up the opponent with default deck
+            opponent = new Hero(mLayerViewport.getWidth()/2f,
+                    mLayerViewport.getHeight() - mLayerViewport.getHeight()/10f,
+                    assetManager.getBitmap("Enemy"),
+                    this,
+                    mGame
+            );
+        }
+        else
+        {
+            // If an opponent deck has been supplied
+            // Set up the opponent with the deck supplied
+            opponent = new Hero(mLayerViewport.getWidth()/2f,
+                    mLayerViewport.getHeight() - mLayerViewport.getHeight()/10f,
+                    assetManager.getBitmap("Enemy"),
+                    this,
+                    mGame,
+                    opponentDeck
+            );
+        }
         player = new Hero(mLayerViewport.getWidth()/2f, mLayerViewport.getHeight()/6f, assetManager.getBitmap("Hero"), this, mGame);
-        opponent = new Hero(mLayerViewport.getWidth()/2f, mLayerViewport.getHeight() - mLayerViewport.getHeight()/10f, assetManager.getBitmap("Enemy"), this, mGame);
 
         for(Card card : player.getHand().getCards()) {
             card.setPosition(mLayerViewport.getWidth()/2f, mLayerViewport.getHeight()/2f);

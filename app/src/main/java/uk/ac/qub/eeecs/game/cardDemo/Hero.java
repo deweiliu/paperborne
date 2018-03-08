@@ -3,6 +3,7 @@ package uk.ac.qub.eeecs.game.cardDemo;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
@@ -10,6 +11,7 @@ import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Deck;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Hand;
+import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 
 /**
@@ -28,7 +30,15 @@ public class Hero extends Sprite {
     private Deck deck;
     private Hand hand;
     private boolean heroIsDead;
-
+    
+    /**
+     * Constructor for the Hero without a supplied deck, using the default card setup
+     * @param x horizontal position of the hero
+     * @param y vertical position of the hero
+     * @param bitmap hero bitmap
+     * @param gameScreen gameScreen the hero exists on
+     * @param game game the hero exists in
+     */
     public Hero(float x, float y, Bitmap bitmap, GameScreen gameScreen, Game game){
         super(x, y, 70.0f, 105.0f, bitmap, gameScreen);
         currentHealth = MAX_HEALTH;
@@ -37,7 +47,27 @@ public class Hero extends Sprite {
         deck = new Deck(gameScreen, game);
         hand = new Hand(deck);
         activeCards = new ArrayList<>();
-
+        heroIsDead = false;
+    }
+    
+    /**
+     * Constructor for the Hero with a supplied deck by parameter
+     * @param x horizontal position of the hero
+     * @param y vertical position of the hero
+     * @param bitmap hero bitmap
+     * @param gameScreen gameScreen the hero exists on
+     * @param game game the hero exists in
+     * @param levelDeck list of cards to build the deck from
+     */
+    public Hero(float x, float y, Bitmap bitmap, GameScreen gameScreen, Game game, List<LevelCard> levelDeck)
+    {
+        super(x, y, 70.0f, 105.0f, bitmap, gameScreen);
+        currentHealth = MAX_HEALTH;
+        manaLimit = 5;
+        currentMana = manaLimit;
+        deck = new Deck(gameScreen, game, levelDeck);
+        hand = new Hand(deck);
+        activeCards = new ArrayList<>();
         heroIsDead = false;
     }
 
