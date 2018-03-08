@@ -32,7 +32,7 @@ import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 
 public class WorldScreen extends GameScreen
 {
-	
+	// JSON String identifiers for levels
 	private final String LEVEL_LIST = "levels";
 	private final String LEVEL_ID = "id";
 	private final String LEVEL_NAME = "name";
@@ -42,6 +42,14 @@ public class WorldScreen extends GameScreen
 	private final String LEVEL_Y_PERCENT = "yPercent";
 	private final String LEVEL_WIDTH = "width";
 	private final String LEVEL_HEIGHT = "height";
+	private final String LEVEL_DECK = "deck";
+	private final String LEVEL_PREREQUISITES = "prerequisites";
+	// JSON String identifiers for cards
+	private final String CARD_NAME = "name";
+	private final String CARD_ATTACK = "attackValue";
+	private final String CARD_HEALTH = "healthValue";
+	private final String CARD_BITMAP = "bitmap";
+	private final String CARD_MANA_COST = "manaCost";
 	
 	// Game levels filename, in the future could be dynamic to allow for different campaigns
 	private final String LEVEL_FILE = "levels/game_levels.json";
@@ -193,7 +201,7 @@ public class WorldScreen extends GameScreen
 	{
 		//TODO: Add level specific details for launching a battle, e.g. deck, opponent etc.
 		mGame.getScreenManager().removeScreen(this.getName());
-		mGame.getScreenManager().addScreen(new CardDemoScreen(mGame));
+		mGame.getScreenManager().addScreen(new CardDemoScreen(mGame, mLevels.get(mCurrentLevel).getDeck()));
 	}
 	
 	/**
@@ -220,19 +228,79 @@ public class WorldScreen extends GameScreen
 				// Load any required bitmaps for the level
 				assetManager.loadAndAddBitmap(level.getString(LEVEL_BITMAP), level.getString(LEVEL_BITMAP_PATH));
 				
-				// Create a new game level and add it to the list of levels
-				levels.add(
-						new GameLevel(
-								level.getString(LEVEL_ID), // Level ID
-								level.getString(LEVEL_NAME), // Level Name
-								new PushButton( // Create the game level's button
-										mGame.getScreenWidth() * (float)level.getDouble(LEVEL_X_PERCENT), // Calculate button's X position from X percentage supplied
-										mGame.getScreenHeight() * (float)level.getDouble(LEVEL_Y_PERCENT),
-										level.getInt(LEVEL_WIDTH), // Button width
-										level.getInt(LEVEL_HEIGHT), // Button height
-										level.getString(LEVEL_BITMAP), // Button bitmap
-										this
-								)));
+				// Load the level's deck
+				JSONArray jsonDeck = level.getJSONArray(LEVEL_DECK);
+				
+				// Set up deck card objects
+				List<LevelCard> deck = new ArrayList<>();
+				
+				// Add each card into the new deck list
+				for(int j = 0; j < jsonDeck.length(); j++)
+				{
+					JSONObject card = jsonDeck.getJSONObject(j);
+					deck.add(new LevelCard(
+						card.getString(CARD_NAME),
+						card.getString(CARD_BITMAP),
+						card.getInt(CARD_MANA_COST),
+						card.getInt(CARD_HEALTH),
+						card.getInt(CARD_ATTACK))
+					);
+				}
+				
+				if(level.has(LEVEL_PREREQUISITES))
+				{
+					// If the level has prerequisites
+					// Load the level's prerequisites
+					JSONArray jsonPrerequisites = level.getJSONArray(LEVEL_DECK);
+					
+					// Set up prerequisite ID objects
+					List<String> prerequisites = new ArrayList<>();
+					
+					// Add each card into the new deck list
+					for(int j = 0; j < jsonPrerequisites.length(); j++)
+					{
+						prerequisites.add(jsonPrerequisites.getString(j));
+					}
+					// Create a new game level and add it to the list of levels with prerequisite
+					// level IDs
+					levels.add(
+							new GameLevel(
+									level.getString(LEVEL_ID), // Level ID
+									level.getString(LEVEL_NAME), // Level Name
+									new PushButton( // Create the game level's button
+											mGame.getScreenWidth() * (float)level.getDouble(LEVEL_X_PERCENT), // Calculate button's X position from X percentage supplied
+											mGame.getScreenHeight() * (float)level.getDouble(LEVEL_Y_PERCENT),
+											level.getInt(LEVEL_WIDTH), // Button width
+											level.getInt(LEVEL_HEIGHT), // Button height
+											level.getString(LEVEL_BITMAP), // Button bitmap
+											this
+									),
+									deck,
+									prerequisites
+							)
+					);
+				}
+				else
+				{
+					// If the level doesn't have prerequisites
+					// Create a new game level and add it to the list of levels without any
+					// prerequisites
+					levels.add(
+							new GameLevel(
+									level.getString(LEVEL_ID), // Level ID
+									level.getString(LEVEL_NAME), // Level Name
+									new PushButton( // Create the game level's button
+											mGame.getScreenWidth() * (float)level.getDouble(LEVEL_X_PERCENT), // Calculate button's X position from X percentage supplied
+											mGame.getScreenHeight() * (float)level.getDouble(LEVEL_Y_PERCENT),
+											level.getInt(LEVEL_WIDTH), // Button width
+											level.getInt(LEVEL_HEIGHT), // Button height
+											level.getString(LEVEL_BITMAP), // Button bitmap
+											this
+									),
+									deck
+							)
+					);
+				}
 			}
 			//TODO: Add in prerequisite system to have required levels be completed before a level can be played
 			return levels;

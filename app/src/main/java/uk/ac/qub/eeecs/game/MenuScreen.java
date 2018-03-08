@@ -2,6 +2,7 @@ package uk.ac.qub.eeecs.game;
 
 import android.graphics.Color;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
@@ -18,6 +19,7 @@ import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.helpScreen.HelpScreen;
 import uk.ac.qub.eeecs.game.options.OptionsScreen;
 import uk.ac.qub.eeecs.game.performanceScreen.PerformanceScreen;
+import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 import uk.ac.qub.eeecs.game.worldScreen.WorldScreen;
 
 /**
@@ -146,7 +148,7 @@ public class MenuScreen extends GameScreen {
             if(mPerformanceButton.isPushTriggered())
                 changeToScreen(new PerformanceScreen(mGame));
             else if (mCardDemoButton.isPushTriggered())
-                changeToScreen(new CardDemoScreen(mGame));
+                changeToScreen(new CardDemoScreen(mGame, new ArrayList<LevelCard>()));
             else if(mOptionsButton.isPushTriggered())
                 changeToScreen(new OptionsScreen(mGame));
             else if(mHelpButton.isPushTriggered())

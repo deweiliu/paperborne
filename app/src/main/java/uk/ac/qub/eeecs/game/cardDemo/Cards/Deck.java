@@ -1,10 +1,12 @@
 package uk.ac.qub.eeecs.game.cardDemo.Cards;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 /**
  * Created by user on 05/12/2017.
@@ -13,10 +15,13 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 public class Deck {
     private final int MAX_DECK_SIZE = 15;
     private ArrayList<Card> cardsInDeck;
-
+    
+    /**
+     * Constructor for deck that uses default card setup
+     * @param gameScreen gameScreen the deck exists in
+     * @param game game the deck exists in
+     */
     public Deck(GameScreen gameScreen, Game game) {
-
-
         game.getAssetManager().loadAndAddBitmap("Card", "img/Hearthstone_Card_Template.png");
         cardsInDeck = new ArrayList<Card>();
 
@@ -56,6 +61,34 @@ public class Deck {
         }
         cardsInDeck.add(new Card(fiveCostCard));
 
+    }
+    
+    /**
+     * Constructor for deck that uses a card set up supplied by parameter
+     * @param gameScreen gameScreen the deck exists in
+     * @param game game the deck exists in
+     * @param deck supplied cards to create the deck with
+     */
+    public Deck(GameScreen gameScreen, Game game, List<LevelCard> deck) {
+        
+        game.getAssetManager().loadAndAddBitmap("Card", "img/Hearthstone_Card_Template.png");
+        cardsInDeck = new ArrayList<>();
+        for(int i = 0; i < deck.size(); i++)
+        {
+            LevelCard card = deck.get(i);
+            cardsInDeck.add(new Card(
+                    i,
+                    card.getName(),
+                    game.getScreenWidth(),
+                    game.getScreenHeight(),
+                    game.getAssetManager().getBitmap(card.getBitmap()),
+                    gameScreen,
+                    card.getManaCost(),
+                    card.getAttackValue(),
+                    card.getHealthValue()
+            ));
+        }
+        
     }
 
     //draws a random card
