@@ -8,11 +8,14 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
+import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -51,7 +54,7 @@ public class HandTests
     @Test
     public void testCardDrawnStates()
     {
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
         
         // Check that each card in the deck is the expected cardstate

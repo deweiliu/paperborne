@@ -20,6 +20,7 @@ import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.game.worldScreen.GameLevel;
+import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 import uk.ac.qub.eeecs.game.worldScreen.WorldScreen;
 
 import static junit.framework.Assert.assertFalse;
@@ -52,42 +53,163 @@ public class WorldScreenTest {
 	
 	final private int EXPECTED_LEVELS = 3;
 	
-	final private String MOCK_DATA = "{\"levels\":[{\"id\":\"level_one\",\"name\":\"Level One\",\"bitmap\":\"LevelOne\",\"bitmapPath\":\"img/GameLevel.png\",\"xPercent\":0.25,\"yPercent\":0.5,\"width\":128,\"height\":128},{\"id\":\"level_two\",\"name\":\"Level Two\",\"bitmap\":\"LevelTwo\",\"bitmapPath\":\"img/GameLevel.png\",\"xPercent\":0.5,\"yPercent\":0.5,\"width\":128,\"height\":128},{\"id\":\"level_three\",\"name\":\"Level Three\",\"bitmap\":\"LevelThree\",\"bitmapPath\":\"img/GameLevel.png\",\"xPercent\":0.75,\"yPercent\":0.5,\"width\":128,\"height\":128}]}";
+	final private String MOCK_DATA = "{\"levels\":[{\"id\":\"level_one\",\"name\":\"Level One\",\"bitmap\":\"LevelOne\",\"bitmapPath\":\"img/GameLevel.png\",\"xPercent\":0.25,\"yPercent\":0.5,\"width\":128,\"height\":128,\"deck\":[{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1}]},{\"id\":\"level_two\",\"name\":\"Level Two\",\"bitmap\":\"LevelTwo\",\"bitmapPath\":\"img/GameLevel.png\",\"xPercent\":0.5,\"yPercent\":0.5,\"width\":128,\"height\":128,\"deck\":[{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1}]},{\"id\":\"level_three\",\"name\":\"Level Three\",\"bitmap\":\"LevelThree\",\"bitmapPath\":\"img/GameLevel.png\",\"xPercent\":0.75,\"yPercent\":0.5,\"width\":128,\"height\":128,\"deck\":[{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1}]}]}";
 	/*
 	{
-		"levels":
-		[
+	  "levels":
+	  [
+		{
+		  "id":"level_one",
+		  "name": "Level One",
+		  "bitmap":"LevelOne",
+		  "bitmapPath":"img/GameLevel.png",
+		  "xPercent": 0.25,
+		  "yPercent": 0.50,
+		  "width": 128,
+		  "height": 128,
+		  "deck":
+		  [
 			{
-				"id":"level_one",
-				"name": "Level One",
-				"bitmap":"LevelOne",
-				"bitmapPath":"img/GameLevel.png",
-				"xPercent": 0.25,
-				"yPercent": 0.50,
-				"width": 128,
-				"height": 128
+			  "name":"Weak Man",
+			  "bitmap":"Card",
+			  "attackValue":1,
+			  "healthValue":1,
+			  "manaCost":1
 			},
 			{
-				"id":"level_two",
-				"name": "Level Two",
-				"bitmap":"LevelTwo",
-				"bitmapPath":"img/GameLevel.png",
-				"xPercent": 0.50,
-				"yPercent": 0.50,
-				"width": 128,
-				"height": 128
+			  "name":"Weak Man",
+			  "bitmap":"Card",
+			  "attackValue":1,
+			  "healthValue":1,
+			  "manaCost":1
 			},
 			{
-				"id":"level_three",
-				"name": "Level Three",
-				"bitmap":"LevelThree",
-				"bitmapPath":"img/GameLevel.png",
-				"xPercent": 0.75,
-				"yPercent": 0.50,
-				"width": 128,
-				"height": 128
+			  "name":"Weak Man",
+			  "bitmap":"Card",
+			  "attackValue":1,
+			  "healthValue":1,
+			  "manaCost":1
+			},
+			{
+			  "name":"Weak Man",
+			  "bitmap":"Card",
+			  "attackValue":1,
+			  "healthValue":1,
+			  "manaCost":1
+			},
+			{
+			  "name":"Weak Man",
+			  "bitmap":"Card",
+			  "attackValue":1,
+			  "healthValue":1,
+			  "manaCost":1
 			}
-		]
+		  ]
+		},
+		{
+		  "id":"level_two",
+		  "name": "Level Two",
+		  "bitmap":"LevelTwo",
+		  "bitmapPath":"img/GameLevel.png",
+		  "xPercent": 0.50,
+		  "yPercent": 0.50,
+		  "width": 128,
+		  "height": 128,
+		  "deck":
+		  [
+			{
+			  "name":"Dragon",
+			  "bitmap":"Card",
+			  "attackValue":5,
+			  "healthValue":5,
+			  "manaCost":1
+			},
+			{
+			  "name":"Dragon",
+			  "bitmap":"Card",
+			  "attackValue":5,
+			  "healthValue":5,
+			  "manaCost":1
+			},
+			{
+			  "name":"Dragon",
+			  "bitmap":"Card",
+			  "attackValue":5,
+			  "healthValue":5,
+			  "manaCost":1
+			},
+			{
+			  "name":"Dragon",
+			  "bitmap":"Card",
+			  "attackValue":5,
+			  "healthValue":5,
+			  "manaCost":1
+			},
+			{
+			  "name":"Dragon",
+			  "bitmap":"Card",
+			  "attackValue":5,
+			  "healthValue":5,
+			  "manaCost":1
+			}
+		  ]
+		},
+		{
+		  "id":"level_three",
+		  "name": "Level Three",
+		  "bitmap":"LevelThree",
+		  "bitmapPath":"img/GameLevel.png",
+		  "xPercent": 0.75,
+		  "yPercent": 0.50,
+		  "width": 128,
+		  "height": 128,
+		  "deck":
+		  [
+			{
+			  "name":"Dragon",
+			  "bitmap":"Card",
+			  "attackValue":5,
+			  "healthValue":5,
+			  "manaCost":1
+			},
+			{
+			  "name":"Dragon",
+			  "bitmap":"Card",
+			  "attackValue":5,
+			  "healthValue":5,
+			  "manaCost":1
+			},
+			{
+			  "name":"Dragon",
+			  "bitmap":"Card",
+			  "attackValue":5,
+			  "healthValue":5,
+			  "manaCost":1
+			},
+			{
+			  "name":"Dragon",
+			  "bitmap":"Card",
+			  "attackValue":5,
+			  "healthValue":5,
+			  "manaCost":1
+			},
+			{
+			  "name":"Dragon",
+			  "bitmap":"Card",
+			  "attackValue":5,
+			  "healthValue":5,
+			  "manaCost":1
+			},
+			{
+			  "name":"Dragon",
+			  "bitmap":"Card",
+			  "attackValue":5,
+			  "healthValue":5,
+			  "manaCost":1
+			}
+		  ]
+		}
+	  ]
 	}
 	*/
 	
@@ -165,7 +287,8 @@ public class WorldScreenTest {
 						2,
 						"BitMap",
 						worldScreen
-				)
+				),
+				new ArrayList<LevelCard>()
 		);
 		// Check each field isn't null
 		assertNotNull(noPrerequisiteLevel.getId());
@@ -176,8 +299,8 @@ public class WorldScreenTest {
 		assertTrue(noPrerequisiteLevel.getPrerequisites().size() == 0);
 		
 		// Set up prerequisite list
-		List<GameLevel> prerequisites = new ArrayList<>();
-		prerequisites.add(noPrerequisiteLevel);
+		List<String> prerequisites = new ArrayList<>();
+		prerequisites.add(noPrerequisiteLevel.getId());
 		
 		// Unit test for a game level with some prerequisites
 		GameLevel prerequisiteLevel = new GameLevel(
@@ -191,6 +314,7 @@ public class WorldScreenTest {
 						"BitMap",
 						worldScreen
 				),
+				new ArrayList<LevelCard>(),
 				prerequisites
 		);
 		// Check each field isn't null
@@ -202,7 +326,7 @@ public class WorldScreenTest {
 		assertTrue(prerequisiteLevel.getPrerequisites().size() == 1);
 		// Check that the ID of the prerequisite is what is expected
 		// Only 1 item so the first index 0 should reference the only item
-		assertTrue(prerequisiteLevel.getPrerequisites().get(0).getId().equals(noPrerequisiteLevel.getId()));
+		assertTrue(prerequisiteLevel.getPrerequisites().get(0).equals(noPrerequisiteLevel.getId()));
 	}
 	
 	@Test

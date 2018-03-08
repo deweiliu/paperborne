@@ -129,37 +129,6 @@ public class CardDemoScreen extends GameScreen {
                            }
                        }, 30000, 30000);
         startTime = System.currentTimeMillis();
-
-
-        /*
-         * HARDCODING TESTING
-         * Plays 3 random cards from the player's deck
-         */
-        for(int i = 0; i < 3; i++)
-        {
-            player.refillMana();
-            player.playCard(player.getDeck().drawCard());
-        }
-        // Put one card in the middle of the screen for testing
-        Card playerCard = player.getActiveCards().get(0);
-        Vector2 playerPosition = new Vector2(mLayerViewport.halfWidth, mLayerViewport.halfHeight);
-        playerCard.setPosition(playerPosition);
-        playerCard.setAnchor(playerPosition.x, playerPosition.y);
-
-        // Plays 1 random cards from the opponent's deck
-        for(int i = 0; i < 1; i++)
-        {
-            opponent.refillMana();
-            opponent.playCard(opponent.getDeck().drawCard());
-        }
-        // Put one card above the player's card
-        Card opponentCard = opponent.getActiveCards().get(0);
-        Vector2 opponentPosition = new Vector2(mLayerViewport.halfWidth, mLayerViewport.halfHeight + opponentCard.getBound().getHeight());
-        opponentCard.setPosition(opponentPosition);
-        opponentCard.setAnchor(opponentPosition.x, opponentPosition.y);
-        /*
-         * END HARDCODED TESTING
-         */
     }
 
     // /////////////////////////////////////////////////////////////////////////
