@@ -42,7 +42,7 @@ public class Hero extends Sprite {
     }
 
     //Increases the mana limit, at the end of every turn, up to a max value
-    public void IncrementManaLimit(){
+    public void incrementManaLimit(){
         if (manaLimit < MAX_MANA){
             manaLimit++;
         }
@@ -71,10 +71,6 @@ public class Hero extends Sprite {
             this.activeCards.add(cardToPlay);
             this.currentMana -= cardToPlay.getManaCost();
             cardToPlay.setCardState(Card.CardState.CARD_ON_BOARD);
-        } else {
-
-            //Warning message to be displayed
-            //Hero can only have a maximum of 7 cards active at any time
         }
     }
 

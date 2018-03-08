@@ -155,15 +155,7 @@ public class CardDemoScreen extends GameScreen {
         opponent.update(elapsedTime);
         if (playerTurn) {
             for (Card card : player.getHand().getCards()) {
-                card.update(elapsedTime, mScreenViewport, mLayerViewport);
-                //place card in correct position, either on the board or back into the hand
-                if (card.isFinishedMove()) {
-                    if (card.position.x == 100 && card.position.y == 100) {
-
-                    } else {
-                        //SteeringBehaviours.seek(card, card.getLastPosition(), card.acceleration);
-                    }
-                }
+                card.update(elapsedTime, mScreenViewport, mLayerViewport, player);
             }
         }
 //        if(player.getActiveCards() != null) for(Card card : player.getActiveCards()) card.update(elapsedTime,mScreenViewport,mLayerViewport);
@@ -187,6 +179,8 @@ public class CardDemoScreen extends GameScreen {
             if (touchDown) {
                 // Go through each opponent card on the board
                 for (Card opponentCard : opponent.getActiveCards()) {
+                    opponentCard.update(elapsedTime, mScreenViewport, mLayerViewport, opponent);
+
                     // If the opponent card has been tapped
                     if (opponentCard.isCardIsActive()) {
                         // Check for any selected player cards on the board
@@ -213,23 +207,23 @@ public class CardDemoScreen extends GameScreen {
             if (!player.getActiveCards().isEmpty()) {
                 // If the player has played cards
                 for (Card card : player.getActiveCards()) {
-                    card.update(elapsedTime, mScreenViewport, mLayerViewport);
+                    card.update(elapsedTime, mScreenViewport, mLayerViewport, player);
                 }
             }
             if (!player.getHand().getCards().isEmpty()) {
                 for (Card card : player.getHand().getCards()) {
-                    card.update(elapsedTime, mScreenViewport, mLayerViewport);
+                    card.update(elapsedTime, mScreenViewport, mLayerViewport, player);
                 }
             }
             if (!opponent.getActiveCards().isEmpty()) {
                 // If the opponent has played cards
                 for (Card card : opponent.getActiveCards()) {
-                    card.update(elapsedTime, mScreenViewport, mLayerViewport);
+                    card.update(elapsedTime, mScreenViewport, mLayerViewport, opponent);
                 }
             }
             if (!opponent.getHand().getCards().isEmpty()) {
                 for (Card card : opponent.getHand().getCards()) {
-                    card.update(elapsedTime, mScreenViewport, mLayerViewport);
+                    card.update(elapsedTime, mScreenViewport, mLayerViewport, opponent);
                 }
             }
         }
@@ -239,6 +233,10 @@ public class CardDemoScreen extends GameScreen {
         if(turnTime == 0) {
             player.clearDeadCards();
             opponent.clearDeadCards();
+            for(Card card : player.getActiveCards()){
+                card.setFinishedMove(false);
+            }
+            player.refillMana();
         }
     }
 
@@ -256,7 +254,7 @@ public class CardDemoScreen extends GameScreen {
 
         player.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
 
-        //highly inconsistent for some unknown reason
+
         for(Card card : player.getHand().getCards()) {
             if (card.isCardIsActive()) {
                 //Highlight the card if active
@@ -274,11 +272,15 @@ public class CardDemoScreen extends GameScreen {
             for (Card card : player.getActiveCards())
             {
                 // If any card is active
+                Paint paint = new Paint();
                 if (card.isCardIsActive()) {
                     //Highlight the card if active on the board with a blue highlight
-                    Paint paint = new Paint();
                     paint.setColorFilter(new LightingColorFilter(Color.BLUE, 0));
                     card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport, paint);
+                } else if(card.isFinishedMove()) {
+                    //Highlight the card with a gray tint if the car has been played
+                   paint.setColorFilter(new LightingColorFilter(Color.GRAY, 0));
+                   card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport, paint);
                 } else {
                     // If the card isn't active, just draw it normally
                     card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);

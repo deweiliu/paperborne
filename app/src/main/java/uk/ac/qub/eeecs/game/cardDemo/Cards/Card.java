@@ -11,6 +11,8 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
+import uk.ac.qub.eeecs.game.cardDemo.Hero;
+import uk.ac.qub.eeecs.gage.ai.SteeringBehaviours;
 
 /**
  * Created by user on 14/11/2017.
@@ -113,7 +115,7 @@ public class Card extends Sprite {
         }
     }
 
-    public void update(ElapsedTime elapsedTime, ScreenViewport screenViewport, LayerViewport layerViewport) {
+    public void update(ElapsedTime elapsedTime, ScreenViewport screenViewport, LayerViewport layerViewport, Hero hero) {
         Input input = mGameScreen.getGame().getInput();
         for (TouchEvent touch : input.getTouchEvents()) {
             // Convert touch coordinates into screen coordinates
@@ -127,11 +129,10 @@ public class Card extends Sprite {
             if (touch.type == TouchEvent.TOUCH_DOWN && (layerPos.x > position.x - cardCentre.x)
                     && (layerPos.x < position.x + cardCentre.x)
                     && (layerPos.y > position.y - cardCentre.y)
-                    && (layerPos.y < position.y + cardCentre.y)) {
+                    && (layerPos.y < position.y + cardCentre.y) && this.finishedMove == false) {
                 cardPressedDown = true;
                 cardIsActive = true;
-                finishedMove = false;
-                //this.setLastPosition(this.position);
+                //finishedMove = false;
 
                 /*
                 //Checks what image is held on card, if clicked, swaps it with the alternative
@@ -149,9 +150,29 @@ public class Card extends Sprite {
                     // If the card is not on the board mark it as deselected
                     cardIsActive = false;
                 }
+
+
+                // If there is a touch up event, return the pressed card back to anchor position
+                if(cardPressedDown && cardState == CardState.CARD_IN_HAND) {
+                    //Checks if the hero has enough mana to play the card
+                    if(hero.getCurrentMana() >= this.getManaCost()) {
+                        //If the card is dropped onto the top half of the screen, place it onto the board
+                        if (this.position.y > layerViewport.getHeight() / 2) {
+                            this.anchor.y = layerViewport.getHeight() / 2;
+                            //Moves the card from the players hand to their active cards
+                            hero.playCard(this);
+                            //Place the cards accordingly
+                            if (this.position.x > layerViewport.getWidth() / 2) {
+                                this.anchor.x += 20;
+                            } else {
+                                this.anchor.x -= 20;
+                            }
+                            this.finishedMove = true;
+                        }
+                    }
+                    position = new Vector2(this.anchor.x, this.anchor.y);
+                }
                 cardPressedDown = false;
-                // If there is a touch up event, return all cards to their anchor positions
-                position = new Vector2(anchor.x, anchor.y);
                 //Checks if card is dragged
             } else if (touch.type == TouchEvent.TOUCH_DRAGGED && cardPressedDown) {
                 if (!Float.isNaN(layerPos.x)) {
