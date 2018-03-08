@@ -16,15 +16,22 @@ public class AIController {
     //so it makes the player interprets the AI is thinking
     private long earliestFinishTime;
     private boolean isFinished;
+    private Board mBoard;
+    private Random random;
 
     /**
      * @param board pass Board information as parameter
      */
     public AIController(Board board) {
-        mAlgorithm = new AIAlgorithm(board);
-        mTimeController = new TimeController();
+        this.mBoard = board;
+        random = new Random();
     }
 
+    private void reset() {
+        mAlgorithm = new AIAlgorithm(mBoard);
+        mTimeController = new TimeController();
+        isFinished = false;
+    }
 
     /**
      * When this function is called, it creates a new thread for the AI algorithm
@@ -33,17 +40,17 @@ public class AIController {
      * @param timeLimitInMillis how much mTimeController in millisecond can be used for the thinking for this action
      */
     public void startThinking(long timeLimitInMillis) {
-
         long currentTime = System.currentTimeMillis();
 
         //Finish the algorithm 1 second before the real deadline
         long timeForAIAlgorithm = timeLimitInMillis - 1000;
 
         long deadLine = currentTime + timeForAIAlgorithm;
-        isFinished = false;
-        Random random = new Random();
+
+
         this.earliestFinishTime = currentTime + Math.abs(random.nextInt((int) timeForAIAlgorithm - 100)) + 100;
 
+        reset();
         mAlgorithm.start();
         mTimeController.start(deadLine);
     }

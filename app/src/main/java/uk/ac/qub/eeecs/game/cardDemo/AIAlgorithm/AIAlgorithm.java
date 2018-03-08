@@ -1,8 +1,12 @@
 package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm;
 
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AlAlgorithms.AlgorithmSuperClass;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AlAlgorithms.AttackActiveCardAlgorithm;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AlAlgorithms.AttackHeroAlgorithm;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AlAlgorithms.EndTurnAlgorithm;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AlAlgorithms.PlayCardAlgorithm;
 import uk.ac.qub.eeecs.game.cardDemo.Board;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
-import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
 /**
  * Created by 40216004 Dewei Liu on 15/02/2018.
@@ -14,7 +18,6 @@ public class AIAlgorithm implements Runnable {
     Thread thread;
 
     //Board information
-    private Hero human, AI;
     private Board mBoard;
 
     //For PlayerAction class
@@ -38,14 +41,41 @@ public class AIAlgorithm implements Runnable {
     //AI function
     @Override
     public void run() {
-        human = mBoard.getUserHero();
-        AI = mBoard.getAIHero();
-        //TODO: decide which action should be taken
+        //PlayCardAlgorithm
+        AlgorithmSuperClass algorithm = new PlayCardAlgorithm(mBoard);
+        if (algorithm.isValid()) {
+            this.sourceCard = ((PlayCardAlgorithm) algorithm).getPlayedCard();
+        }
 
-//Default action
-        this.actionState = PlayerAction.END_TURN;
+        //AttackActiveCardAlgorithm
+        else {
+            algorithm = new AttackActiveCardAlgorithm(mBoard);
+            if (algorithm.isValid()) {
+                this.sourceCard = ((AttackActiveCardAlgorithm) algorithm).getAttacker();
+                this.targetCard = ((AttackActiveCardAlgorithm) algorithm).getAttackee();
+            }
 
+            //AttackHeroAlgorithm
+            else {
+                algorithm = new AttackHeroAlgorithm(mBoard);
+                if (algorithm.isValid()) {
+                    this.sourceCard = ((AttackHeroAlgorithm) algorithm).getAttacker();
+                }
 
+                //EndTurnAlgorithm
+                else {
+                    algorithm = new EndTurnAlgorithm(mBoard);
+                    if (algorithm.isValid()) {
+
+                    } else {
+                        //No action selected. Some thing went wrong
+                    }
+                }
+
+            }
+
+        }
+        this.actionState = algorithm.actionNumber();
         finishFunction();
     }
 
