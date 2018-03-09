@@ -35,15 +35,12 @@ public class CardDemoScreen extends GameScreen {
     private ScreenViewport mScreenViewport;
     private LayerViewport mLayerViewport;
     private GameObject BoardBackground;
-    private final float LEVEL_WIDTH = 1000.0f;
-    private final float LEVEL_HEIGHT = 1000.0f;
     private boolean playerTurn;
     private Timer timer;
     long startTime, turnTime;
 
-    final private float SLIDER_WIDTH = 100f;
-    final private float SLIDER_HEIGHT = 700f;
-    final private float OPTION_SEPARATION = 192.0f;
+    final private float SLIDER_WIDTH = 175f;
+    final private float SLIDER_HEIGHT = 450f;
     private VerticalSlider manaSlider;
 
     // /////////////////////////////////////////////////////////////////////////
@@ -155,7 +152,7 @@ public class CardDemoScreen extends GameScreen {
         sliderPainter.setTextAlign(Paint.Align.CENTER);
 
         manaSlider = new VerticalSlider(0,10,player.getCurrentMana(),sliderPainter,
-                game.getScreenWidth()-200f,game.getScreenHeight()/2f, SLIDER_WIDTH,SLIDER_HEIGHT,
+                game.getScreenWidth()-250f,game.getScreenHeight()-400f, SLIDER_WIDTH,SLIDER_HEIGHT,
                 "SliderBase", "VerticalSliderFill", this, false);
     /////////////////////////////
     }

@@ -130,9 +130,6 @@ public class VerticalSlider extends Button
             // If in layer space, then determine an appropriate screen space bound
             if (GraphicsHelper.getClippedSourceAndScreenRect(this, layerViewport, screenViewport, drawSourceRect, drawScreenRect))
             {
-                // Create a rect for the fill bitmap
-                // the right position is calculated by:
-                // SliderLeft + (SliderWidth * (SliderValue / SliderMax))
                 Rect fillRect = new Rect(
                         drawScreenRect.left,
                         drawScreenRect.bottom - (int) ((float) drawScreenRect.height() * ((float) mVal / (float) mMax)) ,
@@ -143,30 +140,27 @@ public class VerticalSlider extends Button
                 graphics2D.drawBitmap(mBitmap, drawSourceRect, drawScreenRect, null);
                 graphics2D.drawBitmap(mSliderFillBitmap, fillRect, fillRect, null);
                 // Draw the slider axis text
-                graphics2D.drawText(String.valueOf(mMin), (float) drawScreenRect.left, drawScreenRect.centerY(), mTextStyle);
-                graphics2D.drawText(String.valueOf(mMax), (float) drawScreenRect.right, drawScreenRect.centerY(), mTextStyle);
+
+                graphics2D.drawText(String.valueOf(mMin), (float) drawScreenRect.right, drawScreenRect.bottom, mTextStyle);
+                graphics2D.drawText(String.valueOf(mMax), (float) drawScreenRect.right, drawScreenRect.top, mTextStyle);
                 graphics2D.drawText(String.valueOf(mVal), drawScreenRect.exactCenterX(), drawScreenRect.centerY(), mTextStyle);
             }
         }
         else
         {
-            // Create a rect for the fill bitmap
-            // the right position is calculated by:
-            // SliderLeft + (SliderWidth * (SliderValue / SliderMax))
+
             Rect fillRect = new Rect(
                     drawScreenRect.left,
                     drawScreenRect.bottom - (int) ((float) drawScreenRect.height() * ((float) mVal / (float) mMax)),
                     drawScreenRect.right,
                     drawScreenRect.bottom );
-            // Calculate the text Y position from the slider center Y position, slider height and text separation value
-            float textY = drawScreenRect.exactCenterY() + (drawScreenRect.height() / 2) + TEXT_SEPARATION;
-            // Draw slider base and fill bitmaps
+
             draw(elapsedTime, graphics2D);
             graphics2D.drawBitmap(mSliderFillBitmap, fillRect, fillRect, null);
             // Draw the slider axis text
-            graphics2D.drawText(String.valueOf(mMin), (float) drawScreenRect.left, textY, mTextStyle);
-            graphics2D.drawText(String.valueOf(mMax), (float) drawScreenRect.right, textY, mTextStyle);
-            graphics2D.drawText(String.valueOf(mVal), drawScreenRect.exactCenterX(), textY, mTextStyle);
+            graphics2D.drawText(String.valueOf(mMin), (float) drawScreenRect.right + 20f, drawScreenRect.exactCenterY() + 230f, mTextStyle);
+            graphics2D.drawText(String.valueOf(mMax), (float) drawScreenRect.right + 20f, drawScreenRect.exactCenterY() - 230f, mTextStyle);
+            graphics2D.drawText(String.valueOf(mVal), drawScreenRect.right + 20f, drawScreenRect.exactCenterY(), mTextStyle);
         }
     }
 
