@@ -46,7 +46,7 @@ public class PlayCardAlgorithm extends AlgorithmSuperClass {
         }
 
         //Sort cards with ascent order by weight
-        Comparator<Card2> comparator = new myComparator();
+        Comparator<Card2> comparator = new MyComparator();
         cards.sort(comparator);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
         int capacity = super.getMyMana();
@@ -115,11 +115,12 @@ public class PlayCardAlgorithm extends AlgorithmSuperClass {
 
 
     public Card getPlayedCard() {
+        super.checkValid_ThrowException();
         return this.playedCard;
     }
 
 
-    private class myComparator implements Comparator<Card2> {
+    private class MyComparator implements Comparator<Card2> {
 
         @Override
         public int compare(Card2 card2, Card2 t1) {

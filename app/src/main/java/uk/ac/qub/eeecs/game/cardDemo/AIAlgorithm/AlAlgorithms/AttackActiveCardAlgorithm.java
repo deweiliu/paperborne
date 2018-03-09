@@ -13,7 +13,7 @@ public class AttackActiveCardAlgorithm extends AlgorithmSuperClass {
         super(board);
     }
 
-    private Card attacker,attackee;
+    private Card attacker, attackee;
 
 
     @Override
@@ -23,14 +23,18 @@ public class AttackActiveCardAlgorithm extends AlgorithmSuperClass {
 
     @Override
     protected void AIAlgorithm() {
-        super.isValid=false;
+        super.isValid = false;
 
         //TODO
     }
 
-    public Card getAttacker(){
+    public Card getAttacker() {
+        super.checkValid_ThrowException();
         return this.attacker;
-    }public Card getAttackee(){
+    }
+
+    public Card getAttackee() {
+        super.checkValid_ThrowException();
         return this.attackee;
     }
 }
