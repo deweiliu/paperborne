@@ -72,7 +72,7 @@ public class PlayerAction {
 
     private int action = -1;
 
-    private String exceptionString = "You cannot call this function unless the player's action is ";
+    private String exceptionString = "You cannot call this function unless the player's Action is ";
 
     public PlayerAction(int action, Card source, Card target) {
         switch (action) {
@@ -85,7 +85,7 @@ public class PlayerAction {
                 this.action = action;
                 break;
             default:
-                throw new IllegalStateException("Illegal value of action");
+                throw new IllegalStateException("Illegal value of Action");
         }
     }
 

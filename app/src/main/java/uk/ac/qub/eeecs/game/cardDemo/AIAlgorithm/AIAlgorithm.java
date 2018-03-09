@@ -68,7 +68,7 @@ public class AIAlgorithm implements Runnable {
                     if (algorithm.isValid()) {
 
                     } else {
-                        //No action selected. Some thing went wrong
+                        //No Action selected. Some thing went wrong
                     }
                 }
 

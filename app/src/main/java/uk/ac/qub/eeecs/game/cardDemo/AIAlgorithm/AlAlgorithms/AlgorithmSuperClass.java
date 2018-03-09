@@ -28,7 +28,7 @@ public abstract class AlgorithmSuperClass {
         AIAlgorithm();
     }
 
-    //Decide if this action of this class will be done/ is valid.
+    //Decide if this Action of this class will be done/ is valid.
     public boolean isValid() {
         return isValid;
     }

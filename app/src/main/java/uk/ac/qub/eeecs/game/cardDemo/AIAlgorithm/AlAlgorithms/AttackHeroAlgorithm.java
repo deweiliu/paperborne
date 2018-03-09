@@ -59,7 +59,6 @@ public class AttackHeroAlgorithm extends AlgorithmSuperClass {
     }
 
     public Card getAttacker() {
-
         super.checkValid_ThrowException();
         return this.attacker;
     }
