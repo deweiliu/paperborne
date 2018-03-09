@@ -152,7 +152,7 @@ public class CardDemoScreen extends GameScreen {
         sliderPainter.setTextAlign(Paint.Align.CENTER);
 
         manaSlider = new VerticalSlider(0,10,player.getCurrentMana(),sliderPainter,
-                game.getScreenWidth()-250f,game.getScreenHeight()-400f, SLIDER_WIDTH,SLIDER_HEIGHT,
+                game.getScreenWidth()-240f,game.getScreenHeight()-230f, SLIDER_WIDTH,SLIDER_HEIGHT,
                 "SliderBase", "VerticalSliderFill", this, false);
     /////////////////////////////
     }
