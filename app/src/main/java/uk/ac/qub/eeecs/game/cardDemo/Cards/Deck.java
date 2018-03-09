@@ -18,28 +18,33 @@ public class Deck {
 
 
         game.getAssetManager().loadAndAddBitmap("Card", "img/Hearthstone_Card_Template.png");
+        game.getAssetManager().loadAndAddBitmap("1 cost", "img/Weak man.JPG");
+        game.getAssetManager().loadAndAddBitmap("2 cost", "img/Dog.JPG");
+        game.getAssetManager().loadAndAddBitmap("3 cost", "img/Fat man.JPG");
+        game.getAssetManager().loadAndAddBitmap("4 cost", "img/Sword.JPG");
+        game.getAssetManager().loadAndAddBitmap("5 cost", "img/Card Dragon.JPG");
         cardsInDeck = new ArrayList<Card>();
 
         //Creates a card with certain values
         Card oneCostCard = new Card(1, "Weak Man",
                 game.getScreenWidth(), game.getScreenHeight(),
-                game.getAssetManager().getBitmap("Card"), gameScreen, 1, 1, 1);
+                game.getAssetManager().getBitmap("1 cost"), gameScreen, 1, 1, 1);
 
         Card twoCostCard = new Card(2, "Dog",
                 game.getScreenWidth(), game.getScreenHeight(),
-                game.getAssetManager().getBitmap("Card"), gameScreen, 2, 2, 2);
+                game.getAssetManager().getBitmap("2 cost"), gameScreen, 2, 2, 2);
 
         Card threeCostCard = new Card(3, "Fat Man",
                 game.getScreenWidth(), game.getScreenHeight(),
-                game.getAssetManager().getBitmap("Card"), gameScreen, 3, 3, 2);
+                game.getAssetManager().getBitmap("3 cost"), gameScreen, 3, 3, 2);
 
         Card fourCostCard = new Card(4, "Sword",
                 game.getScreenWidth(), game.getScreenHeight(),
-                game.getAssetManager().getBitmap("Card"), gameScreen, 4, 6, 1);
+                game.getAssetManager().getBitmap("4 cost"), gameScreen, 4, 6, 1);
 
         Card fiveCostCard = new Card(5, "Dragon",
                 game.getScreenWidth(), game.getScreenHeight(),
-                game.getAssetManager().getBitmap("Card"), gameScreen, 5, 5, 7);
+                game.getAssetManager().getBitmap("5 cost"), gameScreen, 5, 5, 7);
 
         //Adds 5 1-cost minions, 4 2-cost minions, 3 3-cost minions, 2 4-cost minions and a 5-cost minion into the deck
         for (int i = 0; i < 5; i++) {

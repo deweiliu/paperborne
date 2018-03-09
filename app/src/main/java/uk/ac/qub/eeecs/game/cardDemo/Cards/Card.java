@@ -71,11 +71,11 @@ public class Card extends Sprite {
 
 
     public Card (int cardID, String cardName, float startX, float startY, Bitmap bitmap, GameScreen gameScreen, int manaCost, int attackValue, int healthValue) {
-        super(startX, startY, 40f, 77.5f, bitmap, gameScreen);
+        super(startX, startY, 30f, 70f, bitmap, gameScreen);
 
         //Dimensions of the card from the super
-        this.cardCentre.x = 40f/2f;
-        this.cardCentre.y = 77.5f/2f;
+        this.cardCentre.x = 30f/2f;
+        this.cardCentre.y = 70f/2f;
         anchor = new Vector2(position.x,position.y);
 
 

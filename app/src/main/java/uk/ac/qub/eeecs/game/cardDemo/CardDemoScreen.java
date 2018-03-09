@@ -18,6 +18,7 @@ import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
+import uk.ac.qub.eeecs.game.VerticalSlider;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 
 
@@ -39,6 +40,11 @@ public class CardDemoScreen extends GameScreen {
     private boolean playerTurn;
     private Timer timer;
     long startTime, turnTime;
+
+    final private float SLIDER_WIDTH = 100f;
+    final private float SLIDER_HEIGHT = 700f;
+    final private float OPTION_SEPARATION = 192.0f;
+    private VerticalSlider manaSlider;
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
@@ -68,9 +74,9 @@ public class CardDemoScreen extends GameScreen {
         AssetStore assetManager = mGame.getAssetManager();
         assetManager.loadAndAddBitmap("Card", "img/Hearthstone_Card_Template.png");
         assetManager.loadAndAddBitmap("Back", "img/Hearthstone_Card_Back.png");
-        assetManager.loadAndAddBitmap("Board", "img/Board.png");
-        assetManager.loadAndAddBitmap("Hero", "img/Hero_Base.png");
-        assetManager.loadAndAddBitmap("Enemy", "img/Enemy_Base.png");
+        assetManager.loadAndAddBitmap("Board", "img/Paper Board.JPG");
+        assetManager.loadAndAddBitmap("Hero", "img/Hero Knight.JPG");
+        assetManager.loadAndAddBitmap("Enemy", "img/Hero Dragon.JPG");
 
 
         BoardBackground = new GameObject(mLayerViewport.getWidth() / 2f,mLayerViewport.getHeight()/2f,
@@ -80,18 +86,18 @@ public class CardDemoScreen extends GameScreen {
                .getAssetManager().getBitmap("Board"), this);
 
 
-        player = new Hero(mLayerViewport.getWidth()/2f, mLayerViewport.getHeight()/6f, assetManager.getBitmap("Hero"), this, mGame);
-        opponent = new Hero(mLayerViewport.getWidth()/2f, mLayerViewport.getHeight() - mLayerViewport.getHeight()/10f, assetManager.getBitmap("Enemy"), this, mGame);
+        player = new Hero(mLayerViewport.getWidth()/8f - 8.0f, mLayerViewport.getHeight()/6f -2f, assetManager.getBitmap("Hero"), this, mGame);
+        opponent = new Hero(mLayerViewport.getWidth()/8f - 8.0f, mLayerViewport.getHeight() - mLayerViewport.getHeight()/5f, assetManager.getBitmap("Enemy"), this, mGame);
 
         for(Card card : player.getHand().getCards()) {
-            card.setPosition(mLayerViewport.getWidth()/2f, mLayerViewport.getHeight()/2f);
+            card.setPosition(mLayerViewport.getWidth()/2f, mLayerViewport.getHeight()/4f);
         }
         float len = player.getHand().getCards().size();
-        float widthSteps = (mLayerViewport.getWidth()/(len+1)), heightSteps = mLayerViewport.getHeight()/30;
+        float widthSteps = (mLayerViewport.getWidth()/(len+1)) / 1.4f, heightSteps = mLayerViewport.getHeight()/30;
         for(int i = 0; i < len; i++) {
             Card activeCard = player.getHand().getCards().get(i);
             Vector2 handPosition = new Vector2((widthSteps*(i+1)), heightSteps*6);
-            activeCard.setAnchor(handPosition.x, handPosition.y);
+            activeCard.setAnchor(handPosition.x + 70f, handPosition.y);
             activeCard.setPosition(handPosition);
         }
 
@@ -137,6 +143,21 @@ public class CardDemoScreen extends GameScreen {
         /*
          * END HARDCODED TESTING
          */
+        //////////////////
+        assetManager.loadAndAddBitmap("SliderBase", "img/SliderBase.png");
+        assetManager.loadAndAddBitmap("SliderFill", "img/SliderFill.png");
+        assetManager.loadAndAddBitmap("VerticalSliderFill", "img/VerticalSliderFill.png");
+
+        // Set up text painter with styles
+        Paint sliderPainter = new Paint();
+        sliderPainter.setTextSize(60);
+        sliderPainter.setColor(Color.BLACK);
+        sliderPainter.setTextAlign(Paint.Align.CENTER);
+
+        manaSlider = new VerticalSlider(0,10,player.getCurrentMana(),sliderPainter,
+                game.getScreenWidth()-200f,game.getScreenHeight()/2f, SLIDER_WIDTH,SLIDER_HEIGHT,
+                "SliderBase", "VerticalSliderFill", this, false);
+    /////////////////////////////
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -153,6 +174,8 @@ public class CardDemoScreen extends GameScreen {
     public void update(ElapsedTime elapsedTime) {
         player.update(elapsedTime);
         opponent.update(elapsedTime);
+        manaSlider.update(elapsedTime);
+
         if (playerTurn) {
             for (Card card : player.getHand().getCards()) {
                 card.update(elapsedTime, mScreenViewport, mLayerViewport);
@@ -255,7 +278,7 @@ public class CardDemoScreen extends GameScreen {
         BoardBackground.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
 
         player.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
-
+        manaSlider.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
         //highly inconsistent for some unknown reason
         for(Card card : player.getHand().getCards()) {
             if (card.isCardIsActive()) {
