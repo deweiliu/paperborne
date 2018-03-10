@@ -154,20 +154,23 @@ public class Card extends Sprite {
 
                 // If there is a touch up event, return the pressed card back to anchor position
                 if(cardPressedDown && cardState == CardState.CARD_IN_HAND) {
-                    //Checks if the hero has enough mana to play the card
-                    if(hero.getCurrentMana() >= this.getManaCost()) {
-                        //If the card is dropped onto the top half of the screen, place it onto the board
-                        if (this.position.y > layerViewport.getHeight() / 2) {
-                            this.anchor.y = layerViewport.getHeight() / 2;
-                            //Moves the card from the players hand to their active cards
-                            hero.playCard(this);
-                            //Place the cards accordingly
-                            if (this.position.x > layerViewport.getWidth() / 2) {
-                                this.anchor.x += 20;
-                            } else {
-                                this.anchor.x -= 20;
+                    //are we allowed to play a card?
+                    if(hero.getActiveCards().size() < hero.getMaxActiveCards()) {
+                        //Checks if the hero has enough mana to play the card
+                        if (hero.getCurrentMana() >= this.getManaCost()) {
+                            //If the card is dropped onto the top half of the screen, place it onto the board
+                            if (this.position.y > layerViewport.getHeight() / 2) {
+                                this.anchor.y = layerViewport.getHeight() / 2;
+                                //Moves the card from the players hand to their active cards
+                                hero.playCard(this);
+                                //Place the cards accordingly
+                                if (this.position.x > layerViewport.getWidth() / 2) {
+                                    this.anchor.x += 20;
+                                } else {
+                                    this.anchor.x -= 20;
+                                }
+                                this.finishedMove = true;
                             }
-                            this.finishedMove = true;
                         }
                     }
                     position = new Vector2(this.anchor.x, this.anchor.y);

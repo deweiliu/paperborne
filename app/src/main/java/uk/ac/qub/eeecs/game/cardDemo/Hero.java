@@ -23,6 +23,7 @@ public class Hero extends Sprite {
 
     private final int MAX_HEALTH = 30;
     private final int MAX_MANA = 10;
+    private final int MAX_ACTIVE_CARDS = 7;
 
     private int currentHealth;
     private int currentMana;
@@ -138,5 +139,9 @@ public class Hero extends Sprite {
 
     public boolean getHeroIsDead(){
         return this.heroIsDead;
+    }
+
+    public int getMaxActiveCards() {
+        return this.MAX_ACTIVE_CARDS;
     }
 }
