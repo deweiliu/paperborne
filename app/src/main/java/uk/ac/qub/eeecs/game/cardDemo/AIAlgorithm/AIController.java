@@ -13,7 +13,7 @@ public class AIController {
     private AIAlgorithm mAlgorithm;
 
     //If the AI algorithm finishes before the earliestFinishTime, this controller responses as unfinished until that time
-    //so it makes the player interprets the AI is thinking
+    //so it makes the player interpret that the AI is thinking
     private long earliestFinishTime;
     private boolean isFinished;
     private Board mBoard;

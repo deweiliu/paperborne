@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AlAlgorithms;
+package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms;
 
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.PlayerAction;
 import uk.ac.qub.eeecs.game.cardDemo.Board;
@@ -7,8 +7,8 @@ import uk.ac.qub.eeecs.game.cardDemo.Board;
  * Created by 40216004 Dewei Liu on 08/03/2018.
  */
 
-public class EndTurnAlgorithm extends AlgorithmSuperClass{
-    public EndTurnAlgorithm(Board board){
+public class EndTurnAlgorithm extends AlgorithmSuperClass {
+    public EndTurnAlgorithm(Board board) {
         super(board);
     }
 
@@ -19,9 +19,9 @@ public class EndTurnAlgorithm extends AlgorithmSuperClass{
     }
 
     @Override
-    protected void AIAlgorithm() {
+    protected void algorithm() {
         //Make this action valid without thinking anymore
-        super.isValid=true;
+        super.isValid = true;
     }
 
 }

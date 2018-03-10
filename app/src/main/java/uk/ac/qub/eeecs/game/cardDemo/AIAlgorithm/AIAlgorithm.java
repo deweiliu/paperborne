@@ -1,10 +1,10 @@
 package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm;
 
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AlAlgorithms.AlgorithmSuperClass;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AlAlgorithms.AttackActiveCardAlgorithm;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AlAlgorithms.AttackHeroAlgorithm;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AlAlgorithms.EndTurnAlgorithm;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AlAlgorithms.PlayCardAlgorithm;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.AlgorithmSuperClass;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.AttackActiveCardAlgorithm;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.AttackHeroAlgorithm;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.EndTurnAlgorithm;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.PlayCardAlgorithm;
 import uk.ac.qub.eeecs.game.cardDemo.Board;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 
@@ -47,6 +47,8 @@ public class AIAlgorithm implements Runnable {
             this.sourceCard = ((PlayCardAlgorithm) algorithm).getPlayedCard();
         }
 
+        /*******************************************************************************************/
+
         //AttackActiveCardAlgorithm
         else {
             algorithm = new AttackActiveCardAlgorithm(mBoard);
@@ -55,12 +57,16 @@ public class AIAlgorithm implements Runnable {
                 this.targetCard = ((AttackActiveCardAlgorithm) algorithm).getAttackee();
             }
 
+            /*******************************************************************************************/
+
             //AttackHeroAlgorithm
             else {
                 algorithm = new AttackHeroAlgorithm(mBoard);
                 if (algorithm.isValid()) {
                     this.sourceCard = ((AttackHeroAlgorithm) algorithm).getAttacker();
                 }
+
+                /*******************************************************************************************/
 
                 //EndTurnAlgorithm
                 else {
@@ -75,6 +81,9 @@ public class AIAlgorithm implements Runnable {
             }
 
         }
+
+        /*******************************************************************************************/
+
         this.actionState = algorithm.actionNumber();
         finishFunction();
     }

@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AlAlgorithms;
+package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -6,6 +6,7 @@ import java.util.Comparator;
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.PlayerAction;
 import uk.ac.qub.eeecs.game.cardDemo.Board;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
+import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
 /**
  * Created by 40216004 Dewei Liu on 08/03/2018.
@@ -25,17 +26,33 @@ public class PlayCardAlgorithm extends AlgorithmSuperClass {
         return PlayerAction.PLAY_CARD;
     }
 
+    public Card getPlayedCard() {
+        super.checkValid_ThrowException();
+        return this.playedCard;
+    }
+
+
+    /*******************************************************************************************/
+
 
     //This algorithm is using the idea of Knapsack problem
     // weight is the capacity of knapsack, and value of card is the value of stuff
-    //All algorithm is created for this project. NO copy-paste code from any old project
     @Override
-    protected void AIAlgorithm() {
+    protected void algorithm() {
+
+        //According to the game rule, not able to play any card to the board
+        if (super.getMyBoardCards().size() >= super.getMyMaxActiveCard()) {
+            super.isValid = false;
+            return;
+        }
+
+        /****************************************************************************************/
 
         //Get all information needed for cards
         ArrayList<Card> myHandCards = super.getMyHandCards();
         ArrayList<Card2> cards = new ArrayList<Card2>();
         for (Card each : myHandCards) {
+
             //Check the card is usable
             if (each.isFinishedMove() == false) {
                 Card2 card2 = new Card2(each);
@@ -45,16 +62,25 @@ public class PlayCardAlgorithm extends AlgorithmSuperClass {
             }
         }
 
-        //Sort cards with ascent order by weight
-        Comparator<Card2> comparator = new MyComparator();
-        cards.sort(comparator);
-////////////////////////////////////////////////////////////////////////////////////////////////////
-        int capacity = super.getMyMana();
-
+        //If no cards are usable
         if (cards.isEmpty()) {
+
+            //The action is not valid
             super.isValid = false;
             return;
         }
+
+
+        /****************************************************************************************/
+        //Knapsack algorithm
+
+        //Sort cards with ascendant order by weight
+        Comparator<Card2> comparator = new MyComparator();
+        cards.sort(comparator);
+
+        //The weight of knapsack
+        int capacity = super.getMyMana();
+
 
         //if the mana cannot afford the card with the least mana, then cannot play any card
         if (capacity < cards.get(0).getWeight()) {
@@ -88,7 +114,7 @@ public class PlayCardAlgorithm extends AlgorithmSuperClass {
 
         //Do the left row(s)
         for (int i = 1; i < rows; i++) {
-            //Card2 card=cards.get(i);
+            //Card3 card=cards.get(i);
             for (int j = 0; j < columns; j++) {
                 int notChoose = table[i - 1][j];
                 if (j < cards.get(i).getWeight()) {
@@ -114,12 +140,6 @@ public class PlayCardAlgorithm extends AlgorithmSuperClass {
     }
 
 
-    public Card getPlayedCard() {
-        super.checkValid_ThrowException();
-        return this.playedCard;
-    }
-
-
     private class MyComparator implements Comparator<Card2> {
 
         @Override
@@ -138,10 +158,10 @@ public class PlayCardAlgorithm extends AlgorithmSuperClass {
 
         public Card2(Card card) {
 
-            //Define the how to calculate the value of a card
+            //Define how to calculate the value of a card
             this.value = card.getAttackValue() * card.getHealthValue();
 
-            //Define the how to calculate the weight of a card
+            //Define how to calculate the weight of a card
             this.weight = card.getManaCost();
 
             this.card = card;

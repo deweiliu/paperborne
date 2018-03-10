@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AlAlgorithms;
+package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -23,16 +23,21 @@ public class AttackHeroAlgorithm extends AlgorithmSuperClass {
     public final int actionNumber() {
         return PlayerAction.ATTACK_HERO;
     }
+    public Card getAttacker() {
+        super.checkValid_ThrowException();
+        return this.attacker;
+    }
 
+    /*******************************************************************************************/
     @Override
-    protected void AIAlgorithm() {
+    protected void algorithm() {
 
         ArrayList<Card> myBoardCards = super.getMyBoardCards();
-        ArrayList<Card2> cards = new ArrayList<Card2>();
+        ArrayList<Card3> cards = new ArrayList<Card3>();
         for (Card each : myBoardCards) {
             if (each.isFinishedMove() == false) {
                 //If the card is valid to attack hero, add it into the list for later decision
-                Card2 card = new Card2(each);
+                Card3 card = new Card3(each);
                 cards.add(card);
             }
         }
@@ -58,16 +63,13 @@ public class AttackHeroAlgorithm extends AlgorithmSuperClass {
         }
     }
 
-    public Card getAttacker() {
-        super.checkValid_ThrowException();
-        return this.attacker;
-    }
 
-    private class MyComparator implements Comparator<AttackHeroAlgorithm.Card2> {
+
+    private class MyComparator implements Comparator<Card3> {
 
         @Override
-        public int compare(Card2 card2, Card2 t1) {
-            if (card2.getAttackValue() < t1.getAttackValue()) {
+        public int compare(Card3 card3, Card3 t1) {
+            if (card3.getAttackValue() < t1.getAttackValue()) {
                 return 1;
             } else {
                 return -1;
@@ -75,11 +77,11 @@ public class AttackHeroAlgorithm extends AlgorithmSuperClass {
         }
     }
 
-    private class Card2 {
+    private class Card3 {
         private int attackValue;
         private Card card;
 
-        public Card2(Card card) {
+        public Card3(Card card) {
             this.card = card;
             this.attackValue = card.getAttackValue();
         }

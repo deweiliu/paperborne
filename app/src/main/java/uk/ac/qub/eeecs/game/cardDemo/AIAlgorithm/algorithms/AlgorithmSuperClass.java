@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AlAlgorithms;
+package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,18 +14,18 @@ import uk.ac.qub.eeecs.game.cardDemo.Hero;
  */
 
 public abstract class AlgorithmSuperClass {
-    private Hero human;
-    private Hero ai;
+    private Hero humanPlayer;
+    private Hero AIPlayer;
 
     //Make the algorithm work randomly
     protected Random random;
     protected boolean isValid = false;
 
     public AlgorithmSuperClass(Board mBoard) {
-        this.ai = mBoard.getAIHero();
-        this.human = mBoard.getUserHero();
+        this.AIPlayer = mBoard.getAIHero();
+        this.humanPlayer = mBoard.getUserHero();
         random = new Random();
-        AIAlgorithm();
+        algorithm();
     }
 
     //Decide if this Action of this class will be done/ is valid.
@@ -35,7 +35,7 @@ public abstract class AlgorithmSuperClass {
 
     abstract public int actionNumber();
 
-    abstract protected void AIAlgorithm();
+    abstract protected void algorithm();
 
     protected void checkValid_ThrowException() {
         if (this.isValid() == false) {
@@ -45,40 +45,44 @@ public abstract class AlgorithmSuperClass {
 
     //AI player stuff accessible by computer
     protected int getMyMana() {
-        return ai.getCurrentMana();
+        return AIPlayer.getCurrentMana();
     }
 
     protected int getMyHealth() {
-        return ai.getCurrentHealth();
+        return AIPlayer.getCurrentHealth();
     }
 
     protected ArrayList<Card> getMyHandCards() {
-        return ai.getHand().getCards();
+        return AIPlayer.getHand().getCards();
     }
 
     protected ArrayList<Card> getMyBoardCards() {
-        return ai.getActiveCards();
+        return AIPlayer.getActiveCards();
     }
 
     protected int getMyDeckCardsNumber() {
-        return ai.getDeck().getCardsInDeck().size();
+        return AIPlayer.getDeck().getCardsInDeck().size();
     }
 
-    //human player stuff accessible by computer
+    protected int getMyMaxActiveCard(){
+        return AIPlayer.getMaxActiveCards();
+    }
+
+    //humanPlayer player stuff accessible by computer
     protected int getPlayerHealth() {
-        return human.getCurrentHealth();
+        return humanPlayer.getCurrentHealth();
     }
 
     protected ArrayList<Card> getPlayerBoardCards() {
-        return human.getActiveCards();
+        return humanPlayer.getActiveCards();
     }
 
     protected int getPlayerHandCardNumber() {
-        return human.getHand().getCards().size();
+        return humanPlayer.getHand().getCards().size();
     }
 
     protected boolean isPlayerDeckEmpty() {
-        return human.getDeck().isDeckEmpty();
+        return humanPlayer.getDeck().isDeckEmpty();
     }
 
 
