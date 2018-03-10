@@ -3,6 +3,7 @@ package uk.ac.qub.eeecs.game.cardDemo;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
@@ -101,16 +102,17 @@ public class Hero extends Sprite {
             this.activeCards.add(cardToPlay);
             this.currentMana -= cardToPlay.getManaCost();
             cardToPlay.setCardState(Card.CardState.CARD_ON_BOARD);
+            this.hand.getCards().remove(cardToPlay);
         }
     }
 
     public void clearDeadCards() {
-        ArrayList<Card> toRemove = new ArrayList<>();
-        for(Card card : activeCards) {
-            if(card.getCardIsDead())
-                toRemove.add(card);
+        Iterator<Card> i = activeCards.iterator();
+        while(i.hasNext()) {
+            Card current = i.next();
+            if(current.getCardIsDead())
+                i.remove();
         }
-        activeCards.removeAll(toRemove);
     }
 
     //Getters

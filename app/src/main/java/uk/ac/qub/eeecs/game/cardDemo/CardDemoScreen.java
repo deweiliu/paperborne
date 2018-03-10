@@ -3,10 +3,12 @@ package uk.ac.qub.eeecs.game.cardDemo;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.method.Touch;
 
+import java.util.Iterator;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
@@ -14,6 +16,7 @@ import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
+import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
@@ -36,10 +39,12 @@ public class CardDemoScreen extends GameScreen {
     private ScreenViewport mScreenViewport;
     private LayerViewport mLayerViewport;
     private GameObject BoardBackground;
+    private PushButton mEndTurnButton;
     private final float LEVEL_WIDTH = 1000.0f;
     private final float LEVEL_HEIGHT = 1000.0f;
     private boolean playerTurn;
-    private Timer timer;
+    private Handler turnHandler;
+    private Runnable endTurn;
     long startTime, turnTime;
 
     // /////////////////////////////////////////////////////////////////////////
@@ -73,6 +78,7 @@ public class CardDemoScreen extends GameScreen {
         assetManager.loadAndAddBitmap("Board", "img/Board.png");
         assetManager.loadAndAddBitmap("Hero", "img/Hero_Base.png");
         assetManager.loadAndAddBitmap("Enemy", "img/Enemy_Base.png");
+        assetManager.loadAndAddBitmap("EndTurn", "img/End_Turn.png");
 
 
         BoardBackground = new GameObject(mLayerViewport.getWidth() / 2f,mLayerViewport.getHeight()/2f,
@@ -80,6 +86,9 @@ public class CardDemoScreen extends GameScreen {
                 mLayerViewport.getHeight(),
                 getGame()
                .getAssetManager().getBitmap("Board"), this);
+
+        mEndTurnButton = new PushButton(
+                mLayerViewport.getWidth()*3.5f, mLayerViewport.getHeight()*2, 200, 100, "EndTurn", this);
 
         if(opponentDeck.isEmpty())
         {
@@ -129,25 +138,31 @@ public class CardDemoScreen extends GameScreen {
         for(Card card : player.getHand().getCards()) {
             card.setPosition(mLayerViewport.getWidth()/2f, mLayerViewport.getHeight()/2f);
         }
-        float len = player.getHand().getCards().size();
-        float widthSteps = (mLayerViewport.getWidth()/(len+1)), heightSteps = mLayerViewport.getHeight()/30;
-        for(int i = 0; i < len; i++) {
-            Card activeCard = player.getHand().getCards().get(i);
-            Vector2 handPosition = new Vector2((widthSteps*(i+1)), heightSteps*6);
-            activeCard.setAnchor(handPosition.x, handPosition.y);
-            activeCard.setPosition(handPosition);
-        }
+
+        arrangeCards();
 
         playerTurn = true;
 
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-                           @Override
-                           public void run() {
-                               playerTurn = !playerTurn;
-                               startTime = System.currentTimeMillis();
-                           }
-                       }, 30000, 30000);
+        endTurn = new Runnable() {
+            @Override
+            public void run() {
+
+                player.clearDeadCards();
+                opponent.clearDeadCards();
+                for (Card card : player.getActiveCards())
+                    card.setFinishedMove(false);
+                player.refillMana();
+                opponent.refillMana();
+                arrangeCards();
+                playerTurn = !playerTurn;
+                turnHandler.postDelayed(this, 30000);
+                startTime = System.currentTimeMillis();
+            }
+        };
+
+        turnHandler = new Handler(Looper.getMainLooper());
+        turnHandler.postDelayed(endTurn,30000);
+
         startTime = System.currentTimeMillis();
     }
 
@@ -163,93 +178,92 @@ public class CardDemoScreen extends GameScreen {
      */
     @Override
     public void update(ElapsedTime elapsedTime) {
+
+        turnTime = ((startTime + 30000) - System.currentTimeMillis())/1000;
+
         player.update(elapsedTime);
         opponent.update(elapsedTime);
-        if (playerTurn) {
-            for (Card card : player.getHand().getCards()) {
-                card.update(elapsedTime, mScreenViewport, mLayerViewport, player);
-            }
-        }
-//        if(player.getActiveCards() != null) for(Card card : player.getActiveCards()) card.update(elapsedTime,mScreenViewport,mLayerViewport);
-//        for(Card card : opponent.getHand().getCards()) card.update(elapsedTime,mScreenViewport,mLayerViewport);
+
+        //if(player.getActiveCards() != null) for(Card card : player.getActiveCards()) card.update(elapsedTime,mScreenViewport,mLayerViewport);
+        //for(Card card : opponent.getHand().getCards()) card.update(elapsedTime,mScreenViewport,mLayerViewport);
     
         // Check for a touch down event, if one is found deselect all the cards
         //only allow interaction if it's player's turn
 
-        if(playerTurn) {
+        if(!playerTurn) return;
 
-            // Check for touchdown event
-            boolean touchDown = false;
-            Input input = mGame.getInput();
-            for (TouchEvent touch : input.getTouchEvents()) {
-                if (touch.type == TouchEvent.TOUCH_DOWN) {
-                    touchDown = true;
-                }
+        // Check for touchdown event
+        boolean touchDown = false;
+        Input input = mGame.getInput();
+        for (TouchEvent touch : input.getTouchEvents()) {
+            if (touch.type == TouchEvent.TOUCH_DOWN) {
+                touchDown = true;
             }
+        }
 
-            // If there has been a touch down
-            if (touchDown) {
-                // Go through each opponent card on the board
-                for (Card opponentCard : opponent.getActiveCards()) {
-                    opponentCard.update(elapsedTime, mScreenViewport, mLayerViewport, opponent);
+        // If there has been a touch down
+        if (touchDown) {
+            mEndTurnButton.update(elapsedTime);
+            if(mEndTurnButton.isPushTriggered()) {
+                turnHandler.removeCallbacks(endTurn);
+                endTurn.run();
+                return;
+            }
+            // Go through each opponent card on the board
+            for (Card opponentCard : opponent.getActiveCards()) {
+                opponentCard.update(elapsedTime, mScreenViewport, mLayerViewport, opponent);
 
-                    // If the opponent card has been tapped
-                    if (opponentCard.isCardIsActive()) {
-                        // Check for any selected player cards on the board
-                        for (Card playerCard : player.getActiveCards()) {
-                            if (playerCard.isCardIsActive() && !playerCard.isFinishedMove()) {
-                                // If there is a selected player card that hasn't finished it's move
-                                // attack the tapped opponent card
-                                opponentCard.takeDamage(playerCard.getAttackValue());
-                                // Deselect player card and mark it as finished its move
-                                playerCard.setCardIsActive(false);
-                                playerCard.setFinishedMove(true);
-                                // Mark the opponent card as no longer tapped
-                                opponentCard.setCardIsActive(false);
-                            }
+                // If the opponent card has been tapped
+                if (opponentCard.isCardIsActive()) {
+                    // Check for any selected player cards on the board
+                    for (Card playerCard : player.getActiveCards()) {
+                        if (playerCard.isCardIsActive() && !playerCard.isFinishedMove()) {
+                            // If there is a selected player card that hasn't finished it's move
+                            // attack the tapped opponent card
+                            opponentCard.takeDamage(playerCard.getAttackValue());
+                            // Deselect player card and mark it as finished its move
+                            playerCard.setCardIsActive(false);
+                            playerCard.setFinishedMove(true);
+                            // Mark the opponent card as no longer tapped
+                            opponentCard.setCardIsActive(false);
                         }
                     }
                 }
-                // If there has been a touchdown event, mark each player card on the board as inactive
-                for (Card card : player.getActiveCards()) {
-                    // Mark each player card on the board as deselected
-                    card.setCardIsActive(false);
-                }
             }
-            if (!player.getActiveCards().isEmpty()) {
-                // If the player has played cards
-                for (Card card : player.getActiveCards()) {
-                    card.update(elapsedTime, mScreenViewport, mLayerViewport, player);
-                }
-            }
-            if (!player.getHand().getCards().isEmpty()) {
-                for (Card card : player.getHand().getCards()) {
-                    card.update(elapsedTime, mScreenViewport, mLayerViewport, player);
-                }
-            }
-            if (!opponent.getActiveCards().isEmpty()) {
-                // If the opponent has played cards
-                for (Card card : opponent.getActiveCards()) {
-                    card.update(elapsedTime, mScreenViewport, mLayerViewport, opponent);
-                }
-            }
-            if (!opponent.getHand().getCards().isEmpty()) {
-                for (Card card : opponent.getHand().getCards()) {
-                    card.update(elapsedTime, mScreenViewport, mLayerViewport, opponent);
-                }
+            // If there has been a touchdown event, mark each player card on the board as inactive
+            for (Card card : player.getActiveCards()) {
+                // Mark each player card on the board as deselected
+                card.setCardIsActive(false);
             }
         }
-
-        turnTime = ((startTime + 30000) - System.currentTimeMillis())/1000;
-
-        if(turnTime == 0) {
-            player.clearDeadCards();
-            opponent.clearDeadCards();
-            for(Card card : player.getActiveCards()){
-                card.setFinishedMove(false);
+        if (!player.getActiveCards().isEmpty()) {
+            // If the player has played cards
+            for (Card card : player.getActiveCards()) {
+                card.update(elapsedTime, mScreenViewport, mLayerViewport, player);
             }
-            player.refillMana();
         }
+        if (!player.getHand().getCards().isEmpty()) {
+            for(int i = 0; i < player.getHand().getCards().size(); i++) {
+                player.getHand().getCards().get(i).update(elapsedTime, mScreenViewport, mLayerViewport, player);
+            }
+
+            /*TODO - breaks because we can't remove a card from hand and iterate over foreach, which happens when we play a card
+            for (Card card : player.getHand().getCards()) {
+                card.update(elapsedTime, mScreenViewport, mLayerViewport, player);
+            }*/
+        }
+        if (!opponent.getActiveCards().isEmpty()) {
+            // If the opponent has played cards
+            for (Card card : opponent.getActiveCards()) {
+                card.update(elapsedTime, mScreenViewport, mLayerViewport, opponent);
+            }
+        }
+        if (!opponent.getHand().getCards().isEmpty()) {
+            for (Card card : opponent.getHand().getCards()) {
+                card.update(elapsedTime, mScreenViewport, mLayerViewport, opponent);
+            }
+        }
+        input.getTouchEvents().clear();
     }
 
     /**
@@ -265,6 +279,7 @@ public class CardDemoScreen extends GameScreen {
         BoardBackground.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
 
         player.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+
 
 
         for(Card card : player.getHand().getCards()) {
@@ -300,6 +315,7 @@ public class CardDemoScreen extends GameScreen {
             }
         }
         opponent.draw(elapsedTime, graphics2D ,mLayerViewport, mScreenViewport);
+
         for(Card card : opponent.getHand().getCards()) card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
         if(opponent.getActiveCards() != null) for(Card card : opponent.getActiveCards()) {
             if(card.getCardIsDead()) {
@@ -309,6 +325,8 @@ public class CardDemoScreen extends GameScreen {
             } else
                 card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
         }
+
+        mEndTurnButton.draw(elapsedTime, graphics2D);
 
         String turnRemaining = turnTime + " seconds left in current turn";
         String whoseTurn =  "Player turn: " + playerTurn;
@@ -320,5 +338,26 @@ public class CardDemoScreen extends GameScreen {
         graphics2D.drawText(turnRemaining, mLayerViewport.getWidth()/8, (mLayerViewport.getHeight()/2)-100, paint);
         graphics2D.drawText(whoseTurn, mLayerViewport.getWidth()/8, (mLayerViewport.getHeight()/2)-50, paint);
         graphics2D.drawText(canInteract, mLayerViewport.getWidth()/8, mLayerViewport.getHeight()/2, paint);
+    }
+
+    public void arrangeCards() {
+        float len = player.getHand().getCards().size();
+        float widthSteps = (mLayerViewport.getWidth()/(len+1)), heightSteps = mLayerViewport.getHeight()/30;
+        for(int i = 0; i < len; i++) {
+            Card activeCard = player.getHand().getCards().get(i);
+            Vector2 handPosition = new Vector2((widthSteps*(i+1)), heightSteps*6);
+            activeCard.setAnchor(handPosition.x, handPosition.y);
+            activeCard.setPosition(handPosition);
+        }
+
+        len = player.getActiveCards().size();
+        widthSteps = (mLayerViewport.getWidth()/2)/(len+1);
+        float offset = mLayerViewport.getWidth()/4;
+        for(int i = 0; i < len; i++) {
+            Card activeCard = player.getActiveCards().get(i);
+            Vector2 handPosition = new Vector2((widthSteps*(i+1))+offset, mLayerViewport.getHeight()/2);
+            activeCard.setAnchor(handPosition.x, handPosition.y);
+            activeCard.setPosition(handPosition);
+        }
     }
 }

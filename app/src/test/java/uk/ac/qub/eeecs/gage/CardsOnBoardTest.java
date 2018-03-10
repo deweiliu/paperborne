@@ -80,7 +80,7 @@ public class CardsOnBoardTest
         // Draw 5 cards and play them on the board
         for(int i = 0; i < 3; i++)
         {
-            hero.playCard(hero.getDeck().drawCard());
+            hero.playCard(hero.getHand().getCards().get(i));
         }
         for(Card card : hero.getActiveCards())
         {
@@ -179,16 +179,19 @@ public class CardsOnBoardTest
         game.getScreenManager().addScreen(cardDemoScreen);
         Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
 
-        //draw a card
-        hero.playCard(hero.getDeck().drawCard());
+        //play five cards
+        for(int i = 0; i < 5; i++) {
+            hero.playCard(hero.getHand().getCards().get(0));
+            hero.refillMana();
+        }
 
-        //damage it for 1 more than its health
-        hero.getActiveCards().get(0).takeDamage(hero.getActiveCards().get(0).getHealthValue()+1);
+        //damage first card for max health
+        hero.getActiveCards().get(0).takeDamage(hero.getActiveCards().get(0).getHealthValue());
 
-
+        //remove it
         hero.clearDeadCards();
 
-        assertTrue(hero.getActiveCards().isEmpty());
+        assertTrue(hero.getActiveCards().size() == 4);
     }
 
 
