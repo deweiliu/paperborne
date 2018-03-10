@@ -1,5 +1,8 @@
 package uk.ac.qub.eeecs.game.worldScreen;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Jamie T on 08/03/2018.
  * Class to represent a card in the level definition, reduced down to essential information that
@@ -8,6 +11,13 @@ package uk.ac.qub.eeecs.game.worldScreen;
 
 public class LevelCard
 {
+	// JSON String identifiers for cards
+	public static final String CARD_NAME = "name";
+	public static final String CARD_ATTACK = "attackValue";
+	public static final String CARD_HEALTH = "healthValue";
+	public static final String CARD_BITMAP = "bitmap";
+	public static final String CARD_MANA_COST = "manaCost";
+	
 	// Card name
 	private String name;
 	// Card bitmap
@@ -85,5 +95,28 @@ public class LevelCard
 	public void setAttackValue(int attackValue)
 	{
 		this.attackValue = attackValue;
+	}
+	
+	/**
+	 * Converts the card to a JSON string form for writing to a file
+	 * @return JSON String form of this card
+	 */
+	public String toJSON()
+	{
+		try
+		{
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put(CARD_NAME, name);
+			jsonObject.put(CARD_BITMAP, bitmap);
+			jsonObject.put(CARD_HEALTH, healthValue);
+			jsonObject.put(CARD_MANA_COST, manaCost);
+			jsonObject.put(CARD_ATTACK, attackValue);
+			return jsonObject.toString();
+		}
+		catch (JSONException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

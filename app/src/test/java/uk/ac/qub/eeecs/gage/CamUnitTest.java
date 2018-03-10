@@ -71,7 +71,7 @@ public class CamUnitTest {
         int expectedHealth = 1;
 
         //Test data
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
 
         //Creates Card1 and Card2 for comparison that the values get added to the repective vairables
         Card card1 = new Card(1, "Test", 100.0f, 100.0f

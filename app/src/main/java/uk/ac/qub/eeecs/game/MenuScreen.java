@@ -148,7 +148,7 @@ public class MenuScreen extends GameScreen {
             if(mPerformanceButton.isPushTriggered())
                 changeToScreen(new PerformanceScreen(mGame));
             else if (mCardDemoButton.isPushTriggered())
-                changeToScreen(new CardDemoScreen(mGame, new ArrayList<LevelCard>()));
+                changeToScreen(new CardDemoScreen(mGame, new ArrayList<LevelCard>(), new ArrayList<LevelCard>()));
             else if(mOptionsButton.isPushTriggered())
                 changeToScreen(new OptionsScreen(mGame));
             else if(mHelpButton.isPushTriggered())

@@ -57,7 +57,7 @@ public class DeckTests {
 
     @Test
     public void testDeck() {
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
 
         Deck deck = new Deck(cardDemoScreen, game);
@@ -65,7 +65,7 @@ public class DeckTests {
 
     @Test
     public void testCardRemoval() {
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
 
         Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
@@ -78,7 +78,7 @@ public class DeckTests {
 
     @Test
     public void testDeckIsEmpty(){
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
 
         Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
@@ -93,7 +93,7 @@ public class DeckTests {
     @Test
     public void testCardStates()
     {
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
         
         // Check that each card in the deck is the expected cardstate

@@ -12,6 +12,18 @@ import uk.ac.qub.eeecs.gage.ui.PushButton;
 
 public class GameLevel
 {
+	// JSON String identifiers for levels
+	public static final String LEVEL_ID = "id";
+	public static final String LEVEL_NAME = "name";
+	public static final String LEVEL_BITMAP = "bitmap";
+	public static final String LEVEL_BITMAP_PATH = "bitmapPath";
+	public static final String LEVEL_X_PERCENT = "xPercent";
+	public static final String LEVEL_Y_PERCENT = "yPercent";
+	public static final String LEVEL_WIDTH = "width";
+	public static final String LEVEL_HEIGHT = "height";
+	public static final String LEVEL_DECK = "deck";
+	public static final String LEVEL_PREREQUISITES = "prerequisites";
+	
 	// Level ID
 	private String id;
 	// Level name

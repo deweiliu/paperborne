@@ -51,7 +51,7 @@ public class CardDemoScreen extends GameScreen {
      *
      * @param game Game to which this screen belongs
      */
-    public CardDemoScreen(Game game, List<LevelCard> opponentDeck) {
+    public CardDemoScreen(Game game, List<LevelCard> opponentDeck, List<LevelCard> playerDeck) {
         super("CardScreen", game);
 
         mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
@@ -104,7 +104,27 @@ public class CardDemoScreen extends GameScreen {
                     opponentDeck
             );
         }
-        player = new Hero(mLayerViewport.getWidth()/2f, mLayerViewport.getHeight()/6f, assetManager.getBitmap("Hero"), this, mGame);
+        if(playerDeck.isEmpty())
+        {
+            player = new Hero(
+                    mLayerViewport.getWidth() / 2f,
+                    mLayerViewport.getHeight() / 6f,
+                    assetManager.getBitmap("Hero"),
+                    this,
+                    mGame
+            );
+        }
+        else
+        {
+            player = new Hero(
+                    mLayerViewport.getWidth() / 2f,
+                    mLayerViewport.getHeight() / 6f,
+                    assetManager.getBitmap("Hero"),
+                    this,
+                    mGame,
+                    playerDeck
+            );
+        }
 
         for(Card card : player.getHand().getCards()) {
             card.setPosition(mLayerViewport.getWidth()/2f, mLayerViewport.getHeight()/2f);

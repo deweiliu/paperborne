@@ -64,7 +64,7 @@ public class NameerUnitTests {
     //This tests that when a Hand is created, the size of the hand is as should be expected
     @Test
     public void testHandCreation(){
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
 
         Hero hero = new Hero(0,0, bitmap, cardDemoScreen, game);

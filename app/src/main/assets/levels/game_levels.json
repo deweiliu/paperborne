@@ -1,4 +1,112 @@
 {
+  "startingDeck":
+  [
+    {
+      "name":"Weak Man",
+      "bitmap":"Card",
+      "attackValue":1,
+      "healthValue":1,
+      "manaCost":1
+    },
+    {
+      "name":"Weak Man",
+      "bitmap":"Card",
+      "attackValue":1,
+      "healthValue":1,
+      "manaCost":1
+    },
+    {
+      "name":"Weak Man",
+      "bitmap":"Card",
+      "attackValue":1,
+      "healthValue":1,
+      "manaCost":1
+    },
+    {
+      "name":"Weak Man",
+      "bitmap":"Card",
+      "attackValue":1,
+      "healthValue":1,
+      "manaCost":1
+    },
+    {
+      "name":"Weak Man",
+      "bitmap":"Card",
+      "attackValue":1,
+      "healthValue":1,
+      "manaCost":1
+    },
+    {
+      "name":"Weak Man",
+      "bitmap":"Card",
+      "attackValue":1,
+      "healthValue":1,
+      "manaCost":1
+    },
+    {
+      "name":"Weak Man",
+      "bitmap":"Card",
+      "attackValue":1,
+      "healthValue":1,
+      "manaCost":1
+    },
+    {
+      "name":"Weak Man",
+      "bitmap":"Card",
+      "attackValue":1,
+      "healthValue":1,
+      "manaCost":1
+    },
+    {
+      "name":"Weak Man",
+      "bitmap":"Card",
+      "attackValue":1,
+      "healthValue":1,
+      "manaCost":1
+    },
+    {
+      "name":"Weak Man",
+      "bitmap":"Card",
+      "attackValue":1,
+      "healthValue":1,
+      "manaCost":1
+    },
+    {
+      "name":"Weak Man",
+      "bitmap":"Card",
+      "attackValue":1,
+      "healthValue":1,
+      "manaCost":1
+    },
+    {
+      "name":"Weak Man",
+      "bitmap":"Card",
+      "attackValue":1,
+      "healthValue":1,
+      "manaCost":1
+    },
+    {
+      "name":"Weak Man",
+      "bitmap":"Card",
+      "attackValue":1,
+      "healthValue":1,
+      "manaCost":1
+    },
+    {
+      "name":"Weak Man",
+      "bitmap":"Card",
+      "attackValue":1,
+      "healthValue":1,
+      "manaCost":1
+    },
+    {
+      "name":"Weak Man",
+      "bitmap":"Card",
+      "attackValue":1,
+      "healthValue":1,
+      "manaCost":1
+    }
+  ],
   "levels":
   [
     {
@@ -367,6 +475,11 @@
           "healthValue":5,
           "manaCost":1
         }
+      ],
+      "prerequisites":
+      [
+        "level_one",
+        "level_two"
       ]
     }
   ]

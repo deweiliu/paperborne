@@ -72,7 +72,7 @@ public class CardsOnBoardTest
     @Test
     public void checkCardPlayedState()
     {
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
     
         // Check that each card in the deck is the expected cardstate
@@ -97,7 +97,7 @@ public class CardsOnBoardTest
         // Elapsed time for updates
         ElapsedTime elapsedTime = new ElapsedTime();
         // Set up screen
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
     
         // Create viewports to allow conversion from touch coordinates into screen coords
@@ -175,7 +175,7 @@ public class CardsOnBoardTest
     @Test
     public void checkCardRemovedOnDeath() {
 
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
         Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
 

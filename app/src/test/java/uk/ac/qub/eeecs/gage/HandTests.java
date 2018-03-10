@@ -54,7 +54,7 @@ public class HandTests
     @Test
     public void testCardDrawnStates()
     {
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
         
         // Check that each card in the deck is the expected cardstate
