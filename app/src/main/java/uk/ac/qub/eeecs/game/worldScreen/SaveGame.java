@@ -28,7 +28,7 @@ public class SaveGame
 	private List<String> completed;
 	
 	/**
-	 * Cosntructor for save game
+	 * Constructor for save game
 	 * @param slot save slot, only 1 save game per slot
 	 * @param playerDeck the player's deck state in the save game
 	 * @param completed the list of levels the user has completed, represented by level IDs

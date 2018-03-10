@@ -27,6 +27,7 @@ import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.game.GameUtil;
 import uk.ac.qub.eeecs.game.MenuScreen;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.ui.PopUp;
@@ -303,7 +304,7 @@ public class WorldScreen extends GameScreen
 		try
 		{
 			// Gets the  JSON in string form form the file
-			JSONObject jsonData = new JSONObject(getJSONAsset(mGame.getContext(), levelFileName));
+			JSONObject jsonData = new JSONObject(GameUtil.getJSONAsset(mGame.getContext(), levelFileName));
 			// Gets the levels as a JSON array
 			JSONArray jsonLevels = jsonData.getJSONArray(LEVEL_LIST);
 			// Sets up return list containing all parsed levels
@@ -625,45 +626,6 @@ public class WorldScreen extends GameScreen
 		}
 	}
 	
-	
-	//TODO: Move this method to a common util class
-	
-	/**
-	 * Reads a JSON file from assets
-	 *
-	 * @param context  calling context
-	 * @param filename JSON filename to read, root folder is assets/
-	 * @return
-	 */
-	private String getJSONAsset(Context context, String filename)
-	{
-		// JSON charset
-		final String CHAR_SET = "UTF-8";
-		// Set up json string output
-		String json;
-		try
-		{
-			// Open the JSON file with an input stream
-			InputStream is = context.getAssets().open(filename);
-			// Gets the estimated size of the file
-			int size = is.available();
-			// Create a byte buffer to read into
-			byte[] buffer = new byte[size];
-			// Read from the input stream into the buffer
-			is.read(buffer);
-			// Close the input stream
-			is.close();
-			// Convert the buffer into a JSON string in the specified charset
-			json = new String(buffer, CHAR_SET);
-		}
-		catch (IOException ex)
-		{
-			// If there is an error print the stack trace
-			ex.printStackTrace();
-			return null;
-		}
-		return json;
-	}
 	
 	public List<GameLevel> getLevels()
 	{
