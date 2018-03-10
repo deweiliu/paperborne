@@ -29,6 +29,7 @@ import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.MenuScreen;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
+import uk.ac.qub.eeecs.game.ui.PopUp;
 
 /**
  * Created by Jamie T on 25/01/2018.
@@ -48,6 +49,16 @@ public class WorldScreen extends GameScreen
 	// Save games filename
 	private static final String SAVE_FILE = "save_games.json";
 	
+	// Bitmap paths and IDs
+	private static final String WORLD_MAP_BITMAP_ID = "worldmap";
+	private static final String WORLD_MAP_BITMAP_PATH ="img/WorldMap.png";
+	
+	private static final String LAUNCH_BUTTON_BITMAP_ID = "launchbutton";
+	private static final String LAUNCH_BUTTON_BITMAP_PATH = "img/LaunchButton.png";
+	
+	private static final String CHARACTER_BITMAP_ID = "character";
+	private static final String CHARACTER_BITMAP_PATH ="img/Character.png";
+	
 	// Maximum number of save slots
 	private static final int MAX_SAVE_SLOTS = 3;
 	// Default save slot
@@ -65,6 +76,13 @@ public class WorldScreen extends GameScreen
 	private static final int LAUNCH_BUTTON_WIDTH = 512;
 	private static final int LAUNCH_BUTTON_HEIGHT = 128;
 	private static final int LAUNCH_BUTTON_Y_SEPERATION = 128;
+	
+	// Pop up font size
+	private static final int POPUP_FONT_SIZE = 72;
+	// Pop up visibility duration
+	private static final long POPUP_DURATION = 3;
+	// Message to display to the user if they try to launch a locked level
+	private static final String LEVEL_LOCKED_MESSAGE = "Level locked!";
 	
 	// Paint defining how text is to be drawn
 	private Paint mTextPainter;
@@ -88,6 +106,8 @@ public class WorldScreen extends GameScreen
 	private Activity mActivity;
 	// Game asset manager
 	private AssetStore mAssetManager;
+	// Pop up message to display to the user if there is a level they try to launch that is locked
+	private PopUp mPopUp;
 	
 	public WorldScreen(Game game)
 	{
@@ -100,9 +120,10 @@ public class WorldScreen extends GameScreen
 		// Get asset manager
 		mAssetManager = game.getAssetManager();
 		// Load in any bitmaps used in the world screen
-		mAssetManager.loadAndAddBitmap("WorldMap", "img/WorldMap.png");
-		mAssetManager.loadAndAddBitmap("Character", "img/Character.png");
-		mAssetManager.loadAndAddBitmap("LaunchButton", "img/BlueButton.png");
+		mAssetManager.loadAndAddBitmap(WORLD_MAP_BITMAP_ID, WORLD_MAP_BITMAP_PATH);
+		mAssetManager.loadAndAddBitmap(CHARACTER_BITMAP_ID, CHARACTER_BITMAP_PATH);
+		mAssetManager.loadAndAddBitmap(LAUNCH_BUTTON_BITMAP_ID, LAUNCH_BUTTON_BITMAP_PATH);
+		mAssetManager.loadAndAddBitmap(PopUp.POPUP_BITMAP_ID, PopUp.POPUP_BITMAP_PATH);
 		
 		// Create the world map background
 		mWorldBackground = new GameObject(
@@ -110,7 +131,7 @@ public class WorldScreen extends GameScreen
 				game.getScreenHeight() / 2,
 				mGame.getScreenWidth(),
 				mGame.getScreenHeight(),
-				mAssetManager.getBitmap("WorldMap"),
+				mAssetManager.getBitmap(WORLD_MAP_BITMAP_ID),
 				this
 		);
 		
@@ -134,7 +155,7 @@ public class WorldScreen extends GameScreen
 				mLevels.get(mCurrentLevel).getButton().position.y - DEFAULT_LEVEL_HEIGHT,
 				PLAYER_WIDTH,
 				PLAYER_HEIGHT,
-				mAssetManager.getBitmap("Character"),
+				mAssetManager.getBitmap(CHARACTER_BITMAP_ID),
 				this
 		);
 		
@@ -144,7 +165,7 @@ public class WorldScreen extends GameScreen
 				game.getScreenHeight() - LAUNCH_BUTTON_Y_SEPERATION,
 				LAUNCH_BUTTON_WIDTH,
 				LAUNCH_BUTTON_HEIGHT,
-				"LaunchButton",
+				LAUNCH_BUTTON_BITMAP_ID,
 				this
 		);
 		
@@ -181,6 +202,10 @@ public class WorldScreen extends GameScreen
 			// If the launch button has been pressed load the selected level's battle
 			loadBattle();
 		}
+		if(mPopUp != null)
+		{
+			mPopUp.update(elapsedTime);
+		}
 	}
 	
 	@Override
@@ -204,6 +229,14 @@ public class WorldScreen extends GameScreen
 				mLaunchButton.position.y - LAUNCH_BUTTON_HEIGHT,
 				mTextPainter
 		);
+		if(mPopUp != null)
+		{
+			if(mPopUp.isVisible())
+			{
+				// If the pop up should be visible, draw it
+				mPopUp.draw(elapsedTime, graphics2D);
+			}
+		}
 	}
 	
 	/**
@@ -235,7 +268,16 @@ public class WorldScreen extends GameScreen
 		if(locked)
 		{
 			// Can't play level, haven't completed previous levels
-			//TODO: Display a  message to the user informing them that the level is locked
+			// Create new popup with error message
+			mPopUp = new PopUp(
+					String.format("%s", LEVEL_LOCKED_MESSAGE),
+					POPUP_DURATION,
+					POPUP_FONT_SIZE,
+					mGame.getAssetManager().getBitmap(PopUp.POPUP_BITMAP_ID),
+					this
+			);
+			// Display the popup
+			mPopUp.show();
 		}
 		else
 		{
