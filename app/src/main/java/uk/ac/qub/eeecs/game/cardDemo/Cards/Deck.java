@@ -94,7 +94,12 @@ public class Deck {
     //draws a random card
     public Card drawCard(){
         Random randomCard = new Random();
-        int maximum = cardsInDeck.size() - 1;
+        int maximum;
+        if(cardsInDeck.size() != 1) {
+            maximum = cardsInDeck.size() - 1;
+        } else {
+            maximum = 1;
+        }
         int result = randomCard.nextInt(maximum);
         Card temp = new Card(cardsInDeck.get(result));
         cardsInDeck.remove(result);

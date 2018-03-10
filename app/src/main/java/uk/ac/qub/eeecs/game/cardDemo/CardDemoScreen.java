@@ -153,6 +153,19 @@ public class CardDemoScreen extends GameScreen {
                     card.setFinishedMove(false);
                 player.refillMana();
                 opponent.refillMana();
+
+                if(!playerTurn) { //last turn was opponents and we haven't changed it to the player's - it's player turn to draw
+                    if(!player.getDeck().isDeckEmpty() && player.getHand().getCards().size() < player.getHand().getMaxHandSize())
+                        player.getHand().getCards().add(player.getDeck().drawCard());
+                    else
+                        player.takeDamage(1);
+                } else { //it's end of player's turn and opponent's turn to draw
+                    if (!opponent.getDeck().isDeckEmpty() && opponent.getHand().getCards().size() < opponent.getHand().getMaxHandSize())
+                        opponent.getHand().getCards().add(opponent.getDeck().drawCard());
+                    else
+                        opponent.takeDamage(1);
+                }
+
                 arrangeCards();
                 playerTurn = !playerTurn;
                 turnHandler.postDelayed(this, 30000);
