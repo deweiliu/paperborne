@@ -5,9 +5,7 @@ import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.method.Touch;
 
-import java.util.Iterator;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
@@ -99,8 +97,7 @@ public class CardDemoScreen extends GameScreen {
         if (opponentDeck.isEmpty()) {
             // If the supplied opponent deck is empty
             // Set up the opponent with default deck
-            opponent = new Hero(mLayerViewport.getWidth() / 2f,
-                    mLayerViewport.getHeight() - mLayerViewport.getHeight() / 10f,
+            opponent = new Hero(mLayerViewport.getWidth() / 8f - 8.0f, mLayerViewport.getHeight() - mLayerViewport.getHeight() / 5f,
                     assetManager.getBitmap("Enemy"),
                     this,
                     mGame
@@ -108,8 +105,7 @@ public class CardDemoScreen extends GameScreen {
         } else {
             // If an opponent deck has been supplied
             // Set up the opponent with the deck supplied
-            opponent = new Hero(mLayerViewport.getWidth() / 2f,
-                    mLayerViewport.getHeight() - mLayerViewport.getHeight() / 10f,
+            opponent = new Hero(mLayerViewport.getWidth() / 8f - 8.0f, mLayerViewport.getHeight() - mLayerViewport.getHeight() / 5f,
                     assetManager.getBitmap("Enemy"),
                     this,
                     mGame,
@@ -118,16 +114,14 @@ public class CardDemoScreen extends GameScreen {
         }
         if (playerDeck.isEmpty()) {
             player = new Hero(
-                    mLayerViewport.getWidth() / 2f,
-                    mLayerViewport.getHeight() / 6f,
+                    mLayerViewport.getWidth() / 8f - 8.0f, mLayerViewport.getHeight() / 6f - 2f,
                     assetManager.getBitmap("Hero"),
                     this,
                     mGame
             );
         } else {
             player = new Hero(
-                    mLayerViewport.getWidth() / 2f,
-                    mLayerViewport.getHeight() / 6f,
+                    mLayerViewport.getWidth() / 8f - 8.0f, mLayerViewport.getHeight() / 6f - 2f,
                     assetManager.getBitmap("Hero"),
                     this,
                     mGame,
@@ -372,11 +366,11 @@ public class CardDemoScreen extends GameScreen {
 
                 public void arrangeCards () {
                     float len = player.getHand().getCards().size();
-                    float widthSteps = (mLayerViewport.getWidth() / (len + 1)), heightSteps = mLayerViewport.getHeight() / 30;
-                    for (int i = 0; i < len; i++) {
+                    float widthSteps = (mLayerViewport.getWidth()/(len+1)) / 1.4f, heightSteps = mLayerViewport.getHeight()/30;
+                    for(int i = 0; i < len; i++) {
                         Card activeCard = player.getHand().getCards().get(i);
-                        Vector2 handPosition = new Vector2((widthSteps * (i + 1)), heightSteps * 6);
-                        activeCard.setAnchor(handPosition.x, handPosition.y);
+                        Vector2 handPosition = new Vector2((widthSteps*(i+1)), heightSteps*6);
+                        activeCard.setAnchor(handPosition.x + 70f, handPosition.y);
                         activeCard.setPosition(handPosition);
                     }
 
