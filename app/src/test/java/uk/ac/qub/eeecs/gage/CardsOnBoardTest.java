@@ -24,6 +24,7 @@ import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
+import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -71,7 +72,7 @@ public class CardsOnBoardTest
     @Test
     public void checkCardPlayedState()
     {
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
     
         // Check that each card in the deck is the expected cardstate
@@ -79,7 +80,7 @@ public class CardsOnBoardTest
         // Draw 5 cards and play them on the board
         for(int i = 0; i < 3; i++)
         {
-            hero.playCard(hero.getDeck().drawCard());
+            hero.playCard(hero.getHand().getCards().get(i));
         }
         for(Card card : hero.getActiveCards())
         {
@@ -96,7 +97,7 @@ public class CardsOnBoardTest
         // Elapsed time for updates
         ElapsedTime elapsedTime = new ElapsedTime();
         // Set up screen
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
     
         // Create viewports to allow conversion from touch coordinates into screen coords
@@ -148,7 +149,7 @@ public class CardsOnBoardTest
         
         // Update the card
         cardDemoScreen.update(elapsedTime);
-        boardCard.update(elapsedTime, screenViewport, layerViewport);
+        boardCard.update(elapsedTime, screenViewport, layerViewport, hero);
         
         // Check it is selected, it is pressed and the cards move hasn't finished
         assertTrue(boardCard.isCardIsActive());
@@ -162,7 +163,7 @@ public class CardsOnBoardTest
     
         // Update card
         cardDemoScreen.update(elapsedTime);
-        boardCard.update(elapsedTime, screenViewport, layerViewport);
+        boardCard.update(elapsedTime, screenViewport, layerViewport, hero);
         
         // Check that the card is selected, it isn't pressed and the cards move hasn't finished
         assertTrue(boardCard.isCardIsActive());
@@ -174,20 +175,23 @@ public class CardsOnBoardTest
     @Test
     public void checkCardRemovedOnDeath() {
 
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
         Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
 
-        //draw a card
-        hero.playCard(hero.getDeck().drawCard());
+        //play five cards
+        for(int i = 0; i < 5; i++) {
+            hero.playCard(hero.getHand().getCards().get(0));
+            hero.refillMana();
+        }
 
-        //damage it for 1 more than its health
-        hero.getActiveCards().get(0).takeDamage(hero.getActiveCards().get(0).getHealthValue()+1);
+        //damage first card for max health
+        hero.getActiveCards().get(0).takeDamage(hero.getActiveCards().get(0).getHealthValue());
 
-
+        //remove it
         hero.clearDeadCards();
 
-        assertTrue(hero.getActiveCards().isEmpty());
+        assertTrue(hero.getActiveCards().size() == 4);
     }
 
 

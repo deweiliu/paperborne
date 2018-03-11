@@ -23,5 +23,8 @@ public class Hand {
         return this.cards;
     }
 
+    public int getMaxHandSize() {
+        return this.MAX_HAND_SIZE;
+    }
 
 }

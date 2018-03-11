@@ -12,28 +12,43 @@ import uk.ac.qub.eeecs.gage.ui.PushButton;
 
 public class GameLevel
 {
+	// JSON String identifiers for levels
+	public static final String LEVEL_ID = "id";
+	public static final String LEVEL_NAME = "name";
+	public static final String LEVEL_BITMAP = "bitmap";
+	public static final String LEVEL_BITMAP_PATH = "bitmapPath";
+	public static final String LEVEL_X_PERCENT = "xPercent";
+	public static final String LEVEL_Y_PERCENT = "yPercent";
+	public static final String LEVEL_WIDTH = "width";
+	public static final String LEVEL_HEIGHT = "height";
+	public static final String LEVEL_DECK = "deck";
+	public static final String LEVEL_PREREQUISITES = "prerequisites";
+	
 	// Level ID
 	private String id;
 	// Level name
 	private String name;
 	// Level button representation
 	private PushButton button;
-	// Prerequisite levels required to be completed before this level is playable
-	private List<GameLevel> prerequisites;
-	// TODO: Implement a level deck to be used in this level's battle
+	// Cards that make up a deck the opponent will play for this level
+	private List<LevelCard> deck;
+	// Prerequisite levels required to be completed before this level is playable represented by ID
+	private List<String> prerequisites;
 	// TODO: Implement a level boss/hero for the player to play against
 	
 	/**
 	 * Constructor for creating a level with no prerequisites
 	 * @param id unique level ID
 	 * @param name level name
+	 * @param deck the cards that make up a deck that the opponent will play for this level
 	 * @param button level button representation
 	 */
-	public GameLevel(String id, String name, PushButton button)
+	public GameLevel(String id, String name, PushButton button, List<LevelCard> deck)
 	{
 		this.id = id;
 		this.name = name;
 		this.button = button;
+		this.deck = deck;
 		this.prerequisites = new ArrayList<>();
 	}
 	
@@ -42,13 +57,15 @@ public class GameLevel
 	 * @param id unique level ID
 	 * @param name level name
 	 * @param button level button representation
+	 * @param deck the cards that make up a deck that the opponent will play for this level
 	 * @param prerequisites list of levels that are required to be completed before this level
 	 */
-	public GameLevel(String id, String name, PushButton button, List<GameLevel> prerequisites)
+	public GameLevel(String id, String name, PushButton button, List<LevelCard> deck, List<String> prerequisites)
 	{
 		this.id = id;
 		this.name = name;
 		this.button = button;
+		this.deck = deck;
 		this.prerequisites = prerequisites;
 	}
 	
@@ -82,12 +99,22 @@ public class GameLevel
 		this.button = button;
 	}
 	
-	public List<GameLevel> getPrerequisites()
+	public List<LevelCard> getDeck()
+	{
+		return deck;
+	}
+	
+	public void setDeck(List<LevelCard> deck)
+	{
+		this.deck = deck;
+	}
+	
+	public List<String> getPrerequisites()
 	{
 		return prerequisites;
 	}
 	
-	public void setPrerequisites(List<GameLevel> prerequisites)
+	public void setPrerequisites(List<String> prerequisites)
 	{
 		this.prerequisites = prerequisites;
 	}

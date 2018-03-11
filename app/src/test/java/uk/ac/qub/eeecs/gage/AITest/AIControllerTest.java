@@ -1,18 +1,25 @@
 package uk.ac.qub.eeecs.gage.AITest;
 
+import android.graphics.Bitmap;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIController;
 import uk.ac.qub.eeecs.game.cardDemo.Board;
+import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
 import static junit.framework.Assert.assertEquals;
 
 /**
  * Created by 40216004 Dewei Liu on 16/02/2018.
+ *
+ * Although there are some exceptions occur in this test, but the test can pass successfully
+ * because the AI controller runs in another thread and uses many features of the mock object of board which may occur NullPointerExceptions
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AIControllerTest {
@@ -21,7 +28,8 @@ public class AIControllerTest {
 
     @Before
     public void setUp() {
-        Board board = Mockito.mock(Board.class);
+
+        Board board=Mockito.mock(Board.class);
         controller = new AIController(board);
     }
 

@@ -9,6 +9,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
@@ -16,6 +18,7 @@ import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Deck;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Hand;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
+import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -61,7 +64,7 @@ public class NameerUnitTests {
     //This tests that when a Hand is created, the size of the hand is as should be expected
     @Test
     public void testHandCreation(){
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
 
         Hero hero = new Hero(0,0, bitmap, cardDemoScreen, game);

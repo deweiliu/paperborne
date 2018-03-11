@@ -21,6 +21,7 @@ import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
+import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -72,7 +73,7 @@ public class CardTests {
 
     @Test
     public void cardCopyTest() {
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
 
         card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
@@ -94,7 +95,7 @@ public class CardTests {
 
     @Test
     public void damageTest() {
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
 
         card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 10);
@@ -105,7 +106,7 @@ public class CardTests {
 
     @Test
     public void deathTest() {
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
 
         card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
@@ -125,7 +126,7 @@ public class CardTests {
     //Tests if the card is active when touched
     @Test
     public void cardActiveTest(){
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
 
         card = new Card(1, "TestCard", 10, 10, bitmap, cardDemoScreen, 10, 5, 10);
@@ -150,7 +151,7 @@ public class CardTests {
 
     @Test
     public void cardNotActiveTest(){
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
 
         card = new Card(1, "TestCard", 10, 10, bitmap, cardDemoScreen, 10, 5, 10);
@@ -187,7 +188,7 @@ public class CardTests {
 
         when(input.getTouchEvents()).thenReturn(touchEvents);
 
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
 
         ElapsedTime elapsedTime = new ElapsedTime();
