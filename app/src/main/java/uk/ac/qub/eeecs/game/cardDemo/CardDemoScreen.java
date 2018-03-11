@@ -133,7 +133,6 @@ public class CardDemoScreen extends GameScreen {
             card.setPosition(mLayerViewport.getWidth() / 2f, mLayerViewport.getHeight() / 4f);
         }
 
-
         arrangeCards();
 
         playerTurn = true;
@@ -266,14 +265,13 @@ public class CardDemoScreen extends GameScreen {
             }
         }
         if (!player.getHand().getCards().isEmpty()) {
-            for (int i = 0; i < player.getHand().getCards().size(); i++) {
+            for (int i = 0; i < player.getHand().getCards().size(); i++) { //not great since it'll check the size every time it runs, but required to avoid concurrent access error
                 player.getHand().getCards().get(i).update(elapsedTime, mScreenViewport, mLayerViewport, player);
             }
-
-                         /*TODO - breaks because we can't remove a card from hand and iterate over foreach, which happens when we play a card
-                         for (Card card : player.getHand().getCards()) {
-                                card.update(elapsedTime, mScreenViewport, mLayerViewport, player);
-                            }*/
+            /*TODO - breaks because we can't remove a card from hand and iterate over foreach, which happens when we play a card
+            for (Card card : player.getHand().getCards()) {
+                card.update(elapsedTime, mScreenViewport, mLayerViewport, player);
+             }*/
         }
         if (!opponent.getActiveCards().isEmpty()) {
             // If the opponent has played cards
@@ -297,8 +295,8 @@ public class CardDemoScreen extends GameScreen {
      */
     @Override
     public void draw (ElapsedTime elapsedTime, IGraphics2D graphics2D){
-                        /*Paint paint = new Paint(Color.BLACK);
-                        graphics2D.clear(Color.WHITE);*/
+        /*Paint paint = new Paint(Color.BLACK);
+        graphics2D.clear(Color.WHITE);*/
         BoardBackground.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
 
         player.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
@@ -369,8 +367,8 @@ public class CardDemoScreen extends GameScreen {
         float widthSteps = (mLayerViewport.getWidth()/(len+1)) / 1.4f, heightSteps = mLayerViewport.getHeight()/30;
         for(int i = 0; i < len; i++) {
             Card activeCard = player.getHand().getCards().get(i);
-            Vector2 handPosition = new Vector2((widthSteps*(i+1)), heightSteps*6);
-            activeCard.setAnchor(handPosition.x + 70f, handPosition.y);
+            Vector2 handPosition = new Vector2((widthSteps*(i+1)) + 70f, heightSteps*6);
+            activeCard.setAnchor(handPosition.x, handPosition.y);
             activeCard.setPosition(handPosition);
         }
 
@@ -386,7 +384,7 @@ public class CardDemoScreen extends GameScreen {
     }
 }
 
-/*  float len = player.getHand().getCards().size();
+    /*  float len = player.getHand().getCards().size();
         float widthSteps = (mLayerViewport.getWidth()/(len+1)) / 1.4f, heightSteps = mLayerViewport.getHeight()/30;
         for(int i = 0; i < len; i++) {
             Card activeCard = player.getHand().getCards().get(i);
