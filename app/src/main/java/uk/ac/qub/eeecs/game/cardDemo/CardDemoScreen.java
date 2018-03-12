@@ -21,6 +21,8 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.VerticalSlider;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIController;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.PlayerAction;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
@@ -33,6 +35,8 @@ import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 
 public class CardDemoScreen extends GameScreen {
+    
+    private static final long TURN_TIME = 30000;
 
     private Hero player, opponent;
     private ScreenViewport mScreenViewport;
@@ -49,6 +53,9 @@ public class CardDemoScreen extends GameScreen {
     final private float SLIDER_WIDTH = 175f;
     final private float SLIDER_HEIGHT = 450f;
     private VerticalSlider manaSlider;
+    
+    private AIController aiOpponent;
+    private boolean startedThinking;
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
@@ -161,6 +168,7 @@ public class CardDemoScreen extends GameScreen {
                 }
 
                 arrangeCards();
+                opponentArrange();
                 playerTurn = !playerTurn;
                 turnHandler.postDelayed(this, 30000);
                 startTime = System.currentTimeMillis();
@@ -187,6 +195,8 @@ public class CardDemoScreen extends GameScreen {
                 game.getScreenWidth() - 240f, game.getScreenHeight() - 230f, SLIDER_WIDTH, SLIDER_HEIGHT,
                 "SliderBase", "VerticalSliderFill", this, false);
         /////////////////////////////
+        aiOpponent = new AIController(player, opponent);
+        startedThinking = false;
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -202,7 +212,7 @@ public class CardDemoScreen extends GameScreen {
     @Override
     public void update(ElapsedTime elapsedTime) {
 
-        turnTime = ((startTime + 30000) - System.currentTimeMillis()) / 1000;
+        turnTime = ((startTime + TURN_TIME) - System.currentTimeMillis()) / 1000;
 
         player.update(elapsedTime);
         opponent.update(elapsedTime);
@@ -212,7 +222,82 @@ public class CardDemoScreen extends GameScreen {
         // Check for a touch down event, if one is found deselect all the cards
         //only allow interaction if it's player's turn
 
-        if (!playerTurn) return;
+        if (!playerTurn)
+        {
+            // If it's the opponent turn
+            if(startedThinking)
+            {
+                // If the AI has been told to started thinking
+                if(aiOpponent.isFinished())
+                {
+                    // If the AI has finished thinking
+                    startedThinking = false;
+                    // Get the AI action
+                    PlayerAction action = aiOpponent.getAction();
+                    // Flag to check if the decision is to end turn
+                    boolean ended = false;
+                    // Decide what action to implement
+                    switch (action.getAction())
+                    {
+                        case PlayerAction.END_TURN:
+                        {
+                            // End turn
+                            turnHandler.removeCallbacksAndMessages(null);
+                            endTurn.run();
+                            // Decision is to end turn so update flag
+                            ended = true;
+                            break;
+                        }
+                        case PlayerAction.ATTACK_HERO:
+                        {
+                            // Attack hero
+                            player.takeDamage(action.getAttackerCard().getAttackValue());
+                            action.getAttackerCard().setFinishedMove(true);
+                            break;
+                        }
+                        case PlayerAction.ATTACK_ACTIVE_CARD:
+                        {
+                            // Attack active card
+                            action.getTargetCard().takeDamage(action.getSourceCard().getAttackValue());
+                            action.getSourceCard().setFinishedMove(true);
+                            break;
+                        }
+                        case PlayerAction.PLAY_CARD:
+                        {
+                            // Play Card
+                            opponent.playCard(action.getCardPlayed());
+                            break;
+                        }
+                    }
+                    if(!ended)
+                    {
+                        // If the action wasn't end turn, start thinking again
+                        aiOpponent.startThinking(TURN_TIME);
+                        startedThinking = true;
+                    }
+                }
+            }
+            else
+            {
+                // If the AI hasn't been told to start thinking, ask it to start thinking
+                aiOpponent.startThinking(TURN_TIME);
+                startedThinking = true;
+            }
+            return;
+        }
+        else
+        {
+            if(startedThinking)
+            {
+                // If the AI has been told to start thinking and it is now the player's turn
+                if(!aiOpponent.isFinished())
+                {
+                    // Inform the AI to stop thinking as it has run out of time
+                    aiOpponent.notifyOverTime();
+                    startedThinking = false;
+                }
+            }
+        }
 
         // Check for touchdown event
         boolean touchDown = false;
@@ -320,7 +405,12 @@ public class CardDemoScreen extends GameScreen {
             for (Card card : player.getActiveCards()) {
                 // If any card is active
                 Paint paint = new Paint();
-                if (card.isCardIsActive()) {
+                if(card.getCardIsDead())
+                {
+                    paint.setColorFilter(new LightingColorFilter(Color.RED, 0));
+                    card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport, paint);
+                }
+                else if (card.isCardIsActive()) {
                     //Highlight the card if active on the board with a blue highlight
                     paint.setColorFilter(new LightingColorFilter(Color.BLUE, 0));
                     card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport, paint);
@@ -369,9 +459,9 @@ public class CardDemoScreen extends GameScreen {
             Card activeCard = player.getHand().getCards().get(i);
             Vector2 handPosition = new Vector2((widthSteps*(i+1)) + 70f, heightSteps*6);
             activeCard.setAnchor(handPosition.x, handPosition.y);
-            activeCard.setPosition(handPosition);
+            activeCard.setPosition(handPosition.x, handPosition.y);
         }
-
+        
         len = player.getActiveCards().size();
         widthSteps = (mLayerViewport.getWidth() / 2) / (len + 1);
         float offset = mLayerViewport.getWidth() / 4;
@@ -379,7 +469,19 @@ public class CardDemoScreen extends GameScreen {
             Card activeCard = player.getActiveCards().get(i);
             Vector2 handPosition = new Vector2((widthSteps * (i + 1)) + offset, mLayerViewport.getHeight() / 2);
             activeCard.setAnchor(handPosition.x, handPosition.y);
-            activeCard.setPosition(handPosition);
+            activeCard.setPosition(handPosition.x, handPosition.y);
+        }
+    }
+    
+    public void opponentArrange() {
+        float len = opponent.getActiveCards().size();
+        float widthSteps = (mLayerViewport.getWidth() / 2) / (len + 1);
+        float offset = mLayerViewport.getWidth() / 4;
+        for (int i = 0; i < len; i++) {
+            Card activeCard = opponent.getActiveCards().get(i);
+            Vector2 handPosition = new Vector2((widthSteps * (i + 1)) + offset, (mLayerViewport.getHeight() / 4) * 3);
+            activeCard.setAnchor(handPosition.x, handPosition.y);
+            activeCard.setPosition(handPosition.x, handPosition.y);
         }
     }
 }

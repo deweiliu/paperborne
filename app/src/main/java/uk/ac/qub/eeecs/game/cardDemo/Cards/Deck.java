@@ -75,8 +75,13 @@ public class Deck {
      * @param deck supplied cards to create the deck with
      */
     public Deck(GameScreen gameScreen, Game game, List<LevelCard> deck) {
-        
+    
         game.getAssetManager().loadAndAddBitmap("Card", "img/Hearthstone_Card_Template.png");
+        game.getAssetManager().loadAndAddBitmap("1 cost", "img/Weak man.JPG");
+        game.getAssetManager().loadAndAddBitmap("2 cost", "img/Dog.JPG");
+        game.getAssetManager().loadAndAddBitmap("3 cost", "img/Fat man.JPG");
+        game.getAssetManager().loadAndAddBitmap("4 cost", "img/Sword.JPG");
+        game.getAssetManager().loadAndAddBitmap("5 cost", "img/Card Dragon.JPG");
         cardsInDeck = new ArrayList<>();
         for(int i = 0; i < deck.size(); i++)
         {

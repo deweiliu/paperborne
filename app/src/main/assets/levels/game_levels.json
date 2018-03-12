@@ -3,108 +3,108 @@
   [
     {
       "name":"Weak Man",
-      "bitmap":"Card",
+      "bitmap":"1 cost",
       "attackValue":1,
       "healthValue":1,
       "manaCost":1
     },
     {
       "name":"Weak Man",
-      "bitmap":"Card",
+      "bitmap":"1 cost",
       "attackValue":1,
       "healthValue":1,
       "manaCost":1
     },
     {
       "name":"Weak Man",
-      "bitmap":"Card",
+      "bitmap":"1 cost",
       "attackValue":1,
       "healthValue":1,
       "manaCost":1
     },
     {
       "name":"Weak Man",
-      "bitmap":"Card",
+      "bitmap":"1 cost",
       "attackValue":1,
       "healthValue":1,
       "manaCost":1
     },
     {
       "name":"Weak Man",
-      "bitmap":"Card",
+      "bitmap":"1 cost",
       "attackValue":1,
       "healthValue":1,
       "manaCost":1
     },
     {
-      "name":"Weak Man",
-      "bitmap":"Card",
-      "attackValue":1,
-      "healthValue":1,
-      "manaCost":1
+      "name":"Dog",
+      "bitmap":"2 cost",
+      "attackValue":2,
+      "healthValue":2,
+      "manaCost":2
     },
     {
-      "name":"Weak Man",
-      "bitmap":"Card",
-      "attackValue":1,
-      "healthValue":1,
-      "manaCost":1
+      "name":"Dog",
+      "bitmap":"2 cost",
+      "attackValue":2,
+      "healthValue":2,
+      "manaCost":2
     },
     {
-      "name":"Weak Man",
-      "bitmap":"Card",
-      "attackValue":1,
-      "healthValue":1,
-      "manaCost":1
+      "name":"Dog",
+      "bitmap":"2 cost",
+      "attackValue":2,
+      "healthValue":2,
+      "manaCost":2
     },
     {
-      "name":"Weak Man",
-      "bitmap":"Card",
-      "attackValue":1,
-      "healthValue":1,
-      "manaCost":1
+      "name":"Dog",
+      "bitmap":"2 cost",
+      "attackValue":2,
+      "healthValue":2,
+      "manaCost":2
     },
     {
-      "name":"Weak Man",
-      "bitmap":"Card",
-      "attackValue":1,
-      "healthValue":1,
-      "manaCost":1
+      "name":"Fat Man",
+      "bitmap":"3 cost",
+      "attackValue":3,
+      "healthValue":2,
+      "manaCost":3
     },
     {
-      "name":"Weak Man",
-      "bitmap":"Card",
-      "attackValue":1,
-      "healthValue":1,
-      "manaCost":1
+      "name":"Fat Man",
+      "bitmap":"3 cost",
+      "attackValue":3,
+      "healthValue":2,
+      "manaCost":3
     },
     {
-      "name":"Weak Man",
-      "bitmap":"Card",
-      "attackValue":1,
-      "healthValue":1,
-      "manaCost":1
+      "name":"Fat Man",
+      "bitmap":"3 cost",
+      "attackValue":3,
+      "healthValue":2,
+      "manaCost":3
     },
     {
-      "name":"Weak Man",
-      "bitmap":"Card",
-      "attackValue":1,
+      "name":"Sword",
+      "bitmap":"4 cost",
+      "attackValue":6,
       "healthValue":1,
-      "manaCost":1
+      "manaCost":4
     },
     {
-      "name":"Weak Man",
-      "bitmap":"Card",
-      "attackValue":1,
+      "name":"Sword",
+      "bitmap":"4 cost",
+      "attackValue":6,
       "healthValue":1,
-      "manaCost":1
+      "manaCost":4
     },
     {
-      "name":"Weak Man",
-      "bitmap":"Card",
-      "attackValue":1,
-      "healthValue":1,
-      "manaCost":1
+      "name":"Dragon",
+      "bitmap":"5 cost",
+      "attackValue":5,
+      "healthValue":7,
+      "manaCost":5
     }
   ],
   "levels":
@@ -122,108 +122,108 @@
       [
         {
           "name":"Weak Man",
-          "bitmap":"Card",
+          "bitmap":"1 cost",
           "attackValue":1,
           "healthValue":1,
           "manaCost":1
         },
         {
           "name":"Weak Man",
-          "bitmap":"Card",
+          "bitmap":"1 cost",
           "attackValue":1,
           "healthValue":1,
           "manaCost":1
         },
         {
           "name":"Weak Man",
-          "bitmap":"Card",
+          "bitmap":"1 cost",
           "attackValue":1,
           "healthValue":1,
           "manaCost":1
         },
         {
           "name":"Weak Man",
-          "bitmap":"Card",
+          "bitmap":"1 cost",
           "attackValue":1,
           "healthValue":1,
           "manaCost":1
         },
         {
           "name":"Weak Man",
-          "bitmap":"Card",
+          "bitmap":"1 cost",
           "attackValue":1,
           "healthValue":1,
           "manaCost":1
         },
         {
-          "name":"Weak Man",
-          "bitmap":"Card",
-          "attackValue":1,
-          "healthValue":1,
-          "manaCost":1
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
         },
         {
-          "name":"Weak Man",
-          "bitmap":"Card",
-          "attackValue":1,
-          "healthValue":1,
-          "manaCost":1
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
         },
         {
-          "name":"Weak Man",
-          "bitmap":"Card",
-          "attackValue":1,
-          "healthValue":1,
-          "manaCost":1
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
         },
         {
-          "name":"Weak Man",
-          "bitmap":"Card",
-          "attackValue":1,
-          "healthValue":1,
-          "manaCost":1
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
         },
         {
-          "name":"Weak Man",
-          "bitmap":"Card",
-          "attackValue":1,
-          "healthValue":1,
-          "manaCost":1
+          "name":"Fat Man",
+          "bitmap":"3 cost",
+          "attackValue":3,
+          "healthValue":2,
+          "manaCost":3
         },
         {
-          "name":"Weak Man",
-          "bitmap":"Card",
-          "attackValue":1,
-          "healthValue":1,
-          "manaCost":1
+          "name":"Fat Man",
+          "bitmap":"3 cost",
+          "attackValue":3,
+          "healthValue":2,
+          "manaCost":3
         },
         {
-          "name":"Weak Man",
-          "bitmap":"Card",
-          "attackValue":1,
-          "healthValue":1,
-          "manaCost":1
+          "name":"Fat Man",
+          "bitmap":"3 cost",
+          "attackValue":3,
+          "healthValue":2,
+          "manaCost":3
         },
         {
-          "name":"Weak Man",
-          "bitmap":"Card",
-          "attackValue":1,
+          "name":"Sword",
+          "bitmap":"4 cost",
+          "attackValue":6,
           "healthValue":1,
-          "manaCost":1
+          "manaCost":4
         },
         {
-          "name":"Weak Man",
-          "bitmap":"Card",
-          "attackValue":1,
+          "name":"Sword",
+          "bitmap":"4 cost",
+          "attackValue":6,
           "healthValue":1,
-          "manaCost":1
+          "manaCost":4
         },
         {
-          "name":"Weak Man",
-          "bitmap":"Card",
-          "attackValue":1,
-          "healthValue":1,
-          "manaCost":1
+          "name":"Dragon",
+          "bitmap":"5 cost",
+          "attackValue":5,
+          "healthValue":7,
+          "manaCost":5
         }
       ]
     },
@@ -239,116 +239,109 @@
       "deck":
       [
         {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
+          "name":"Weak Man",
+          "bitmap":"1 cost",
+          "attackValue":1,
+          "healthValue":1,
           "manaCost":1
         },
         {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
+          "name":"Weak Man",
+          "bitmap":"1 cost",
+          "attackValue":1,
+          "healthValue":1,
           "manaCost":1
         },
         {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
+          "name":"Weak Man",
+          "bitmap":"1 cost",
+          "attackValue":1,
+          "healthValue":1,
           "manaCost":1
         },
         {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
+          "name":"Weak Man",
+          "bitmap":"1 cost",
+          "attackValue":1,
+          "healthValue":1,
           "manaCost":1
         },
         {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
+          "name":"Weak Man",
+          "bitmap":"1 cost",
+          "attackValue":1,
+          "healthValue":1,
           "manaCost":1
         },
         {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
+        },
+        {
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
+        },
+        {
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
+        },
+        {
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
+        },
+        {
+          "name":"Fat Man",
+          "bitmap":"3 cost",
+          "attackValue":3,
+          "healthValue":2,
+          "manaCost":3
+        },
+        {
+          "name":"Fat Man",
+          "bitmap":"3 cost",
+          "attackValue":3,
+          "healthValue":2,
+          "manaCost":3
+        },
+        {
+          "name":"Fat Man",
+          "bitmap":"3 cost",
+          "attackValue":3,
+          "healthValue":2,
+          "manaCost":3
+        },
+        {
+          "name":"Sword",
+          "bitmap":"4 cost",
+          "attackValue":6,
+          "healthValue":1,
+          "manaCost":4
+        },
+        {
+          "name":"Sword",
+          "bitmap":"4 cost",
+          "attackValue":6,
+          "healthValue":1,
+          "manaCost":4
         },
         {
           "name":"Dragon",
-          "bitmap":"Card",
+          "bitmap":"5 cost",
           "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
+          "healthValue":7,
+          "manaCost":5
         }
       ]
     },
@@ -364,116 +357,109 @@
       "deck":
       [
         {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
+          "name":"Weak Man",
+          "bitmap":"1 cost",
+          "attackValue":1,
+          "healthValue":1,
           "manaCost":1
         },
         {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
+          "name":"Weak Man",
+          "bitmap":"1 cost",
+          "attackValue":1,
+          "healthValue":1,
           "manaCost":1
         },
         {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
+          "name":"Weak Man",
+          "bitmap":"1 cost",
+          "attackValue":1,
+          "healthValue":1,
           "manaCost":1
         },
         {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
+          "name":"Weak Man",
+          "bitmap":"1 cost",
+          "attackValue":1,
+          "healthValue":1,
           "manaCost":1
         },
         {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
+          "name":"Weak Man",
+          "bitmap":"1 cost",
+          "attackValue":1,
+          "healthValue":1,
           "manaCost":1
         },
         {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
+        },
+        {
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
+        },
+        {
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
+        },
+        {
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
+        },
+        {
+          "name":"Fat Man",
+          "bitmap":"3 cost",
+          "attackValue":3,
+          "healthValue":2,
+          "manaCost":3
+        },
+        {
+          "name":"Fat Man",
+          "bitmap":"3 cost",
+          "attackValue":3,
+          "healthValue":2,
+          "manaCost":3
+        },
+        {
+          "name":"Fat Man",
+          "bitmap":"3 cost",
+          "attackValue":3,
+          "healthValue":2,
+          "manaCost":3
+        },
+        {
+          "name":"Sword",
+          "bitmap":"4 cost",
+          "attackValue":6,
+          "healthValue":1,
+          "manaCost":4
+        },
+        {
+          "name":"Sword",
+          "bitmap":"4 cost",
+          "attackValue":6,
+          "healthValue":1,
+          "manaCost":4
         },
         {
           "name":"Dragon",
-          "bitmap":"Card",
+          "bitmap":"5 cost",
           "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
-        },
-        {
-          "name":"Dragon",
-          "bitmap":"Card",
-          "attackValue":5,
-          "healthValue":5,
-          "manaCost":1
+          "healthValue":7,
+          "manaCost":5
         }
       ],
       "prerequisites":
