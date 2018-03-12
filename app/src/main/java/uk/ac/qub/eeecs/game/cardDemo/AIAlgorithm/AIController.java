@@ -47,7 +47,7 @@ public class AIController {
         long currentTime = System.currentTimeMillis();
 
         //Finish the algorithm 1 second before the real deadline
-        long timeForAIAlgorithm = timeLimitInMillis - 1000;
+        long timeForAIAlgorithm = timeLimitInMillis - 700;
 
         long deadLine = currentTime + timeForAIAlgorithm;
 
@@ -122,7 +122,7 @@ public class AIController {
                 AIController.this.update();
 
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(300);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

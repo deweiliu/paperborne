@@ -272,7 +272,7 @@ public class CardDemoScreen extends GameScreen {
                     if(!ended)
                     {
                         // If the action wasn't end turn, start thinking again
-                        aiOpponent.startThinking(TURN_TIME/15);
+                        aiOpponent.startThinking(TURN_TIME/9);
                         startedThinking = true;
                     }
                 }
@@ -280,7 +280,7 @@ public class CardDemoScreen extends GameScreen {
             else
             {
                 // If the AI hasn't been told to start thinking, ask it to start thinking
-                aiOpponent.startThinking(TURN_TIME/15);
+                aiOpponent.startThinking(TURN_TIME/9);
                 startedThinking = true;
             }
             return;
