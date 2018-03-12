@@ -1,17 +1,13 @@
 package uk.ac.qub.eeecs.gage.AITest;
 
-import android.graphics.Bitmap;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIController;
-import uk.ac.qub.eeecs.game.cardDemo.Board;
-import uk.ac.qub.eeecs.game.cardDemo.Hero;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.Board;
 
 import static junit.framework.Assert.assertEquals;
 

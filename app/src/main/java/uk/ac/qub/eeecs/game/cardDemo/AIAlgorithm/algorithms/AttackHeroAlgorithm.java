@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.PlayerAction;
-import uk.ac.qub.eeecs.game.cardDemo.Board;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.Board;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 
 /**

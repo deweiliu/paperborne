@@ -2,7 +2,7 @@ package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm;
 
 import java.util.Random;
 
-import uk.ac.qub.eeecs.game.cardDemo.Board;
+import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
 /**
  * Created by 40216004 Dewei Liu on 12/02/2018.
@@ -25,6 +25,10 @@ public class AIController {
     public AIController(Board board) {
         this.mBoard = board;
         random = new Random();
+    }
+
+    public AIController(Hero user, Hero AI){
+        this(new Board(user,AI));
     }
 
     private void reset() {

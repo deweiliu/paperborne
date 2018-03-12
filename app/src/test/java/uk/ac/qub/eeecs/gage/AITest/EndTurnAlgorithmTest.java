@@ -8,7 +8,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.EndTurnAlgorithm;
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.PlayerAction;
-import uk.ac.qub.eeecs.game.cardDemo.Board;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.Board;
 
 import static junit.framework.Assert.assertEquals;
 

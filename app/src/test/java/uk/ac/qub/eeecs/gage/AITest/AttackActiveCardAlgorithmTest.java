@@ -12,7 +12,7 @@ import static org.junit.Assert.assertNotEquals;
 
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.PlayerAction;
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.AttackActiveCardAlgorithm;
-import uk.ac.qub.eeecs.game.cardDemo.Board;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.Board;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
 

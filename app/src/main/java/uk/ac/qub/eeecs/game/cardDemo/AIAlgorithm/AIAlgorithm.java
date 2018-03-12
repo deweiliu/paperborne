@@ -5,7 +5,6 @@ import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.AttackActiveCardAlgo
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.AttackHeroAlgorithm;
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.EndTurnAlgorithm;
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.PlayCardAlgorithm;
-import uk.ac.qub.eeecs.game.cardDemo.Board;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 
 /**

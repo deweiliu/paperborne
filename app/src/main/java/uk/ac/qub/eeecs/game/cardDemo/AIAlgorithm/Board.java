@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.cardDemo;
+package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm;
 
 import java.util.ArrayList;
 
@@ -13,13 +13,12 @@ import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
  * Created by nshah on 03/12/2017.
  */
 
-public class Board extends Sprite {
+public class Board  {
 
     private Hero userHero;
     private Hero opponentHero;
 
-    public Board(float x, float y, Bitmap bitmap, GameScreen gameScreen, Hero userHero, Hero opponentHero) {
-        super(x, y, bitmap, gameScreen);
+    public Board( Hero userHero, Hero opponentHero) {
         this.userHero = userHero;
         this.opponentHero = opponentHero;
     }
