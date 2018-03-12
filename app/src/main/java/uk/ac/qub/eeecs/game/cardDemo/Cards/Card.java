@@ -1,10 +1,14 @@
 package uk.ac.qub.eeecs.game.cardDemo.Cards;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
+import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
+import uk.ac.qub.eeecs.gage.util.GraphicsHelper;
 import uk.ac.qub.eeecs.gage.util.InputHelper;
 import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
@@ -12,7 +16,6 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
-import uk.ac.qub.eeecs.gage.ai.SteeringBehaviours;
 
 /**
  * Created by user on 14/11/2017.
@@ -20,6 +23,8 @@ import uk.ac.qub.eeecs.gage.ai.SteeringBehaviours;
 
 
 public class Card extends Sprite {
+    
+    private static final Vector2 MANA_TRANSLATION = new Vector2(-7.5f, -25f);
 
     /**
      * CardState class for specifying where the card is in the game, either in the deck, hand or
@@ -70,10 +75,12 @@ public class Card extends Sprite {
 
     // The current state the card is in in the game, either on the board, in the hand or the deck
     private int cardState;
+    
+    private Paint textStyle;
 
 
     public Card (int cardID, String cardName, float startX, float startY, Bitmap bitmap, GameScreen gameScreen, int manaCost, int attackValue, int healthValue) {
-        super(startX, startY, 30f, 70f, bitmap, gameScreen);
+        super(startX, startY, 40f, 70f, bitmap, gameScreen);
 
         //Dimensions of the card from the super
         this.cardCentre.x = 30f/2f;
@@ -93,6 +100,10 @@ public class Card extends Sprite {
 
         finishedMove = false;
         cardIsDead = false;
+        
+        textStyle = new Paint();
+        textStyle.setTextSize(40f);
+        textStyle.setTextAlign(Paint.Align.CENTER);
 
     }
 
@@ -191,7 +202,28 @@ public class Card extends Sprite {
             }
         }
     }
-
+    
+    @Override
+    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport, Paint paint)
+    {
+        super.draw(elapsedTime, graphics2D, layerViewport, screenViewport, paint);
+        if (GraphicsHelper.getClippedSourceAndScreenRect(this, layerViewport,
+                screenViewport, drawSourceRect, drawScreenRect)) {
+            textStyle.setColor(Color.BLUE);
+            graphics2D.drawText(String.valueOf(manaCost), drawScreenRect.left, drawScreenRect.top, textStyle);
+            textStyle.setColor(Color.GREEN);
+            graphics2D.drawText(String.valueOf(healthValue), drawScreenRect.left, drawScreenRect.bottom, textStyle);
+            textStyle.setColor(Color.RED);
+            graphics2D.drawText(String.valueOf(attackValue), drawScreenRect.right, drawScreenRect.bottom, textStyle);
+        }
+    }
+    
+    @Override
+    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport)
+    {
+        this.draw(elapsedTime, graphics2D, layerViewport, screenViewport, new Paint());
+    }
+    
     //Getters and Setters
     public Vector2 getLastPosition() {
         return lastPosition;
