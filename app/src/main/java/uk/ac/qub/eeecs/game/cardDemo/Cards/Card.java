@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import uk.ac.qub.eeecs.gage.ai.SteeringBehaviours;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
@@ -23,8 +24,20 @@ import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
 
 public class Card extends Sprite {
-    
-    private static final Vector2 MANA_TRANSLATION = new Vector2(-7.5f, -25f);
+
+    // Card stats text size
+    private final static float STATS_TEXT_SIZE = 40.0f;
+
+    // Card dimensions
+    private final static float CARD_WIDTH = 40.0f;
+    private final static float CARD_HEIGHT = 70.0f;
+
+    // Card movement towards anchor values
+    private final static float MAX_ACCELERATION = 100.0f;
+    private final static float MAX_VELOCITY = 100.0f;
+
+    // Distance card from anchor to just snap to position
+    private final static float STOP_RADIUS = 15.0f;
 
     /**
      * CardState class for specifying where the card is in the game, either in the deck, hand or
@@ -75,34 +88,44 @@ public class Card extends Sprite {
 
     // The current state the card is in in the game, either on the board, in the hand or the deck
     private int cardState;
-    
+
+    // The card stats drawing text style
     private Paint textStyle;
 
 
     public Card (int cardID, String cardName, float startX, float startY, Bitmap bitmap, GameScreen gameScreen, int manaCost, int attackValue, int healthValue) {
-        super(startX, startY, 40f, 70f, bitmap, gameScreen);
+        super(startX, startY, CARD_WIDTH, CARD_HEIGHT, bitmap, gameScreen);
 
         //Dimensions of the card from the super
-        this.cardCentre.x = 30f/2f;
-        this.cardCentre.y = 70f/2f;
-        anchor = new Vector2(position.x,position.y);
+        this.cardCentre.x = CARD_WIDTH/2f;
+        this.cardCentre.y = CARD_HEIGHT/2f;
 
+        // Set anchor as start position
+        anchor.set(position);
 
+        // Assign card constructor values
         this.cardID = cardID;
         this.cardName = cardName;
         this.manaCost = manaCost;
         this.attackValue = attackValue;
         this.healthValue = healthValue;
+
+        // Assign card constant values
+        this.maxAcceleration = MAX_ACCELERATION;
+        this.maxVelocity = MAX_VELOCITY;
+
+        // Starting card state is in the deck
         cardState = CardState.CARD_IN_DECK;
 
+        // Initialise card flags
         cardPressedDown = false;
         cardIsActive = false;
-
         finishedMove = false;
         cardIsDead = false;
-        
+
+        // Set up card stats drawing text style
         textStyle = new Paint();
-        textStyle.setTextSize(40f);
+        textStyle.setTextSize(STATS_TEXT_SIZE);
         textStyle.setTextAlign(Paint.Align.CENTER);
 
     }
@@ -135,7 +158,6 @@ public class Card extends Sprite {
                     screenViewport,
                     new Vector2(touch.x, touch.y),
                     layerViewport, layerPos);
-            
             //Checks if the touch event happens on the card
             if (touch.type == TouchEvent.TOUCH_DOWN && (layerPos.x > position.x - cardCentre.x)
                     && (layerPos.x < position.x + cardCentre.x)
@@ -171,20 +193,19 @@ public class Card extends Sprite {
                         if (hero.getCurrentMana() >= this.getManaCost()) {
                             //If the card is dropped onto the top half of the screen, place it onto the board
                             if (this.position.y > layerViewport.getHeight() / 2) {
-                                this.anchor.y = layerViewport.getHeight() / 2;
+//                                //Place the cards accordingly
+//                                if (this.position.x > layerViewport.getWidth() / 2) {
+//                                    this.anchor.x += 20;
+//                                } else {
+//                                    this.anchor.x -= 20;
+//                                }
                                 //Moves the card from the players hand to their active cards
                                 hero.playCard(this);
-                                //Place the cards accordingly
-                                if (this.position.x > layerViewport.getWidth() / 2) {
-                                    this.anchor.x += 20;
-                                } else {
-                                    this.anchor.x -= 20;
-                                }
                                 this.finishedMove = true;
                             }
                         }
                     }
-                    position = new Vector2(this.anchor.x, this.anchor.y);
+                    //position = new Vector2(this.anchor.x, this.anchor.y);
                 }
                 cardPressedDown = false;
                 //Checks if card is dragged
@@ -198,9 +219,33 @@ public class Card extends Sprite {
                         }
                     }
                 }
-                super.update(elapsedTime);
             }
         }
+        if(!cardPressedDown) {
+            // If the card hasn't been pressed down on - i.e not being dragged
+            if (position.x != anchor.x || position.y != anchor.y) {
+                // If the card is not at it's anchor position
+                // Calculate distance between the position and the anchor
+                Vector2 anchorDistance = new Vector2();
+                anchorDistance.set(anchor.x - position.x, anchor.y - position.y);
+                if (anchorDistance.length() > STOP_RADIUS) {
+                    // If the distance between the position and the anchor is more than the stop
+                    // radius
+                    // Accelerate towards the anchor
+                    SteeringBehaviours.seek(this,
+                            anchor,
+                            acceleration);
+                } else {
+                    // If the distance between the position and the anchor is less than the stop
+                    // distance
+                    // Snap the card to the anchor, reset velocity and acceleration
+                    acceleration.set(Vector2.Zero);
+                    velocity.set(Vector2.Zero);
+                    position.set(anchor);
+                }
+            }
+        }
+        super.update(elapsedTime);
     }
     
     @Override
@@ -209,10 +254,13 @@ public class Card extends Sprite {
         super.draw(elapsedTime, graphics2D, layerViewport, screenViewport, paint);
         if (GraphicsHelper.getClippedSourceAndScreenRect(this, layerViewport,
                 screenViewport, drawSourceRect, drawScreenRect)) {
+            // Draw mana in blue
             textStyle.setColor(Color.BLUE);
             graphics2D.drawText(String.valueOf(manaCost), drawScreenRect.left, drawScreenRect.top, textStyle);
+            // Draw health in green
             textStyle.setColor(Color.GREEN);
             graphics2D.drawText(String.valueOf(healthValue), drawScreenRect.left, drawScreenRect.bottom, textStyle);
+            // Draw attack value in red
             textStyle.setColor(Color.RED);
             graphics2D.drawText(String.valueOf(attackValue), drawScreenRect.right, drawScreenRect.bottom, textStyle);
         }

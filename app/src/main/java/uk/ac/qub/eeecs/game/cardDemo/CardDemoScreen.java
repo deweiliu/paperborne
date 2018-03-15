@@ -168,7 +168,6 @@ public class CardDemoScreen extends GameScreen {
                 }
 
                 arrangeCards();
-                opponentArrange();
                 playerTurn = !playerTurn;
                 turnHandler.postDelayed(this, 30000);
                 startTime = System.currentTimeMillis();
@@ -218,87 +217,6 @@ public class CardDemoScreen extends GameScreen {
         opponent.update(elapsedTime);
         manaSlider.update(elapsedTime);
 
-
-        // Check for a touch down event, if one is found deselect all the cards
-        //only allow interaction if it's player's turn
-
-        if (!playerTurn)
-        {
-            // If it's the opponent turn
-            if(startedThinking)
-            {
-                // If the AI has been told to started thinking
-                if(aiOpponent.isFinished())
-                {
-                    // If the AI has finished thinking
-                    startedThinking = false;
-                    // Get the AI action
-                    PlayerAction action = aiOpponent.getAction();
-                    // Flag to check if the decision is to end turn
-                    boolean ended = false;
-                    // Decide what action to implement
-                    switch (action.getAction())
-                    {
-                        case PlayerAction.END_TURN:
-                        {
-                            // End turn
-                            turnHandler.removeCallbacksAndMessages(null);
-                            endTurn.run();
-                            // Decision is to end turn so update flag
-                            ended = true;
-                            break;
-                        }
-                        case PlayerAction.ATTACK_HERO:
-                        {
-                            // Attack hero
-                            player.takeDamage(action.getAttackerCard().getAttackValue());
-                            action.getAttackerCard().setFinishedMove(true);
-                            break;
-                        }
-                        case PlayerAction.ATTACK_ACTIVE_CARD:
-                        {
-                            // Attack active card
-                            action.getTargetCard().takeDamage(action.getSourceCard().getAttackValue());
-                            action.getSourceCard().setFinishedMove(true);
-                            break;
-                        }
-                        case PlayerAction.PLAY_CARD:
-                        {
-                            // Play Card
-                            opponent.playCard(action.getCardPlayed());
-                            break;
-                        }
-                    }
-                    if(!ended)
-                    {
-                        // If the action wasn't end turn, start thinking again
-                        aiOpponent.startThinking(TURN_TIME/9);
-                        startedThinking = true;
-                    }
-                }
-            }
-            else
-            {
-                // If the AI hasn't been told to start thinking, ask it to start thinking
-                aiOpponent.startThinking(TURN_TIME/9);
-                startedThinking = true;
-            }
-            return;
-        }
-        else
-        {
-            if(startedThinking)
-            {
-                // If the AI has been told to start thinking and it is now the player's turn
-                if(!aiOpponent.isFinished())
-                {
-                    // Inform the AI to stop thinking as it has run out of time
-                    aiOpponent.notifyOverTime();
-                    startedThinking = false;
-                }
-            }
-        }
-
         // Check for touchdown event
         boolean touchDown = false;
         Input input = mGame.getInput();
@@ -343,6 +261,7 @@ public class CardDemoScreen extends GameScreen {
                 card.setCardIsActive(false);
             }
         }
+
         if (!player.getActiveCards().isEmpty()) {
             // If the player has played cards
             for (Card card : player.getActiveCards()) {
@@ -370,6 +289,85 @@ public class CardDemoScreen extends GameScreen {
             }
         }
         input.getTouchEvents().clear();
+
+        // Check for a touch down event, if one is found deselect all the cards
+        //only allow interaction if it's player's turn
+
+        if (playerTurn) {
+            if(startedThinking)
+            {
+                // If the AI has been told to start thinking and it is now the player's turn
+                if(!aiOpponent.isFinished())
+                {
+                    // Inform the AI to stop thinking as it has run out of time
+                    aiOpponent.notifyOverTime();
+                    startedThinking = false;
+                }
+            }
+            return;
+        }
+        // If it's the opponent turn
+        if(startedThinking)
+        {
+            // If the AI has been told to started thinking
+            if(aiOpponent.isFinished())
+            {
+                // If the AI has finished thinking
+                startedThinking = false;
+                // Get the AI action
+                PlayerAction action = aiOpponent.getAction();
+                // Flag to check if the decision is to end turn
+                boolean ended = false;
+                // Decide what action to implement
+                switch (action.getAction())
+                {
+                    case PlayerAction.END_TURN:
+                    {
+                        // End turn
+                        turnHandler.removeCallbacksAndMessages(null);
+                        endTurn.run();
+                        // Decision is to end turn so update flag
+                        ended = true;
+                        break;
+                    }
+                    case PlayerAction.ATTACK_HERO:
+                    {
+                        // Attack hero
+                        player.takeDamage(action.getAttackerCard().getAttackValue());
+                        action.getAttackerCard().setFinishedMove(true);
+                        break;
+                    }
+                    case PlayerAction.ATTACK_ACTIVE_CARD:
+                    {
+                        // Attack active card
+                        action.getTargetCard().takeDamage(action.getSourceCard().getAttackValue());
+                        action.getSourceCard().setFinishedMove(true);
+                        break;
+                    }
+                    case PlayerAction.PLAY_CARD:
+                    {
+                        // Play Card
+                        Card card = action.getCardPlayed();
+                        card.position.set(mLayerViewport.halfWidth, mLayerViewport.getTop());
+                        opponent.playCard(card);
+                        break;
+                    }
+                }
+                if(!ended)
+                {
+                    // If the action wasn't end turn, start thinking again
+                    aiOpponent.startThinking(TURN_TIME/9);
+                    startedThinking = true;
+                }
+            }
+        }
+        else
+        {
+            // If the AI hasn't been told to start thinking, ask it to start thinking
+            aiOpponent.startThinking(TURN_TIME/9);
+            startedThinking = true;
+        }
+        return;
     }
 
     /**
@@ -426,8 +424,6 @@ public class CardDemoScreen extends GameScreen {
         }
         opponent.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
 
-        for (Card card : opponent.getHand().getCards())
-            card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
         if (opponent.getActiveCards() != null)
             for (Card card : opponent.getActiveCards()) {
                 if (card.getCardIsDead()) {
@@ -459,7 +455,7 @@ public class CardDemoScreen extends GameScreen {
             Card activeCard = player.getHand().getCards().get(i);
             Vector2 handPosition = new Vector2((widthSteps*(i+1)) + 70f, heightSteps*6);
             activeCard.setAnchor(handPosition.x, handPosition.y);
-            activeCard.setPosition(handPosition.x, handPosition.y);
+//            activeCard.setPosition(handPosition.x, handPosition.y);
         }
         
         len = player.getActiveCards().size();
@@ -469,19 +465,17 @@ public class CardDemoScreen extends GameScreen {
             Card activeCard = player.getActiveCards().get(i);
             Vector2 handPosition = new Vector2((widthSteps * (i + 1)) + offset, mLayerViewport.getHeight() / 2);
             activeCard.setAnchor(handPosition.x, handPosition.y);
-            activeCard.setPosition(handPosition.x, handPosition.y);
+//            activeCard.setPosition(handPosition.x, handPosition.y);
         }
-    }
-    
-    public void opponentArrange() {
-        float len = opponent.getActiveCards().size();
-        float widthSteps = (mLayerViewport.getWidth() / 2) / (len + 1);
-        float offset = mLayerViewport.getWidth() / 4;
+
+        len = opponent.getActiveCards().size();
+        widthSteps = (mLayerViewport.getWidth() / 2) / (len + 1);
+        offset = mLayerViewport.getWidth() / 4;
         for (int i = 0; i < len; i++) {
             Card activeCard = opponent.getActiveCards().get(i);
-            Vector2 handPosition = new Vector2((widthSteps * (i + 1)) + offset, (mLayerViewport.getHeight() / 4) * 3);
+            Vector2 handPosition = new Vector2((widthSteps * (i + 1)) + offset, (mLayerViewport.getHeight() / 5) * 4);
             activeCard.setAnchor(handPosition.x, handPosition.y);
-            activeCard.setPosition(handPosition.x, handPosition.y);
+//            activeCard.setPosition(handPosition.x, handPosition.y);
         }
     }
 }

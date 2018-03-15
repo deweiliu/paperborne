@@ -1,13 +1,20 @@
 package uk.ac.qub.eeecs.game.cardDemo;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
+import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
+import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
+import uk.ac.qub.eeecs.gage.util.GraphicsHelper;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.gage.world.LayerViewport;
+import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Deck;
@@ -21,6 +28,9 @@ import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 public class Hero extends Sprite {
 
+    // Hero stats text size
+    private final static float STATS_TEXT_SIZE = 70.0f;
+
     private final int MAX_HEALTH = 30;
     private final int MAX_MANA = 10;
     private final int MAX_ACTIVE_CARDS = 7;
@@ -32,7 +42,8 @@ public class Hero extends Sprite {
     private Deck deck;
     private Hand hand;
     private boolean heroIsDead;
-    
+    private Paint textStyle;
+
     /**
      * Constructor for the Hero without a supplied deck, using the default card setup
      * @param x horizontal position of the hero
@@ -42,14 +53,7 @@ public class Hero extends Sprite {
      * @param game game the hero exists in
      */
     public Hero(float x, float y, Bitmap bitmap, GameScreen gameScreen, Game game){
-        super(x, y, 101.0f, 96.0f, bitmap, gameScreen);
-        currentHealth = MAX_HEALTH;
-        manaLimit = 5;
-        currentMana = manaLimit;
-        deck = new Deck(gameScreen, game);
-        hand = new Hand(deck);
-        activeCards = new ArrayList<>();
-        heroIsDead = false;
+        this(x, y, bitmap, gameScreen, game, null);
     }
     
     /**
@@ -67,10 +71,29 @@ public class Hero extends Sprite {
         currentHealth = MAX_HEALTH;
         manaLimit = 5;
         currentMana = manaLimit;
-        deck = new Deck(gameScreen, game, levelDeck);
+        if(levelDeck != null)
+        {
+            // If there is a level deck provided, use that for the deck
+            deck = new Deck(gameScreen, game, levelDeck);
+        }
+        else
+        {
+            // If no level deck provided, use the default deck
+            deck = new Deck(gameScreen, game);
+        }
         hand = new Hand(deck);
         activeCards = new ArrayList<>();
         heroIsDead = false;
+        // Text style for drawing the hero health
+        textStyle = new Paint();
+        textStyle.setTextSize(STATS_TEXT_SIZE);
+        textStyle.setTextAlign(Paint.Align.CENTER);
+        // Go through each card in the deck and set it's position to the cards position, so
+        // when the card is dealt and visible, it comes from the hero
+        for(Card card : deck.getCardsInDeck())
+        {
+            card.setPosition(position);
+        }
     }
 
     //Increases the mana limit, at the end of every turn, up to a max value
@@ -104,6 +127,8 @@ public class Hero extends Sprite {
             this.currentMana -= cardToPlay.getManaCost();
             cardToPlay.setCardState(Card.CardState.CARD_ON_BOARD);
             this.hand.getCards().remove(cardToPlay);
+            // After the card is been played, rearrange all the card positions on the board
+            ((CardDemoScreen)mGameScreen).arrangeCards();
         }
     }
 
@@ -114,6 +139,23 @@ public class Hero extends Sprite {
             if(current.getCardIsDead())
                 i.remove();
         }
+    }
+
+    @Override
+    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport, Paint paint)
+    {
+        super.draw(elapsedTime, graphics2D, layerViewport, screenViewport, paint);
+        if (GraphicsHelper.getClippedSourceAndScreenRect(this, layerViewport,
+                screenViewport, drawSourceRect, drawScreenRect)) {
+            textStyle.setColor(Color.GREEN);
+            graphics2D.drawText(String.valueOf(currentHealth), drawScreenRect.centerX(), drawScreenRect.bottom, textStyle);
+        }
+    }
+
+    @Override
+    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport)
+    {
+        this.draw(elapsedTime, graphics2D, layerViewport, screenViewport, new Paint());
     }
 
     //Getters
