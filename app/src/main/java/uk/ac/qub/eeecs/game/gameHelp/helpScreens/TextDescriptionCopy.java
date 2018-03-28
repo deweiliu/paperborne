@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.helpScreen;
+package uk.ac.qub.eeecs.game.gameHelp.helpScreens;
 
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -18,14 +18,12 @@ import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.MenuScreen;
 
 /**
- * Starter class for Card game stories in the 3rd sprint
  * Created by Dewei on 05/12/2017.
- * Modified by Dewei on 07/12/2017.
- * Modified by Dewei on 08/12/2017.
+
  */
 
 
-public class HelpScreen extends GameScreen {
+public class TextDescriptionCopy extends GameScreen {
 
     /**
      * Define the background star scape
@@ -112,8 +110,8 @@ public class HelpScreen extends GameScreen {
      *
      * @param game Game to which this screen belongs
      */
-    public HelpScreen(Game game) {
-        super("HelpScreen", game);
+    public TextDescriptionCopy(Game game) {
+        super("TextDescription", game);
 
         //Get screen backIconWidth and backIconHeight
         SCREEN_HEIGHT = game.getScreenHeight();
@@ -134,9 +132,9 @@ public class HelpScreen extends GameScreen {
 
         // Load in the assets used by the steering demo
         AssetStore assetManager = mGame.getAssetManager();
-        assetManager.loadAndAddBitmap("HelpBackground", "img/HelpBackground.png");
-        assetManager.loadAndAddBitmap("HelpScreenLogo", "img/HelpScreenLogo.png");
-        assetManager.loadAndAddBitmap("BackIcon", "img/LeftArrow.png");
+        assetManager.loadAndAddBitmap("HelpBackground", "img/Game Help/HelpBackground.png");
+        assetManager.loadAndAddBitmap("HelpScreenLogo", "img/Game Help/HelpScreenLogo.png");
+        assetManager.loadAndAddBitmap("BackIcon", "img/Game Help/LeftArrow.png");
 
         // Create the back button
         backIconHeight = SCREEN_HEIGHT / 10;
