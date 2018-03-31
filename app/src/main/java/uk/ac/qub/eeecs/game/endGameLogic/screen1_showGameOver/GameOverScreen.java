@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.cardDemo.endGameLogic.gameOverScreen;
+package uk.ac.qub.eeecs.game.endGameLogic.screen1_showGameOver;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -13,8 +13,8 @@ import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameLogic;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameScreen;
+import uk.ac.qub.eeecs.game.endGameLogic.EndGameController;
+import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameScreen;
 
 /**
  * Created by 40216004 Dewei Liu on 22/01/2018.
@@ -30,21 +30,21 @@ public class GameOverScreen implements EndGameScreen {
     private ScreenViewport mScreenViewport;
     private LayerViewport mLayerViewport;
     private GameOverAnimation mGameOverAnimation;
-    private EndGameLogic mEndGameLogicScreen;
+    private EndGameController mEndGameControllerScreen;
     private final static int TEXT_SIZE = 100;
 
-    public GameOverScreen(EndGameLogic endGameLogicScreen) {
+    public GameOverScreen(EndGameController endGameControllerScreen) {
         super();
         isFinished = false;
-        mEndGameLogicScreen = endGameLogicScreen;
-        this.mBattleScreen = endGameLogicScreen.getBattleScreen();
+        mEndGameControllerScreen = endGameControllerScreen;
+        this.mBattleScreen = endGameControllerScreen.getBattleScreen();
 
         mPaint = new Paint();
         this.mPaint.setColor(Color.BLACK);
         this.mPaint.setTextSize(TEXT_SIZE);
 
-        mScreenViewport = mEndGameLogicScreen.getScreenViewport();
-        mLayerViewport = mEndGameLogicScreen.getLayerViewport();
+        mScreenViewport = mEndGameControllerScreen.getScreenViewport();
+        mLayerViewport = mEndGameControllerScreen.getLayerViewport();
 
         AssetStore assetManager = getGame().getAssetManager();
         String winAnimationName = "WinAnimation";
@@ -55,15 +55,15 @@ public class GameOverScreen implements EndGameScreen {
         assetManager.loadAndAddBitmap(loseAnimationName, "img/End Game Logic/you-lose.png");
         Bitmap loseAnimation = assetManager.getBitmap(loseAnimationName);
 
-        if (mEndGameLogicScreen.isSinglePlayer()) {
-            if (mEndGameLogicScreen.isPlayer1Wins()) {
+        if (mEndGameControllerScreen.isSinglePlayer()) {
+            if (mEndGameControllerScreen.isPlayer1Wins()) {
 
                 mGameOverAnimation = new SinglePlayerGameOver(this, winAnimation);
             } else {
                 mGameOverAnimation = new SinglePlayerGameOver(this, loseAnimation);
             }
         } else {
-            if (mEndGameLogicScreen.isPlayer1Wins()) {
+            if (mEndGameControllerScreen.isPlayer1Wins()) {
                 mGameOverAnimation = new TwoPlayerGameOver(this, winAnimation, loseAnimation);
             } else {
                 mGameOverAnimation = new TwoPlayerGameOver(this, loseAnimation, winAnimation);
@@ -95,7 +95,7 @@ public class GameOverScreen implements EndGameScreen {
             final float textPositionX = getGame().getScreenWidth() / 5;
             final String text = "Touch Screen to Continue...";
 
-            if (mEndGameLogicScreen.isSinglePlayer()) {
+            if (mEndGameControllerScreen.isSinglePlayer()) {
                 graphics2D.drawText(text, textPositionX, getGame().getScreenHeight() * 4 / 5, this.mPaint);
             } else {
                 graphics2D.drawText(text, textPositionX, (getGame().getScreenHeight() - TEXT_SIZE) / 2, this.mPaint);
@@ -111,7 +111,7 @@ public class GameOverScreen implements EndGameScreen {
 
     @Override
     public GameScreen getGameScreen() {
-        return mEndGameLogicScreen;
+        return mEndGameControllerScreen;
     }
 
     @Override

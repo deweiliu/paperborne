@@ -1,25 +1,31 @@
-package uk.ac.qub.eeecs.game.cardDemo.endGameLogic;
+package uk.ac.qub.eeecs.game.endGameLogic;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
+import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.MenuScreen;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.animationsOfGameObject.RotatingAnimation;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.gameOverScreen.GameOverScreen;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.getPlayerNameScreen.GetName;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.getPlayerNameScreen.GetPlayerNameScreen;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.recordsScreen.RecordsScreen;
+import uk.ac.qub.eeecs.game.ui.Rotating;
+import uk.ac.qub.eeecs.game.endGameLogic.screen1_showGameOver.GameOverScreen;
+import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.*;
+import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.GetNameScreen;
+import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameScreen;
+import uk.ac.qub.eeecs.game.endGameLogic.screen3_showRecords.RecordsScreen;
 
 /**
  * Created by 40216004 Dewei Liu on 22/01/2018.
+ * <p>
+ * To use the package of endGameLogic
+ * simply create an instance of EndGameController with parameters of current screen
  */
 
-public class EndGameLogic extends GameScreen {
+public class EndGameController extends GameScreen {
     private static final int GAME_OVER_ANIMATIONS = 0;
     private static final int PLAYERS_NAME = 1;
     private static final int RECORDS_SCREEN = 2;
@@ -29,17 +35,18 @@ public class EndGameLogic extends GameScreen {
     private boolean isPlayer1Wins;
     private EndGameScreen mEndGameScreen = null;
     private GameScreen mBattleScreen;
-    private GetName mPlayerName;
+    private User mPlayerName;
     private boolean stopDraw = false;
     private ScreenViewport mScreenViewport;
     private LayerViewport mLayerViewport;
     private boolean readyToUpdate;
     private Bitmap backGround;
-    private RotatingAnimation loading;
+    private Rotating loading;
+    private GameObject background, title;
 
-    public EndGameLogic(GameScreen battleScreen, boolean isSinglePlayer, boolean isPlayer1Wins) {
-        super("EndGameLogic", battleScreen.getGame());
-        this.mBattleScreen = battleScreen;
+    public EndGameController(GameScreen cardDemoScreen, boolean isSinglePlayer, boolean isPlayer1Wins) {
+        super("EndGameController", cardDemoScreen.getGame());
+        this.mBattleScreen = cardDemoScreen;
         this.isSinglePlayer = isSinglePlayer;
         this.isPlayer1Wins = isPlayer1Wins;
         this.statue = GAME_OVER_ANIMATIONS;
@@ -47,15 +54,22 @@ public class EndGameLogic extends GameScreen {
         mLayerViewport = new LayerViewport(0, 0, getGame().getScreenWidth() / 2, getGame().getScreenHeight() / 2);
 
         //Set up background
-        final String BACKGROUND_NAME = "RecordsScreenBackground";
-        mGame.getAssetManager().loadAndAddBitmap(BACKGROUND_NAME, "img/End Game Logic/end-game-logic-background.jpg");
+        final String BACKGROUND_NAME = "All End Game Screens Background";
+        mGame.getAssetManager().loadAndAddBitmap(BACKGROUND_NAME, "img/Lined-Paper.png");
         backGround = mGame.getAssetManager().getBitmap(BACKGROUND_NAME);
+        background = new GameObject(mLayerViewport.x, mLayerViewport.y, mLayerViewport.getWidth(), mLayerViewport.getHeight(), backGround, this);
+
+        final String TITLE_NAME = "End Game Logic Title";
+        mGame.getAssetManager().loadAndAddBitmap(TITLE_NAME, "img/Title.png");
+        title = new GameObject(mLayerViewport.x, mLayerViewport.getTop() - mLayerViewport.getHeight() / 10, mLayerViewport.getWidth(), mLayerViewport.getHeight() / 5
+                , mGame.getAssetManager().getBitmap(TITLE_NAME), this);
+
 
         //Set up loading animation
         final String LOADING_NAME = "loadingToMainMenuFromEndGameLogic";
         mGame.getAssetManager().loadAndAddBitmap(LOADING_NAME, "img/End Game Logic/loading.png");
         Bitmap loadingBitmap = mGame.getAssetManager().getBitmap(LOADING_NAME);
-        loading = new RotatingAnimation(2000, mLayerViewport.getHeight() / 4, loadingBitmap, this, 5000);
+        loading = new Rotating(2000, mLayerViewport.getHeight() / 4, loadingBitmap, this, 5000);
 
         //This 5 statements must be at the end of this constructor
         this.mEndGameScreen = new GameOverScreen(this);
@@ -80,19 +94,23 @@ public class EndGameLogic extends GameScreen {
 
             }
         }
+        background.update(elapsedTime);
+        title.update(elapsedTime);
     }
 
     private void changeToNextScreen() {
         switch (this.statue) {
             //From game over animations to get player name
             case GAME_OVER_ANIMATIONS:
-                this.mEndGameScreen = new GetPlayerNameScreen(this);
+                this.mEndGameScreen = new GetNameScreen(this);
                 this.statue = PLAYERS_NAME;
                 break;
 
             //From get player name to records screen
             case PLAYERS_NAME:
-                this.mEndGameScreen = new RecordsScreen(this, this.mPlayerName);
+                User user = ((GetNameScreen) mEndGameScreen).getUserName();
+
+                this.mEndGameScreen = new RecordsScreen(this, user);
                 this.statue = RECORDS_SCREEN;
                 break;
 
@@ -124,7 +142,9 @@ public class EndGameLogic extends GameScreen {
         } else {
 
 
-            graphics2D.clear(Color.GREEN);
+            graphics2D.clear(Color.WHITE);
+            background.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+            title.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
             mEndGameScreen.draw(elapsedTime, graphics2D);
             if (mEndGameScreen.isFinished()) {
                 loading.draw(elapsedTime, graphics2D);
@@ -132,9 +152,6 @@ public class EndGameLogic extends GameScreen {
         }
     }
 
-    public void setPlayerName(GetName mPlayerName) {
-        this.mPlayerName = mPlayerName;
-    }
 
     public boolean isSinglePlayer() {
         return isSinglePlayer;
@@ -156,9 +173,6 @@ public class EndGameLogic extends GameScreen {
         return mLayerViewport;
     }
 
-    public Bitmap getBackGround() {
-        return backGround;
-    }
 
 }
 

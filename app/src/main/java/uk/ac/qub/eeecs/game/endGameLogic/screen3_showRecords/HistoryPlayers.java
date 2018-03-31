@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.cardDemo.endGameLogic.recordsScreen;
+package uk.ac.qub.eeecs.game.endGameLogic.screen3_showRecords;
 
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameScreen;
+import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameScreen;
 
 /**
  * Created by 40216004 Dewei Liu on 22/01/2018.
@@ -39,6 +39,8 @@ public class HistoryPlayers extends AllGameRecords {
 
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+        super.draw(elapsedTime,graphics2D);
+
         graphics2D.drawText("Hello, showing history players records", 0, mEndGameScreen.getScreenHeight() / 4, mPaint);
         switchButton.draw(elapsedTime, graphics2D, super.mLayerViewport, mEndGameScreen.getScreenViewPort());
 

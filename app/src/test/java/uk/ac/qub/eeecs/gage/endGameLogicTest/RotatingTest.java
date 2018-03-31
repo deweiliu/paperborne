@@ -11,17 +11,17 @@ import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.animationsOfGameObject.RotatingAnimation;
+import uk.ac.qub.eeecs.game.ui.Rotating;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * Created by 40216004 on 26/01/2018.
- * Test for uk.ac.qub.eeecs.game.cardDemo.endGameLogic.animationsOfGameObject.RotatingAnimation.java
+ * Test for Rotating.java
  */
 
-public class RotatingAnimationTest {
-    private RotatingAnimation rotatingObject;
+public class RotatingTest {
+    private Rotating rotatingObject;
     private final static long CYCLE_PERIOD = 3000;
     private final static int SIZE = 100;
     private final static long ANIMATION_PERIOD = 5000; //5s
@@ -45,7 +45,7 @@ public class RotatingAnimationTest {
             public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
             }
         };
-        rotatingObject = new RotatingAnimation(CYCLE_PERIOD, SIZE, bitmap, gameScreen, ANIMATION_PERIOD);
+        rotatingObject = new Rotating(CYCLE_PERIOD, SIZE, bitmap, gameScreen, ANIMATION_PERIOD);
         rotatingObject.setIsRotate(false);
     }
 

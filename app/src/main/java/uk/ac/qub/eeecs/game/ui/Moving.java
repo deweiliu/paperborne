@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.cardDemo.endGameLogic.animationsOfGameObject;
+package uk.ac.qub.eeecs.game.ui;
 
 import android.graphics.Bitmap;
 
@@ -8,13 +8,13 @@ import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameStuff;
+import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameStuff;
 
 /**
  * Created by 40216004 Dewei Liu on 23/01/2018.
  */
 
-public final class MovingAnimation extends GameObject implements EndGameStuff{
+public final class Moving extends GameObject implements EndGameStuff {
     private boolean isFinished;
     private boolean isResumed;
     private boolean isStarted;
@@ -44,12 +44,12 @@ public final class MovingAnimation extends GameObject implements EndGameStuff{
         public float y;
     }
 
-    public MovingAnimation(float x, float y, float width, float height, Bitmap bitmap, GameScreen gameScreen) {
+    public Moving(float x, float y, float width, float height, Bitmap bitmap, GameScreen gameScreen) {
         super(x, y, width, height, bitmap, gameScreen);
         initialize(x, y);
     }
 
-    public MovingAnimation(float x, float y, Bitmap bitmap, GameScreen gameScreen) {
+    public Moving(float x, float y, Bitmap bitmap, GameScreen gameScreen) {
         super(x, y, bitmap, gameScreen);
         initialize(x, y);
     }

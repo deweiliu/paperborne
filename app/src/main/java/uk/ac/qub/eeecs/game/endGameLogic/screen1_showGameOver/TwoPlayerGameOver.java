@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.cardDemo.endGameLogic.gameOverScreen;
+package uk.ac.qub.eeecs.game.endGameLogic.screen1_showGameOver;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -7,8 +7,8 @@ import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameScreen;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.animationsOfGameObject.MovingAnimation;
+import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameScreen;
+import uk.ac.qub.eeecs.game.ui.Moving;
 
 /**
  * Created by 40216004 Dewei Liu on 23/01/2018.
@@ -17,7 +17,7 @@ import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.animationsOfGameObject.MovingA
 public class TwoPlayerGameOver implements GameOverAnimation {
     private boolean isFinished = false;
     private Game mGame;
-    private MovingAnimation player1, player2;
+    private Moving player1, player2;
     private EndGameScreen mScreen;
     private final static float SCALE = 0.25f;
 
@@ -29,9 +29,9 @@ public class TwoPlayerGameOver implements GameOverAnimation {
         LayerViewport layerViewport = mScreen.getLayerViewport();
         float pictureWidth = layerViewport.getWidth() * SCALE;
         float pictureHeight = layerViewport.getHeight() * SCALE;
-        this.player1 = new MovingAnimation(0, layerViewport.getBottom() - pictureHeight / 2,
+        this.player1 = new Moving(0, layerViewport.getBottom() - pictureHeight / 2,
                 pictureWidth, pictureHeight, player1Animation, this.mScreen.getGameScreen());
-        this.player2 = new MovingAnimation(0, layerViewport.getTop() + pictureHeight / 2,
+        this.player2 = new Moving(0, layerViewport.getTop() + pictureHeight / 2,
                 pictureWidth, pictureHeight, player2Animation, this.mScreen.getGameScreen());
 
         this.player1.setDestination(mScreen.getLayerViewport().x, mScreen.getLayerViewport().y - layerViewport.halfHeight / 2);

@@ -1,6 +1,6 @@
-package uk.ac.qub.eeecs.game.cardDemo.endGameLogic.gameOverScreen;
+package uk.ac.qub.eeecs.game.endGameLogic.screen1_showGameOver;
 
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameStuff;
+import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameStuff;
 
 /**
  * Created by 40216004 Dewei Liu on 23/01/2018.

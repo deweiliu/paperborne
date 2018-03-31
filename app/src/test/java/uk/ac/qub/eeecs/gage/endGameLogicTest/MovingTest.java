@@ -13,17 +13,17 @@ import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.animationsOfGameObject.MovingAnimation;
+import uk.ac.qub.eeecs.game.ui.Moving;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * Created by 40216004 Dewei Liu on 24/01/2018.
- * Test for uk.ac.qub.eeecs.game.cardDemo.endGameLogic.animationsOfGameObject.MovingAnimation.java
+ * Test for Moving.java
  */
 @RunWith(MockitoJUnitRunner.class)
-public class MovingAnimationTest {
-    private MovingAnimation movingObject;
+public class MovingTest {
+    private Moving movingObject;
     @Mock
     private Bitmap bitmap = Mockito.mock(Bitmap.class);
 
@@ -49,7 +49,7 @@ public class MovingAnimationTest {
             }
         };
 
-        movingObject = new MovingAnimation(VALUE, VALUE, VALUE, VALUE, bitmap, gameScreen);
+        movingObject = new Moving(VALUE, VALUE, VALUE, VALUE, bitmap, gameScreen);
     }
 
     @Test

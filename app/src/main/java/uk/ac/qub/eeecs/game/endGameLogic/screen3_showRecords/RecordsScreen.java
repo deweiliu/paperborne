@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.cardDemo.endGameLogic.recordsScreen;
+package uk.ac.qub.eeecs.game.endGameLogic.screen3_showRecords;
 
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,9 +13,11 @@ import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameLogic;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameScreen;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.getPlayerNameScreen.GetName;
+import uk.ac.qub.eeecs.game.endGameLogic.EndGameController;
+import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameScreen;
+import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.GetNameScreen;
+import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.GetNameSuperClass;
+import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.User;
 
 /**
  * Created by 40216004 Dewei Liu on 22/01/2018.
@@ -25,20 +27,21 @@ public class RecordsScreen implements EndGameScreen {
     private Paint mPaint;
 
     private LayerViewport mLayerViewport;
-    private EndGameLogic mEndGameLogic;
+    private EndGameController mEndGameController;
     private ScreenViewport mScreenViewport;
     private boolean isFinished;
     private PushButton mainMenuButton;
-    private GameObject backGround;
     private AllGameRecords showRecords;
+    private User playerName;
 
 
+    public RecordsScreen(EndGameController gameScreen, User playerName) {
+        mEndGameController = gameScreen;
 
-    public RecordsScreen(EndGameLogic gameScreen, GetName playerName) {
-        mEndGameLogic = gameScreen;
+        this.playerName = playerName;
         mPaint = new Paint();
-        mPaint.setColor(Color.WHITE);
-        mPaint.setTextSize(100);
+        mPaint.setColor(Color.BLACK);
+        mPaint.setTextSize(150);
         mScreenViewport = gameScreen.getScreenViewport();
         mLayerViewport = gameScreen.getLayerViewport();
 
@@ -50,13 +53,10 @@ public class RecordsScreen implements EndGameScreen {
         final float MAIN_MENU_BUTTON_SIZE = mLayerViewport.getHeight() / 3;
         this.mainMenuButton = new PushButton(mLayerViewport.getLeft() + MAIN_MENU_BUTTON_SIZE / 2,
                 mLayerViewport.getBottom() + MAIN_MENU_BUTTON_SIZE / 2,
-                MAIN_MENU_BUTTON_SIZE, MAIN_MENU_BUTTON_SIZE, MAIN_MENU_BUTTON_NAME, this.mEndGameLogic);
+                MAIN_MENU_BUTTON_SIZE, MAIN_MENU_BUTTON_SIZE, MAIN_MENU_BUTTON_NAME, this.mEndGameController);
         this.mainMenuButton.processInLayerSpace(true);
 
-        //Add Background to records screen
-        backGround = new GameObject(0, 0, mLayerViewport.getWidth(), mLayerViewport.getHeight(),
-                mEndGameLogic.getBackGround(), this.mEndGameLogic);
-        showRecords = new CurrentPlayers(this);
+         showRecords = new CurrentPlayers(this);
 
     }
 
@@ -64,7 +64,6 @@ public class RecordsScreen implements EndGameScreen {
     public void update(ElapsedTime elapsedTime) {
 
         mainMenuButton.update(elapsedTime, mLayerViewport, mScreenViewport);
-        backGround.update(elapsedTime);
         if (mainMenuButton.isPushTriggered()) {
             this.isFinished = true;
         }
@@ -83,9 +82,12 @@ public class RecordsScreen implements EndGameScreen {
 
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
-        backGround.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
         showRecords.draw(elapsedTime, graphics2D);
         mainMenuButton.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+
+        graphics2D.drawText("Winner" + playerName.getWinner(), 100, getScreenHeight(), mPaint);
+
+        graphics2D.drawText("loser" + playerName.getLoser(), 100, getScreenHeight() / 2, mPaint);
 
     }
 
@@ -96,7 +98,7 @@ public class RecordsScreen implements EndGameScreen {
 
     @Override
     public GameScreen getGameScreen() {
-        return mEndGameLogic;
+        return mEndGameController;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.cardDemo.endGameLogic.animationsOfGameObject;
+package uk.ac.qub.eeecs.game.ui;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -7,7 +7,7 @@ import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
-import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameStuff;
+import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameStuff;
 
 /**
  * Created by 40216004 Dewei Liu on 25/01/2018.
@@ -15,7 +15,7 @@ import uk.ac.qub.eeecs.game.cardDemo.endGameLogic.EndGameStuff;
  * This can be used as a loading animation at the centre of screen
  */
 
-public final class RotatingAnimation extends GameObject implements EndGameStuff {
+public final class Rotating extends GameObject implements EndGameStuff {
     private long PERIOD;
     private long timeMark;
     private boolean isFinished;
@@ -28,7 +28,7 @@ public final class RotatingAnimation extends GameObject implements EndGameStuff 
     private float ratioForWidth, ratioForHeight;
     private boolean isRotate;
 
-    public RotatingAnimation(long rotatingTimeInMillisPerCycle, float size, Bitmap bitmap, GameScreen gameScreen, long animationPeriod) {
+    public Rotating(long rotatingTimeInMillisPerCycle, float size, Bitmap bitmap, GameScreen gameScreen, long animationPeriod) {
         super(gameScreen.getGame().getScreenWidth() / 2, gameScreen.getGame().getScreenHeight() / 2, size, size, bitmap, gameScreen);
 
         this.bitmap = bitmap;

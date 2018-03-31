@@ -16,6 +16,7 @@ import uk.ac.qub.eeecs.gage.ui.ToggleButton;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
+import uk.ac.qub.eeecs.game.endGameLogic.EndGameController;
 import uk.ac.qub.eeecs.game.gameHelp.HelpScreenController;
 import uk.ac.qub.eeecs.game.options.OptionsScreen;
 import uk.ac.qub.eeecs.game.performanceScreen.PerformanceScreen;
@@ -109,7 +110,7 @@ public class MenuScreen extends GameScreen {
                 spacingX * 3.0f, game.getScreenHeight() / 2, spacingX, spacingY * 2, "MPButton", this);
         mMuteButton = new ToggleButton(
                 spacingX * 0.25f, game.getScreenHeight() - (spacingY/4), spacingX/2, spacingY/2, "Mute", "Unmute", this);
-    }
+        new EndGameController(this,true,false); }
 
     // /////////////////////////////////////////////////////////////////////////
     // Methods
