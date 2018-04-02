@@ -127,6 +127,7 @@ public class Hero extends Sprite {
             this.currentMana -= cardToPlay.getManaCost();
             cardToPlay.setCardState(Card.CardState.CARD_ON_BOARD);
             this.hand.getCards().remove(cardToPlay);
+            cardToPlay.setFinishedMove(true);
             // After the card is been played, rearrange all the card positions on the board
             ((CardDemoScreen)mGameScreen).arrangeCards();
         }

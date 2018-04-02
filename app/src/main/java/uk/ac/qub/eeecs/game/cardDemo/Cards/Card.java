@@ -377,6 +377,8 @@ public class Card extends Sprite {
     {
         this.anchor.x = x;
         this.anchor.y = y;
+        this.acceleration.set(Vector2.Zero);
+        this.velocity.set(Vector2.Zero);
     }
 }
 

@@ -24,6 +24,7 @@ import uk.ac.qub.eeecs.game.VerticalSlider;
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIController;
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.PlayerAction;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
+import uk.ac.qub.eeecs.game.ui.PopUp;
 import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 
@@ -56,6 +57,8 @@ public class CardDemoScreen extends GameScreen {
     
     private AIController aiOpponent;
     private boolean startedThinking;
+
+    private PopUp attackMessage;
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
@@ -152,6 +155,8 @@ public class CardDemoScreen extends GameScreen {
                 opponent.clearDeadCards();
                 for (Card card : player.getActiveCards())
                     card.setFinishedMove(false);
+                for (Card card : opponent.getActiveCards())
+                    card.setFinishedMove(false);
                 player.refillMana();
                 opponent.refillMana();
 
@@ -183,6 +188,9 @@ public class CardDemoScreen extends GameScreen {
         assetManager.loadAndAddBitmap("SliderBase", "img/SliderBase.png");
         assetManager.loadAndAddBitmap("SliderFill", "img/SliderFill.png");
         assetManager.loadAndAddBitmap("VerticalSliderFill", "img/VerticalSliderFill.png");
+        assetManager.loadAndAddBitmap(PopUp.POPUP_BITMAP_ID, PopUp.POPUP_BITMAP_PATH);
+
+        attackMessage = new PopUp("Attack Hero", 3, 70, assetManager.getBitmap(PopUp.POPUP_BITMAP_ID), this);
 
         // Set up text painter with styles
         Paint sliderPainter = new Paint();
@@ -335,6 +343,7 @@ public class CardDemoScreen extends GameScreen {
                         // Attack hero
                         player.takeDamage(action.getAttackerCard().getAttackValue());
                         action.getAttackerCard().setFinishedMove(true);
+                        attackMessage.show();
                         break;
                     }
                     case PlayerAction.ATTACK_ACTIVE_CARD:
