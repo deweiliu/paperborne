@@ -18,10 +18,15 @@ import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
+import uk.ac.qub.eeecs.gage.util.InputHelper;
+import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.gage.world.LayerViewport;
+import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
+import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -176,28 +181,162 @@ public class CardTests {
 
     @Test
     public void cardIsPressedTest(){
-        //Creates new Card
-        card = new Card(0, "Test", 10.0f, 10.0f, bitmap, cardDemoScreen, 1, 1, 1);
+        ElapsedTime elapsedTime = new ElapsedTime();
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        game.getScreenManager().addScreen(cardDemoScreen);
+
+        ScreenViewport screenViewport = new ScreenViewport(0, 0, cardDemoScreen.getGame().getScreenWidth(), cardDemoScreen.getGame().getScreenHeight());
+
+        LayerViewport layerViewport;
+
+        if (screenViewport.width > screenViewport.height)
+            layerViewport = new LayerViewport(240.0f, 240.0f
+                    * screenViewport.height / screenViewport.width, 240,
+                    240.0f * screenViewport.height / screenViewport.width);
+        else
+            layerViewport = new LayerViewport(240.0f * screenViewport.height
+                    / screenViewport.width, 240.0f, 240.0f
+                    * screenViewport.height / screenViewport.width, 240);
+
+
+
+        //Creates new Hero
+        Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
+
+        // Play a randomly drawn card
+        hero.playCard(hero.getDeck().drawCard());
+
+        // Pick a card from the board
+        Card card = hero.getActiveCards().get(0);
+
+        // Create a touch position
+        Vector2 touchPos = new Vector2(50.0f, 50.0f);
 
         TouchEvent touchEvent = new TouchEvent();
         touchEvent.type = TouchEvent.TOUCH_DOWN;
-        touchEvent.x = 10f;
-        touchEvent.y = 10f;
+        touchEvent.x = touchPos.x;
+        touchEvent.y = touchPos.y;
         List<TouchEvent> touchEvents = new ArrayList<TouchEvent>();
         touchEvents.add(touchEvent);
 
         when(input.getTouchEvents()).thenReturn(touchEvents);
 
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
-        game.getScreenManager().addScreen(cardDemoScreen);
+        // Convert the touch coordinates into screen coordinates
+        Vector2 cardPos = new Vector2();
+        InputHelper.convertScreenPosIntoLayer(
+                screenViewport,
+                new Vector2(touchPos.x, touchPos.y),
+                layerViewport, cardPos);
 
-        ElapsedTime elapsedTime = new ElapsedTime();
-
-
+        card.position = new Vector2(cardPos.x, cardPos.y);
 
         //Call update method
         cardDemoScreen.update(elapsedTime);
+        card.update(elapsedTime, screenViewport, layerViewport, hero);
 
         assertTrue(card.isCardPressedDown());
+    }
+
+    @Test
+    public void cardPlayedTest(){
+        int ScreenWidth = 1920;
+        int ScreenHeight = 1080;
+        when(game.getScreenWidth()).thenReturn(ScreenWidth);
+        when(game.getScreenHeight()).thenReturn(ScreenHeight);
+
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(),  new ArrayList<LevelCard>());
+        game.getScreenManager().addScreen(cardDemoScreen);
+        ScreenViewport mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
+                game.getScreenHeight());
+
+        LayerViewport mLayerViewport;
+
+        if (mScreenViewport.width > mScreenViewport.height)
+            mLayerViewport = new LayerViewport(240.0f, 240.0f
+                    * mScreenViewport.height / mScreenViewport.width, 240,
+                    240.0f * mScreenViewport.height / mScreenViewport.width);
+        else
+            mLayerViewport = new LayerViewport(240.0f * mScreenViewport.height
+                    / mScreenViewport.width, 240.0f, 240.0f
+                    * mScreenViewport.height / mScreenViewport.width, 240);
+
+
+        Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
+        hero.incrementManaLimit();
+        hero.refillMana();
+
+        Card card = new Card(0, "Test", ScreenWidth / 5.0f, (ScreenHeight / 3.0f) * 1.5f, bitmap, cardDemoScreen, 1, 1, 1);
+        card.setCardState(Card.CardState.CARD_IN_HAND);
+
+        ElapsedTime elapsedTime = new ElapsedTime();
+
+        TouchEvent touchEvent = new TouchEvent();
+        touchEvent.type = TouchEvent.TOUCH_UP;
+        touchEvent.x = card.getPosition().x;
+        touchEvent.y = card.getPosition().y;
+        List<TouchEvent> touchEvents = new ArrayList<>();
+        touchEvents.add(touchEvent);
+
+        card.setCardPressedDown(true);
+        card.setPosition(30.0f, mLayerViewport.getHeight());
+        card.update(elapsedTime, mScreenViewport, mLayerViewport, hero);
+
+        assertTrue(card.getCardState() == Card.CardState.CARD_ON_BOARD);
+    }
+
+    @Test
+    public void cardSetPositionTest(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        game.getScreenManager().addScreen(cardDemoScreen);
+
+        card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
+        card.setPosition(100, 100);
+
+        assertTrue(card.getPosition().x == 100 && card.getPosition().y == 100);
+
+    }
+
+    @Test
+    public void cardSetAnchorTest(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        game.getScreenManager().addScreen(cardDemoScreen);
+        card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
+        card.setAnchor(50, 50);
+
+        assertTrue(card.getAnchor().x == 50 && card.getAnchor().y == 50);
+    }
+
+
+    @Test
+    public void cardSetCardStateTest(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        game.getScreenManager().addScreen(cardDemoScreen);
+        card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
+        card.setCardState(Card.CardState.CARD_ON_BOARD);
+        assertTrue(card.getCardState() == Card.CardState.CARD_ON_BOARD);
+    }
+
+
+    @Test
+    public void cardSetLastPosition(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        game.getScreenManager().addScreen(cardDemoScreen);
+        card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
+        Vector2 lastPosition = new Vector2();
+        lastPosition.x = 10;
+        lastPosition.y = 10;
+
+        card.setLastPosition(lastPosition);
+        assertTrue(card.getLastPosition() == lastPosition);
+    }
+
+    @Test
+    public void cardSetManaCost(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        game.getScreenManager().addScreen(cardDemoScreen);
+        card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
+
+        card.setManaCost(50);
+        assertTrue(card.getManaCost() == 50);
     }
 }
