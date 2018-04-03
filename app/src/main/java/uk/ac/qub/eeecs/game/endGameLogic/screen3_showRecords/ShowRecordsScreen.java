@@ -9,34 +9,31 @@ import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
-import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.endGameLogic.EndGameController;
 import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameScreen;
-import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.GetNameScreen;
-import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.GetNameSuperClass;
 import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.User;
 
 /**
  * Created by 40216004 Dewei Liu on 22/01/2018.
  */
 
-public class RecordsScreen implements EndGameScreen {
+public class ShowRecordsScreen implements EndGameScreen {
     private Paint mPaint;
-
+private RecordsManager manager;
     private LayerViewport mLayerViewport;
-    private EndGameController mEndGameController;
+    private EndGameController controller;
     private ScreenViewport mScreenViewport;
     private boolean isFinished;
     private PushButton mainMenuButton;
-    private AllGameRecords showRecords;
+    private RecordsSuperClass showRecords;
     private User playerName;
 
 
-    public RecordsScreen(EndGameController gameScreen, User playerName) {
-        mEndGameController = gameScreen;
+    public ShowRecordsScreen(EndGameController gameScreen, User playerName) {
+        controller = gameScreen;
 
         this.playerName = playerName;
         mPaint = new Paint();
@@ -50,13 +47,26 @@ public class RecordsScreen implements EndGameScreen {
         //Set up return to main menu button
         final String MAIN_MENU_BUTTON_NAME = "ReturnMainMenuButton";
         getAssetManager().loadAndAddBitmap(MAIN_MENU_BUTTON_NAME, "img/End Game Logic/return-menu.png");
-        final float MAIN_MENU_BUTTON_SIZE = mLayerViewport.getHeight() / 3;
+        final float MAIN_MENU_BUTTON_SIZE = mLayerViewport.getHeight() / 5;
         this.mainMenuButton = new PushButton(mLayerViewport.getLeft() + MAIN_MENU_BUTTON_SIZE / 2,
-                mLayerViewport.getBottom() + MAIN_MENU_BUTTON_SIZE / 2,
-                MAIN_MENU_BUTTON_SIZE, MAIN_MENU_BUTTON_SIZE, MAIN_MENU_BUTTON_NAME, this.mEndGameController);
+                mLayerViewport.getTop() - MAIN_MENU_BUTTON_SIZE / 2,
+                MAIN_MENU_BUTTON_SIZE, MAIN_MENU_BUTTON_SIZE, MAIN_MENU_BUTTON_NAME, this.controller);
         this.mainMenuButton.processInLayerSpace(true);
 
-         showRecords = new CurrentPlayers(this);
+
+         RecordsManager manager=new RecordsManager(gameScreen.getGame().getContext());
+       if(  playerName.isSinglePlayer()){
+           if(playerName.isWinnerPlayer1()){
+               manager.addWinner(playerName.getWinner());
+           }else{
+               manager.addLoser(playerName.getLoser());
+           }
+       }else{
+           manager.addLoser(playerName.getLoser());
+           manager.addWinner(playerName.getWinner());
+       }
+       this.manager=manager;
+        showRecords = new CurrentPlayerRecord(this, playerName,manager);
 
     }
 
@@ -69,10 +79,10 @@ public class RecordsScreen implements EndGameScreen {
         }
         showRecords.update(elapsedTime);
         if (showRecords.isFinished()) {
-            if (showRecords instanceof CurrentPlayers) {
-                showRecords = new HistoryPlayers(this);
-            } else if (showRecords instanceof HistoryPlayers) {
-                showRecords = new CurrentPlayers(this);
+            if (showRecords instanceof CurrentPlayerRecord) {
+                showRecords = new HistoricalPlayersRecords(this,playerName,manager);
+            } else if (showRecords instanceof HistoricalPlayersRecords) {
+                showRecords = new CurrentPlayerRecord(this,playerName,manager);
             } else {
                 Log.d("Some thing goes wrong.", "");
             }
@@ -85,11 +95,10 @@ public class RecordsScreen implements EndGameScreen {
         showRecords.draw(elapsedTime, graphics2D);
         mainMenuButton.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
 
-        graphics2D.drawText("Winner" + playerName.getWinner(), 100, getScreenHeight(), mPaint);
-
-        graphics2D.drawText("loser" + playerName.getLoser(), 100, getScreenHeight() / 2, mPaint);
 
     }
+
+
 
     @Override
     public boolean isFinished() {
@@ -98,7 +107,7 @@ public class RecordsScreen implements EndGameScreen {
 
     @Override
     public GameScreen getGameScreen() {
-        return mEndGameController;
+        return controller;
     }
 
     @Override

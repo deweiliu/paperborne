@@ -3,7 +3,6 @@ package uk.ac.qub.eeecs.game.endGameLogic;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.GameObject;
@@ -16,7 +15,7 @@ import uk.ac.qub.eeecs.game.endGameLogic.screen1_showGameOver.GameOverScreen;
 import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.*;
 import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.GetNameScreen;
 import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameScreen;
-import uk.ac.qub.eeecs.game.endGameLogic.screen3_showRecords.RecordsScreen;
+import uk.ac.qub.eeecs.game.endGameLogic.screen3_showRecords.ShowRecordsScreen;
 
 /**
  * Created by 40216004 Dewei Liu on 22/01/2018.
@@ -60,7 +59,7 @@ public class EndGameController extends GameScreen {
         background = new GameObject(mLayerViewport.x, mLayerViewport.y, mLayerViewport.getWidth(), mLayerViewport.getHeight(), backGround, this);
 
         final String TITLE_NAME = "End Game Logic Title";
-        mGame.getAssetManager().loadAndAddBitmap(TITLE_NAME, "img/Title.png");
+        mGame.getAssetManager().loadAndAddBitmap(TITLE_NAME, "img/End Game Logic/Title.png");
         title = new GameObject(mLayerViewport.x, mLayerViewport.getTop() - mLayerViewport.getHeight() / 10, mLayerViewport.getWidth(), mLayerViewport.getHeight() / 5
                 , mGame.getAssetManager().getBitmap(TITLE_NAME), this);
 
@@ -110,7 +109,7 @@ public class EndGameController extends GameScreen {
             case PLAYERS_NAME:
                 User user = ((GetNameScreen) mEndGameScreen).getUserName();
 
-                this.mEndGameScreen = new RecordsScreen(this, user);
+                this.mEndGameScreen = new ShowRecordsScreen(this, user);
                 this.statue = RECORDS_SCREEN;
                 break;
 

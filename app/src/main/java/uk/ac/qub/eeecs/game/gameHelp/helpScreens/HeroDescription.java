@@ -24,7 +24,7 @@ import uk.ac.qub.eeecs.game.gameHelp.HelpScreenController;
 public class HeroDescription extends HelpScreenSuperClass {
 
     private ArrayList<HeroPicture> heros = new ArrayList<>();
-    private Paint mPaint;
+
     private Vector<String> description;
 
     /**
@@ -46,13 +46,10 @@ public class HeroDescription extends HelpScreenSuperClass {
         }
 
         description = new Vector<String>();
-        description.add("You will get one of heroes above with 30 health randomly.");
+        description.add("You will get a random hero above with 30 health.");
         description.add("If your hero's health is lower than or equal to 0, you lost.");
         description.add("If the opponent hero's health is lower than or equal to 0, you win.");
 
-        mPaint = new Paint();
-        mPaint.setTextSize(60);
-        mPaint.setColor(Color.WHITE);
         ;
 
     }

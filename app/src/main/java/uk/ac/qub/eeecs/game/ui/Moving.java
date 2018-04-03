@@ -148,7 +148,8 @@ public final class Moving extends GameObject implements EndGameStuff {
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport) {
         super.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
     }
-@Override
+
+    @Override
     public boolean isFinished() {
         return isFinished;
     }
