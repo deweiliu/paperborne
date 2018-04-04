@@ -275,6 +275,23 @@ if(!player.isAlive()){
                     }
                 }
             }
+            opponent.update(elapsedTime, mScreenViewport, mLayerViewport);
+            if (opponent.getHeroTouched()){
+                for (Card playerCard : player.getActiveCards()){
+                    if (playerCard.isCardIsActive() && !playerCard.isFinishedMove()){
+                        //If there is a selected card that hasn't finished their move
+                        // attack the hero
+                        opponent.takeDamage(playerCard.getAttackValue());
+                        //Deselect the player card and mark it as finished its move
+                        playerCard.setCardIsActive(false);
+                        playerCard.setFinishedMove(true);
+                        //mark the opponent hero as no longer touched
+                        opponent.setHeroTouched(false);
+                    }
+                }
+            }
+
+
             // If there has been a touchdown event, mark each player card on the board as inactive
             for (Card card : player.getActiveCards()) {
                 // Mark each player card on the board as deselected
