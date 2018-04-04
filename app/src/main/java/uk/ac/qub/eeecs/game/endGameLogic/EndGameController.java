@@ -2,6 +2,9 @@ package uk.ac.qub.eeecs.game.endGameLogic;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.util.Log;
+
+import java.util.List;
 
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
@@ -10,12 +13,14 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.MenuScreen;
+import uk.ac.qub.eeecs.game.SaveManager;
 import uk.ac.qub.eeecs.game.ui.Rotating;
 import uk.ac.qub.eeecs.game.endGameLogic.screen1_showGameOver.GameOverScreen;
 import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.*;
 import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.GetNameScreen;
 import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameScreen;
 import uk.ac.qub.eeecs.game.endGameLogic.screen3_showRecords.ShowRecordsScreen;
+import uk.ac.qub.eeecs.game.worldScreen.SaveGame;
 
 /**
  * Created by 40216004 Dewei Liu on 22/01/2018.
@@ -44,7 +49,27 @@ public class EndGameController extends GameScreen {
     private GameObject background, title;
 
     public EndGameController(GameScreen cardDemoScreen, boolean isSinglePlayer, boolean isPlayer1Wins) {
+        this(cardDemoScreen, isSinglePlayer, isPlayer1Wins, "level_one");
+    }
+
+    private void setCompletedLevelRecords(String levelID) {
+        SaveGame save = SaveManager.loadSavedGame(SaveManager.DEFAULT_SAVE_SLOT, mGame);
+        List<String> completedLevel = save.getCompleted();
+        completedLevel.add(levelID);
+        save.setCompleted(completedLevel);
+        SaveManager.writeSaveFile(save, mGame);
+    }
+
+    public EndGameController(GameScreen cardDemoScreen, boolean isSinglePlayer, boolean isPlayer1Wins, String levelID) {
         super("EndGameController", cardDemoScreen.getGame());
+        
+        //If the human beats the computer, then unlock new level.
+        if (isSinglePlayer == true) {
+            if (isPlayer1Wins == true) {
+                this.setCompletedLevelRecords(levelID);
+            }
+        }
+
         this.mBattleScreen = cardDemoScreen;
         this.isSinglePlayer = isSinglePlayer;
         this.isPlayer1Wins = isPlayer1Wins;
