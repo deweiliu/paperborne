@@ -67,7 +67,7 @@ public class HeroTests {
 
     @Test
     public void testHero() {
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
 
         hero = new Hero(0,0,bitmap,cardDemoScreen,game, new ArrayList<LevelCard>());
@@ -78,7 +78,7 @@ public class HeroTests {
 
     @Test
     public void testHeroTakingDamage(){
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
 
         hero = new Hero(0,0,bitmap,cardDemoScreen,game, new ArrayList<LevelCard>());
@@ -94,7 +94,7 @@ public class HeroTests {
 
     @Test
     public void testHeroIsDead(){
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
 
         hero = new Hero(0,0,bitmap,cardDemoScreen,game, new ArrayList<LevelCard>());
@@ -107,7 +107,7 @@ public class HeroTests {
 
     @Test
     public void testManaIncrement(){
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
 
         hero = new Hero(0,0,bitmap,cardDemoScreen,game, new ArrayList<LevelCard>());

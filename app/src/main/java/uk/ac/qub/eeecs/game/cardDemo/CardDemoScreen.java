@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Looper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
@@ -26,6 +27,7 @@ import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.PlayerAction;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.endGameLogic.EndGameController;
 import uk.ac.qub.eeecs.game.ui.PopUp;
+import uk.ac.qub.eeecs.game.worldScreen.Level;
 import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 
@@ -60,18 +62,31 @@ public class CardDemoScreen extends GameScreen {
     private boolean startedThinking;
 
     private PopUp attackMessage;
+    
+    private Level level;
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
+    
+    /**
+     * Constructor for creating game screen without level details, mainly for testing
+     * @param game Game to which this screen belongs
+     */
+    public CardDemoScreen(Game game)
+    {
+        this(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>(), null);
+    }
 
     /**
      * Create the Card game screen
      *
      * @param game Game to which this screen belongs
      */
-    public CardDemoScreen(Game game, List<LevelCard> opponentDeck, List<LevelCard> playerDeck) {
+    public CardDemoScreen(Game game, List<LevelCard> opponentDeck, List<LevelCard> playerDeck, Level level) {
         super("CardScreen", game);
+        
+        this.level = level;
 
         mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
                 game.getScreenHeight());

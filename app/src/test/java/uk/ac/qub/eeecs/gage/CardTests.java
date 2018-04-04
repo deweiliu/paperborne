@@ -25,7 +25,6 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
-import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
 import static junit.framework.Assert.assertFalse;
@@ -78,7 +77,7 @@ public class CardTests {
 
     @Test
     public void cardCopyTest() {
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
 
         card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
@@ -100,7 +99,7 @@ public class CardTests {
 
     @Test
     public void damageTest() {
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
 
         card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 10);
@@ -111,7 +110,7 @@ public class CardTests {
 
     @Test
     public void deathTest() {
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
 
         card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
@@ -131,7 +130,7 @@ public class CardTests {
     //Tests if the card is active when touched
     @Test
     public void cardActiveTest(){
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
 
         card = new Card(1, "TestCard", 10, 10, bitmap, cardDemoScreen, 10, 5, 10);
@@ -156,7 +155,7 @@ public class CardTests {
 
     @Test
     public void cardNotActiveTest(){
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
 
         card = new Card(1, "TestCard", 10, 10, bitmap, cardDemoScreen, 10, 5, 10);
@@ -182,7 +181,7 @@ public class CardTests {
     @Test
     public void cardIsPressedTest(){
         ElapsedTime elapsedTime = new ElapsedTime();
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
 
         ScreenViewport screenViewport = new ScreenViewport(0, 0, cardDemoScreen.getGame().getScreenWidth(), cardDemoScreen.getGame().getScreenHeight());
@@ -244,7 +243,7 @@ public class CardTests {
         when(game.getScreenWidth()).thenReturn(ScreenWidth);
         when(game.getScreenHeight()).thenReturn(ScreenHeight);
 
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(),  new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
         ScreenViewport mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
                 game.getScreenHeight());
@@ -286,7 +285,7 @@ public class CardTests {
 
     @Test
     public void cardSetPositionTest(){
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
 
         card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
@@ -298,7 +297,7 @@ public class CardTests {
 
     @Test
     public void cardSetAnchorTest(){
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
         card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
         card.setAnchor(50, 50);
@@ -309,7 +308,7 @@ public class CardTests {
 
     @Test
     public void cardSetCardStateTest(){
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
         card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
         card.setCardState(Card.CardState.CARD_ON_BOARD);
@@ -319,7 +318,7 @@ public class CardTests {
 
     @Test
     public void cardSetLastPosition(){
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
         card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
         Vector2 lastPosition = new Vector2();
@@ -332,7 +331,7 @@ public class CardTests {
 
     @Test
     public void cardSetManaCost(){
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
         card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
 

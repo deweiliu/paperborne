@@ -264,7 +264,8 @@ public class WorldScreen extends GameScreen
 			mGame.getScreenManager().addScreen(new CardDemoScreen(
 					mGame,
 					mLevels.get(mCurrentLevel).getDeck(),
-					mLoadedSave.getPlayerDeck()
+					mLoadedSave.getPlayerDeck(),
+					mLevels.get(mCurrentLevel)
 			));
 		}
 	}

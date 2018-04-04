@@ -9,14 +9,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
-
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
-import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -71,7 +68,7 @@ public class CamUnitTest {
         int expectedHealth = 1;
 
         //Test data
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
 
         //Creates Card1 and Card2 for comparison that the values get added to the repective vairables
         Card card1 = new Card(1, "Test", 100.0f, 100.0f

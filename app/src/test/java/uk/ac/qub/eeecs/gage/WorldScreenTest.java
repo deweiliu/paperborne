@@ -18,7 +18,6 @@ import java.util.List;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
-import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.game.worldScreen.Level;
 import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 import uk.ac.qub.eeecs.game.worldScreen.SaveGame;
@@ -325,15 +324,13 @@ public class WorldScreenTest {
 		Level noPrerequisiteLevel = new Level(
 				"test_one",
 				"Test One",
-				new PushButton(
-						1,
-						1,
-						2,
-						2,
-						"BitMap",
-						worldScreen
-				),
-				new ArrayList<LevelCard>()
+				1,
+				1,
+				2,
+				2,
+				new ArrayList<LevelCard>(),
+				"BitMap",
+				"BitMap"
 		);
 		// Check each field isn't null
 		assertNotNull(noPrerequisiteLevel.getId());
@@ -351,15 +348,13 @@ public class WorldScreenTest {
 		Level prerequisiteLevel = new Level(
 				"test_two",
 				"Test Two",
-				new PushButton(
-						1,
-						1,
-						2,
-						2,
-						"BitMap",
-						worldScreen
-				),
+				1,
+				1,
+				2,
+				2,
 				new ArrayList<LevelCard>(),
+				"BitMap",
+				"BitMap",
 				prerequisites
 		);
 		// Check each field isn't null
