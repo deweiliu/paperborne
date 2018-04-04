@@ -11,7 +11,11 @@ import java.util.List;
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
+import uk.ac.qub.eeecs.gage.engine.input.Input;
+import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.util.GraphicsHelper;
+import uk.ac.qub.eeecs.gage.util.InputHelper;
+import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
@@ -43,6 +47,8 @@ public class Hero extends Sprite {
     private Hand hand;
     private boolean heroIsDead;
     private Paint textStyle;
+    private boolean heroTouched;
+    private Vector2 heroCentre = new Vector2();
 
     /**
      * Constructor for the Hero without a supplied deck, using the default card setup
@@ -71,6 +77,9 @@ public class Hero extends Sprite {
         currentHealth = MAX_HEALTH;
         manaLimit = 5;
         currentMana = manaLimit;
+        heroTouched = false;
+        heroCentre.x = 70.0f / 2;
+        heroCentre.y = 105.0f / 2;
         if(levelDeck != null)
         {
             // If there is a level deck provided, use that for the deck
@@ -159,6 +168,25 @@ public class Hero extends Sprite {
         this.draw(elapsedTime, graphics2D, layerViewport, screenViewport, new Paint());
     }
 
+
+    public void update(ElapsedTime elapsedTime, ScreenViewport screenViewport, LayerViewport layerViewport){
+            Input input = mGameScreen.getGame().getInput();
+            for (TouchEvent touch : input.getTouchEvents()){
+                Vector2 pos = new Vector2();
+                InputHelper.convertScreenPosIntoLayer(screenViewport, new Vector2(touch.x, touch.y),
+                        layerViewport, pos);
+
+                //Check if the touch event occurs on the hero
+                if (touch.type == TouchEvent.TOUCH_DOWN && (pos.x > position.x - heroCentre.x)
+                        && (pos.x < position.x + heroCentre.x)
+                        && (pos.y > position.y - heroCentre.y)
+                        && (pos.y < position.y + heroCentre.y)){
+                    heroTouched = true;
+                } else {
+                    heroTouched = false;
+                }
+            }
+    }
     //Getters
     public int getCurrentHealth(){
         return this.currentHealth;
@@ -167,6 +195,8 @@ public class Hero extends Sprite {
     public int getCurrentMana(){
         return this.currentMana;
     }
+
+    public int getManaLimit() { return this.manaLimit; }
 
     public ArrayList<Card> getActiveCards() {
         return this.activeCards;
@@ -187,4 +217,9 @@ public class Hero extends Sprite {
     public int getMaxActiveCards() {
         return this.MAX_ACTIVE_CARDS;
     }
+
+    public boolean getHeroTouched() {return this.heroTouched; }
+
+    public void setHeroTouched(boolean touched) {this.heroTouched = touched; }
+
 }

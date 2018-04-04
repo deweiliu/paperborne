@@ -70,7 +70,7 @@ public class HeroTests {
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
 
-        Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
+        hero = new Hero(0,0,bitmap,cardDemoScreen,game, new ArrayList<LevelCard>());
         assertTrue(hero.getDeck() != null);
         assertTrue(hero.getHand() != null);
         assertTrue(hero.getBitmap() == bitmap);
@@ -81,7 +81,7 @@ public class HeroTests {
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
 
-        hero = new Hero(0,0,bitmap,cardDemoScreen,game);
+        hero = new Hero(0,0,bitmap,cardDemoScreen,game, new ArrayList<LevelCard>());
 
         //Hero health is set at 30
         hero.takeDamage(10);
@@ -97,7 +97,7 @@ public class HeroTests {
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
         game.getScreenManager().addScreen(cardDemoScreen);
 
-        hero = new Hero(0,0,bitmap,cardDemoScreen,game);
+        hero = new Hero(0,0,bitmap,cardDemoScreen,game, new ArrayList<LevelCard>());
 
         //Hero health is set at 30, so deal 30 damage to give 0
         hero.takeDamage(30);
@@ -105,6 +105,15 @@ public class HeroTests {
     }
 
 
+    @Test
+    public void testManaIncrement(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>());
+        game.getScreenManager().addScreen(cardDemoScreen);
 
+        hero = new Hero(0,0,bitmap,cardDemoScreen,game, new ArrayList<LevelCard>());
+        hero.incrementManaLimit();
+        assertTrue(hero.getManaLimit() == 6);
+
+    }
 
 }
