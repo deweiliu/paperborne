@@ -23,7 +23,6 @@ import uk.ac.qub.eeecs.game.gameHelp.HelpScreenController;
 
 public class CardDescription extends HelpScreenSuperClass {
     private ArrayList<CardPicture> cards = new ArrayList<>();
-    private Paint mPaint;
     private Vector<String> description;
 
     /**
@@ -33,7 +32,7 @@ public class CardDescription extends HelpScreenSuperClass {
      * @param controller
      */
     public CardDescription(Game game, HelpScreenController controller) {
-        super("HeroDescription", game, controller);
+        super("CardDescription", game, controller);
 
         String[] cardNames = {"Dragon", "Dog", "Fat man", "Weak man", "Sword"};
         for (int i = 0; i < cardNames.length; i++) {
@@ -50,10 +49,6 @@ public class CardDescription extends HelpScreenSuperClass {
         description.add("The card it not attackable only in the turn you play it,");
         description.add("The card with health lower than or equaling to 0 will be destroyed.");
 
-        mPaint = new Paint();
-        mPaint.setTextSize(60);
-        mPaint.setColor(Color.WHITE);
-        ;
 
     }
 

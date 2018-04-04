@@ -3,6 +3,7 @@ package uk.ac.qub.eeecs.game.gameHelp.helpScreens;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 
 import java.util.ArrayList;
 
@@ -25,15 +26,15 @@ import uk.ac.qub.eeecs.game.worldScreen.WorldScreen;
  */
 
 public abstract class HelpScreenSuperClass extends GameScreen {
- //Viewports for super class
+    //Viewports for super class
     private ScreenViewport mScreen;
     private LayerViewport mLayer;
 
-    //Viewports for derive class
+    //Viewports for derived class
     protected ScreenViewport mScreenViewport;
     protected LayerViewport mLayerViewport;
-
-    protected   AssetStore assetManager;
+    protected Paint mPaint;
+    protected AssetStore assetManager;
 
     private GameObject mBackground;
     private PushButton mBackIcon;
@@ -59,7 +60,7 @@ public abstract class HelpScreenSuperClass extends GameScreen {
 
 
         // Load in the assets used by the steering demo
-         assetManager = mGame.getAssetManager();
+        assetManager = mGame.getAssetManager();
         assetManager.loadAndAddBitmap("HelpBackground", "img/Game Help/HelpBackground.png");
         // Create help screen background
         mBackground = new GameObject(mLayer.x, mLayer.y, mLayer.getWidth(), mLayer.getHeight(),
@@ -78,8 +79,8 @@ public abstract class HelpScreenSuperClass extends GameScreen {
         assetManager.loadAndAddBitmap(PopUp.POPUP_BITMAP_ID, PopUp.POPUP_BITMAP_PATH);
 
 
-        mScreenViewport = new ScreenViewport(0, (int)headerHeight, mGame.getScreenWidth(), mGame.getScreenHeight());
-        mLayerViewport = new LayerViewport(0, 0, mScreenViewport.width/2, mScreenViewport.height/2);
+        mScreenViewport = new ScreenViewport(0, (int) headerHeight, mGame.getScreenWidth(), mGame.getScreenHeight());
+        mLayerViewport = new LayerViewport(0, 0, mScreenViewport.width / 2, mScreenViewport.height / 2);
 /*******************************************************************************************************/
 //set up all icons
         icons = new ArrayList<>();
@@ -109,6 +110,10 @@ public abstract class HelpScreenSuperClass extends GameScreen {
         for (PushButton each : icons) {
             each.processInLayerSpace(true);
         }
+
+        mPaint = new Paint();
+        mPaint.setTextSize(60);
+        mPaint.setColor(Color.WHITE);
 
 
     }
@@ -176,7 +181,7 @@ public abstract class HelpScreenSuperClass extends GameScreen {
 
     private PopUp errorMessage;
 
-    public void setErrorMessage(String message, long duration) {
+    public void setPopUpMessage(String message, long duration) {
         this.errorMessage = new PopUp(message, duration, 72, mGame.getAssetManager().getBitmap(PopUp.POPUP_BITMAP_ID), this);
         // Display the popup
         errorMessage.show();

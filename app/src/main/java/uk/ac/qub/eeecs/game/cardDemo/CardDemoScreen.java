@@ -24,6 +24,7 @@ import uk.ac.qub.eeecs.game.VerticalSlider;
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIController;
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.PlayerAction;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
+import uk.ac.qub.eeecs.game.endGameLogic.EndGameController;
 import uk.ac.qub.eeecs.game.ui.PopUp;
 import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
@@ -36,7 +37,7 @@ import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 
 public class CardDemoScreen extends GameScreen {
-    
+
     private static final long TURN_TIME = 30000;
 
     private Hero player, opponent;
@@ -54,7 +55,7 @@ public class CardDemoScreen extends GameScreen {
     final private float SLIDER_WIDTH = 175f;
     final private float SLIDER_HEIGHT = 450f;
     private VerticalSlider manaSlider;
-    
+
     private AIController aiOpponent;
     private boolean startedThinking;
 
@@ -218,6 +219,17 @@ public class CardDemoScreen extends GameScreen {
      */
     @Override
     public void update(ElapsedTime elapsedTime) {
+
+        //If some one has died, end the game
+if(!player.isAlive()){
+    new EndGameController(this,true,false);
+
+}else{
+    if(!opponent.isAlive()){
+        new EndGameController(this,true,true);
+    }
+}
+//Else continue to play the game
 
         turnTime = ((startTime + TURN_TIME) - System.currentTimeMillis()) / 1000;
 
@@ -483,7 +495,7 @@ public class CardDemoScreen extends GameScreen {
             activeCard.setAnchor(handPosition.x, handPosition.y);
 //            activeCard.setPosition(handPosition.x, handPosition.y);
         }
-        
+
         len = player.getActiveCards().size();
         widthSteps = (mLayerViewport.getWidth() / 2) / (len + 1);
         float offset = mLayerViewport.getWidth() / 4;

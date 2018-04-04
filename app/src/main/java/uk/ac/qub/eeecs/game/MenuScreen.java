@@ -16,6 +16,7 @@ import uk.ac.qub.eeecs.gage.ui.ToggleButton;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
+import uk.ac.qub.eeecs.game.endGameLogic.EndGameController;
 import uk.ac.qub.eeecs.game.gameHelp.HelpScreenController;
 import uk.ac.qub.eeecs.game.options.OptionsScreen;
 import uk.ac.qub.eeecs.game.performanceScreen.PerformanceScreen;
@@ -89,28 +90,27 @@ public class MenuScreen extends GameScreen {
 
         //make the title and background object
         mTitleBackground = new GameObject(
-                game.getScreenWidth()/2, mGame.getScreenHeight() / 2, mGame.getScreenWidth(), mGame.getScreenHeight(), assetManager.getBitmap("MainBackground"), this);
+                game.getScreenWidth() / 2, mGame.getScreenHeight() / 2, mGame.getScreenWidth(), mGame.getScreenHeight(), assetManager.getBitmap("MainBackground"), this);
         mGameTitle = new GameObject(
-                spacingX * 1.0f, (game.getScreenHeight() - (spacingY * 1.5f)), spacingX, spacingY *2, assetManager.getBitmap("Title"), this);
+                spacingX * 1.0f, (game.getScreenHeight() - (spacingY * 1.5f)), spacingX, spacingY * 2, assetManager.getBitmap("Title"), this);
 
 
         // Create the trigger buttons
         mPerformanceButton = new PushButton(
-                spacingX * 4.75f, spacingY * 0.25f, spacingX/2, spacingY/2, "PerformanceIcon", this);
+                spacingX * 4.75f, spacingY * 0.25f, spacingX / 2, spacingY / 2, "PerformanceIcon", this);
         mCardDemoButton = new PushButton(
-                spacingX * 4.75f, game.getScreenHeight() / 2, spacingX/2, spacingY/2, "CardDemoIcon", this);
+                spacingX * 4.75f, game.getScreenHeight() / 2, spacingX / 2, spacingY / 2, "CardDemoIcon", this);
         mOptionsButton = new PushButton(
-                spacingX * 0.25f, spacingY * 0.25f, spacingX/2, spacingY/2, "OptionsScreenIcon", this);
+                spacingX * 0.25f, spacingY * 0.25f, spacingX / 2, spacingY / 2, "OptionsScreenIcon", this);
         mHelpButton = new PushButton(
-                spacingX * 4.75f,  game.getScreenHeight() - (spacingY/4), spacingX/2, spacingY/2, "HelpScreenIcon", this);
+                spacingX * 4.75f, game.getScreenHeight() - (spacingY / 4), spacingX / 2, spacingY / 2, "HelpScreenIcon", this);
         mSinglePlayerButton = new PushButton(
                 spacingX * 2.0f, game.getScreenHeight() / 2, spacingX, spacingY * 2, "SPButton", this);
         mMultiPlayerButton = new PushButton(
                 spacingX * 3.0f, game.getScreenHeight() / 2, spacingX, spacingY * 2, "MPButton", this);
         mMuteButton = new ToggleButton(
-                spacingX * 0.25f, game.getScreenHeight() - (spacingY/4), spacingX/2, spacingY/2, "Mute", "Unmute", this);
+                spacingX * 0.25f, game.getScreenHeight() - (spacingY / 4), spacingX / 2, spacingY / 2, "Mute", "Unmute", this);
     }
-
     // /////////////////////////////////////////////////////////////////////////
     // Methods
     // /////////////////////////////////////////////////////////////////////////
@@ -145,19 +145,19 @@ public class MenuScreen extends GameScreen {
             mMuteButton.update(elapsedTime);
 
 
-            if(mPerformanceButton.isPushTriggered())
+            if (mPerformanceButton.isPushTriggered())
                 changeToScreen(new PerformanceScreen(mGame));
             else if (mCardDemoButton.isPushTriggered())
                 changeToScreen(new CardDemoScreen(mGame, new ArrayList<LevelCard>(), new ArrayList<LevelCard>()));
-            else if(mOptionsButton.isPushTriggered())
+            else if (mOptionsButton.isPushTriggered())
                 changeToScreen(new OptionsScreen(mGame));
-            else if(mHelpButton.isPushTriggered())
+            else if (mHelpButton.isPushTriggered())
                 new HelpScreenController(mGame);
-            else if(mSinglePlayerButton.isPushTriggered())
+            else if (mSinglePlayerButton.isPushTriggered())
                 changeToScreen(new WorldScreen(mGame));
-            else if(mMultiPlayerButton.isPushTriggered());
+            else if (mMultiPlayerButton.isPushTriggered()) ;
                 //do nothing
-            else if(soundOn != mMuteButton.isToggledOn())
+            else if (soundOn != mMuteButton.isToggledOn())
                 soundOn = mMuteButton.isToggledOn();
         }
     }
