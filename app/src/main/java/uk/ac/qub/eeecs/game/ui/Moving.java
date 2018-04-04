@@ -8,13 +8,13 @@ import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
-import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameStuff;
+import uk.ac.qub.eeecs.game.endGameLogic.interfaces_superclass_forScreens.BasicEndGameStuff;
 
 /**
  * Created by 40216004 Dewei Liu on 23/01/2018.
  */
 
-public final class Moving extends GameObject implements EndGameStuff {
+public final class Moving extends GameObject implements BasicEndGameStuff {
     private boolean isFinished;
     private boolean isResumed;
     private boolean isStarted;
@@ -63,10 +63,10 @@ public final class Moving extends GameObject implements EndGameStuff {
         isResumed = false;
     }
 
-    public boolean start(long movingTimeInMillionSecond) {
+    public boolean start(long movingTimeInMilliSecond) {
         if (destination != null) {
             if (startingPoint != null) {
-                this.period = movingTimeInMillionSecond;
+                this.period = movingTimeInMilliSecond;
 
                 float x = destination.x - startingPoint.x;
                 float y = destination.y - startingPoint.y;

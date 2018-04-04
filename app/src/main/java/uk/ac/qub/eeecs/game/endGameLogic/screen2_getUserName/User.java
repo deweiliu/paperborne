@@ -2,6 +2,8 @@ package uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName;
 
 /**
  * Created by 40216004 on 24/01/2018.
+ *
+ * To store user information
  */
 
 public class User {

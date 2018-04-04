@@ -7,7 +7,7 @@ import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
-import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameStuff;
+import uk.ac.qub.eeecs.game.endGameLogic.interfaces_superclass_forScreens.BasicEndGameStuff;
 
 /**
  * Created by 40216004 Dewei Liu on 25/01/2018.
@@ -15,7 +15,7 @@ import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameStuff;
  * This can be used as a loading animation at the centre of screen
  */
 
-public final class Rotating extends GameObject implements EndGameStuff {
+public final class Rotating extends GameObject implements BasicEndGameStuff {
     private long PERIOD;
     private long timeMark;
     private boolean isFinished;

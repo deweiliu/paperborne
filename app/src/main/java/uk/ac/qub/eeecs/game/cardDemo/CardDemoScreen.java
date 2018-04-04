@@ -237,11 +237,13 @@ public class CardDemoScreen extends GameScreen {
 
         //If some one has died, end the game
 if(!player.isAlive()){
-    new EndGameController(this,true,false,level.getId());
+    String levelID=level.getId();
+    new EndGameController(this,true,false,levelID);
 
 }else{
     if(!opponent.isAlive()){
-        new EndGameController(this,true,true,level.getId());
+        String levelID=level.getId();
+        new EndGameController(this,true,true,levelID);
     }
 }
 //Else continue to play the game

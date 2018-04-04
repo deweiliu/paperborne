@@ -1,8 +1,8 @@
-package uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName;
+package uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.interface_superclass;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-
+import java.util.ArrayList;
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
@@ -10,49 +10,60 @@ import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
-import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameScreen;
-import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameStuff;
+import uk.ac.qub.eeecs.game.endGameLogic.interfaces_superclass_forScreens.EndGameScreen;
+import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.User;
 
 /**
  * Created by 40216004 Dewei Liu on 22/01/2018.
  */
 
-public abstract class GetNameSuperClass implements EndGameStuff {
+public abstract class GetNameSuperclass implements GetNameInterface {
     private boolean isFinished;
 
-    //This is for derive class
+    //This is for derived classes
     protected Paint paint;
 
-    //This is for this class
+    //This is for this super class
     private Paint mPaint;
     protected EndGameScreen mScreen;
-    private LayerViewport mLayer;
-    private PushButton nextAlphabet, previousAlphabet, enterButton;
-    private NameOnScreen name;
-    private boolean isWinner;
+
+    //Buttons
+    private ArrayList<PushButton> buttons;
+    private PushButton nextAlphabet;
+    private PushButton previousAlphabet;
+    private PushButton enterButton;
     private PushButton confirm;
+
+    //User name
+    private NameOnScreen name;
     private User.UserName userName;
 
-    public GetNameSuperClass(EndGameScreen gameScreen, User.UserName name) {
+    public GetNameSuperclass(EndGameScreen gameScreen, User.UserName name) {
+
+        //Set up paints
         this.paint = new Paint();
         paint.setTextSize(90);
         paint.setColor(Color.BLACK);
-        this.mScreen = gameScreen;
-        this.userName = name;
-        isFinished = false;
+
         mPaint = new Paint();
         mPaint.setTextSize(150);
         mPaint.setColor(Color.BLACK);
-        mLayer = gameScreen.getLayerViewport();
-        AssetStore asset = mScreen.getAssetManager();
-        final float buttonSize = mLayer.getHeight() / 4;
+
+        //Other fields
+        this.mScreen = gameScreen;
+        this.userName = name;
+        isFinished = false;
         this.name = new NameOnScreen(mScreen);
 
-/***********************************************************************************************/
+        /***************************************************************************************************/
+        //Set up buttons
+        buttons = new ArrayList<>();
         final String DIR = "img/End Game Logic/";
         final String PUSHED = " pushed";
         final String EXTENSION = ".png";
-
+        LayerViewport mLayer = gameScreen.getLayerViewport();
+        AssetStore asset = mScreen.getAssetManager();
+        final float buttonSize = mLayer.getHeight() / 4;
 
         //Set up the push button of next alphabet
         final String NEXT_ALPHABET_BUTTON_NAME = "next alphabet";
@@ -60,7 +71,7 @@ public abstract class GetNameSuperClass implements EndGameStuff {
         asset.loadAndAddBitmap(NEXT_ALPHABET_BUTTON_NAME + PUSHED, DIR + NEXT_ALPHABET_BUTTON_NAME + PUSHED + EXTENSION);
         nextAlphabet = new PushButton(mLayer.getRight() - buttonSize / 2, mLayer.getBottom() + buttonSize / 2,
                 buttonSize, buttonSize, NEXT_ALPHABET_BUTTON_NAME, NEXT_ALPHABET_BUTTON_NAME + PUSHED, mScreen.getGameScreen());
-        nextAlphabet.processInLayerSpace(true);
+        buttons.add(nextAlphabet);
 
         //Set up the push button of previous alphabet
         final String PREVIOUS_ALPHABET_BUTTON_NAME = "previous alphabet";
@@ -68,34 +79,34 @@ public abstract class GetNameSuperClass implements EndGameStuff {
         asset.loadAndAddBitmap(PREVIOUS_ALPHABET_BUTTON_NAME + PUSHED, DIR + PREVIOUS_ALPHABET_BUTTON_NAME + PUSHED + EXTENSION);
         previousAlphabet = new PushButton(mLayer.getLeft() + buttonSize / 2, mLayer.getBottom() + buttonSize / 2,
                 buttonSize, buttonSize, PREVIOUS_ALPHABET_BUTTON_NAME, PREVIOUS_ALPHABET_BUTTON_NAME + PUSHED, mScreen.getGameScreen());
-        previousAlphabet.processInLayerSpace(true);
-
+        buttons.add(previousAlphabet);
 
         //Set up the enter button
         final String ENTER_BUTTON_NAME = "enter button";
         asset.loadAndAddBitmap(ENTER_BUTTON_NAME, DIR + ENTER_BUTTON_NAME + EXTENSION);
         enterButton = new PushButton(mLayer.x, mLayer.getBottom() + buttonSize / 2,
                 buttonSize, buttonSize, ENTER_BUTTON_NAME, mScreen.getGameScreen());
-        enterButton.processInLayerSpace(true);
+        buttons.add(enterButton);
 
         //Set up the confirm button
         final String CONFIRM_BUTTON_NAME = "Confirm Button";
         asset.loadAndAddBitmap(CONFIRM_BUTTON_NAME, DIR + CONFIRM_BUTTON_NAME + EXTENSION);
         confirm = new PushButton(mLayer.getRight() - buttonSize, mLayer.y + mLayer.getHeight() / 4.5f, buttonSize * 1.8f, buttonSize / 1.2f,
                 CONFIRM_BUTTON_NAME, mScreen.getGameScreen());
-        confirm.processInLayerSpace(true);
+        buttons.add(confirm);
 
-    }
-
-    public String getUserInfo() {
-        return name.getName();
+        for (PushButton each : buttons) {
+            each.processInLayerSpace(true);
+        }
     }
 
     @Override
     public void update(ElapsedTime elapsedTime) {
-        nextAlphabet.update(elapsedTime, mLayer, mScreen.getScreenViewPort());
-        previousAlphabet.update(elapsedTime, mLayer, mScreen.getScreenViewPort());
-        enterButton.update(elapsedTime, mLayer, mScreen.getScreenViewPort());
+        for (PushButton each : buttons) {
+            each.update(elapsedTime, mScreen.getLayerViewport(), mScreen.getScreenViewPort());
+        }
+
+        //Update the user name on screen
         if (enterButton.isPushTriggered()) {
             name.update(NameOnScreen.ENTER_BUTTON, elapsedTime);
         } else if (nextAlphabet.isPushTriggered()) {
@@ -105,22 +116,19 @@ public abstract class GetNameSuperClass implements EndGameStuff {
         } else {
             name.update(-1, elapsedTime);
         }
-        confirm.update(elapsedTime,mLayer,mScreen.getScreenViewPort());
+
         if (confirm.isPushTriggered()) {
             userName.setName(name.getName());
             this.isFinished = true;
-
         }
     }
 
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
-
-        nextAlphabet.draw(elapsedTime, graphics2D, mLayer, mScreen.getScreenViewPort());
-        previousAlphabet.draw(elapsedTime, graphics2D, mLayer, mScreen.getScreenViewPort());
-        enterButton.draw(elapsedTime, graphics2D, mLayer, mScreen.getScreenViewPort());
+        for (PushButton each : buttons) {
+            each.draw(elapsedTime, graphics2D, mScreen.getLayerViewport(), mScreen.getScreenViewPort());
+        }
         name.draw(elapsedTime, graphics2D);
-        confirm.draw(elapsedTime, graphics2D, mLayer, mScreen.getScreenViewPort());
     }
 
     @Override
@@ -129,9 +137,9 @@ public abstract class GetNameSuperClass implements EndGameStuff {
     }
 
     private class NameOnScreen {
-        public final static int NEXT_ALPHABET = 0;
-        public final static int PREVIOUS_ALPHABET = 1;
-        public final static int ENTER_BUTTON = 2;
+        private final static int NEXT_ALPHABET = 0;
+        private final static int PREVIOUS_ALPHABET = 1;
+        private final static int ENTER_BUTTON = 2;
         private char[] name;
         private EndGameScreen mScreen;
         private long lastDrawTime;
@@ -141,7 +149,7 @@ public abstract class GetNameSuperClass implements EndGameStuff {
         private GameObject white;
         private boolean isWhiteVisable;
 
-        public NameOnScreen(EndGameScreen mEndGameScreen) {
+        NameOnScreen(EndGameScreen mEndGameScreen) {
             mScreen = mEndGameScreen;
             currentPosition = 0;
             name = new char[max];

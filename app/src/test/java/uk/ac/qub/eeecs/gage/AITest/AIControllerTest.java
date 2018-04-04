@@ -15,7 +15,7 @@ import static junit.framework.Assert.assertEquals;
  * Created by 40216004 Dewei Liu on 16/02/2018.
  *
  * Although there are some exceptions occur in this test, but the test can pass successfully
- * because the AI controller runs in another thread and uses many features of the mock object of board which may occur NullPointerExceptions
+ * because the AI mController runs in another thread and uses many features of the mock object of board which may occur NullPointerExceptions
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AIControllerTest {
@@ -92,7 +92,7 @@ public class AIControllerTest {
 
         /************************************************************************************************/
 
-        //Tell the AI controller that deadline has passed
+        //Tell the AI mController that deadline has passed
         controller.notifyOverTime();
 
 
