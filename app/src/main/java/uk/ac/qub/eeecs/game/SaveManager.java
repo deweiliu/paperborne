@@ -135,7 +135,7 @@ public class SaveManager
 				{
 					// If the level has prerequisites
 					// Load the level's prerequisites
-					JSONArray jsonPrerequisites = level.getJSONArray(Level.LEVEL_DECK);
+					JSONArray jsonPrerequisites = level.getJSONArray(Level.LEVEL_PREREQUISITES);
 					
 					// Set up prerequisite ID objects
 					List<String> prerequisites = new ArrayList<>();
@@ -273,7 +273,7 @@ public class SaveManager
 							for(int j = 0; j < jsonCompleted.length(); j++)
 							{
 								// Add each completed level to the list from the JSON
-								completed.add(jsonCompleted.getString(i));
+								completed.add(jsonCompleted.getString(j));
 							}
 							// Get the JSON list of the player's deck
 							JSONArray jsonPlayerDeck = jsonSave.getJSONArray(SaveGame.PLAYER_DECK);

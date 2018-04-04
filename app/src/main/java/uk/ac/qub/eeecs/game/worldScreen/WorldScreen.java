@@ -240,6 +240,10 @@ public class WorldScreen extends GameScreen
 					// The level is unlocked to the user
 					locked = false;
 				}
+				else
+				{
+					locked = true;
+				}
 			}
 		}
 		if (locked)

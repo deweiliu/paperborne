@@ -111,7 +111,7 @@
   [
     {
       "id":"level_one",
-      "name": "Level One",
+      "name": "Easy Level",
       "bitmap":"LevelOne",
       "bitmapPath":"img/GameLevel.png",
       "xPercent": 0.25,
@@ -156,80 +156,94 @@
           "manaCost":1
         },
         {
-          "name":"Dog",
-          "bitmap":"2 cost",
-          "attackValue":2,
-          "healthValue":2,
-          "manaCost":2
-        },
-        {
-          "name":"Dog",
-          "bitmap":"2 cost",
-          "attackValue":2,
-          "healthValue":2,
-          "manaCost":2
-        },
-        {
-          "name":"Dog",
-          "bitmap":"2 cost",
-          "attackValue":2,
-          "healthValue":2,
-          "manaCost":2
-        },
-        {
-          "name":"Dog",
-          "bitmap":"2 cost",
-          "attackValue":2,
-          "healthValue":2,
-          "manaCost":2
-        },
-        {
-          "name":"Fat Man",
-          "bitmap":"3 cost",
-          "attackValue":3,
-          "healthValue":2,
-          "manaCost":3
-        },
-        {
-          "name":"Fat Man",
-          "bitmap":"3 cost",
-          "attackValue":3,
-          "healthValue":2,
-          "manaCost":3
-        },
-        {
-          "name":"Fat Man",
-          "bitmap":"3 cost",
-          "attackValue":3,
-          "healthValue":2,
-          "manaCost":3
-        },
-        {
-          "name":"Sword",
-          "bitmap":"4 cost",
-          "attackValue":6,
+          "name":"Weak Man",
+          "bitmap":"1 cost",
+          "attackValue":1,
           "healthValue":1,
-          "manaCost":4
+          "manaCost":1
         },
         {
-          "name":"Sword",
-          "bitmap":"4 cost",
-          "attackValue":6,
+          "name":"Weak Man",
+          "bitmap":"1 cost",
+          "attackValue":1,
           "healthValue":1,
-          "manaCost":4
+          "manaCost":1
         },
         {
-          "name":"Dragon",
-          "bitmap":"5 cost",
-          "attackValue":5,
-          "healthValue":7,
-          "manaCost":5
+          "name":"Weak Man",
+          "bitmap":"1 cost",
+          "attackValue":1,
+          "healthValue":1,
+          "manaCost":1
+        },
+        {
+          "name":"Weak Man",
+          "bitmap":"1 cost",
+          "attackValue":1,
+          "healthValue":1,
+          "manaCost":1
+        },
+        {
+          "name":"Weak Man",
+          "bitmap":"1 cost",
+          "attackValue":1,
+          "healthValue":1,
+          "manaCost":1
+        },
+        {
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
+        },
+        {
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
+        },
+        {
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
+        },
+        {
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
+        },
+        {
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
+        },
+        {
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
+        },
+        {
+          "name":"Fat Man",
+          "bitmap":"3 cost",
+          "attackValue":3,
+          "healthValue":2,
+          "manaCost":3
         }
       ]
     },
     {
       "id":"level_two",
-      "name": "Level Two",
+      "name": "Medium Level",
       "bitmap":"LevelTwo",
       "bitmapPath":"img/GameLevel.png",
       "xPercent": 0.50,
@@ -347,7 +361,7 @@
     },
     {
       "id":"level_three",
-      "name": "Level Three",
+      "name": "Hard Level",
       "bitmap":"LevelThree",
       "bitmapPath":"img/GameLevel.png",
       "xPercent": 0.75,
@@ -371,25 +385,11 @@
           "manaCost":1
         },
         {
-          "name":"Weak Man",
-          "bitmap":"1 cost",
-          "attackValue":1,
-          "healthValue":1,
-          "manaCost":1
-        },
-        {
-          "name":"Weak Man",
-          "bitmap":"1 cost",
-          "attackValue":1,
-          "healthValue":1,
-          "manaCost":1
-        },
-        {
-          "name":"Weak Man",
-          "bitmap":"1 cost",
-          "attackValue":1,
-          "healthValue":1,
-          "manaCost":1
+          "name":"Dog",
+          "bitmap":"2 cost",
+          "attackValue":2,
+          "healthValue":2,
+          "manaCost":2
         },
         {
           "name":"Dog",
@@ -453,6 +453,20 @@
           "attackValue":6,
           "healthValue":1,
           "manaCost":4
+        },
+        {
+          "name":"Sword",
+          "bitmap":"4 cost",
+          "attackValue":6,
+          "healthValue":1,
+          "manaCost":4
+        },
+        {
+          "name":"Dragon",
+          "bitmap":"5 cost",
+          "attackValue":5,
+          "healthValue":7,
+          "manaCost":5
         },
         {
           "name":"Dragon",
