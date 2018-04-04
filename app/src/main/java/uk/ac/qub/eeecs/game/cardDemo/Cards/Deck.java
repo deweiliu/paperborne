@@ -105,7 +105,7 @@ public class Deck {
     public Card drawCard(){
         Random randomCard = new Random();
         int maximum;
-        if(cardsInDeck.size() != 1) {
+        if(cardsInDeck.size() > 1) {
             maximum = cardsInDeck.size() - 1;
         } else {
             maximum = 1;
