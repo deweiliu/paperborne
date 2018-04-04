@@ -15,7 +15,7 @@ import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
-import uk.ac.qub.eeecs.game.gameHelp.HelpScreenController;
+import uk.ac.qub.eeecs.game.gameHelp.GameHelpController;
 
 /**
  * Created by 40216004 Dewei Liu on 28/03/2018.
@@ -23,7 +23,7 @@ import uk.ac.qub.eeecs.game.gameHelp.HelpScreenController;
 
 public class HeroDescription extends HelpScreenSuperClass {
 
-    private ArrayList<HeroPicture> heros = new ArrayList<>();
+    private ArrayList<HeroPicture> heroes = new ArrayList<>();
 
     private Vector<String> description;
 
@@ -33,7 +33,7 @@ public class HeroDescription extends HelpScreenSuperClass {
      * @param game       Game instance to which the game screen belongs
      * @param controller
      */
-    public HeroDescription(Game game, HelpScreenController controller) {
+    public HeroDescription(Game game, GameHelpController controller) {
         super("HeroDescription", game, controller);
 
         String[] heroNames = {"Dragon", "Jester", "Knight", "Queen"};
@@ -42,32 +42,28 @@ public class HeroDescription extends HelpScreenSuperClass {
             float y = mLayerViewport.y + mLayerViewport.getHeight() / 4;
             float width = mLayerViewport.getWidth() / (heroNames.length + 2);
             float height = mLayerViewport.halfHeight;
-            heros.add(new HeroPicture(assetManager, x, y, width, height, heroNames[i], this));
+            heroes.add(new HeroPicture(assetManager, x, y, width, height, heroNames[i], this));
         }
 
-        description = new Vector<String>();
+        description = new Vector<>();
         description.add("You will get a random hero above with 30 health.");
         description.add("If your hero's health is lower than or equal to 0, you lost.");
         description.add("If the opponent hero's health is lower than or equal to 0, you win.");
-
-        ;
-
     }
 
 
     @Override
     public void update(ElapsedTime elapsedTime) {
         super.update(elapsedTime);
-        for (HeroPicture each : heros) {
+        for (HeroPicture each : heroes) {
             each.update(elapsedTime);
         }
     }
 
-
     @Override
     public void drawGameHelp(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
-        for (HeroPicture each : heros) {
+        for (HeroPicture each : heroes) {
             each.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
         }
         for (int i = 0; i < description.size(); i++) {
