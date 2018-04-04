@@ -19,7 +19,7 @@ import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
-import uk.ac.qub.eeecs.game.worldScreen.GameLevel;
+import uk.ac.qub.eeecs.game.worldScreen.Level;
 import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 import uk.ac.qub.eeecs.game.worldScreen.SaveGame;
 import uk.ac.qub.eeecs.game.worldScreen.WorldScreen;
@@ -58,7 +58,7 @@ public class WorldScreenTest {
 	
 	final private static  int EXPECTED_LEVELS = 3;
 	
-	final private static  String MOCK_DATA = "{\"startingDeck\":[{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1}],\"levels\":[{\"id\":\"level_one\",\"name\":\"Level One\",\"bitmap\":\"LevelOne\",\"bitmapPath\":\"img/GameLevel.png\",\"xPercent\":0.25,\"yPercent\":0.5,\"width\":128,\"height\":128,\"deck\":[{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1}]},{\"id\":\"level_two\",\"name\":\"Level Two\",\"bitmap\":\"LevelTwo\",\"bitmapPath\":\"img/GameLevel.png\",\"xPercent\":0.5,\"yPercent\":0.5,\"width\":128,\"height\":128,\"deck\":[{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1}]},{\"id\":\"level_three\",\"name\":\"Level Three\",\"bitmap\":\"LevelThree\",\"bitmapPath\":\"img/GameLevel.png\",\"xPercent\":0.75,\"yPercent\":0.5,\"width\":128,\"height\":128,\"deck\":[{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1}]}]}";
+	final private static  String MOCK_DATA = "{\"startingDeck\":[{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1}],\"levels\":[{\"id\":\"level_one\",\"name\":\"Level One\",\"bitmap\":\"LevelOne\",\"bitmapPath\":\"img/Level.png\",\"xPercent\":0.25,\"yPercent\":0.5,\"width\":128,\"height\":128,\"deck\":[{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1},{\"name\":\"Weak Man\",\"bitmap\":\"Card\",\"attackValue\":1,\"healthValue\":1,\"manaCost\":1}]},{\"id\":\"level_two\",\"name\":\"Level Two\",\"bitmap\":\"LevelTwo\",\"bitmapPath\":\"img/Level.png\",\"xPercent\":0.5,\"yPercent\":0.5,\"width\":128,\"height\":128,\"deck\":[{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1}]},{\"id\":\"level_three\",\"name\":\"Level Three\",\"bitmap\":\"LevelThree\",\"bitmapPath\":\"img/Level.png\",\"xPercent\":0.75,\"yPercent\":0.5,\"width\":128,\"height\":128,\"deck\":[{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1},{\"name\":\"Dragon\",\"bitmap\":\"Card\",\"attackValue\":5,\"healthValue\":5,\"manaCost\":1}]}]}";
 	/*
 	{
 	  "startingDeck":
@@ -105,7 +105,7 @@ public class WorldScreenTest {
 		  "id":"level_one",
 		  "name": "Level One",
 		  "bitmap":"LevelOne",
-		  "bitmapPath":"img/GameLevel.png",
+		  "bitmapPath":"img/Level.png",
 		  "xPercent": 0.25,
 		  "yPercent": 0.50,
 		  "width": 128,
@@ -153,7 +153,7 @@ public class WorldScreenTest {
 		  "id":"level_two",
 		  "name": "Level Two",
 		  "bitmap":"LevelTwo",
-		  "bitmapPath":"img/GameLevel.png",
+		  "bitmapPath":"img/Level.png",
 		  "xPercent": 0.50,
 		  "yPercent": 0.50,
 		  "width": 128,
@@ -201,7 +201,7 @@ public class WorldScreenTest {
 		  "id":"level_three",
 		  "name": "Level Three",
 		  "bitmap":"LevelThree",
-		  "bitmapPath":"img/GameLevel.png",
+		  "bitmapPath":"img/Level.png",
 		  "xPercent": 0.75,
 		  "yPercent": 0.50,
 		  "width": 128,
@@ -295,14 +295,14 @@ public class WorldScreenTest {
 		// Check that the expected number of levels have been loaded
 		assertTrue(worldScreen.getLevels().size() == EXPECTED_LEVELS);
 		// Get levels
-		List<GameLevel> levels = worldScreen.getLevels();
+		List<Level> levels = worldScreen.getLevels();
 		// List to track level IDs
 		List<String> levelIDs = new ArrayList<>();
 		// For each loaded level
 		for (int i = 0; i < levels.size(); i++)
 		{
 			// Get the level
-			GameLevel level = levels.get(i);
+			Level level = levels.get(i);
 			// Check the Level ID isn't null
 			assertNotNull(level.getId());
 			// Check that the Level ID hasn't already been used
@@ -322,7 +322,7 @@ public class WorldScreenTest {
 	{
 		WorldScreen worldScreen = new WorldScreen(game);
 		// Unit test for a game level with no prerequisites
-		GameLevel noPrerequisiteLevel = new GameLevel(
+		Level noPrerequisiteLevel = new Level(
 				"test_one",
 				"Test One",
 				new PushButton(
@@ -348,7 +348,7 @@ public class WorldScreenTest {
 		prerequisites.add(noPrerequisiteLevel.getId());
 		
 		// Unit test for a game level with some prerequisites
-		GameLevel prerequisiteLevel = new GameLevel(
+		Level prerequisiteLevel = new Level(
 				"test_two",
 				"Test Two",
 				new PushButton(
@@ -377,7 +377,7 @@ public class WorldScreenTest {
 	@Test
 	public void worldScreenTest() {
 //		WorldScreen worldScreen = new WorldScreen(game);
-//		List<GameLevel> levels = worldScreen.getLevels();
+//		List<Level> levels = worldScreen.getLevels();
 		
 		// TODO: Fix this test below, is supposed to click each level and check the level updates
 //		for(int i = 0; i < levels.size(); i++)
