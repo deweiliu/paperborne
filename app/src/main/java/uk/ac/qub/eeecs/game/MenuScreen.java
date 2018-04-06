@@ -70,7 +70,7 @@ public class MenuScreen extends GameScreen {
         // Load in the bitmaps used on the main menu screen
         AssetStore assetManager = mGame.getAssetManager();
         assetManager.loadAndAddBitmap("Title", "img/Title.png");
-        assetManager.loadAndAddBitmap("CardDemoIcon", "img/CardBackground1.png");
+        assetManager.loadAndAddBitmap("CardDemoIcon", "img/Cards/CardBackground1.png");
         assetManager.loadAndAddBitmap("OptionsScreenIcon", "img/cog-icon.png");
         assetManager.loadAndAddBitmap("PerformanceIcon", "img/Performance.png");
         assetManager.loadAndAddBitmap("HelpScreenIcon", "img/QuestionMark.png");

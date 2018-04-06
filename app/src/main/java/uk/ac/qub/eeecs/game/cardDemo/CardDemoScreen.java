@@ -103,11 +103,11 @@ public class CardDemoScreen extends GameScreen {
 
         AssetStore assetManager = mGame.getAssetManager();
         assetManager.loadAndAddBitmap("Card", "img/Hearthstone_Card_Template.png");
-        assetManager.loadAndAddBitmap("Back", "img/Hearthstone_Card_Back.png");
-        assetManager.loadAndAddBitmap("Board", "img/Paper Board.JPG");
-        assetManager.loadAndAddBitmap("Hero", "img/Hero Knight.JPG");
-        assetManager.loadAndAddBitmap("Enemy", "img/Hero Dragon.JPG");
-        assetManager.loadAndAddBitmap("EndTurn", "img/End_Turn.png");
+        assetManager.loadAndAddBitmap("Back", "img/Card/Card Back.png");
+        assetManager.loadAndAddBitmap("Board", "img/Board/Board.JPG");
+        assetManager.loadAndAddBitmap("Hero", "img/Hero/Knight Hero.JPG");
+        assetManager.loadAndAddBitmap("Enemy", "img/Hero/Dragon Hero.JPG");
+        assetManager.loadAndAddBitmap("EndTurn", "img/Board/End_Turn.png");
 
         BoardBackground = new GameObject(mLayerViewport.getWidth() / 2f, mLayerViewport.getHeight() / 2f,
                 mLayerViewport.getWidth(),
@@ -203,7 +203,7 @@ public class CardDemoScreen extends GameScreen {
 
         assetManager.loadAndAddBitmap("SliderBase", "img/SliderBase.png");
         assetManager.loadAndAddBitmap("SliderFill", "img/SliderFill.png");
-        assetManager.loadAndAddBitmap("VerticalSliderFill", "img/VerticalSliderFill.png");
+        assetManager.loadAndAddBitmap("VerticalSliderFill", "img/Board/VerticalSliderFill.png");
         assetManager.loadAndAddBitmap(PopUp.POPUP_BITMAP_ID, PopUp.POPUP_BITMAP_PATH);
 
         attackMessage = new PopUp("Attack Hero", 3, 70, assetManager.getBitmap(PopUp.POPUP_BITMAP_ID), this);

@@ -35,7 +35,7 @@ public class WorldScreen extends GameScreen
 	private static final String LAUNCH_BUTTON_BITMAP_PATH = "img/LaunchButton.png";
 	
 	private static final String CHARACTER_BITMAP_ID = "character";
-	private static final String CHARACTER_BITMAP_PATH = "img/Character.png";
+	private static final String CHARACTER_BITMAP_PATH = "img/Hero/Character.png";
 	
 	// Level Sprite width/height
 	private final int DEFAULT_LEVEL_HEIGHT = 128;

@@ -23,11 +23,11 @@ public class Deck {
      */
     public Deck(GameScreen gameScreen, Game game) {
         game.getAssetManager().loadAndAddBitmap("Card", "img/Hearthstone_Card_Template.png");
-        game.getAssetManager().loadAndAddBitmap("1 cost", "img/Weak man.JPG");
-        game.getAssetManager().loadAndAddBitmap("2 cost", "img/Dog.JPG");
-        game.getAssetManager().loadAndAddBitmap("3 cost", "img/Fat man.JPG");
-        game.getAssetManager().loadAndAddBitmap("4 cost", "img/Sword.JPG");
-        game.getAssetManager().loadAndAddBitmap("5 cost", "img/Card Dragon.JPG");
+        game.getAssetManager().loadAndAddBitmap("1 cost", "img/Cards/Weak man.JPG");
+        game.getAssetManager().loadAndAddBitmap("2 cost", "img/Cards/Dog.JPG");
+        game.getAssetManager().loadAndAddBitmap("3 cost", "img/Cards/Fat man.JPG");
+        game.getAssetManager().loadAndAddBitmap("4 cost", "img/Cards/Sword.JPG");
+        game.getAssetManager().loadAndAddBitmap("5 cost", "img/Cards/Card Dragon.JPG");
         cardsInDeck = new ArrayList<Card>();
 
         //Creates a card with certain values
@@ -76,12 +76,12 @@ public class Deck {
      */
     public Deck(GameScreen gameScreen, Game game, List<LevelCard> deck) {
     
-        game.getAssetManager().loadAndAddBitmap("Card", "img/Hearthstone_Card_Template.png");
-        game.getAssetManager().loadAndAddBitmap("1 cost", "img/Weak man.JPG");
-        game.getAssetManager().loadAndAddBitmap("2 cost", "img/Dog.JPG");
-        game.getAssetManager().loadAndAddBitmap("3 cost", "img/Fat man.JPG");
-        game.getAssetManager().loadAndAddBitmap("4 cost", "img/Sword.JPG");
-        game.getAssetManager().loadAndAddBitmap("5 cost", "img/Card Dragon.JPG");
+        game.getAssetManager().loadAndAddBitmap("Card", "img/Cards/Card Back.jpg");
+        game.getAssetManager().loadAndAddBitmap("1 cost", "img/Cards/Weakman.JPG");
+        game.getAssetManager().loadAndAddBitmap("2 cost", "img/Cards/Dog.JPG");
+        game.getAssetManager().loadAndAddBitmap("3 cost", "img/Cards/Fatman.JPG");
+        game.getAssetManager().loadAndAddBitmap("4 cost", "img/Cards/Sword.JPG");
+        game.getAssetManager().loadAndAddBitmap("5 cost", "img/Cards/Dragon.JPG");
         cardsInDeck = new ArrayList<>();
         for(int i = 0; i < deck.size(); i++)
         {
