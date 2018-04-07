@@ -1,163 +1,94 @@
 package uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName;
 
-import uk.ac.qub.eeecs.gage.Game;
-import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
-import uk.ac.qub.eeecs.gage.world.GameObject;
-import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.endGameLogic.EndGameController;
-import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameScreen;
+import uk.ac.qub.eeecs.game.endGameLogic.interfaces_superclass_forScreens.EndGameScreenSuperClass;
+import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.interface_superclass.GetNameInterface;
 
 /**
  * Created by 40216004 Dewei Liu on 22/01/2018.
  */
 
-public class GetNameScreen implements EndGameScreen {
+public class GetNameScreen extends EndGameScreenSuperClass {
 
+    //hello this work
+    private GetNameInterface getName;
+    private User user;
 
-    private boolean isFinished = false;
-    private int nameReady;
-    private EndGameController controller;
-    private boolean isSinglePlayer;
-    private GetNameSuperClass getName;
-    private ScreenViewport mScreenViewport;
-    private LayerViewport mLayerViewport;
-    private boolean stopDraw = false;
-    private boolean turningToNext = false;
-private User user;
-    public GetNameScreen(EndGameController endGameController) {
-        super();
-        this.controller = endGameController;
+    private boolean needWinnerName = true, needLoserName = true;
 
-        user=new User(controller.isSinglePlayer(),controller.isPlayer1Wins());
+    public GetNameScreen(EndGameController controller) {
+        super(controller);
+
+        user = new User(isSinglePlayer(), hasPlayer1Won());
         mScreenViewport = new ScreenViewport(0, 0, getGame().getScreenWidth(), getGame().getScreenHeight());
         mLayerViewport = new LayerViewport(0, 0, getGame().getScreenWidth() / 2, getGame().getScreenHeight() / 2);
-        this.isSinglePlayer = endGameController.isSinglePlayer();
-        nameReady = 0;
         getName = null;
-
-        final float LOADING_SIZE = mLayerViewport.getHeight() / 4;
-
-
+        if (isSinglePlayer()) {
+            if (hasPlayer1Won()) {
+                needLoserName = false;
+            } else {
+                needWinnerName = false;
+            }
+        }
     }
 
-      private void updateForWinner(ElapsedTime elapsedTime) {
+    private void updateForWinner(ElapsedTime elapsedTime) {
         if (getName == null || getName instanceof GetLoserName) {
-            User.UserName winner= user.new UserName();
-user.setWinner(winner);
-            getName = new GetWinnerName(this,winner);
+            User.UserName winner = user.new UserName();
+            user.setWinner(winner);
+            getName = new GetWinnerName(this, winner);
         } else {
             getName.update(elapsedTime);
             if (getName.isFinished()) {
-                this.nameReady++;
+                needWinnerName = false;
             }
         }
     }
 
     private void updateForLoser(ElapsedTime elapsedTime) {
         if (getName == null || getName instanceof GetWinnerName) {
-            User.UserName loser=user.new UserName();
+            User.UserName loser = user.new UserName();
             user.setLoser(loser);
-            getName = new GetLoserName(this,loser);
+            getName = new GetLoserName(this, loser);
         } else {
             getName.update(elapsedTime);
             if (getName.isFinished()) {
-                this.nameReady++;
+                needLoserName = false;
             }
         }
     }
 
     @Override
     public void update(ElapsedTime elapsedTime) {
-        if (this.turningToNext) {
-
+        super.update(elapsedTime);
+        if (needWinnerName) {
+            updateForWinner(elapsedTime);
         } else {
-
-            //Update get UserName object
-            if (isSinglePlayer) {
-                if (controller.isPlayer1Wins()) {
-                    updateForWinner(elapsedTime);
-                } else {
-                    updateForLoser(elapsedTime);
-                }
-                if (nameReady == 1) {
-                    isFinished = true;
-                }
+            if (needLoserName) {
+                updateForLoser(elapsedTime);
             } else {
-                switch (nameReady) {
-                    case 0:
-                        updateForWinner(elapsedTime);
-                        break;
-                    case 1:
-                        updateForLoser(elapsedTime);
-                        break;
-                    case 2:
-                        isFinished = true;
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-            if (getName == null) {
-                stopDraw = true;
-                ;
+                isFinished = true;
             }
         }
+
     }
 
 
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
-        if (this.stopDraw) {
-            this.stopDraw = false;
-        } else {
+        if (getName != null) {
+            super.draw(elapsedTime, graphics2D);
+
             getName.draw(elapsedTime, graphics2D);
         }
     }
-public User getUserName(){
+
+    public User getUserName() {
         return this.user;
-}
-    @Override
-    public boolean isFinished() {
-        return isFinished;
     }
 
-    @Override
-    public GameScreen getGameScreen() {
-        return controller;
-    }
-
-    @Override
-    public Game getGame() {
-        return controller.getGame();
-    }
-
-    @Override
-    public int getScreenWidth() {
-        return getGame().getScreenWidth();
-    }
-
-    @Override
-    public int getScreenHeight() {
-        return getGame().getScreenHeight();
-    }
-
-    @Override
-    public LayerViewport getLayerViewport() {
-        return mLayerViewport;
-    }
-
-    @Override
-    public ScreenViewport getScreenViewPort() {
-        return mScreenViewport;
-    }
-
-    @Override
-    public AssetStore getAssetManager() {
-        return getGame().getAssetManager();
-    }
 }

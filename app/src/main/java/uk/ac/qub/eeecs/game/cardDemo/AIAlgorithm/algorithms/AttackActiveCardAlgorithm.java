@@ -1,25 +1,25 @@
 package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms;
 
 import java.util.ArrayList;
-
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.PlayerAction;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.Board;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIDecision;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
+import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
 /**
  * Created by 40216004 Dewei Liu on 08/03/2018.
  */
 
 public class AttackActiveCardAlgorithm extends AlgorithmSuperClass {
-    private Card attacker, attackee;
+    private Card attacker;
+    private Card attackee;
 
-    public AttackActiveCardAlgorithm(Board board) {
-        super(board);
+    public AttackActiveCardAlgorithm(Hero humanPlayer, Hero AIPlayer) {
+        super(humanPlayer, AIPlayer);
     }
 
     @Override
     public final int actionNumber() {
-        return PlayerAction.ATTACK_ACTIVE_CARD;
+        return AIDecision.ATTACK_ACTIVE_CARD;
     }
 
     public Card getAttacker() {
@@ -34,22 +34,20 @@ public class AttackActiveCardAlgorithm extends AlgorithmSuperClass {
 
     /*******************************************************************************************/
 
-
     @Override
-    protected void algorithm() {
+     protected final void algorithm() {
 
         //If can win within two turns, then don't attack any active card, and attack the hero directly
-        if (canWinWithin2Turns() == true) {
+        if (canWinWithin2Turns()) {
             super.isValid = false;
             return;
         }
-
 
         //Simulate all possible actions
         ArrayList<Card> attackers = super.getMyBoardCards(), attackees = super.getPlayerBoardCards();
         ArrayList<Action> actions = new ArrayList<Action>();
         for (Card eachAttacker : attackers) {
-            if (eachAttacker.isFinishedMove() == false) {
+            if (!eachAttacker.isFinishedMove()) {
                 for (Card eachAttackee : attackees) {
                     Action action = new Action(eachAttacker, eachAttackee);
                     actions.add(action);
@@ -61,9 +59,7 @@ public class AttackActiveCardAlgorithm extends AlgorithmSuperClass {
         if (actions.isEmpty()) {
             super.isValid = false;
             return;
-
         }
-
 
         //Calculate the max value among all actions
         double maxScore = Double.MIN_VALUE + 1;
@@ -90,7 +86,6 @@ public class AttackActiveCardAlgorithm extends AlgorithmSuperClass {
         }
     }
 
-
     /*The reason for choosing "2 turns" is:
     Turn1: For this turn, I know what card I can use to attack human player's hero, so I know exactly the attack value I can make this turn
     For the next player's turn, now I know what card can he use to attack my hero (maybe s/he add new cards in the turn, but they cannot attack immediately).
@@ -109,19 +104,14 @@ public class AttackActiveCardAlgorithm extends AlgorithmSuperClass {
         for (Card each : playerCards) {
             totalAttackValue += each.getAttackValue();
         }
-        if (totalAttackValue >= super.getMyHealth()) {
-            flag = true;
-        } else {
-            flag = false;
-        }
-
+        flag = totalAttackValue >= super.getMyHealth();
 
         totalAttackValue = 0;
         for (Card each : myCards) {
-            if (each.isFinishedMove() == false) {
+            if (!each.isFinishedMove()) {
                 totalAttackValue += each.getAttackValue();
             }
-            if (flag == false) {
+            if (!flag) {
                 totalAttackValue += each.getAttackValue();
             }
         }
@@ -129,20 +119,11 @@ public class AttackActiveCardAlgorithm extends AlgorithmSuperClass {
         //If the computer can win within 2 turns
         if (totalAttackValue >= super.getPlayerHealth()) {
 
-            //But some time computer is going to make some mistakes
-            if (random.nextInt(5) == 0) {
-                return false;
-            } else {
-                return true;
-            }
+            //But sometimes computer makes mistakes
+            return random.nextInt(5) != 0;
         } else {
-            if (random.nextInt(5) == 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return random.nextInt(5) == 0;
         }
-
     }
 
     public class Action {
@@ -166,9 +147,7 @@ public class AttackActiveCardAlgorithm extends AlgorithmSuperClass {
                 }
             }
 
-
             /****************************************************************************************/
-
 
             double playerScore = 0;
             ArrayList<Card> playerCards = AttackActiveCardAlgorithm.super.getPlayerBoardCards();
@@ -186,7 +165,6 @@ public class AttackActiveCardAlgorithm extends AlgorithmSuperClass {
 
             double score = myScore - playerScore;
 
-
             //If the  attack value of my active card is too much higher than the health value of opponent's active card
             if (attacker.getAttackValue() / (double) attackee.getHealthValue() > 1.4) {
 
@@ -203,7 +181,6 @@ public class AttackActiveCardAlgorithm extends AlgorithmSuperClass {
         public Card getAttackee() {
             return attackee;
         }
-
 
         /****************************************************************************************/
 
@@ -234,8 +211,5 @@ public class AttackActiveCardAlgorithm extends AlgorithmSuperClass {
             }
             return card.getAttackValue() * healthScore;
         }
-
-
     }
-
 }

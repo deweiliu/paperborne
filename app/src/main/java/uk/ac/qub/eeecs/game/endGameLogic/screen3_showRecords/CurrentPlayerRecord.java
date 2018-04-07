@@ -2,15 +2,16 @@ package uk.ac.qub.eeecs.game.endGameLogic.screen3_showRecords;
 
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
-import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameScreen;
+import uk.ac.qub.eeecs.game.endGameLogic.interfaces_superclass_forScreens.EndGameScreen;
 import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.User;
+import uk.ac.qub.eeecs.game.endGameLogic.screen3_showRecords.interface_superclass.RecordsSuperclass;
 import uk.ac.qub.eeecs.game.ui.Moving;
 
 /**
  * Created by 40216004 Dewei Liu on 22/01/2018.
  */
 
-public class CurrentPlayerRecord extends RecordsSuperClass {
+public class CurrentPlayerRecord extends RecordsSuperclass {
     private String name;
     private int timesOfWin, timesOfLose;
     private Moving stamp;
@@ -41,7 +42,7 @@ public class CurrentPlayerRecord extends RecordsSuperClass {
         timesOfWin = manager.getTimesOfWin(name);
 
         /*****************************************************************************/
-
+        //Set up the stamp
         mScreen.getAssetManager().loadAndAddBitmap("Stamp", "img/End Game Logic/" + stampName);
         stamp = new Moving(mScreen.getLayerViewport().getWidth() / 2, mScreen.getLayerViewport().getBottom(), mScreen.getScreenWidth() / 4,
                 mScreen.getScreenWidth() / 5, mScreen.getAssetManager().getBitmap("Stamp"), mScreen.getGameScreen());
@@ -72,10 +73,5 @@ public class CurrentPlayerRecord extends RecordsSuperClass {
         graphics2D.drawText("" + timesOfLose, mScreen.getScreenWidth() / 5 * 3, mScreen.getScreenHeight() / 5 * 5 - mPaint.getTextSize(), mPaint);
 
         stamp.draw(elapsedTime, graphics2D, mScreen.getLayerViewport(), mScreen.getScreenViewPort());
-    }
-
-    @Override
-    public boolean isFinished() {
-        return super.isFinished;
     }
 }

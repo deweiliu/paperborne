@@ -1,14 +1,9 @@
 package uk.ac.qub.eeecs.game.endGameLogic;
 
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.util.Log;
-
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
-import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
@@ -18,130 +13,130 @@ import uk.ac.qub.eeecs.game.ui.Rotating;
 import uk.ac.qub.eeecs.game.endGameLogic.screen1_showGameOver.GameOverScreen;
 import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.*;
 import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.GetNameScreen;
-import uk.ac.qub.eeecs.game.endGameLogic.interfaces.EndGameScreen;
+import uk.ac.qub.eeecs.game.endGameLogic.interfaces_superclass_forScreens.EndGameScreen;
 import uk.ac.qub.eeecs.game.endGameLogic.screen3_showRecords.ShowRecordsScreen;
+import uk.ac.qub.eeecs.game.worldScreen.Level;
 import uk.ac.qub.eeecs.game.worldScreen.SaveGame;
 
 /**
  * Created by 40216004 Dewei Liu on 22/01/2018.
  * <p>
  * To use the package of endGameLogic
- * simply create an instance of EndGameController with parameters of current screen
+ * simply create an instance of EndGameController with parameters of current screen.
+ * If it is single player mode, player1 is the human player
+ * If it is multiple player mode, player1 is the player who at the bottom of screen, and player2 is the at the top of screen.
  */
 
 public class EndGameController extends GameScreen {
-    private static final int GAME_OVER_ANIMATIONS = 0;
-    private static final int PLAYERS_NAME = 1;
-    private static final int RECORDS_SCREEN = 2;
 
-    private int statue = -1;
+    //Record the state
+    private int state;
+    private static final int GAME_OVER_SCREEN = 0;
+    private static final int GET_NAME_SCREEN = 1;
+    private static final int SHOW_RECORDS_SCREEN = 2;
+
+    /***************************************************************************************************/
+
     private boolean isSinglePlayer;
-    private boolean isPlayer1Wins;
-    private EndGameScreen mEndGameScreen = null;
+    private boolean hasPlayer1Won;
+    private EndGameScreen mEndGameScreen;
     private GameScreen mBattleScreen;
-    private User mPlayerName;
-    private boolean stopDraw = false;
     private ScreenViewport mScreenViewport;
     private LayerViewport mLayerViewport;
-    private boolean readyToUpdate;
-    private Bitmap backGround;
     private Rotating loading;
-    private GameObject background, title;
 
-    public EndGameController(GameScreen cardDemoScreen, boolean isSinglePlayer, boolean isPlayer1Wins) {
-        this(cardDemoScreen, isSinglePlayer, isPlayer1Wins, "level_one");
+    //Constructor for testing
+    public EndGameController(GameScreen cardDemoScreen, boolean isSinglePlayer, boolean hasPlayer1Won) {
+        this(cardDemoScreen, isSinglePlayer, hasPlayer1Won, null);
+        //this(cardDemoScreen, isSinglePlayer, hasPlayer1Won, "level_one");
     }
 
-    private void setCompletedLevelRecords(String levelID) {
-        SaveGame save = SaveManager.loadSavedGame(SaveManager.DEFAULT_SAVE_SLOT, mGame);
-        List<String> completedLevel = save.getCompleted();
-        completedLevel.add(levelID);
-        save.setCompleted(completedLevel);
-        SaveManager.writeSaveFile(save, mGame);
-    }
 
-    public EndGameController(GameScreen cardDemoScreen, boolean isSinglePlayer, boolean isPlayer1Wins, String levelID) {
+    public EndGameController(GameScreen cardDemoScreen, boolean isSinglePlayer, boolean hasPlayer1Won, Level levelID) {
         super("EndGameController", cardDemoScreen.getGame());
-        
-        //If the human beats the computer, then unlock new level.
-        if (isSinglePlayer == true) {
-            if (isPlayer1Wins == true) {
-                this.setCompletedLevelRecords(levelID);
+
+        //If this is not a test (We assign levelID as null when we are doing tests)
+        if (levelID != null) {
+
+            //If the player was playing against computer
+            if (isSinglePlayer == true) {
+
+                //If the player has won
+                if (hasPlayer1Won == true) {
+
+                    //Record it and unlock new level
+                    this.setCompletedLevelRecords(levelID);
+                }
             }
         }
+        /***************************************************************************************************/
 
+        //Set of variables
         this.mBattleScreen = cardDemoScreen;
         this.isSinglePlayer = isSinglePlayer;
-        this.isPlayer1Wins = isPlayer1Wins;
-        this.statue = GAME_OVER_ANIMATIONS;
+        this.hasPlayer1Won = hasPlayer1Won;
+
         mScreenViewport = new ScreenViewport(0, 0, getGame().getScreenWidth(), getGame().getScreenHeight());
         mLayerViewport = new LayerViewport(0, 0, getGame().getScreenWidth() / 2, getGame().getScreenHeight() / 2);
-
-        //Set up background
-        final String BACKGROUND_NAME = "All End Game Screens Background";
-        mGame.getAssetManager().loadAndAddBitmap(BACKGROUND_NAME, "img/Lined-Paper.png");
-        backGround = mGame.getAssetManager().getBitmap(BACKGROUND_NAME);
-        background = new GameObject(mLayerViewport.x, mLayerViewport.y, mLayerViewport.getWidth(), mLayerViewport.getHeight(), backGround, this);
-
-        final String TITLE_NAME = "End Game Logic Title";
-        mGame.getAssetManager().loadAndAddBitmap(TITLE_NAME, "img/End Game Logic/Title.png");
-        title = new GameObject(mLayerViewport.x, mLayerViewport.getTop() - mLayerViewport.getHeight() / 10, mLayerViewport.getWidth(), mLayerViewport.getHeight() / 5
-                , mGame.getAssetManager().getBitmap(TITLE_NAME), this);
 
 
         //Set up loading animation
         final String LOADING_NAME = "loadingToMainMenuFromEndGameLogic";
         mGame.getAssetManager().loadAndAddBitmap(LOADING_NAME, "img/End Game Logic/loading.png");
-        Bitmap loadingBitmap = mGame.getAssetManager().getBitmap(LOADING_NAME);
-        loading = new Rotating(2000, mLayerViewport.getHeight() / 4, loadingBitmap, this, 5000);
+        loading = new Rotating(2000, mLayerViewport.getHeight() / 4,
+                mGame.getAssetManager().getBitmap(LOADING_NAME), this, 5000);
 
-        //This 5 statements must be at the end of this constructor
+        //Start to run End game screen in the game
         this.mEndGameScreen = new GameOverScreen(this);
+        this.state = GAME_OVER_SCREEN;
         mGame.getScreenManager().removeScreen(mBattleScreen.getName());
         mGame.getScreenManager().addScreen(this);
         mGame.getScreenManager().setAsCurrentScreen(this.getName());
-        readyToUpdate = true;
-        //Don't put any statement here or the app crashes
     }
 
     @Override
     public void update(ElapsedTime elapsedTime) {
-        if (readyToUpdate) {
-            if (mEndGameScreen.isFinished()) {
-                if (loading.isFinished()) {
-                    changeToNextScreen();
-                } else {
-                    loading.update(elapsedTime);
-                }
+        if (mEndGameScreen.isFinished()) {
+            if (loading.isFinished()) {
+                changeToNextScreen();
             } else {
-                mEndGameScreen.update(elapsedTime);
-
+                loading.update(elapsedTime);
             }
+        } else {
+            mEndGameScreen.update(elapsedTime);
         }
-        background.update(elapsedTime);
-        title.update(elapsedTime);
+    }
+
+    @Override
+    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+
+        mEndGameScreen.draw(elapsedTime, graphics2D);
+        if (mEndGameScreen.isFinished()) {
+            loading.draw(elapsedTime, graphics2D);
+        }
     }
 
     private void changeToNextScreen() {
-        switch (this.statue) {
+        loading.reset();
+        switch (this.state) {
             //From game over animations to get player name
-            case GAME_OVER_ANIMATIONS:
+            case GAME_OVER_SCREEN:
                 this.mEndGameScreen = new GetNameScreen(this);
-                this.statue = PLAYERS_NAME;
+                this.state = GET_NAME_SCREEN;
                 break;
 
             //From get player name to records screen
-            case PLAYERS_NAME:
+            case GET_NAME_SCREEN:
                 User user = ((GetNameScreen) mEndGameScreen).getUserName();
 
                 this.mEndGameScreen = new ShowRecordsScreen(this, user);
-                this.statue = RECORDS_SCREEN;
+                this.state = SHOW_RECORDS_SCREEN;
                 break;
 
-            //From records screen to the main menu.
-            case RECORDS_SCREEN:
-                readyToUpdate = false;
-                stopDraw = true;
+            //All eng game screens have finished,
+            case SHOW_RECORDS_SCREEN:
+
+                // Go back to the main menu.
                 MenuScreen menuScreen = new MenuScreen(super.mGame);
                 mGame.getScreenManager().removeScreen(this.getName());
                 mGame.getScreenManager().addScreen(menuScreen);
@@ -151,38 +146,34 @@ public class EndGameController extends GameScreen {
             //The current screen is null. Create a game over animations
             default:
                 this.mEndGameScreen = new GameOverScreen(this);
-                this.statue = GAME_OVER_ANIMATIONS;
+                this.state = GAME_OVER_SCREEN;
                 break;
         }
-        loading.reset();
-        this.stopDraw = true;
 
     }
 
-    @Override
-    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
-        if (stopDraw) {
-            stopDraw = false;
-        } else {
 
-
-            graphics2D.clear(Color.WHITE);
-            background.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
-            title.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
-            mEndGameScreen.draw(elapsedTime, graphics2D);
-            if (mEndGameScreen.isFinished()) {
-                loading.draw(elapsedTime, graphics2D);
+    private void setCompletedLevelRecords(Level level) {
+        try {
+            String levelID = level.getId();
+            if (levelID != null) {
+                SaveGame save = SaveManager.loadSavedGame(SaveManager.DEFAULT_SAVE_SLOT, mGame);
+                List<String> completedLevel = save.getCompleted();
+                completedLevel.add(levelID);
+                save.setCompleted(completedLevel);
+                SaveManager.writeSaveFile(save, mGame);
             }
+        } catch (Exception e) {
+            // throw new Exception("Cannot save record correctly.");
         }
     }
-
 
     public boolean isSinglePlayer() {
         return isSinglePlayer;
     }
 
-    public boolean isPlayer1Wins() {
-        return isPlayer1Wins;
+    public boolean hasPlayer1Won() {
+        return hasPlayer1Won;
     }
 
     public GameScreen getBattleScreen() {

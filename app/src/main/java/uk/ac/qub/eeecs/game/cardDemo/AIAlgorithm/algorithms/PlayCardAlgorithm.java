@@ -2,42 +2,37 @@ package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.PlayerAction;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.Board;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIDecision;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
+import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
 /**
  * Created by 40216004 Dewei Liu on 08/03/2018.
  */
 
 public class PlayCardAlgorithm extends AlgorithmSuperClass {
-    private Card playedCard;
+    private Card cardPlayed;
 
-    public PlayCardAlgorithm(Board board) {
-        super(board);
-
+    public PlayCardAlgorithm(Hero humanPlayer, Hero AIPlayer){
+        super(humanPlayer,AIPlayer);
     }
-
 
     @Override
     public final int actionNumber() {
-        return PlayerAction.PLAY_CARD;
+        return AIDecision.PLAY_CARD;
     }
 
-    public Card getPlayedCard() {
+    public Card getCardPlayed() {
         super.checkValid_ThrowException();
-        return this.playedCard;
+        return this.cardPlayed;
     }
-
 
     /*******************************************************************************************/
-
 
     //This algorithm is using the idea of Knapsack problem
     // weight is the capacity of knapsack, and value of card is the value of stuff
     @Override
-    protected void algorithm() {
+    protected final void algorithm() {
 
         //According to the game rule, not able to play any card to the board
         if (super.getMyBoardCards().size() >= super.getMyMaxActiveCard()) {
@@ -53,7 +48,7 @@ public class PlayCardAlgorithm extends AlgorithmSuperClass {
         for (Card each : myHandCards) {
 
             //Check the card is usable
-            if (each.isFinishedMove() == false) {
+            if (!each.isFinishedMove()) {
                 Card2 card2 = new Card2(each);
                 cards.add(card2);
             } else {
@@ -86,10 +81,8 @@ public class PlayCardAlgorithm extends AlgorithmSuperClass {
             super.isValid = false;
             return;
         }
-        playedCard = cards.get(KnapsackAlgorithm(cards, capacity)).getCard();
+        cardPlayed = cards.get(KnapsackAlgorithm(cards, capacity)).getCard();
         super.isValid = true;
-
-
     }
 
 
@@ -109,7 +102,6 @@ public class PlayCardAlgorithm extends AlgorithmSuperClass {
                 table[i][j] = Math.max(choose, notChoose);
             }
         }
-
 
         //Do the left row(s)
         for (int i = 1; i < rows; i++) {
@@ -133,11 +125,8 @@ public class PlayCardAlgorithm extends AlgorithmSuperClass {
                 break;
             }
         }
-
-
         return cardNumber;
     }
-
 
     private class MyComparator implements Comparator<Card2> {
 

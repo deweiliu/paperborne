@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.gage.AITest;
+package uk.ac.qub.eeecs.gage.AITests;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,15 +7,15 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIController;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.Board;
+import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
 import static junit.framework.Assert.assertEquals;
 
 /**
  * Created by 40216004 Dewei Liu on 16/02/2018.
- *
- * Although there are some exceptions occur in this test, but the test can pass successfully
- * because the AI controller runs in another thread and uses many features of the mock object of board which may occur NullPointerExceptions
+ * <p>
+ * Although there may are some exceptions occurred in this test, but the test can pass successfully
+ * because the AI mController runs in another thread and uses many features of the mock object of board which may occur NullPointerExceptions
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AIControllerTest {
@@ -24,25 +24,23 @@ public class AIControllerTest {
 
     @Before
     public void setUp() {
-
-        Board board=Mockito.mock(Board.class);
-        controller = new AIController(board);
+        Hero human = Mockito.mock(Hero.class);
+        Hero AI = Mockito.mock(Hero.class);
+        controller = new AIController(human, AI);
     }
 
-
     @Test
-    public void waitUnitlAIFinishes() {
+    public void waitUntilAIFinishes() {
         boolean exception;
         long startTime = System.currentTimeMillis();
-
         controller.startThinking(THINKING_TIME_LIMIT);
 
         //The algorithm just started, and it should not be finished so fast
         assertEquals(false, controller.isFinished());
         exception = false;
         try {
-            //The algorithm doesn't finish so far, and we cannot call the getAction() function or it throws exception
-            controller.getAction();
+            //The algorithm doesn't finish so far, and we cannot call the getDecision() function or it throws exception
+            controller.getDecision();
         } catch (IllegalStateException e) {
             exception = true;
         }
@@ -64,14 +62,12 @@ public class AIControllerTest {
 
         exception = false;
         try {
-            //The algorithm does finish now, and we can call the getAction() function or it won't throw exception
-            controller.getAction();
+            //The algorithm does finish now, and we can call the getDecision() function or it won't throw exception
+            controller.getDecision();
         } catch (IllegalStateException e) {
             exception = true;
         }
         assertEquals(false, exception);
-
-
     }
 
     @Test
@@ -83,8 +79,8 @@ public class AIControllerTest {
         assertEquals(false, controller.isFinished());
         exception = false;
         try {
-            //The algorithm doesn't finish so far, and we cannot call the getAction() function or it throws exception
-            controller.getAction();
+            //The algorithm doesn't finish so far, and we cannot call the getDecision() function or it throws exception
+            controller.getDecision();
         } catch (IllegalStateException e) {
             exception = true;
         }
@@ -92,22 +88,19 @@ public class AIControllerTest {
 
         /************************************************************************************************/
 
-        //Tell the AI controller that deadline has passed
+        //Tell the AI mController that deadline has passed
         controller.notifyOverTime();
-
 
         //now, the time limit has passed, and it should be finished
         assertEquals(true, controller.isFinished());
 
         exception = false;
         try {
-            //The algorithm does finish now, and we can call the getAction() function or it won't throw exception
-            controller.getAction();
+            //The algorithm does finish now, and we can call the getDecision() function or it won't throw exception
+            controller.getDecision();
         } catch (IllegalStateException e) {
             exception = true;
         }
         assertEquals(false, exception);
     }
-
-
 }

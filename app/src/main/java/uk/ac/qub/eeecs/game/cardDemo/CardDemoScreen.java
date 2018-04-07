@@ -22,8 +22,8 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.VerticalSlider;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIDecision;
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIController;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.PlayerAction;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.endGameLogic.EndGameController;
 import uk.ac.qub.eeecs.game.ui.PopUp;
@@ -62,13 +62,13 @@ public class CardDemoScreen extends GameScreen {
     private boolean startedThinking;
 
     private PopUp attackMessage;
-    
+
     private Level level;
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
-    
+
     /**
      * Constructor for creating game screen without level details, mainly for testing
      * @param game Game to which this screen belongs
@@ -85,7 +85,7 @@ public class CardDemoScreen extends GameScreen {
      */
     public CardDemoScreen(Game game, List<LevelCard> opponentDeck, List<LevelCard> playerDeck, Level level) {
         super("CardScreen", game);
-        
+
         this.level = level;
 
         mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
@@ -236,15 +236,14 @@ public class CardDemoScreen extends GameScreen {
     public void update(ElapsedTime elapsedTime) {
 
         //If some one has died, end the game
-if(!player.isAlive()){
-    new EndGameController(this,true,false,level.getId());
-
-}else{
-    if(!opponent.isAlive()){
-        new EndGameController(this,true,true,level.getId());
-    }
-}
-//Else continue to play the game
+        if (!player.isAlive()) {
+            new EndGameController(this, true, false, level);
+        } else {
+            if (!opponent.isAlive()) {
+                new EndGameController(this, true, true, level);
+            }
+        }
+        //Else continue to play the game
 
         turnTime = ((startTime + TURN_TIME) - System.currentTimeMillis()) / 1000;
 
@@ -367,13 +366,13 @@ if(!player.isAlive()){
                 // If the AI has finished thinking
                 startedThinking = false;
                 // Get the AI action
-                PlayerAction action = aiOpponent.getAction();
+                AIDecision action = aiOpponent.getDecision();
                 // Flag to check if the decision is to end turn
                 boolean ended = false;
                 // Decide what action to implement
                 switch (action.getAction())
                 {
-                    case PlayerAction.END_TURN:
+                    case AIDecision.END_TURN:
                     {
                         // End turn
                         turnHandler.removeCallbacksAndMessages(null);
@@ -382,7 +381,7 @@ if(!player.isAlive()){
                         ended = true;
                         break;
                     }
-                    case PlayerAction.ATTACK_HERO:
+                    case AIDecision.ATTACK_HERO:
                     {
                         // Attack hero
                         player.takeDamage(action.getAttackerCard().getAttackValue());
@@ -390,14 +389,14 @@ if(!player.isAlive()){
                         attackMessage.show();
                         break;
                     }
-                    case PlayerAction.ATTACK_ACTIVE_CARD:
+                    case AIDecision.ATTACK_ACTIVE_CARD:
                     {
                         // Attack active card
                         action.getTargetCard().takeDamage(action.getSourceCard().getAttackValue());
                         action.getSourceCard().setFinishedMove(true);
                         break;
                     }
-                    case PlayerAction.PLAY_CARD:
+                    case AIDecision.PLAY_CARD:
                     {
                         // Play Card
                         Card card = action.getCardPlayed();
