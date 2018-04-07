@@ -339,6 +339,7 @@ public class CardTests {
         assertTrue(card.getManaCost() == 50);
     }
 
+    //CS
     @Test
     public void cardSetAttackValue(){
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
@@ -349,6 +350,7 @@ public class CardTests {
         assertTrue(card.getAttackValue() == 20);
     }
 
+    //CS
     @Test
     public void cardSetHealthValue(){
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
@@ -359,6 +361,7 @@ public class CardTests {
         assertTrue(card.getHealthValue() == 20);
     }
 
+    //CS
     @Test
     public void cardSetCardID(){
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
@@ -369,6 +372,7 @@ public class CardTests {
         assertTrue(card.getCardID() == 20);
     }
 
+    //CS
     @Test
     public void cardSetCardName(){
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
@@ -379,6 +383,7 @@ public class CardTests {
         assertTrue(card.getCardName() == "New Card Name");
     }
 
+    //CS
     @Test
     public void cardSetFinishedMove(){
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
