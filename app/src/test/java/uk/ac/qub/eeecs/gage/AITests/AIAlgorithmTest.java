@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.gage.AITest;
+package uk.ac.qub.eeecs.gage.AITests;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -8,32 +8,31 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIDecision;
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIAlgorithm;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.PlayerAction;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.Board;
+import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
 /**
  * Created by Dewei Liu 40216004 on 10/03/2018.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AIAlgorithmTest {
-    private Board board;
-    private AIAlgorithm algorithm;
+    private Hero human, AI;
 
     @Before
     public void setUp() {
-        Board board = Mockito.mock(Board.class);
-        this.board = board;
+        human = Mockito.mock(Hero.class);
+        AI = Mockito.mock(Hero.class);
     }
 
     @Test
     public void algorithmTest() {
-        algorithm = new AIAlgorithm(board);
+        AIAlgorithm algorithm = new AIAlgorithm(human, AI);
         algorithm.start();
         assertEquals(false, algorithm.isFinished());
         algorithm.notifyOverTime();
         assertEquals(true, algorithm.isFinished());
-        PlayerAction action = algorithm.getAction();
-        assertEquals(PlayerAction.END_TURN, action.getAction());
+        AIDecision action = algorithm.getDecision();
+        assertEquals(AIDecision.END_TURN, action.getAction());
     }
 }

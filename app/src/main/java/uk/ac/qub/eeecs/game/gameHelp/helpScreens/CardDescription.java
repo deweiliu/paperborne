@@ -3,8 +3,10 @@ package uk.ac.qub.eeecs.game.gameHelp.helpScreens;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
+
 import java.util.ArrayList;
 import java.util.Vector;
+
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
@@ -27,7 +29,7 @@ public class CardDescription extends HelpScreenSuperClass {
      * Create a new game screen associated with the specified game instance
      *
      * @param game       Game instance to which the game screen belongs
-     * @param controller
+     * @param controller the controller of help screen
      */
     public CardDescription(Game game, GameHelpController controller) {
         super("CardDescription", game, controller);
@@ -42,12 +44,10 @@ public class CardDescription extends HelpScreenSuperClass {
         }
 
         description = new Vector<>();
-        description.add("The cards above will be showing attack value (left right),");
-        description.add("health value (right bottom) and mana-cost (left top).");
-        description.add("The card it not attackable only in the turn you play it,");
+        description.add("The cards above will be showing attack value (right bottom),");
+        description.add("health value (left bottom) and mana-cost (left top).");
+        description.add("The card it not able to attack only in the turn you play it,");
         description.add("The card with health lower than or equaling to 0 will be destroyed.");
-
-
     }
 
 
@@ -99,5 +99,4 @@ public class CardDescription extends HelpScreenSuperClass {
                     card.position.y + mLayerViewport.halfHeight, paint);
         }
     }
-
 }

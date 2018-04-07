@@ -6,7 +6,7 @@ import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
  * Created by 40216004 Dewei Liu on 12/02/2018.
  */
 
-public class PlayerAction {
+public class AIDecision {
     public int getAction() {
         return action;
     }
@@ -32,7 +32,6 @@ public class PlayerAction {
             throw new IllegalStateException(exceptionString + "ATTACK_ACTIVE_CARD.");
         }
     }
-
 
     /************************************************************************************************/
     public final static int ATTACK_HERO = 103;
@@ -74,7 +73,7 @@ public class PlayerAction {
 
     private String exceptionString = "You cannot call this function unless the player's Action is ";
 
-    public PlayerAction(int action, Card source, Card target) {
+    public AIDecision(int action, Card source, Card target) {
         switch (action) {
             case ATTACK_ACTIVE_CARD:
                 this.targetCard = target;
@@ -88,6 +87,4 @@ public class PlayerAction {
                 throw new IllegalStateException("Illegal value of Action");
         }
     }
-
-
 }

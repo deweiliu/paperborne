@@ -1,59 +1,55 @@
 package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm;
 
 import java.util.Random;
-
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
 /**
+ * This class give the interface for the whole AI
+ * To use the AI, create a new object of this class at the very beginning of the game,
+ * repeat the following steps for every decision you need:
+ * 1. call void startThinking(long timeLimitInMillis); once,
+ * 2. then call  public boolean isFinished(); again and again until it return true
+ * 3. then call  public AIDecision getDecision(); to get the decision you need
+ * <p>
  * Created by 40216004 Dewei Liu on 12/02/2018.
  */
 
 public class AIController {
+    //If the AI algorithm finishes before the earliestFinishTime, mController responses as unfinished until that time
+    //so it makes the human player interpret that the AI is thinking
+    private long earliestFinishTime;
+
     private TimeController mTimeController;
     private AIAlgorithm mAlgorithm;
-
-    //If the AI algorithm finishes before the earliestFinishTime, this mController responses as unfinished until that time
-    //so it makes the player interpret that the AI is thinking
-    private long earliestFinishTime;
     private boolean isFinished;
-    private Board mBoard;
+    private Hero humanPlayer;
+    private Hero AIPlayer;
     private Random random;
 
-    /**
-     * @param board pass Board information as parameter
-     */
-    public AIController(Board board) {
-        this.mBoard = board;
+    public AIController(Hero user, Hero AI) {
+        this.humanPlayer = user;
+        this.AIPlayer = AI;
         random = new Random();
-    }
-
-    public AIController(Hero user, Hero AI){
-        this(new Board(user,AI));
-    }
-
-    private void reset() {
-        mAlgorithm = new AIAlgorithm(mBoard);
-        mTimeController = new TimeController();
-        isFinished = false;
     }
 
     /**
      * When this function is called, it creates a new thread for the AI algorithm
-     * instead of doing the algorithm in the current thread.     *
+     * instead of doing the algorithm in the current thread.
      *
      * @param timeLimitInMillis how much mTimeController in millisecond can be used for the thinking for this action
      */
     public void startThinking(long timeLimitInMillis) {
+        //Set up every thing
+
         long currentTime = System.currentTimeMillis();
 
         //Finish the algorithm 1 second before the real deadline
         long timeForAIAlgorithm = timeLimitInMillis - 700;
 
         long deadLine = currentTime + timeForAIAlgorithm;
-
-
         this.earliestFinishTime = currentTime + Math.abs(random.nextInt((int) timeForAIAlgorithm - 100)) + 100;
 
+        //Start working
         reset();
         mAlgorithm.start();
         mTimeController.start(deadLine);
@@ -67,24 +63,25 @@ public class AIController {
     }
 
     /**
-     * Please make sure the AI function is finished before you get AI player's action
+     * Please make sure the AI function is finished before you call this function
      *
-     * @return
+     * @return the decision from AIAlgorithm
      */
-    public PlayerAction getAction() {
-        if (this.isFinished() == false) {
+    public AIDecision getDecision() {
+        if (this.isFinished()) {
+            return mAlgorithm.getDecision();
+        } else {
             throw new IllegalStateException();
         }
-        return mAlgorithm.getAction();
     }
 
     /**
      * If the mTimeController limit has passed, call this function to stop AI algorithm
-     * after this function is called, call
+     * after this function is called, call getDecision();
      */
     public void notifyOverTime() {
         mTimeController.stop();
-        if (mAlgorithm.isFinished() == false) {
+        if (!mAlgorithm.isFinished()) {
             mAlgorithm.notifyOverTime();
         }
         this.isFinished = true;
@@ -97,6 +94,11 @@ public class AIController {
         }
     }
 
+    private void reset() {
+        mAlgorithm = new AIAlgorithm(humanPlayer, AIPlayer);
+        mTimeController = new TimeController();
+        isFinished = false;
+    }
 
     private class TimeController implements Runnable {
         private long deadLine;
@@ -104,11 +106,9 @@ public class AIController {
         private Thread thread;
 
         public TimeController() {
-
             running = false;
             thread = null;
         }
-
 
         /**
          * Check if the mTimeController limit has passed
@@ -140,11 +140,8 @@ public class AIController {
         }
 
         public void stop() {
-
             running = false;
-
             thread = null;
-
         }
     }
 }

@@ -1,6 +1,7 @@
 package uk.ac.qub.eeecs.game.gameHelp;
 
 import java.util.ArrayList;
+
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.gameHelp.helpScreens.CardDescription;
@@ -10,17 +11,15 @@ import uk.ac.qub.eeecs.game.gameHelp.helpScreens.HeroDescription;
 import uk.ac.qub.eeecs.game.gameHelp.helpScreens.TextDescription;
 
 /**
+ * To use the Game Help
+ * just simply create a object of this class, and it will handle everything for you
+ *
  * Created by 40216004 Dewei Liu  on 28/03/2018.
  */
 
 public class GameHelpController {
 
     private Game mGame;
-    private HelpScreenSuperClass textDescription;
-    private HelpScreenSuperClass heroDescription;
-    private HelpScreenSuperClass cardDescription;
-    private HelpScreenSuperClass forDeveloperTesting;
-
     private HelpScreenSuperClass currentScreen;
     private ArrayList<HelpScreenSuperClass> screens;
 
@@ -29,10 +28,10 @@ public class GameHelpController {
 
         /***************************************************************************************/
         //set up all help game screens
-        textDescription = new TextDescription(mGame, this);
-        heroDescription = new HeroDescription(mGame, this);
-        cardDescription = new CardDescription(mGame, this);
-        forDeveloperTesting = new ForTestingEndGameLogic(mGame, this);
+        HelpScreenSuperClass textDescription = new TextDescription(mGame, this);
+        HelpScreenSuperClass heroDescription = new HeroDescription(mGame, this);
+        HelpScreenSuperClass  cardDescription = new CardDescription(mGame, this);
+        HelpScreenSuperClass  forDeveloperTesting = new ForTestingEndGameLogic(mGame, this);
 
         screens = new ArrayList<>();
         screens.add(textDescription);
@@ -71,6 +70,4 @@ public class GameHelpController {
             this.currentScreen = (HelpScreenSuperClass) newScreen;
         }
     }
-
-
 }

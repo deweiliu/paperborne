@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.gage;
+package uk.ac.qub.eeecs.gage.AITests;
 
 
 import org.junit.Before;
@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.PlayerAction;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIDecision;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 
 import static org.junit.Assert.assertEquals;
@@ -17,8 +17,8 @@ import static org.junit.Assert.assertNotEquals;
  * Created by 40216004 Dewei Liu on 16/02/2018.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class PlayerActionTest {
-    private PlayerAction endTurn, attackActiveCard;
+public class AIDecisionTest {
+    private AIDecision endTurn, attackActiveCard;
 
     private Card source, target;
 
@@ -29,15 +29,15 @@ public class PlayerActionTest {
         source = Mockito.mock(Card.class);
         target = Mockito.mock(Card.class);
         temp = Mockito.mock(Card.class);
-        endTurn = new PlayerAction(PlayerAction.END_TURN, null, null);
-        attackActiveCard = new PlayerAction(PlayerAction.ATTACK_ACTIVE_CARD, source, target);
+        endTurn = new AIDecision(AIDecision.END_TURN, null, null);
+        attackActiveCard = new AIDecision(AIDecision.ATTACK_ACTIVE_CARD, source, target);
 
     }
 
     @Test
     public void actionState() {
-        assertEquals(PlayerAction.END_TURN, endTurn.getAction());
-        assertEquals(PlayerAction.ATTACK_ACTIVE_CARD, attackActiveCard.getAction());
+        assertEquals(AIDecision.END_TURN, endTurn.getAction());
+        assertEquals(AIDecision.ATTACK_ACTIVE_CARD, attackActiveCard.getAction());
 
     }
 

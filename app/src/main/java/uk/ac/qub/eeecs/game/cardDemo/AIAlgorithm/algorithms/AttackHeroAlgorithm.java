@@ -3,26 +3,25 @@ package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.PlayerAction;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.Board;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIDecision;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
+import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
 /**
  * Created by 40216004 Dewei Liu on 08/03/2018.
  */
 
 public class AttackHeroAlgorithm extends AlgorithmSuperClass {
-    public AttackHeroAlgorithm(Board board) {
-        super(board);
+    public AttackHeroAlgorithm(Hero humanPlayer, Hero AIPlayer) {
+        super(humanPlayer, AIPlayer);
     }
-
     private Card attacker;
-
 
     @Override
     public final int actionNumber() {
-        return PlayerAction.ATTACK_HERO;
+        return AIDecision.ATTACK_HERO;
     }
+
     public Card getAttacker() {
         super.checkValid_ThrowException();
         return this.attacker;
@@ -30,12 +29,12 @@ public class AttackHeroAlgorithm extends AlgorithmSuperClass {
 
     /*******************************************************************************************/
     @Override
-    protected void algorithm() {
-
+    protected final void algorithm() {
         ArrayList<Card> myBoardCards = super.getMyBoardCards();
         ArrayList<Card3> cards = new ArrayList<Card3>();
         for (Card each : myBoardCards) {
-            if (each.isFinishedMove() == false) {
+            if (!each.isFinishedMove()) {
+
                 //If the card is valid to attack hero, add it into the list for later decision
                 Card3 card = new Card3(each);
                 cards.add(card);
@@ -62,8 +61,6 @@ public class AttackHeroAlgorithm extends AlgorithmSuperClass {
             }
         }
     }
-
-
 
     private class MyComparator implements Comparator<Card3> {
 
@@ -94,5 +91,4 @@ public class AttackHeroAlgorithm extends AlgorithmSuperClass {
             return card;
         }
     }
-
 }

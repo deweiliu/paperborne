@@ -3,7 +3,9 @@ package uk.ac.qub.eeecs.game.gameHelp.helpScreens;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import java.util.ArrayList;
+
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
@@ -62,7 +64,7 @@ public class ForTestingEndGameLogic extends HelpScreenSuperClass {
         text = new ArrayList<>();
         text.add("Wow, incredible that you found this land!");
         text.add("This is NOT a part of this game.");
-        text.add("It is for developer to test the end game logic only.");
+        text.add("It is for developers to test the end game logic only.");
         text.add("So you don't need to play the game again and again to test the end game logic");
     }
 

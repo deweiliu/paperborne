@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.gage.endGameLogicTest;
+package uk.ac.qub.eeecs.gage.UITests;
 
 import android.graphics.Bitmap;
 

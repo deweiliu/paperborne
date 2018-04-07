@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm;
+package uk.ac.qub.eeecs.game.cardDemo;
 
 import java.util.ArrayList;
 

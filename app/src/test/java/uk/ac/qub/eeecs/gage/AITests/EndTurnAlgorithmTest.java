@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.gage.AITest;
+package uk.ac.qub.eeecs.gage.AITests;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -6,9 +6,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIDecision;
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.EndTurnAlgorithm;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.PlayerAction;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.Board;
+import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -22,8 +22,9 @@ public class EndTurnAlgorithmTest {
 
     @Before
     public void setUp() {
-        Board board = Mockito.mock(Board.class);
-        algorithm = new EndTurnAlgorithm(board);
+        Hero AI = Mockito.mock(Hero.class);
+        Hero human = Mockito.mock(Hero.class);
+        algorithm = new EndTurnAlgorithm(human, AI);
     }
 
     @Test
@@ -33,6 +34,6 @@ public class EndTurnAlgorithmTest {
 
     @Test
     public void checkActionNumber() {
-        assertEquals(PlayerAction.END_TURN, algorithm.actionNumber());
+        assertEquals(AIDecision.END_TURN, algorithm.actionNumber());
     }
 }

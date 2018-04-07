@@ -1,6 +1,7 @@
 package uk.ac.qub.eeecs.game.gameHelp.helpScreens;
 
 import java.util.Vector;
+
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;

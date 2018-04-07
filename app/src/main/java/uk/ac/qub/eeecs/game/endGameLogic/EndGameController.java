@@ -1,6 +1,7 @@
 package uk.ac.qub.eeecs.game.endGameLogic;
 
 import java.util.List;
+
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
@@ -14,6 +15,7 @@ import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.*;
 import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.GetNameScreen;
 import uk.ac.qub.eeecs.game.endGameLogic.interfaces_superclass_forScreens.EndGameScreen;
 import uk.ac.qub.eeecs.game.endGameLogic.screen3_showRecords.ShowRecordsScreen;
+import uk.ac.qub.eeecs.game.worldScreen.Level;
 import uk.ac.qub.eeecs.game.worldScreen.SaveGame;
 
 /**
@@ -37,7 +39,7 @@ public class EndGameController extends GameScreen {
 
     private boolean isSinglePlayer;
     private boolean hasPlayer1Won;
-    private EndGameScreen mEndGameScreen ;
+    private EndGameScreen mEndGameScreen;
     private GameScreen mBattleScreen;
     private ScreenViewport mScreenViewport;
     private LayerViewport mLayerViewport;
@@ -50,10 +52,10 @@ public class EndGameController extends GameScreen {
     }
 
 
-    public EndGameController(GameScreen cardDemoScreen, boolean isSinglePlayer, boolean hasPlayer1Won, String levelID) {
+    public EndGameController(GameScreen cardDemoScreen, boolean isSinglePlayer, boolean hasPlayer1Won, Level levelID) {
         super("EndGameController", cardDemoScreen.getGame());
 
-        //If this is not a test (I let levelID be null when I test EndGameController)
+        //If this is not a test (We assign levelID as null when we are doing tests)
         if (levelID != null) {
 
             //If the player was playing against computer
@@ -104,6 +106,7 @@ public class EndGameController extends GameScreen {
             mEndGameScreen.update(elapsedTime);
         }
     }
+
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
@@ -150,13 +153,16 @@ public class EndGameController extends GameScreen {
     }
 
 
-    private void setCompletedLevelRecords(String levelID) {
+    private void setCompletedLevelRecords(Level level) {
         try {
-            SaveGame save = SaveManager.loadSavedGame(SaveManager.DEFAULT_SAVE_SLOT, mGame);
-            List<String> completedLevel = save.getCompleted();
-            completedLevel.add(levelID);
-            save.setCompleted(completedLevel);
-            SaveManager.writeSaveFile(save, mGame);
+            String levelID = level.getId();
+            if (levelID != null) {
+                SaveGame save = SaveManager.loadSavedGame(SaveManager.DEFAULT_SAVE_SLOT, mGame);
+                List<String> completedLevel = save.getCompleted();
+                completedLevel.add(levelID);
+                save.setCompleted(completedLevel);
+                SaveManager.writeSaveFile(save, mGame);
+            }
         } catch (Exception e) {
             // throw new Exception("Cannot save record correctly.");
         }

@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.gage.AITest;
+package uk.ac.qub.eeecs.gage.AITests;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,9 +10,8 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertNotEquals;
 
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.PlayerAction;
+import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIDecision;
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.AttackActiveCardAlgorithm;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.Board;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
@@ -24,29 +23,22 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AttackActiveCardAlgorithmTest {
-    private Hero AI, human;
     private AttackActiveCardAlgorithm algorithm;
     private Card attacker, attackee;
     private AttackActiveCardAlgorithm.Action action;
-    int atkatker = 4;
-    int hpatker = 5;
-    int atkatkee = 5;
-    int hpaktee = 3;
+    private final int atkatker = 4;
+    private final int hpatker = 5;
+    private final int atkatkee = 5;
+    private final int hpaktee = 3;
 
     @Before
     public void setUp() {
-
-        // algorithm = Mockito.mock(AttackActiveCardAlgorithm.class);
-
         //Set up mock board
-        human = Mockito.mock(Hero.class);
-        AI = Mockito.mock(Hero.class);
-        Board board = Mockito.mock(Board.class);
-        when(board.getAIHero()).thenReturn(AI);
-        when(board.getUserHero()).thenReturn(human);
+        Hero human = Mockito.mock(Hero.class);
+        Hero AI = Mockito.mock(Hero.class);
 
         //Create new object with mock board
-        algorithm = new AttackActiveCardAlgorithm(board);
+        algorithm = new AttackActiveCardAlgorithm(human, AI);
 
         //For test 1
         /****************************************************************************************/
@@ -69,10 +61,8 @@ public class AttackActiveCardAlgorithmTest {
 
     @Test
     public void checkActionNumber() {
-        assertEquals(PlayerAction.ATTACK_ACTIVE_CARD, algorithm.actionNumber());
-
+        assertEquals(AIDecision.ATTACK_ACTIVE_CARD, algorithm.actionNumber());
     }
-
 
     @Test
     public void checkLegalResult() {
@@ -97,9 +87,9 @@ public class AttackActiveCardAlgorithmTest {
 
 
     //For test 1
+
     /****************************************************************************************/
     //For test 2
-
     @Test
     public void setAttackerAndAttackee() {
         assertEquals(attacker, action.getAttacker());
