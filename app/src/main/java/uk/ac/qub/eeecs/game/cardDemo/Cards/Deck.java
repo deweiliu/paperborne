@@ -23,11 +23,11 @@ public class Deck {
      */
     public Deck(GameScreen gameScreen, Game game) {
         game.getAssetManager().loadAndAddBitmap("Card", "img/Hearthstone_Card_Template.png");
-        game.getAssetManager().loadAndAddBitmap("1 cost", "img/Cards/Weak man.JPG");
+        game.getAssetManager().loadAndAddBitmap("1 cost", "img/Cards/Weakman.JPG");
         game.getAssetManager().loadAndAddBitmap("2 cost", "img/Cards/Dog.JPG");
-        game.getAssetManager().loadAndAddBitmap("3 cost", "img/Cards/Fat man.JPG");
+        game.getAssetManager().loadAndAddBitmap("3 cost", "img/Cards/Fatman.JPG");
         game.getAssetManager().loadAndAddBitmap("4 cost", "img/Cards/Sword.JPG");
-        game.getAssetManager().loadAndAddBitmap("5 cost", "img/Cards/Card Dragon.JPG");
+        game.getAssetManager().loadAndAddBitmap("5 cost", "img/Cards/Dragon.JPG");
         cardsInDeck = new ArrayList<Card>();
 
         //Creates a card with certain values

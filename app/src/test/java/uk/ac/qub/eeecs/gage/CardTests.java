@@ -338,4 +338,54 @@ public class CardTests {
         card.setManaCost(50);
         assertTrue(card.getManaCost() == 50);
     }
+
+    @Test
+    public void cardSetAttackValue(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        game.getScreenManager().addScreen(cardDemoScreen);
+        card = new Card(0,"Test",0,0,bitmap,cardDemoScreen,0,0,0);
+
+        card.setAttackValue(20);
+        assertTrue(card.getAttackValue() == 20);
+    }
+
+    @Test
+    public void cardSetHealthValue(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        game.getScreenManager().addScreen(cardDemoScreen);
+        card = new Card(0,"Test",0,0,bitmap,cardDemoScreen,0,0,0);
+
+        card.setHealthValue(20);
+        assertTrue(card.getHealthValue() == 20);
+    }
+
+    @Test
+    public void cardSetCardID(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        game.getScreenManager().addScreen(cardDemoScreen);
+        card = new Card(0,"Test",0,0,bitmap,cardDemoScreen,0,0,0);
+
+        card.setCardID(20);
+        assertTrue(card.getCardID() == 20);
+    }
+
+    @Test
+    public void cardSetCardName(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        game.getScreenManager().addScreen(cardDemoScreen);
+        card = new Card(0,"Test",0,0,bitmap,cardDemoScreen,0,0,0);
+
+        card.setCardName("New Card Name");
+        assertTrue(card.getCardName() == "New Card Name");
+    }
+
+    @Test
+    public void cardSetFinishedMove(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        game.getScreenManager().addScreen(cardDemoScreen);
+        card = new Card(0,"Test",0,0,bitmap,cardDemoScreen,0,0,0);
+
+        card.setFinishedMove(true);
+        assertTrue(card.isFinishedMove() == true);
+    }
 }

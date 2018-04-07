@@ -103,8 +103,8 @@ public class CardDemoScreen extends GameScreen {
 
         AssetStore assetManager = mGame.getAssetManager();
         assetManager.loadAndAddBitmap("Card", "img/Hearthstone_Card_Template.png");
-        assetManager.loadAndAddBitmap("Back", "img/Card/Card Back.png");
-        assetManager.loadAndAddBitmap("Board", "img/Board/Board.JPG");
+        assetManager.loadAndAddBitmap("Back", "img/Cards/Card Back.jpg");
+        assetManager.loadAndAddBitmap("Board", "img/Board/Paper Board.jpg");
         assetManager.loadAndAddBitmap("Hero", "img/Hero/Knight Hero.JPG");
         assetManager.loadAndAddBitmap("Enemy", "img/Hero/Dragon Hero.JPG");
         assetManager.loadAndAddBitmap("EndTurn", "img/Board/End_Turn.png");
@@ -123,7 +123,7 @@ public class CardDemoScreen extends GameScreen {
         if (opponentDeck.isEmpty()) {
             // If the supplied opponent deck is empty
             // Set up the opponent with default deck
-            opponent = new Hero(mLayerViewport.getWidth() / 8f - 8.0f, mLayerViewport.getHeight() - mLayerViewport.getHeight() / 5f,
+            opponent = new Hero(mLayerViewport.getWidth() / 8f - 25f, mLayerViewport.getHeight() - mLayerViewport.getHeight() / 5f,
                     assetManager.getBitmap("Enemy"),
                     this,
                     mGame
@@ -131,7 +131,7 @@ public class CardDemoScreen extends GameScreen {
         } else {
             // If an opponent deck has been supplied
             // Set up the opponent with the deck supplied
-            opponent = new Hero(mLayerViewport.getWidth() / 8f - 8.0f, mLayerViewport.getHeight() - mLayerViewport.getHeight() / 5f,
+            opponent = new Hero(mLayerViewport.getWidth() / 8f - 25f, mLayerViewport.getHeight() - mLayerViewport.getHeight() / 5f,
                     assetManager.getBitmap("Enemy"),
                     this,
                     mGame,
@@ -140,14 +140,14 @@ public class CardDemoScreen extends GameScreen {
         }
         if (playerDeck.isEmpty()) {
             player = new Hero(
-                    mLayerViewport.getWidth() / 8f - 8.0f, mLayerViewport.getHeight() / 6f - 2f,
+                    mLayerViewport.getWidth() / 8f -25f, mLayerViewport.getHeight() / 6f - 2f,
                     assetManager.getBitmap("Hero"),
                     this,
                     mGame
             );
         } else {
             player = new Hero(
-                    mLayerViewport.getWidth() / 8f - 8.0f, mLayerViewport.getHeight() / 6f - 2f,
+                    mLayerViewport.getWidth() / 8f -25f, mLayerViewport.getHeight() / 6f - 2f,
                     assetManager.getBitmap("Hero"),
                     this,
                     mGame,
@@ -214,8 +214,8 @@ public class CardDemoScreen extends GameScreen {
         sliderPainter.setColor(Color.BLACK);
         sliderPainter.setTextAlign(Paint.Align.CENTER);
 
-        manaSlider = new VerticalSlider(0, 10, player.getCurrentMana(), sliderPainter,
-                game.getScreenWidth() - 240f, game.getScreenHeight() - 230f, SLIDER_WIDTH, SLIDER_HEIGHT,
+        manaSlider = new VerticalSlider(0, 10,player.getCurrentMana(), sliderPainter,
+                game.getScreenWidth() - 135f, game.getScreenHeight() - 230f, SLIDER_WIDTH, SLIDER_HEIGHT,
                 "SliderBase", "VerticalSliderFill", this, false);
         /////////////////////////////
         aiOpponent = new AIController(player, opponent);
