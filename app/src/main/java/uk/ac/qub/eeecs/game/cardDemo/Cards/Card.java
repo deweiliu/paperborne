@@ -27,6 +27,7 @@ public class Card extends Sprite {
 
     // Card stats text size
     private final static float STATS_TEXT_SIZE = 40.0f;
+    private final static float STATS_MARGIN = 15.0f;
 
     // Card dimensions
     private final static float CARD_WIDTH = 40.0f;
@@ -256,13 +257,13 @@ public class Card extends Sprite {
                 screenViewport, drawSourceRect, drawScreenRect)) {
             // Draw mana in blue
             textStyle.setColor(Color.BLUE);
-            graphics2D.drawText(String.valueOf(manaCost), drawScreenRect.left, drawScreenRect.top, textStyle);
+            graphics2D.drawText(String.valueOf(manaCost), drawScreenRect.left + STATS_MARGIN, drawScreenRect.top + STATS_MARGIN, textStyle);
             // Draw health in green
             textStyle.setColor(Color.GREEN);
-            graphics2D.drawText(String.valueOf(healthValue), drawScreenRect.left, drawScreenRect.bottom, textStyle);
+            graphics2D.drawText(String.valueOf(healthValue), drawScreenRect.left + STATS_MARGIN, drawScreenRect.bottom - STATS_MARGIN, textStyle);
             // Draw attack value in red
             textStyle.setColor(Color.RED);
-            graphics2D.drawText(String.valueOf(attackValue), drawScreenRect.right, drawScreenRect.bottom, textStyle);
+            graphics2D.drawText(String.valueOf(attackValue), drawScreenRect.right - STATS_MARGIN, drawScreenRect.bottom - STATS_MARGIN, textStyle);
         }
     }
     

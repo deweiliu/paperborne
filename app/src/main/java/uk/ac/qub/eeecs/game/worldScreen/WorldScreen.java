@@ -224,6 +224,12 @@ public class WorldScreen extends GameScreen
 		boolean locked = true;
 		// Get the level attempting to be loaded
 		Level level = mLevels.get(mCurrentLevel);
+		if(level == null)
+		{
+			// If the level isn't loaded correctly
+			// load the first level instead
+			level = mLevels.get(0);
+		}
 		if (level.getPrerequisites().isEmpty())
 		{
 			// If the level has no prerequisite levels, the level is unlocked to the user
@@ -235,15 +241,9 @@ public class WorldScreen extends GameScreen
 			for (int i = 0; i < level.getPrerequisites().size(); i++)
 			{
 				// If the loaded save game has the level ID in it's completed levels list
-				if (mLoadedSave.getCompleted().contains(level.getPrerequisites().get(i)))
-				{
-					// The level is unlocked to the user
-					locked = false;
-				}
-				else
-				{
-					locked = true;
-				}
+				// The level is unlocked to the user
+				// otherwise the level is locked to the user
+				locked = !mLoadedSave.getCompleted().contains(level.getPrerequisites().get(i));
 			}
 		}
 		if (locked)
@@ -267,9 +267,9 @@ public class WorldScreen extends GameScreen
 			// Load in level specific information, such as opponent and player decks
 			mGame.getScreenManager().addScreen(new CardDemoScreen(
 					mGame,
-					mLevels.get(mCurrentLevel).getDeck(),
+					level.getDeck(),
 					mLoadedSave.getPlayerDeck(),
-					mLevels.get(mCurrentLevel)
+					level
 			));
 		}
 	}
