@@ -41,9 +41,7 @@ public class TextDescription extends HelpScreenSuperClass {
     private float lastTouchX;
     private float lastTouchY;
 
-    /**
-     * Decide if the touch event is scrolling
-     */
+    // Decide if the touch event is scrolling
     private boolean scrolling = false;
 
 
@@ -209,6 +207,5 @@ public class TextDescription extends HelpScreenSuperClass {
             float y = Y_firstLine + i * (textSize + textLineSpacing);
             graphics2D.drawText(gameRules.get(i), x, y, mPaint);
         }
-
     }
 }

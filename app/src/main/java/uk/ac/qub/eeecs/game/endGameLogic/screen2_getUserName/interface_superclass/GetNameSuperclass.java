@@ -146,8 +146,8 @@ public abstract class GetNameSuperclass implements GetNameInterface {
         private final static int max = 8;
         int currentPosition;
         private GameObject nameBackground;
-        private GameObject white;
-        private boolean isWhiteVisable;
+        private GameObject yellow;
+        private boolean isSlashVisiable;
 
         NameOnScreen(EndGameScreen mEndGameScreen) {
             mScreen = mEndGameScreen;
@@ -160,16 +160,16 @@ public abstract class GetNameSuperclass implements GetNameInterface {
 
             Game game = mScreen.getGame();
             //Set up UserName background
-            final String BACKGROUND_NAME = "Name Background";
+            final String BACKGROUND_NAME = "Name Bar Background";
             mScreen.getAssetManager().loadAndAddBitmap(BACKGROUND_NAME, "img/End Game Logic/" + BACKGROUND_NAME + ".png");
             nameBackground = new GameObject(game.getScreenWidth() / 2, game.getScreenHeight() / 2, game.getScreenWidth(), game.getScreenHeight() / 5,
                     mScreen.getAssetManager().getBitmap(BACKGROUND_NAME), mScreen.getGameScreen());
 
-            final String WHITE_NAME = "white";
-            mScreen.getAssetManager().loadAndAddBitmap(WHITE_NAME, "img/End Game Logic/" + WHITE_NAME + ".png");
-            white = new GameObject(game.getScreenWidth() / 2, game.getScreenHeight() / 2, game.getScreenWidth() / max, game.getScreenHeight() / 5,
-                    mScreen.getAssetManager().getBitmap(WHITE_NAME), mScreen.getGameScreen());
-            isWhiteVisable = true;
+            final String SLASH_NAME = "yellow";
+            mScreen.getAssetManager().loadAndAddBitmap(SLASH_NAME, "img/End Game Logic/" + SLASH_NAME + ".png");
+            yellow = new GameObject(game.getScreenWidth() / 2, game.getScreenHeight() / 2, game.getScreenWidth() / max, game.getScreenHeight() / 5,
+                    mScreen.getAssetManager().getBitmap(SLASH_NAME), mScreen.getGameScreen());
+            isSlashVisiable = true;
         }
 
         public void update(int input, ElapsedTime elapsedTime) {
@@ -194,13 +194,13 @@ public abstract class GetNameSuperclass implements GetNameInterface {
 
             long currentTime = System.currentTimeMillis();
             if (currentTime - lastDrawTime > 700) {
-                isWhiteVisable = !isWhiteVisable;
+                isSlashVisiable = !isSlashVisiable;
                 lastDrawTime = currentTime;
             }
 
             nameBackground.update(elapsedTime);
-            white.update(elapsedTime);
-            white.setPosition((mScreen.getGame().getScreenWidth() / max) * ((float) 1 / 2 + currentPosition), white.position.y);
+            yellow.update(elapsedTime);
+            yellow.setPosition((mScreen.getGame().getScreenWidth() / max) * ((float) 1 / 2 + currentPosition), yellow.position.y);
 
         }
 
@@ -216,8 +216,8 @@ public abstract class GetNameSuperclass implements GetNameInterface {
 
         public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
             nameBackground.draw(elapsedTime, graphics2D);
-            if (isWhiteVisable == true) {
-                white.draw(elapsedTime, graphics2D);
+            if (isSlashVisiable) {
+                yellow.draw(elapsedTime, graphics2D);
             }
             String n = this.getName();
             for (int i = 0; i < n.length(); i++) {

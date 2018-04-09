@@ -81,8 +81,8 @@ public class CardDescription extends HelpScreenSuperClass {
         public CardPicture(AssetStore assetManager, float x, float y, float width, float height, String bitmapName, GameScreen gameScreen) {
             this.width = width;
             String assetName = "Card " + bitmapName;
-            assetManager.loadAndAddBitmap("my" + assetName, "img/Game Help/" + assetName + ".JPG");
-            Bitmap bitmap = assetManager.getBitmap("my" + assetName);
+            assetManager.loadAndAddBitmap("Game Help " + assetName, "img/Game Help/" + assetName + ".JPG");
+            Bitmap bitmap = assetManager.getBitmap("Game Help "  + assetName);
             card = new GameObject(x, y, width, height, bitmap, gameScreen);
             name = bitmapName;
             paint.setTextSize(80);

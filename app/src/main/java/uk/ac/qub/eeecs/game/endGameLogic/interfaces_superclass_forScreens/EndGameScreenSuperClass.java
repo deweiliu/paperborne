@@ -27,7 +27,7 @@ public abstract class EndGameScreenSuperClass implements EndGameScreen {
 
         //Set up background
         final String BACKGROUND_NAME = "All End Game Screens Background";
-        getGame().getAssetManager().loadAndAddBitmap(BACKGROUND_NAME, "img/Lined-Paper.png");
+        getGame().getAssetManager().loadAndAddBitmap(BACKGROUND_NAME, "img/End Game Logic/Lined-Paper.png");
         background = new GameObject(mLayerViewport.x, mLayerViewport.y, mLayerViewport.getWidth(),
                 mLayerViewport.getHeight(), getGame().getAssetManager().getBitmap(BACKGROUND_NAME), mController);
 

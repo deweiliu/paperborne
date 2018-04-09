@@ -7,6 +7,6 @@ import uk.ac.qub.eeecs.game.endGameLogic.interfaces_superclass_forScreens.BasicE
  */
 public interface GetNameInterface extends BasicEndGameStuff {
 
-    //Subject to be extended in the future
+    //May be extended in the future
 
 }

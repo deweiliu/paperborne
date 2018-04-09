@@ -40,11 +40,11 @@ public abstract class RecordsSuperclass implements RecordsInterface {
 
         //Set up buttons
         buttons = new ArrayList<>();
-        float BUTTON_SIZE = layer.getHeight() / 5;
+        final float BUTTON_SIZE = layer.getHeight() / 5;
 
         //Set up switch button
-        String SWITCH_BUTTON_NAME = "switch between current player and historical player";
-        mEndGameScreen.getAssetManager().loadAndAddBitmap(SWITCH_BUTTON_NAME, "img/End Game Logic/players-records-switch.jpg");
+        String SWITCH_BUTTON_NAME = "switch between current player and historical players";
+        mEndGameScreen.getAssetManager().loadAndAddBitmap(SWITCH_BUTTON_NAME, "img/End Game Logic/players-records-switch.png");
         switchButton = new PushButton(layer.getRight() - BUTTON_SIZE / 2, layer.getTop() - BUTTON_SIZE / 2,
                 BUTTON_SIZE, BUTTON_SIZE, SWITCH_BUTTON_NAME, mEndGameScreen.getGameScreen());
         buttons.add(switchButton);

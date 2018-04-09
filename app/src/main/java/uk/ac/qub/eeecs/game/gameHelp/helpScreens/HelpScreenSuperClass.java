@@ -73,21 +73,18 @@ public abstract class HelpScreenSuperClass extends GameScreen {
         mPaint.setColor(Color.WHITE);
 
         assetManager = mGame.getAssetManager();
-
+        final String DIR = "img/Game Help/";
         // Create help screen background
         final String BACKGROUND_NAME = "Help Screen Background";
-        assetManager.loadAndAddBitmap(BACKGROUND_NAME, "img/Game Help/HelpBackground.png");
+        assetManager.loadAndAddBitmap(BACKGROUND_NAME, DIR + "HelpBackground.png");
         mBackground = new GameObject(mLayer.x, mLayer.y, mLayer.getWidth(), mLayer.getHeight(),
                 assetManager.getBitmap(BACKGROUND_NAME), this);
 
         // Create the header
         final String TITLE_NAME = "Help Screen Title";
-        assetManager.loadAndAddBitmap(TITLE_NAME, "img/Title.png");
-        Bitmap title = assetManager.getBitmap(TITLE_NAME);
-        Matrix matrix = new Matrix();
-        matrix.setRotate(90);
+        assetManager.loadAndAddBitmap(TITLE_NAME, DIR + "Title.png");
         mHeader = new GameObject(mLayer.x, mLayer.getTop() - HEADER_HEIGHT / 2, mLayer.getWidth(), HEADER_HEIGHT,
-                Bitmap.createBitmap(title, 0, 0, title.getWidth(), title.getHeight(), matrix, true), this);
+                assetManager.getBitmap(TITLE_NAME), this);
 
         assetManager.loadAndAddBitmap(PopUp.POPUP_BITMAP_ID, PopUp.POPUP_BITMAP_PATH);
 
@@ -98,23 +95,27 @@ public abstract class HelpScreenSuperClass extends GameScreen {
         final float ICON_WIDTH = mLayer.getWidth() / 10;
 
         //Create the home button
-        assetManager.loadAndAddBitmap("HelpScreenHome", "img/Game Help/Home button.png");
-        home = new PushButton(mLayer.getLeft() + ICON_WIDTH / 2, mLayer.getTop() - ICON_HEIGHT / 2, ICON_WIDTH, ICON_HEIGHT, "HelpScreenHome", this);
+        assetManager.loadAndAddBitmap("HelpScreenHome", DIR + "Home button.png");
+        home = new PushButton(mLayer.getLeft() + ICON_WIDTH / 2, mLayer.getTop() - ICON_HEIGHT / 2,
+                ICON_WIDTH, ICON_HEIGHT, "HelpScreenHome", this);
         icons.add(home);
 
         //Create the start play button
-        assetManager.loadAndAddBitmap("HelpScreenStartPlay", "img/Game Help/Start play.png");
-        startPlay = new PushButton(mLayer.getRight() - ICON_WIDTH / 2, mLayer.getTop() - ICON_HEIGHT / 2, ICON_WIDTH, ICON_WIDTH, "HelpScreenStartPlay", this);
+        assetManager.loadAndAddBitmap("HelpScreenStartPlay", DIR + "Start play.png");
+        startPlay = new PushButton(mLayer.getRight() - ICON_WIDTH / 2, mLayer.getTop() - ICON_HEIGHT / 2,
+                ICON_WIDTH, ICON_WIDTH, "HelpScreenStartPlay", this);
         icons.add(startPlay);
 
         // Create the back button
-        assetManager.loadAndAddBitmap("BackIcon", "img/Game Help/LeftArrow.png");
-        mBackIcon = new PushButton(mLayer.getLeft() + ICON_WIDTH / 2, mLayer.getBottom() + ICON_HEIGHT / 2, ICON_WIDTH, ICON_HEIGHT, "BackIcon", this);
+        assetManager.loadAndAddBitmap("BackIcon", DIR + "LeftArrow.png");
+        mBackIcon = new PushButton(mLayer.getLeft() + ICON_WIDTH / 2, mLayer.getBottom() + ICON_HEIGHT / 2,
+                ICON_WIDTH, ICON_HEIGHT, "BackIcon", this);
         icons.add(mBackIcon);
 
         // Create the next button
-        assetManager.loadAndAddBitmap("NextIcon", "img/Game Help/Right arrow.png");
-        mNextIcon = new PushButton(mLayer.getRight() - ICON_WIDTH / 2, mLayer.getBottom() + ICON_HEIGHT / 2, ICON_WIDTH, ICON_HEIGHT, "NextIcon", this);
+        assetManager.loadAndAddBitmap("NextIcon", DIR + "Right arrow.png");
+        mNextIcon = new PushButton(mLayer.getRight() - ICON_WIDTH / 2, mLayer.getBottom() + ICON_HEIGHT / 2,
+                ICON_WIDTH, ICON_HEIGHT, "NextIcon", this);
         icons.add(mNextIcon);
 
         for (PushButton each : icons) {
