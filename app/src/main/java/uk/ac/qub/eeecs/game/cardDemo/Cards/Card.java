@@ -3,6 +3,7 @@ package uk.ac.qub.eeecs.game.cardDemo.Cards;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
 import uk.ac.qub.eeecs.gage.ai.SteeringBehaviours;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
@@ -255,9 +256,12 @@ public class Card extends Sprite {
         super.draw(elapsedTime, graphics2D, layerViewport, screenViewport, paint);
         if (GraphicsHelper.getClippedSourceAndScreenRect(this, layerViewport,
                 screenViewport, drawSourceRect, drawScreenRect)) {
+            
+            Rect textBounds = new Rect();
+            textStyle.getTextBounds(String.valueOf(manaCost), 0, String.valueOf(manaCost).length(), textBounds);
             // Draw mana in blue
             textStyle.setColor(Color.BLUE);
-            graphics2D.drawText(String.valueOf(manaCost), drawScreenRect.left + STATS_MARGIN, drawScreenRect.top + STATS_MARGIN, textStyle);
+            graphics2D.drawText(String.valueOf(manaCost), drawScreenRect.left + STATS_MARGIN, drawScreenRect.top + (STATS_MARGIN + textBounds.height()/2), textStyle);
             // Draw health in green
             textStyle.setColor(Color.GREEN);
             graphics2D.drawText(String.valueOf(healthValue), drawScreenRect.left + STATS_MARGIN, drawScreenRect.bottom - STATS_MARGIN, textStyle);

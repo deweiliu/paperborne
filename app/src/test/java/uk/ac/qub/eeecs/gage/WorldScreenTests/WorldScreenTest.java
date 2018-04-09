@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.gage;
+package uk.ac.qub.eeecs.gage.WorldScreenTests;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.gage.engine.input.Input;

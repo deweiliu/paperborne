@@ -1,0 +1,156 @@
+package uk.ac.qub.eeecs.gage.UITests;
+
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import uk.ac.qub.eeecs.gage.Game;
+import uk.ac.qub.eeecs.gage.engine.AssetStore;
+import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
+import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
+import uk.ac.qub.eeecs.gage.engine.input.Input;
+import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.game.ui.Slider;
+
+import static junit.framework.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
+
+/**
+ * Created by Jamie T on 09/04/2018.
+ * Used for unit testing the Slider UI element
+ */
+
+@RunWith(MockitoJUnitRunner.class)
+public class SliderTest
+{
+	// Test name for the game screen
+	private final static String TEST_GAME_SCREEN = "test_game_screen";
+	// Test values for the slider
+	private final static int TEST_MIN = 0;
+	private final static int TEST_MAX = 5;
+	private final static int TEST_VAL = 2;
+	private final static int TEST_SET_VAL_IN_RANGE = 3;
+	private final static int TEST_SET_VAL_ABOVE_RANGE = 6;
+	private final static int TEST_SET_VAL_BELOW_RANGE = -1;
+	private final static float TEST_X = 50.0f;
+	private final static float TEST_Y = 50.0f;
+	private final static float TEST_WIDTH = 10.0f;
+	private final static float TEST_HEIGHT = 30.0f;
+	private final static String TEST_BITMAP = "bitmap";
+	
+	// Mock values for creating the slider and game screen
+	@Mock
+	private Game game;
+	@Mock
+	private AssetStore assetManager;
+	@Mock
+	private Bitmap bitmap;
+	@Mock
+	private Input input;
+	@Mock
+	private Context context;
+	@Mock
+	private AssetManager assets;
+	
+	// Test game screen for creating sliders in
+	private GameScreen testGameScreen;
+	
+	@Before
+	public void setup() {
+		when(game.getAssetManager()).thenReturn(assetManager);
+		when(assetManager.getBitmap(any(String.class))).thenReturn(bitmap);
+		when(game.getInput()).thenReturn(input);
+		// Mock Context
+		when(game.getContext()).thenReturn(context);
+		// Mock Android Asset Manager
+		when(context.getAssets()).thenReturn(assets);
+		// Test game screen
+		testGameScreen = new GameScreen(TEST_GAME_SCREEN, game)
+		{
+			@Override
+			public void update(ElapsedTime elapsedTime)
+			{
+			
+			}
+			
+			@Override
+			public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D)
+			{
+			
+			}
+		};
+	}
+	
+	@Test
+	public void createSliderValTest()
+	{
+		// Create test slider
+		Slider testSlider = new Slider(
+				TEST_MIN,
+				TEST_MAX,
+				TEST_VAL,
+				null,
+				TEST_X,
+				TEST_Y,
+				TEST_WIDTH,
+				TEST_HEIGHT,
+				TEST_BITMAP,
+				TEST_BITMAP,
+				testGameScreen,
+				true
+		);
+		// Check the value provided int he constructor is the value returned by getVal
+		assertEquals(TEST_VAL, testSlider.getVal());
+	}
+	
+	@Test
+	public void setSliderValTest()
+	{
+		// Create test slider
+		Slider testSlider = new Slider(
+				TEST_MIN,
+				TEST_MAX,
+				TEST_VAL,
+				null,
+				TEST_X,
+				TEST_Y,
+				TEST_WIDTH,
+				TEST_HEIGHT,
+				TEST_BITMAP,
+				TEST_BITMAP,
+				testGameScreen,
+				true
+		);
+		
+		// Set the slider value to one inside the min-max range
+		testSlider.setVal(TEST_SET_VAL_IN_RANGE);
+		
+		// Check that the value has been set correctly
+		assertEquals(TEST_SET_VAL_IN_RANGE, testSlider.getVal());
+		
+		// Set the slider value to one above the max range
+		testSlider.setVal(TEST_SET_VAL_ABOVE_RANGE);
+		
+		// Check the value has been set to the max value
+		assertEquals(TEST_MAX, testSlider.getVal());
+		
+		// Set the slider value to one below the min range
+		testSlider.setVal(TEST_SET_VAL_BELOW_RANGE);
+		
+		// Check the value has been set to the min value
+		assertEquals(TEST_MIN, testSlider.getVal());
+	}
+	
+	@Test
+	public void touchSliderValTest()
+	{
+	
+	}
+}

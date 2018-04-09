@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.gage;
+package uk.ac.qub.eeecs.gage.WorldScreenTests;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.options;
+package uk.ac.qub.eeecs.game.ui;
 
 import android.graphics.Bitmap;
 import android.graphics.Paint;
@@ -39,13 +39,13 @@ public class Slider extends Button
 	private Paint mTextStyle;
 	
 	// Graphical asset used to represent the slider
-	protected Bitmap mSliderBitmap;
+	private Bitmap mSliderBitmap;
 	
 	// Graphical asset used to represent the slider fill
-	protected Bitmap mSliderFillBitmap;
+	private Bitmap mSliderFillBitmap;
 	
 	// Sound played whenever the slider is pressed
-	protected Sound mTriggerSound;
+	private Sound mTriggerSound;
 	
 	/**
 	 * Create new slider with sound
@@ -107,6 +107,10 @@ public class Slider extends Button
 	@Override
 	protected void updateTouchActions(Vector2 touchLocation)
 	{
+		if (mTriggerSound != null)
+		{
+			mTriggerSound.play();
+		}
 		// Increment the value
 		mVal++;
 		if (mVal > mMax)
@@ -175,6 +179,7 @@ public class Slider extends Button
 	
 	/**
 	 * Get the current slider value
+	 *
 	 * @return the slider value
 	 */
 	public int getVal()
@@ -184,6 +189,7 @@ public class Slider extends Button
 	
 	/**
 	 * Set the slider value
+	 *
 	 * @param val the value to set the slider to
 	 */
 	public void setVal(int val)

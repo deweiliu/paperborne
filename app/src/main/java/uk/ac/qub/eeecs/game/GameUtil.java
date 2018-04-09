@@ -21,7 +21,7 @@ public class GameUtil
 	 *
 	 * @param context  calling context
 	 * @param filename JSON filename to read, root folder is assets/
-	 * @return
+	 * @return JSON string of the asset that has been read
 	 */
 	public static String getJSONAsset(Context context, String filename)
 	{
