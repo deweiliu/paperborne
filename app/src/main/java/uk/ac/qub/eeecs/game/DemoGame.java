@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import uk.ac.qub.eeecs.gage.Game;
+import uk.ac.qub.eeecs.game.worldScreen.WorldScreen;
 
 /**
  * Sample demo game that is create within the MainActivity class
@@ -60,6 +61,11 @@ public class DemoGame extends Game {
         //If on the Card Screen stop the music playing
         if(mScreenManager.getCurrentScreen().getName().equals("CardScreen")){
             getAssetManager().getMusic("BattleMusic").stop();
+            //Returns to the WorldScreen instead of MenuScreen
+            getScreenManager().removeScreen(mScreenManager.getCurrentScreen().getName());
+            WorldScreen worldScreen = new WorldScreen(this);
+            getScreenManager().addScreen(worldScreen);
+            return true;
         }
 
         getScreenManager().removeScreen(mScreenManager.getCurrentScreen().getName());
