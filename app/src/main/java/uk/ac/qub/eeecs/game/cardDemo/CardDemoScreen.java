@@ -173,10 +173,13 @@ public class CardDemoScreen extends GameScreen {
                     card.setFinishedMove(false);
                 for (Card card : opponent.getActiveCards())
                     card.setFinishedMove(false);
+
+                player.incrementManaLimit();
                 player.refillMana();
                 opponent.refillMana();
 
                 if (!playerTurn) { //last turn was opponents and we haven't changed it to the player's - it's player turn to draw
+
                     if (!player.getDeck().isDeckEmpty() && player.getHand().getCards().size() < player.getHand().getMaxHandSize())
                         player.getHand().getCards().add(player.getDeck().drawCard());
                     else
@@ -195,6 +198,9 @@ public class CardDemoScreen extends GameScreen {
             }
         };
 
+
+
+
         turnHandler = new Handler(Looper.getMainLooper());
         turnHandler.postDelayed(endTurn, 30000);
 
@@ -209,7 +215,6 @@ public class CardDemoScreen extends GameScreen {
 
         attackMessage = new PopUp("Attack Hero", 3, 70, assetManager.getBitmap(PopUp.POPUP_BITMAP_ID), this);
         assetManager.getMusic("BattleMusic").setLopping(true);
-
         assetManager.getMusic("BattleMusic").play();
 
         // Set up text painter with styles
@@ -249,6 +254,9 @@ public class CardDemoScreen extends GameScreen {
         //Else continue to play the game
 
         turnTime = ((startTime + TURN_TIME) - System.currentTimeMillis()) / 1000;
+
+
+
 
         player.update(elapsedTime);
         opponent.update(elapsedTime);

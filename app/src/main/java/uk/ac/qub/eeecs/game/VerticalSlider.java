@@ -26,8 +26,6 @@ public class VerticalSlider extends Button
     private int mMin;
     private int mVal;
 
-    // Separation between the size labels and the slider bar
-    final private int TEXT_SEPARATION = 48;
 
     private boolean mProcessInLayerSpace;
 
