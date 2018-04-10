@@ -355,7 +355,7 @@ public class SaveManager
 			{
 				// Set up starting data for the number of save slots available, with the starting
 				// deck and no levels completed
-				saveList.add(new SaveGame(i, loadStartingDeck(SAVE_FILE, game), new ArrayList<String>()));
+				saveList.add(new SaveGame(i, save.getPlayerDeck(), new ArrayList<String>()));
 			}
 		}
 		try
