@@ -116,4 +116,14 @@ public class HeroTests {
 
     }
 
+    @Test
+    public void setHeroTouched(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        game.getScreenManager().addScreen(cardDemoScreen);
+
+        hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
+        hero.setHeroTouched(true);
+        assertTrue(hero.getHeroTouched());
+    }
+
 }

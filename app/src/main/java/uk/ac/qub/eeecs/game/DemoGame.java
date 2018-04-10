@@ -57,6 +57,10 @@ public class DemoGame extends Game {
         // If we are already at the menu screen then exit
         if (mScreenManager.getCurrentScreen().getName().equals("MenuScreen"))
             return false;
+        //If on the Card Screen stop the music playing
+        if(mScreenManager.getCurrentScreen().getName().equals("CardScreen")){
+            getAssetManager().getMusic("BattleMusic").stop();
+        }
 
         getScreenManager().removeScreen(mScreenManager.getCurrentScreen().getName());
         MenuScreen menuScreen = new MenuScreen(this);

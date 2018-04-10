@@ -205,8 +205,12 @@ public class CardDemoScreen extends GameScreen {
         assetManager.loadAndAddBitmap("SliderFill", "img/SliderFill.png");
         assetManager.loadAndAddBitmap("VerticalSliderFill", "img/Board/VerticalSliderFill.png");
         assetManager.loadAndAddBitmap(PopUp.POPUP_BITMAP_ID, PopUp.POPUP_BITMAP_PATH);
+        assetManager.loadAndAddMusic("BattleMusic", "music/BattleMusic.mp3");
 
         attackMessage = new PopUp("Attack Hero", 3, 70, assetManager.getBitmap(PopUp.POPUP_BITMAP_ID), this);
+        assetManager.getMusic("BattleMusic").setLopping(true);
+
+        assetManager.getMusic("BattleMusic").play();
 
         // Set up text painter with styles
         Paint sliderPainter = new Paint();
@@ -234,7 +238,6 @@ public class CardDemoScreen extends GameScreen {
      */
     @Override
     public void update(ElapsedTime elapsedTime) {
-
         //If some one has died, end the game
         if (!player.isAlive()) {
             new EndGameController(this, true, false, level);
