@@ -9,6 +9,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 
+import uk.ac.qub.eeecs.gage.util.Vector2;
+import uk.ac.qub.eeecs.gage.world.LayerViewport;
+import uk.ac.qub.eeecs.gage.world.ScreenViewport;
+
 /**
  * Created by Jamie T on 10/03/2018.
  * General Utility methods to be used across the game
@@ -82,5 +86,27 @@ public class GameUtil
 		}
 		// If both exceptions aren't triggered, it must be valid JSON, return true
 		return true;
+	}
+	
+	
+	/**
+	 * Convert the specified layer position from the layer viewport into
+	 * the coordinate space defined for the screen viewport, storing the result
+	 * in the specified screen Vector2 position.
+	 *
+	 * @param screenViewport Screen viewport
+	 * @param screenPosition Calculated screen position
+	 * @param layerViewport  Layer viewport
+	 * @param layerPosition  Layer Position
+	 */
+	public static void convertLayerPosIntoScreen(ScreenViewport screenViewport, Vector2 screenPosition, LayerViewport layerViewport, Vector2 layerPosition)
+	{
+		// Calculate layer ratios
+		float layerXRatio = (layerPosition.x - (int)layerViewport.getLeft()) / ((int)layerViewport.getRight() - (int)layerViewport.getLeft());
+		float layerYRatio = (layerPosition.y - (int)layerViewport.getTop()) / ((int)layerViewport.getBottom() - (int)layerViewport.getTop());
+		
+		// Update screen positions
+		screenPosition.x = (2.0f * layerXRatio) * ((float)screenViewport.width/2);
+		screenPosition.y = (2.0f * layerYRatio) * ((float)screenViewport.height/2);
 	}
 }
