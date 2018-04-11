@@ -296,7 +296,6 @@ public class CardDemoScreen extends GameScreen {
         manaSlider.setVal(player.getCurrentMana());
 
         manaSlider.update(elapsedTime);
-        manaSlider.setVal(player.getCurrentMana());
 
         // Check for touchdown event if it's the player's turn
         boolean touchDown = false;
