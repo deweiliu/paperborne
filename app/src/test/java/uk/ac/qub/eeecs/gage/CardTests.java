@@ -26,10 +26,10 @@ import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
+import uk.ac.qub.eeecs.game.GameUtil;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
-import uk.ac.qub.eeecs.game.GameUtil;
 import uk.ac.qub.eeecs.game.options.OptionsManager;
 import uk.ac.qub.eeecs.game.worldScreen.Level;
 import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
@@ -98,8 +98,9 @@ public class CardTests {
         when(game.getAssetManager()).thenReturn(assetManager);
         when(game.getAssetManager().getBitmap(any(String.class))).thenReturn(bitmap);
         when(game.getInput()).thenReturn(input);
-        when(game.getContext()).thenReturn(context);
         when(game.getAssetManager().getMusic(any(String.class))).thenReturn(music);
+        when(game.getContext()).thenReturn(context);
+        when(context.getSharedPreferences(any(String.class), any(Integer.class))).thenReturn(sharedPreferences);
     }
 
     @Test

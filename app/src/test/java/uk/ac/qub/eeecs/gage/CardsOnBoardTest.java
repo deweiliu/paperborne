@@ -1,6 +1,8 @@
 package uk.ac.qub.eeecs.gage;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 
 import org.junit.Before;
@@ -15,6 +17,7 @@ import java.util.List;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
+import uk.ac.qub.eeecs.gage.engine.audio.Music;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.util.InputHelper;
@@ -42,6 +45,15 @@ public class CardsOnBoardTest
     private Input input;
     
     @Mock
+    private SharedPreferences sharedPreferences;
+    
+    @Mock
+    private Music music;
+    
+    @Mock
+    private Context context;
+    
+    @Mock
     private Game game;
     
     @Mock
@@ -63,6 +75,9 @@ public class CardsOnBoardTest
         when(game.getScreenHeight()).thenReturn(SCREEN_HEIGHT);
         when(game.getAssetManager().getBitmap(any(String.class))).thenReturn(bitmap);
         when(game.getInput()).thenReturn(input);
+        when(game.getAssetManager().getMusic(any(String.class))).thenReturn(music);
+        when(game.getContext()).thenReturn(context);
+        when(context.getSharedPreferences(any(String.class), any(Integer.class))).thenReturn(sharedPreferences);
     }
     
     /**
