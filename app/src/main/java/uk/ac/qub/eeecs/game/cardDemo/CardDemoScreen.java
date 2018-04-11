@@ -174,17 +174,24 @@ public class CardDemoScreen extends GameScreen {
                 for (Card card : opponent.getActiveCards())
                     card.setFinishedMove(false);
 
-                player.incrementManaLimit();
-                player.refillMana();
-                opponent.refillMana();
 
                 if (!playerTurn) { //last turn was opponents and we haven't changed it to the player's - it's player turn to draw
+
+                    //When it's the start of the player's turn, Increment mana by 1, refill mana, and change mana slider to that value
+                    player.incrementManaLimit();
+                    player.refillMana();
+                    manaSlider.setVal(player.getCurrentMana());
 
                     if (!player.getDeck().isDeckEmpty() && player.getHand().getCards().size() < player.getHand().getMaxHandSize())
                         player.getHand().getCards().add(player.getDeck().drawCard());
                     else
                         player.takeDamage(1);
                 } else { //it's end of player's turn and opponent's turn to draw
+
+                    //increments opponents mana and refill opponents mana on the start of their turn
+                    opponent.incrementManaLimit();
+                    opponent.refillMana();
+
                     if (!opponent.getDeck().isDeckEmpty() && opponent.getHand().getCards().size() < opponent.getHand().getMaxHandSize())
                         opponent.getHand().getCards().add(opponent.getDeck().drawCard());
                     else

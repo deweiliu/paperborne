@@ -101,13 +101,7 @@ public class VerticalSlider extends Button
     @Override
     protected void updateTouchActions(Vector2 touchLocation)
     {
-        // Increment the value
-        mVal++;
-        if (mVal > mMax)
-        {
-            // If the value is greater than the maximum, set the value to the minimum
-            mVal = mMin;
-        }
+
     }
 
     /**
