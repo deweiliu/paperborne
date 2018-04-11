@@ -223,8 +223,7 @@ public class CardDemoScreen extends GameScreen {
             }
         };
 
-        //Updates mana slider each time a card is played
-        manaSlider.setVal(player.getCurrentMana());
+
 
 
 
@@ -295,11 +294,10 @@ public class CardDemoScreen extends GameScreen {
         player.update(elapsedTime);
         opponent.update(elapsedTime);
 
-        //Sets the mana slider's value to match the player's current mana
+        //Updates mana slider each time a card is played
         manaSlider.setVal(player.getCurrentMana());
-
         manaSlider.update(elapsedTime);
-        manaSlider.setVal(player.getCurrentMana());
+
 
         // Check for touchdown event if it's the player's turn
         boolean touchDown = false;
