@@ -119,7 +119,7 @@ public class CardDemoScreen extends GameScreen {
                         .getAssetManager().getBitmap("Board"), this);
 
         mEndTurnButton = new PushButton(
-                mLayerViewport.getWidth() * 3.5f, mLayerViewport.getHeight() * 2, 200, 100, "EndTurn", this);
+                mLayerViewport.getWidth() * 0.5f, mLayerViewport.getHeight() * 2, 200, 100, "EndTurn", this);
 
         player = new Hero(mLayerViewport.getWidth() / 8f - 8.0f, mLayerViewport.getHeight() / 6f - 2f, assetManager.getBitmap("Hero"), this, mGame);
         opponent = new Hero(mLayerViewport.getWidth() / 8f - 8.0f, mLayerViewport.getHeight() - mLayerViewport.getHeight() / 5f, assetManager.getBitmap("Enemy"), this, mGame);
@@ -172,10 +172,24 @@ public class CardDemoScreen extends GameScreen {
 
                 player.clearDeadCards();
                 opponent.clearDeadCards();
-                for (Card card : player.getActiveCards())
+                for (Card card : player.getActiveCards()) { //reset card movement states and snap to anchor positions
                     card.setFinishedMove(false);
-                for (Card card : opponent.getActiveCards())
+                    card.acceleration.set(Vector2.Zero);
+                    card.velocity.set(Vector2.Zero);
+                    card.position.set(card.getAnchor());
+                }
+                for (Card card : opponent.getActiveCards()){
                     card.setFinishedMove(false);
+                    card.acceleration.set(Vector2.Zero);
+                    card.velocity.set(Vector2.Zero);
+                    card.position.set(card.getAnchor());
+                }
+                for (Card card : player.getHand().getCards()) { //do it for hand too - if player tries to play a card and it is denied, snap back to hand
+                    card.acceleration.set(Vector2.Zero);
+                    card.velocity.set(Vector2.Zero);
+                    card.position.set(card.getAnchor());
+                }
+
 
 
                 if (!playerTurn) { //last turn was opponents and we haven't changed it to the player's - it's player turn to draw
@@ -278,13 +292,16 @@ public class CardDemoScreen extends GameScreen {
         player.update(elapsedTime);
         opponent.update(elapsedTime);
         manaSlider.update(elapsedTime);
+        manaSlider.setVal(player.getCurrentMana());
 
-        // Check for touchdown event
+        // Check for touchdown event if it's the player's turn
         boolean touchDown = false;
         Input input = mGame.getInput();
-        for (TouchEvent touch : input.getTouchEvents()) {
-            if (touch.type == TouchEvent.TOUCH_DOWN) {
-                touchDown = true;
+        if(playerTurn) {
+            for (TouchEvent touch : input.getTouchEvents()) {
+                if (touch.type == TouchEvent.TOUCH_DOWN) {
+                    touchDown = true;
+                }
             }
         }
 
@@ -341,21 +358,20 @@ public class CardDemoScreen extends GameScreen {
             }
         }
 
-        if (!player.getActiveCards().isEmpty()) {
-            // If the player has played cards
-            for (Card card : player.getActiveCards()) {
-                card.update(elapsedTime, mScreenViewport, mLayerViewport, player);
+        if(playerTurn) { //don't allow interaction if it's not their turn
+            if (!player.getActiveCards().isEmpty()) {
+                // If the player has played cards
+                for (Card card : player.getActiveCards()) {
+                    card.update(elapsedTime, mScreenViewport, mLayerViewport, player);
+                }
+            }
+            if (!player.getHand().getCards().isEmpty()) {
+                for (int i = 0; i < player.getHand().getCards().size(); i++) { //not great since it'll check the size every loop, but required to avoid concurrent access error
+                    player.getHand().getCards().get(i).update(elapsedTime, mScreenViewport, mLayerViewport, player);
+                }
             }
         }
-        if (!player.getHand().getCards().isEmpty()) {
-            for (int i = 0; i < player.getHand().getCards().size(); i++) { //not great since it'll check the size every time it runs, but required to avoid concurrent access error
-                player.getHand().getCards().get(i).update(elapsedTime, mScreenViewport, mLayerViewport, player);
-            }
-            /*TODO - breaks because we can't remove a card from hand and iterate over foreach, which happens when we play a card
-            for (Card card : player.getHand().getCards()) {
-                card.update(elapsedTime, mScreenViewport, mLayerViewport, player);
-             }*/
-        }
+
         if (!opponent.getActiveCards().isEmpty()) {
             // If the opponent has played cards
             for (Card card : opponent.getActiveCards()) {
@@ -539,8 +555,8 @@ public class CardDemoScreen extends GameScreen {
         }
 
         len = player.getActiveCards().size();
-        widthSteps = (mLayerViewport.getWidth() / 2) / (len + 1);
-        float offset = mLayerViewport.getWidth() / 4;
+        widthSteps = (mLayerViewport.getWidth() / 1.5f) / (len + 1);
+        float offset = mLayerViewport.getWidth() / 6;
         for (int i = 0; i < len; i++) {
             Card activeCard = player.getActiveCards().get(i);
             Vector2 handPosition = new Vector2((widthSteps * (i + 1)) + offset, mLayerViewport.getHeight() / 2);
@@ -549,8 +565,8 @@ public class CardDemoScreen extends GameScreen {
         }
 
         len = opponent.getActiveCards().size();
-        widthSteps = (mLayerViewport.getWidth() / 2) / (len + 1);
-        offset = mLayerViewport.getWidth() / 4;
+        widthSteps = (mLayerViewport.getWidth()/1.5f) / (len + 1);
+        offset = mLayerViewport.getWidth() / 6;
         for (int i = 0; i < len; i++) {
             Card activeCard = opponent.getActiveCards().get(i);
             Vector2 handPosition = new Vector2((widthSteps * (i + 1)) + offset, (mLayerViewport.getHeight() / 5) * 4);
