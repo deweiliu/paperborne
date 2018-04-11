@@ -227,7 +227,7 @@ public class CardTests {
                 new Vector2(touchPos.x, touchPos.y),
                 layerViewport, cardPos);
 
-        card.position = new Vector2(cardPos.x, cardPos.y);
+        card.setPosition(cardPos.x, cardPos.y);
 
         //Call update method
         cardDemoScreen.update(elapsedTime);
@@ -277,7 +277,12 @@ public class CardTests {
         touchEvents.add(touchEvent);
 
         card.setCardPressedDown(true);
-        card.setPosition(30.0f, mLayerViewport.getHeight());
+        Vector2 tempPos = new Vector2();
+        InputHelper.convertScreenPosIntoLayer(mScreenViewport, new Vector2(touchEvent.x, touchEvent.y),
+                mLayerViewport, tempPos);
+
+        card.setPosition(tempPos.x, tempPos.y);
+        when(input.getTouchEvents()).thenReturn(touchEvents);
         card.update(elapsedTime, mScreenViewport, mLayerViewport, hero);
 
         assertTrue(card.getCardState() == Card.CardState.CARD_ON_BOARD);
