@@ -247,7 +247,18 @@ public class SliderTest
 		touchEvent.y = touchPos.y;
 		List<TouchEvent> touchEvents = new ArrayList<>();
 		touchEvents.add(touchEvent);
-		when(input.getTouchEvents()).thenReturn(touchEvents);
+		when(input.getTouchEvents()).thenReturn(new ArrayList<>(touchEvents));
+		
+		testSlider.update(elapsedTime, layerViewport, screenViewport);
+		
+		// Set up a touch up event on the button
+		touchEvents = new ArrayList<>();
+		TouchEvent touchUp = new TouchEvent();
+		touchUp.x = touchPos.x;
+		touchUp.y = touchPos.y;
+		touchUp.type = TouchEvent.TOUCH_UP;
+		touchEvents.add(touchUp);
+		when(input.getTouchEvents()).thenReturn(new ArrayList<>(touchEvents));
 		
 		// Update slider
 		testSlider.update(elapsedTime, layerViewport, screenViewport);

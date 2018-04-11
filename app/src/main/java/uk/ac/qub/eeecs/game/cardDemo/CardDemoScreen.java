@@ -12,6 +12,7 @@ import java.util.List;
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
+import uk.ac.qub.eeecs.gage.engine.audio.Music;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
@@ -22,10 +23,10 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.VerticalSlider;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIDecision;
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIController;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.endGameLogic.EndGameController;
+import uk.ac.qub.eeecs.game.options.OptionsManager;
 import uk.ac.qub.eeecs.game.ui.PopUp;
 import uk.ac.qub.eeecs.game.worldScreen.Level;
 import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
@@ -42,6 +43,7 @@ public class CardDemoScreen extends GameScreen {
 
     private static final long TURN_TIME = 30000;
 
+    private OptionsManager mOptionsManager;
     private Hero player, opponent;
     private ScreenViewport mScreenViewport;
     private LayerViewport mLayerViewport;
@@ -85,7 +87,7 @@ public class CardDemoScreen extends GameScreen {
      */
     public CardDemoScreen(Game game, List<LevelCard> opponentDeck, List<LevelCard> playerDeck, Level level) {
         super("CardScreen", game);
-
+        mOptionsManager = new OptionsManager(game.getContext());
         this.level = level;
 
         mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
@@ -222,8 +224,14 @@ public class CardDemoScreen extends GameScreen {
         assetManager.loadAndAddMusic("BattleMusic", "music/BattleMusic.mp3");
 
         attackMessage = new PopUp("Attack Hero", 3, 70, assetManager.getBitmap(PopUp.POPUP_BITMAP_ID), this);
-        assetManager.getMusic("BattleMusic").setLopping(true);
-        assetManager.getMusic("BattleMusic").play();
+        Music battleMusic = assetManager.getMusic("BattleMusic");
+        battleMusic.setLopping(true);
+        
+        battleMusic.setVolume(mOptionsManager.getIntOption(OptionsManager.MUSIC_VOLUME));
+        if(!mOptionsManager.getBoolOption(OptionsManager.MUSIC_MUTED))
+        {
+            battleMusic.play();
+        }
 
         // Set up text painter with styles
         Paint sliderPainter = new Paint();

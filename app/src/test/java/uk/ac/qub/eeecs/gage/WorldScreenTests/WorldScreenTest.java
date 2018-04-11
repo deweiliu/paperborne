@@ -460,7 +460,7 @@ public class WorldScreenTest {
 			touchDown.type = TouchEvent.TOUCH_DOWN;
 			List<TouchEvent> touchEvents = new ArrayList<>();
 			touchEvents.add(touchDown);
-			when(input.getTouchEvents()).thenReturn(touchEvents);
+			when(input.getTouchEvents()).thenReturn(new ArrayList<>(touchEvents));
 			
 			// Update world screen, which includes updating the buttons
 			worldScreen.update(elapsedTime);
@@ -472,7 +472,7 @@ public class WorldScreenTest {
 			touchUp.y = levelButton.position.y;
 			touchUp.type = TouchEvent.TOUCH_UP;
 			touchEvents.add(touchUp);
-			when(input.getTouchEvents()).thenReturn(touchEvents);
+			when(input.getTouchEvents()).thenReturn(new ArrayList<>(touchEvents));
 			
 			// Update world screen, which includes updating the buttons
 			worldScreen.update(elapsedTime);
