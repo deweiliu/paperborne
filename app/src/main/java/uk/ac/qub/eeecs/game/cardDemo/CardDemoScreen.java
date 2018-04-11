@@ -293,6 +293,10 @@ public class CardDemoScreen extends GameScreen {
 
         player.update(elapsedTime);
         opponent.update(elapsedTime);
+
+        //Sets the mana slider's value to match the player's current mana
+        manaSlider.setVal(player.getCurrentMana());
+
         manaSlider.update(elapsedTime);
         manaSlider.setVal(player.getCurrentMana());
 
