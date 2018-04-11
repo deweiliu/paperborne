@@ -18,6 +18,7 @@ public class OptionsManager
 	public static final String VISUAL_EFFECTS = "visual_effects";
 	public static final String MUSIC_VOLUME = "music_volume";
 	public static final String SOUND_VOLUME = "sound_volume";
+	public static final String MUSIC_MUTED = "music_muted";
 	
 	// Shared Preferences for interacting with Android's Key-Value storage
 	private SharedPreferences mSharedPrefs;

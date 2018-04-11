@@ -97,8 +97,11 @@ public class Slider extends Button
 	@Override
 	protected void updateTriggerActions(TouchEvent touchEvent, Vector2 touchLocation)
 	{
-		// Attempt to increment the slider
-		increment();
+		if(touchEvent.type == TouchEvent.TOUCH_UP)
+		{
+			increment();
+			
+		}
 	}
 	
 	/**
@@ -109,8 +112,6 @@ public class Slider extends Button
 	@Override
 	protected void updateTouchActions(Vector2 touchLocation)
 	{
-		// Attempt to increment the slider
-		increment();
 	}
 	
 	/**
