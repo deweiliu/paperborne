@@ -223,6 +223,8 @@ public class CardDemoScreen extends GameScreen {
             }
         };
 
+        manaSlider.setVal(player.getCurrentMana());
+
 
 
 
