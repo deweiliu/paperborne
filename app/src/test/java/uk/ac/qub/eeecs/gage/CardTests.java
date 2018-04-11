@@ -1,5 +1,7 @@
 package uk.ac.qub.eeecs.gage;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 
 import org.junit.Before;
@@ -15,6 +17,7 @@ import java.util.List;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
+import uk.ac.qub.eeecs.gage.engine.audio.Music;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
@@ -26,6 +29,10 @@ import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
+import uk.ac.qub.eeecs.game.GameUtil;
+import uk.ac.qub.eeecs.game.options.OptionsManager;
+import uk.ac.qub.eeecs.game.worldScreen.Level;
+import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -63,16 +70,36 @@ public class CardTests {
     @Mock
     IGraphics2D iGraphics2D;
 
+    @Mock
+    List<LevelCard> playerDeck, opponentDeck;
+
+    @Mock
+    Level level;
+
+    @Mock
+    Context context;
+
+    @Mock
+    Music music;
+
+    @Mock
+    SharedPreferences sharedPreferences;
+
+    @Mock
+    OptionsManager optionsManager;
+
     @Before
     public void setUp() {
         screenManager = new ScreenManager();
+
 
         when(game.getInput()).thenReturn(input);
         when(game.getScreenManager()).thenReturn(screenManager);
         when(game.getAssetManager()).thenReturn(assetManager);
         when(game.getAssetManager().getBitmap(any(String.class))).thenReturn(bitmap);
         when(game.getInput()).thenReturn(input);
-
+        when(game.getContext()).thenReturn(context);
+        when(game.getAssetManager().getMusic(any(String.class))).thenReturn(music);
     }
 
     @Test
@@ -208,6 +235,8 @@ public class CardTests {
         // Pick a card from the board
         Card card = hero.getActiveCards().get(0);
 
+
+
         // Create a touch position
         Vector2 touchPos = new Vector2(50.0f, 50.0f);
 
@@ -221,13 +250,7 @@ public class CardTests {
         when(input.getTouchEvents()).thenReturn(touchEvents);
 
         // Convert the touch coordinates into screen coordinates
-        Vector2 cardPos = new Vector2();
-        InputHelper.convertScreenPosIntoLayer(
-                screenViewport,
-                new Vector2(touchPos.x, touchPos.y),
-                layerViewport, cardPos);
-
-        card.setPosition(cardPos.x, cardPos.y);
+        GameUtil.convertLayerPosIntoScreen(screenViewport, touchPos, layerViewport, card.getPosition());
 
         //Call update method
         cardDemoScreen.update(elapsedTime);
