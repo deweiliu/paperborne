@@ -93,11 +93,7 @@ public class VerticalSlider extends Button
     {
     }
 
-    /**
-     * Undertake touch actions for the slider, updating the current value
-     *
-     * @param touchLocation Touch location at which the trigger occurred
-     */
+
     @Override
     protected void updateTouchActions(Vector2 touchLocation)
     {

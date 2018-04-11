@@ -131,6 +131,7 @@ public class Hero extends Sprite {
 
 
     public void playCard(Card cardToPlay){
+        //Able to play card if there is less than 7 cards on the board AND player has required mana
         if (this.activeCards.size() < 7 && currentMana >= cardToPlay.getManaCost()){
             this.activeCards.add(cardToPlay);
             this.currentMana -= cardToPlay.getManaCost();
@@ -149,6 +150,11 @@ public class Hero extends Sprite {
             if(current.getCardIsDead())
                 i.remove();
         }
+    }
+
+    public boolean playedACard(){
+
+        return true;
     }
 
     @Override

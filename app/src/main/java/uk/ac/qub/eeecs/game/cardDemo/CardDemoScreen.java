@@ -181,6 +181,7 @@ public class CardDemoScreen extends GameScreen {
                     player.incrementManaLimit();
                     player.refillMana();
                     manaSlider.setVal(player.getCurrentMana());
+                    
 
                     if (!player.getDeck().isDeckEmpty() && player.getHand().getCards().size() < player.getHand().getMaxHandSize())
                         player.getHand().getCards().add(player.getDeck().drawCard());
@@ -230,6 +231,7 @@ public class CardDemoScreen extends GameScreen {
         sliderPainter.setColor(Color.BLACK);
         sliderPainter.setTextAlign(Paint.Align.CENTER);
 
+        //creates new vertical slider for the players mana
         manaSlider = new VerticalSlider(0, 10,player.getCurrentMana(), sliderPainter,
                 game.getScreenWidth() - 135f, game.getScreenHeight() - 230f, SLIDER_WIDTH, SLIDER_HEIGHT,
                 "SliderBase", "VerticalSliderFill", this, false);
@@ -261,7 +263,6 @@ public class CardDemoScreen extends GameScreen {
         //Else continue to play the game
 
         turnTime = ((startTime + TURN_TIME) - System.currentTimeMillis()) / 1000;
-
 
 
 
