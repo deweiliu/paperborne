@@ -97,6 +97,8 @@ public class Slider extends Button
 	@Override
 	protected void updateTriggerActions(TouchEvent touchEvent, Vector2 touchLocation)
 	{
+		// Attempt to increment the slider
+		increment();
 	}
 	
 	/**
@@ -107,6 +109,17 @@ public class Slider extends Button
 	@Override
 	protected void updateTouchActions(Vector2 touchLocation)
 	{
+		// Attempt to increment the slider
+		increment();
+	}
+	
+	/**
+	 * Increments the slider's value by one, if this puts it over the max it wraps around to
+	 * the min value
+	 */
+	private void increment()
+	{
+		// If there is a sound provided play it
 		if (mTriggerSound != null)
 		{
 			mTriggerSound.play();
