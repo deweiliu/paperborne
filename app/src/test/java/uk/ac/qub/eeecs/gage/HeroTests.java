@@ -9,16 +9,15 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
-
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
+import uk.ac.qub.eeecs.gage.engine.audio.Music;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
+import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Deck;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Hand;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
-import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -44,11 +43,15 @@ public class HeroTests {
     @Mock
     Deck deck;
 
+
     @Mock
     Hand hand;
 
     @Mock
     Bitmap bitmap;
+
+    @Mock
+    Music music;
 
     @Mock
     AssetStore assetManager;
@@ -63,6 +66,7 @@ public class HeroTests {
         when(game.getScreenManager()).thenReturn(screenManager);
         when(game.getAssetManager()).thenReturn(assetManager);
         when(game.getAssetManager().getBitmap(any(String.class))).thenReturn(bitmap);
+        when(game.getAssetManager().getMusic(any(String.class))).thenReturn(music);
     }
 
     @Test
@@ -112,7 +116,7 @@ public class HeroTests {
 
         hero = new Hero(0,0, bitmap, cardDemoScreen, game);
         hero.incrementManaLimit();
-        assertTrue(hero.getManaLimit() == 6);
+        assertTrue(hero.getManaLimit() == 1);
 
     }
 
@@ -124,6 +128,26 @@ public class HeroTests {
         hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
         hero.setHeroTouched(true);
         assertTrue(hero.getHeroTouched());
+    }
+
+    @Test
+    public void testHeroUsingMana(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        game.getScreenManager().addScreen(cardDemoScreen);
+
+        hero = new Hero(0,0, bitmap, cardDemoScreen, game);
+        //Creates a card with a Mana Cost of 5
+        Card card = new Card(1, "TestCard", 10, 10, bitmap, cardDemoScreen, 5, 5, 10);
+
+        //Increments players mana to 10
+        for(int i=0;i<10;i++){ hero.incrementManaLimit(); }
+
+        //Plays card
+        hero.refillMana();
+        hero.playCard(card);
+
+        assertTrue(hero.getCurrentMana() == 5);
+
     }
 
 }

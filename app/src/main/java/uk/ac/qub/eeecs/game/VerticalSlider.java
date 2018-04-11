@@ -26,8 +26,6 @@ public class VerticalSlider extends Button
     private int mMin;
     private int mVal;
 
-    // Separation between the size labels and the slider bar
-    final private int TEXT_SEPARATION = 48;
 
     private boolean mProcessInLayerSpace;
 
@@ -95,21 +93,11 @@ public class VerticalSlider extends Button
     {
     }
 
-    /**
-     * Undertake touch actions for the slider, updating the current value
-     *
-     * @param touchLocation Touch location at which the trigger occurred
-     */
+
     @Override
     protected void updateTouchActions(Vector2 touchLocation)
     {
-        // Increment the value
-        mVal++;
-        if (mVal > mMax)
-        {
-            // If the value is greater than the maximum, set the value to the minimum
-            mVal = mMin;
-        }
+
     }
 
     /**

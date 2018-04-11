@@ -24,7 +24,6 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.VerticalSlider;
 import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIController;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIDecision;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.endGameLogic.EndGameController;
 import uk.ac.qub.eeecs.game.options.OptionsManager;
@@ -176,15 +175,26 @@ public class CardDemoScreen extends GameScreen {
                     card.setFinishedMove(false);
                 for (Card card : opponent.getActiveCards())
                     card.setFinishedMove(false);
-                player.refillMana();
-                opponent.refillMana();
+
 
                 if (!playerTurn) { //last turn was opponents and we haven't changed it to the player's - it's player turn to draw
+
+                    //When it's the start of the player's turn, Increment mana by 1, refill mana, and change mana slider to that value
+                    player.incrementManaLimit();
+                    player.refillMana();
+                    manaSlider.setVal(player.getCurrentMana());
+                    
+
                     if (!player.getDeck().isDeckEmpty() && player.getHand().getCards().size() < player.getHand().getMaxHandSize())
                         player.getHand().getCards().add(player.getDeck().drawCard());
                     else
                         player.takeDamage(1);
                 } else { //it's end of player's turn and opponent's turn to draw
+
+                    //increments opponents mana and refill opponents mana on the start of their turn
+                    opponent.incrementManaLimit();
+                    opponent.refillMana();
+
                     if (!opponent.getDeck().isDeckEmpty() && opponent.getHand().getCards().size() < opponent.getHand().getMaxHandSize())
                         opponent.getHand().getCards().add(opponent.getDeck().drawCard());
                     else
@@ -197,6 +207,9 @@ public class CardDemoScreen extends GameScreen {
                 startTime = System.currentTimeMillis();
             }
         };
+
+
+
 
         turnHandler = new Handler(Looper.getMainLooper());
         turnHandler.postDelayed(endTurn, 30000);
@@ -226,6 +239,7 @@ public class CardDemoScreen extends GameScreen {
         sliderPainter.setColor(Color.BLACK);
         sliderPainter.setTextAlign(Paint.Align.CENTER);
 
+        //creates new vertical slider for the players mana
         manaSlider = new VerticalSlider(0, 10,player.getCurrentMana(), sliderPainter,
                 game.getScreenWidth() - 135f, game.getScreenHeight() - 230f, SLIDER_WIDTH, SLIDER_HEIGHT,
                 "SliderBase", "VerticalSliderFill", this, false);
@@ -257,6 +271,8 @@ public class CardDemoScreen extends GameScreen {
         //Else continue to play the game
 
         turnTime = ((startTime + TURN_TIME) - System.currentTimeMillis()) / 1000;
+
+
 
         player.update(elapsedTime);
         opponent.update(elapsedTime);
