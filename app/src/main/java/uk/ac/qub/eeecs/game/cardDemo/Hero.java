@@ -75,7 +75,7 @@ public class Hero extends Sprite {
     {
         super(x, y, 70.0f, 105.0f, bitmap, gameScreen);
         currentHealth = MAX_HEALTH;
-        manaLimit = 0;
+        manaLimit = 1;
         currentMana = manaLimit;
         heroTouched = false;
         heroCentre.x = 70.0f / 2;

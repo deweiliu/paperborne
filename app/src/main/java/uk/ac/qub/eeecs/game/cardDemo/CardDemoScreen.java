@@ -181,7 +181,7 @@ public class CardDemoScreen extends GameScreen {
                     player.incrementManaLimit();
                     player.refillMana();
                     manaSlider.setVal(player.getCurrentMana());
-                    
+
 
                     if (!player.getDeck().isDeckEmpty() && player.getHand().getCards().size() < player.getHand().getMaxHandSize())
                         player.getHand().getCards().add(player.getDeck().drawCard());
