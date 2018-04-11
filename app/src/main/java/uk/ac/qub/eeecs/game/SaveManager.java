@@ -2,6 +2,7 @@ package uk.ac.qub.eeecs.game;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,10 +10,10 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +39,9 @@ public class SaveManager
 	// Identifier for the list of save games in the JSON save file
 	private static final String SAVE_LIST = "saves";
 	// Save games filename
-	private static final String SAVE_FILE = "save_games.json";
+	public static final String SAVE_FILE = "save_games.json";
 	// Maximum number of save slots
-	private static final int MAX_SAVE_SLOTS = 3;
+	public static final int MAX_SAVE_SLOTS = 3;
 	// Default save slot
 	// TODO: Allow the user to choose a save slot rather than just using the default
 	public static final int DEFAULT_SAVE_SLOT = 1;
@@ -215,10 +216,10 @@ public class SaveManager
 			}
 		}
 		// If there is no save game with a matching save slot, or no existing saves, create a new
-		// save file
-		writeSaveFile(new SaveGame(DEFAULT_SAVE_SLOT, loadStartingDeck(LEVEL_FILE, game), new ArrayList<String>()),game);
-		// Load the newly created save file again and return its response
-		return loadSavedGame(saveSlot, game);
+		// save file and return it
+		SaveGame saveGame = new SaveGame(DEFAULT_SAVE_SLOT, loadStartingDeck(LEVEL_FILE, game), new ArrayList<String>());
+		writeSaveFile(saveGame, game);
+		return saveGame;
 	}
 	
 	/**
@@ -254,6 +255,7 @@ public class SaveManager
 					inputStream.close();
 					// Get the final string from the string builder
 					String saveString = stringBuilder.toString();
+					Log.d("debug", saveString);
 					try
 					{
 						// Convert string that has been read into a JSON object
@@ -329,6 +331,8 @@ public class SaveManager
 	/**
 	 * Updates the save file with the current save, if no saves exists creates a new save file with
 	 * starting save states
+	 * @param save the save game to update
+	 * @param game the game the save is in
 	 */
 	public static void writeSaveFile(SaveGame save, Game game)
 	{
@@ -376,7 +380,7 @@ public class SaveManager
 			try
 			{
 				// Create output stream
-				FileOutputStream outputStream;
+				OutputStream outputStream;
 				// Open save file for writing to
 				outputStream = game.getActivity().openFileOutput(SAVE_FILE, Context.MODE_PRIVATE);
 				// Write to the save file

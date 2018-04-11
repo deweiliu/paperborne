@@ -278,5 +278,10 @@ public class WorldScreen extends GameScreen
 	{
 		return mLevels;
 	}
+	
+	public int getCurrentLevel()
+	{
+		return mCurrentLevel;
+	}
 
 }
