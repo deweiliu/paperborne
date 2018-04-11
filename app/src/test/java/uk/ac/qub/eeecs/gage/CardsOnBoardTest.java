@@ -225,5 +225,4 @@ public class CardsOnBoardTest
         assertTrue(hero.getActiveCards().size() == 4);
     }
 
-
 }
