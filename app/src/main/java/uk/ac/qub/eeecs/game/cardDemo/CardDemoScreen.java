@@ -223,6 +223,7 @@ public class CardDemoScreen extends GameScreen {
             }
         };
 
+        //Updates mana slider each time a card is played
         manaSlider.setVal(player.getCurrentMana());
 
 
