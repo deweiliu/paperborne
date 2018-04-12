@@ -26,11 +26,9 @@ import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
-import uk.ac.qub.eeecs.game.GameUtil;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
-import uk.ac.qub.eeecs.game.options.OptionsManager;
 import uk.ac.qub.eeecs.game.worldScreen.Level;
 import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
@@ -84,9 +82,6 @@ public class CardTests {
 
     @Mock
     SharedPreferences sharedPreferences;
-
-    @Mock
-    OptionsManager optionsManager;
 
     @Before
     public void setUp() {
@@ -251,7 +246,7 @@ public class CardTests {
         when(input.getTouchEvents()).thenReturn(touchEvents);
 
         // Convert the touch coordinates into screen coordinates
-        GameUtil.convertLayerPosIntoScreen(screenViewport, touchPos, layerViewport, card.getPosition());
+        TestUtil.convertLayerPosIntoScreen(screenViewport, touchPos, layerViewport, card.getPosition());
 
         //Call update method
         cardDemoScreen.update(elapsedTime);

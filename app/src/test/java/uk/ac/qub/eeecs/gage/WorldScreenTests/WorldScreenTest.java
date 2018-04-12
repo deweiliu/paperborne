@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
+import uk.ac.qub.eeecs.gage.TestUtil;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
@@ -450,30 +451,8 @@ public class WorldScreenTest {
 		{
 			// Get the level's button
 			PushButton levelButton = levels.get(i).getButton();
-			// Draw the button
-			levelButton.draw(elapsedTime, graphics2D);
-			
-			// Set up a touch down event on the button
-			TouchEvent touchDown = new TouchEvent();
-			touchDown.x = levelButton.position.x;
-			touchDown.y = levelButton.position.y;
-			touchDown.type = TouchEvent.TOUCH_DOWN;
-			List<TouchEvent> touchEvents = new ArrayList<>();
-			touchEvents.add(touchDown);
-			when(input.getTouchEvents()).thenReturn(new ArrayList<>(touchEvents));
-			
-			// Update world screen, which includes updating the buttons
-			worldScreen.update(elapsedTime);
-			
-			// Set up a touch up event on the button
-			touchEvents = new ArrayList<>();
-			TouchEvent touchUp = new TouchEvent();
-			touchUp.x = levelButton.position.x;
-			touchUp.y = levelButton.position.y;
-			touchUp.type = TouchEvent.TOUCH_UP;
-			touchEvents.add(touchUp);
-			when(input.getTouchEvents()).thenReturn(new ArrayList<>(touchEvents));
-			
+			List<TouchEvent> touchEvents = TestUtil.touchObject(levelButton, graphics2D);
+			when(input.getTouchEvents()).thenReturn(touchEvents);
 			// Update world screen, which includes updating the buttons
 			worldScreen.update(elapsedTime);
 			

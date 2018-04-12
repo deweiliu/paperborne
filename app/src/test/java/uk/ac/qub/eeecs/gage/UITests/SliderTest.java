@@ -10,21 +10,19 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
+import uk.ac.qub.eeecs.gage.TestUtil;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
-import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
-import uk.ac.qub.eeecs.game.GameUtil;
 import uk.ac.qub.eeecs.game.ui.Slider;
 
 import static junit.framework.Assert.assertEquals;
@@ -233,32 +231,8 @@ public class SliderTest
 		// Elapsed time for update methods
 		ElapsedTime elapsedTime = new ElapsedTime();
 		
-		// Draw the slider
-		testSlider.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
-		
-		// Get the screen coordinate equivalent of the slider's position
-		Vector2 touchPos = new Vector2();
-		GameUtil.convertLayerPosIntoScreen(screenViewport, touchPos, layerViewport, testSlider.position);
-		
-		// Set up touch event
-		TouchEvent touchEvent = new TouchEvent();
-		touchEvent.type = TouchEvent.TOUCH_DOWN;
-		touchEvent.x = touchPos.x;
-		touchEvent.y = touchPos.y;
-		List<TouchEvent> touchEvents = new ArrayList<>();
-		touchEvents.add(touchEvent);
-		when(input.getTouchEvents()).thenReturn(new ArrayList<>(touchEvents));
-		
-		testSlider.update(elapsedTime, layerViewport, screenViewport);
-		
-		// Set up a touch up event on the button
-		touchEvents = new ArrayList<>();
-		TouchEvent touchUp = new TouchEvent();
-		touchUp.x = touchPos.x;
-		touchUp.y = touchPos.y;
-		touchUp.type = TouchEvent.TOUCH_UP;
-		touchEvents.add(touchUp);
-		when(input.getTouchEvents()).thenReturn(new ArrayList<>(touchEvents));
+		List<TouchEvent> touchEvents = TestUtil.touchObject(testSlider, layerViewport, screenViewport, graphics2D);
+		when(input.getTouchEvents()).thenReturn(touchEvents);
 		
 		// Update slider
 		testSlider.update(elapsedTime, layerViewport, screenViewport);

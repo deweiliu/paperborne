@@ -121,7 +121,7 @@ public class OptionsScreen extends GameScreen
 		mActivity = game.getActivity();
 		
 		// Create OptionsManager
-		mManager = new OptionsManager(game.getActivity());
+		mManager = new OptionsManager(game.getContext());
 		
 		// Get any current user options values
 		mFpsCurrentVal = mManager.getBoolOption(OptionsManager.FPS_COUNTER);
@@ -298,14 +298,23 @@ public class OptionsScreen extends GameScreen
 		
 	}
 	
-	/**
-	 * Remove the current game screen and then change to the specified screen
-	 *
-	 * @param screen game screen to become active
-	 */
-	private void changeToScreen(GameScreen screen)
+	public ToggleButton getFpsToggle()
 	{
-		mGame.getScreenManager().removeScreen(this.getName());
-		mGame.getScreenManager().addScreen(screen);
+		return mFpsToggle;
+	}
+	
+	public ToggleButton getEffectsToggle()
+	{
+		return mEffectsToggle;
+	}
+	
+	public Slider getMusicSlider()
+	{
+		return mMusicSlider;
+	}
+	
+	public Slider getSoundsSlider()
+	{
+		return mSoundsSlider;
 	}
 }
