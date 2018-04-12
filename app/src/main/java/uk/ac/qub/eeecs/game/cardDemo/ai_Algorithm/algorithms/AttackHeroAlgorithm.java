@@ -1,9 +1,9 @@
-package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms;
+package uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIDecision;
+import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIDecision;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
@@ -11,7 +11,7 @@ import uk.ac.qub.eeecs.game.cardDemo.Hero;
  * Created by 40216004 Dewei Liu on 08/03/2018.
  */
 
-public class AttackHeroAlgorithm extends AlgorithmSuperClass {
+public class AttackHeroAlgorithm extends AlgorithmSuperclass {
     public AttackHeroAlgorithm(Hero humanPlayer, Hero AIPlayer) {
         super(humanPlayer, AIPlayer);
     }

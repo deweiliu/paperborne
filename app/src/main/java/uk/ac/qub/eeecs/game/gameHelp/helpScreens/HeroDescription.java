@@ -61,7 +61,7 @@ public class HeroDescription extends HelpScreenSuperClass {
     }
 
     @Override
-    public void drawGameHelp(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+    protected void drawGameHelp(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
         for (HeroPicture each : heroes) {
             each.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);

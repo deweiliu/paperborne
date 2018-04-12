@@ -61,7 +61,7 @@ public class CardDescription extends HelpScreenSuperClass {
 
 
     @Override
-    public void drawGameHelp(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+    protected void drawGameHelp(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
         for (CardPicture each : cards) {
             each.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
         }

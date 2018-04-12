@@ -8,8 +8,10 @@ import uk.ac.qub.eeecs.game.endGameLogic.interfaces_superclass_forScreens.BasicE
 
 public interface GameOverInterface extends BasicEndGameStuff {
 
-
-    boolean start(long movingTimeInMillis);
-
-
+    /**
+     *
+     * @param period The time for moving in millisecond
+     * @return true if this action successes
+     */
+    boolean start(long period);
 }

@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms;
+package uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -9,7 +9,7 @@ import uk.ac.qub.eeecs.game.cardDemo.Hero;
  * Created by 40216004 Dewei Liu on 08/03/2018.
  */
 
-public abstract class AlgorithmSuperClass {
+public abstract class AlgorithmSuperclass {
     private Hero humanPlayer;
     private Hero AIPlayer;
 
@@ -19,7 +19,7 @@ public abstract class AlgorithmSuperClass {
     //Whether do the current kind of decision (e.g. AttackHero, AttackActiveCard, PlayCard)
     protected boolean isValid = false;
 
-    public AlgorithmSuperClass(Hero humanPlayer, Hero AIPlayer) {
+    public AlgorithmSuperclass(Hero humanPlayer, Hero AIPlayer) {
         this.AIPlayer = AIPlayer;
         this.humanPlayer = humanPlayer;
         random = new Random();

@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.gage.AITests;
+package uk.ac.qub.eeecs.gage.ai_Tests;
 
 
 import org.junit.Before;
@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIDecision;
+import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIDecision;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 
 import static org.junit.Assert.assertEquals;
@@ -15,6 +15,8 @@ import static org.junit.Assert.assertNotEquals;
 
 /**
  * Created by 40216004 Dewei Liu on 16/02/2018.
+ *
+ * 3 unit tests in this class
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AIDecisionTest {

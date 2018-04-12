@@ -3,7 +3,7 @@ package uk.ac.qub.eeecs.game.endGameLogic.screen3_showRecords;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.game.endGameLogic.EndGameController;
-import uk.ac.qub.eeecs.game.endGameLogic.interfaces_superclass_forScreens.EndGameScreenSuperClass;
+import uk.ac.qub.eeecs.game.endGameLogic.interfaces_superclass_forScreens.EndGameScreenSuperclass;
 import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.User;
 import uk.ac.qub.eeecs.game.endGameLogic.screen3_showRecords.interface_superclass.RecordsInterface;
 
@@ -11,7 +11,7 @@ import uk.ac.qub.eeecs.game.endGameLogic.screen3_showRecords.interface_superclas
  * Created by 40216004 Dewei Liu on 22/01/2018.
  */
 
-public class ShowRecordsScreen extends EndGameScreenSuperClass {
+public class ShowRecordsScreen extends EndGameScreenSuperclass {
     private RecordsManager manager;
     private RecordsInterface showRecords;
     private User playerName;

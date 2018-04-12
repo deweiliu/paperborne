@@ -94,7 +94,7 @@ public class ForTestingEndGameLogic extends HelpScreenSuperClass {
     }
 
     @Override
-    void drawGameHelp(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+    protected void drawGameHelp(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
         //Draw buttons
         for (PushButton each : buttons) {

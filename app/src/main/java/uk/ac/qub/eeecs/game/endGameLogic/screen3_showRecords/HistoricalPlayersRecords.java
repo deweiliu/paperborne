@@ -1,8 +1,10 @@
 package uk.ac.qub.eeecs.game.endGameLogic.screen3_showRecords;
 
 import android.graphics.Paint;
+
 import java.util.ArrayList;
 import java.util.Comparator;
+
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.game.endGameLogic.interfaces_superclass_forScreens.EndGameScreen;
@@ -15,7 +17,7 @@ import uk.ac.qub.eeecs.game.endGameLogic.screen3_showRecords.interface_superclas
 
 public class HistoricalPlayersRecords extends RecordsSuperclass {
     private ArrayList<UserRecord> users;
-    private final static int NUMBER_OF_PLAYER = 3;
+    private final static int MAX_NUMBER_OF_PLAYERS = 3;
 
     HistoricalPlayersRecords(EndGameScreen mEndGameScreen, User user, RecordsManager manager) {
         super(mEndGameScreen, user, manager);
@@ -30,8 +32,8 @@ public class HistoricalPlayersRecords extends RecordsSuperclass {
 
         //Pick 3 players with highest win rate
         users.sort(new MyComparator());
-        while (users.size() > NUMBER_OF_PLAYER) {
-            users.remove(NUMBER_OF_PLAYER);
+        while (users.size() > MAX_NUMBER_OF_PLAYERS) {
+            users.remove(MAX_NUMBER_OF_PLAYERS);
         }
     }
 
@@ -40,10 +42,10 @@ public class HistoricalPlayersRecords extends RecordsSuperclass {
         super.draw(elapsedTime, graphics2D);
         float width = mScreen.getScreenWidth();
         float height = mScreen.getScreenHeight();
-        float gap = width / NUMBER_OF_PLAYER / 4;
+        float gap = width / users.size() / 4;
         int index = 1;
         for (UserRecord each : users) {
-            each.draw(elapsedTime, graphics2D, index++ * width / 4 + gap, height, mPaint);
+            each.draw(elapsedTime, graphics2D, index++ * width / (users.size() + 1) + gap, height, mPaint);
         }
 
         //print fields name
@@ -52,7 +54,13 @@ public class HistoricalPlayersRecords extends RecordsSuperclass {
         graphics2D.drawText("Win:", 0, ((height / 5) * ++index) - mPaint.getTextSize(), mPaint);
         graphics2D.drawText("Lose:", 0, ((height / 5) * ++index) - mPaint.getTextSize(), mPaint);
         graphics2D.drawText("Win rate:", 0, ((height / 5) * ++index) - mPaint.getTextSize(), mPaint);
-        graphics2D.drawText("Showing the " + NUMBER_OF_PLAYER + " players with highest win rate historically", 0, height, mPaint);
+        String playerNumber;
+        if (users.size() > 1) {
+            playerNumber = users.size() + " players ";
+        } else {
+            playerNumber = users.size() + " player ";
+        }
+        graphics2D.drawText("Showing the top " + playerNumber + "with highest win rate historically", 0, height, mPaint);
     }
 
 
@@ -74,7 +82,12 @@ public class HistoricalPlayersRecords extends RecordsSuperclass {
         private String name;
 
         public double winRate() {
-            return (double) timesOfWin / (timesOfLose + timesOfWin);
+            int total;
+            if ((total = timesOfLose + timesOfWin) != 0) {
+                return (double) timesOfWin / total;
+            } else {
+                return 1.0;
+            }
         }
 
         UserRecord(String name, int timesOfWin, int timesOfLose) {

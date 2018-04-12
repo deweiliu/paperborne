@@ -23,8 +23,8 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.VerticalSlider;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIController;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIDecision;
+import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIController;
+import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIDecision;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.endGameLogic.EndGameController;
 import uk.ac.qub.eeecs.game.options.OptionsManager;
@@ -74,10 +74,10 @@ public class CardDemoScreen extends GameScreen {
 
     /**
      * Constructor for creating game screen without level details, mainly for testing
+     *
      * @param game Game to which this screen belongs
      */
-    public CardDemoScreen(Game game)
-    {
+    public CardDemoScreen(Game game) {
         this(game, new ArrayList<LevelCard>(), new ArrayList<LevelCard>(), null);
     }
 
@@ -143,14 +143,14 @@ public class CardDemoScreen extends GameScreen {
         }
         if (playerDeck.isEmpty()) {
             player = new Hero(
-                    mLayerViewport.getWidth() / 8f -25f, mLayerViewport.getHeight() / 6f - 2f,
+                    mLayerViewport.getWidth() / 8f - 25f, mLayerViewport.getHeight() / 6f - 2f,
                     assetManager.getBitmap("Hero"),
                     this,
                     mGame
             );
         } else {
             player = new Hero(
-                    mLayerViewport.getWidth() / 8f -25f, mLayerViewport.getHeight() / 6f - 2f,
+                    mLayerViewport.getWidth() / 8f - 25f, mLayerViewport.getHeight() / 6f - 2f,
                     assetManager.getBitmap("Hero"),
                     this,
                     mGame,
@@ -178,7 +178,7 @@ public class CardDemoScreen extends GameScreen {
                     card.velocity.set(Vector2.Zero);
                     card.position.set(card.getAnchor());
                 }
-                for (Card card : opponent.getActiveCards()){
+                for (Card card : opponent.getActiveCards()) {
                     card.setFinishedMove(false);
                     card.acceleration.set(Vector2.Zero);
                     card.velocity.set(Vector2.Zero);
@@ -189,7 +189,6 @@ public class CardDemoScreen extends GameScreen {
                     card.velocity.set(Vector2.Zero);
                     card.position.set(card.getAnchor());
                 }
-
 
 
                 if (!playerTurn) { //last turn was opponents and we haven't changed it to the player's - it's player turn to draw
@@ -224,10 +223,6 @@ public class CardDemoScreen extends GameScreen {
         };
 
 
-
-
-
-
         turnHandler = new Handler(Looper.getMainLooper());
         turnHandler.postDelayed(endTurn, 30000);
 
@@ -243,10 +238,9 @@ public class CardDemoScreen extends GameScreen {
         attackMessage = new PopUp("Attack Hero", 3, 70, assetManager.getBitmap(PopUp.POPUP_BITMAP_ID), this);
         Music battleMusic = assetManager.getMusic("BattleMusic");
         battleMusic.setLopping(true);
-        
+
         battleMusic.setVolume(mOptionsManager.getIntOption(OptionsManager.MUSIC_VOLUME));
-        if(!mOptionsManager.getBoolOption(OptionsManager.MUSIC_MUTED))
-        {
+        if (!mOptionsManager.getBoolOption(OptionsManager.MUSIC_MUTED)) {
             battleMusic.play();
         }
 
@@ -257,7 +251,7 @@ public class CardDemoScreen extends GameScreen {
         sliderPainter.setTextAlign(Paint.Align.CENTER);
 
         //creates new vertical slider for the players mana
-        manaSlider = new VerticalSlider(0, 10,player.getCurrentMana(), sliderPainter,
+        manaSlider = new VerticalSlider(0, 10, player.getCurrentMana(), sliderPainter,
                 game.getScreenWidth() - 135f, game.getScreenHeight() - 230f, SLIDER_WIDTH, SLIDER_HEIGHT,
                 "SliderBase", "VerticalSliderFill", this, false);
         /////////////////////////////
@@ -290,7 +284,6 @@ public class CardDemoScreen extends GameScreen {
         turnTime = ((startTime + TURN_TIME) - System.currentTimeMillis()) / 1000;
 
 
-
         player.update(elapsedTime);
         opponent.update(elapsedTime);
 
@@ -302,7 +295,7 @@ public class CardDemoScreen extends GameScreen {
         // Check for touchdown event if it's the player's turn
         boolean touchDown = false;
         Input input = mGame.getInput();
-        if(playerTurn) {
+        if (playerTurn) {
             for (TouchEvent touch : input.getTouchEvents()) {
                 if (touch.type == TouchEvent.TOUCH_DOWN) {
                     touchDown = true;
@@ -340,9 +333,9 @@ public class CardDemoScreen extends GameScreen {
                 }
             }
             opponent.update(elapsedTime, mScreenViewport, mLayerViewport);
-            if (opponent.getHeroTouched()){
-                for (Card playerCard : player.getActiveCards()){
-                    if (playerCard.isCardIsActive() && !playerCard.isFinishedMove()){
+            if (opponent.getHeroTouched()) {
+                for (Card playerCard : player.getActiveCards()) {
+                    if (playerCard.isCardIsActive() && !playerCard.isFinishedMove()) {
                         //If there is a selected card that hasn't finished their move
                         // attack the hero
                         opponent.takeDamage(playerCard.getAttackValue());
@@ -363,7 +356,7 @@ public class CardDemoScreen extends GameScreen {
             }
         }
 
-        if(playerTurn) { //don't allow interaction if it's not their turn
+        if (playerTurn) { //don't allow interaction if it's not their turn
             if (!player.getActiveCards().isEmpty()) {
                 // If the player has played cards
                 for (Card card : player.getActiveCards()) {
@@ -394,11 +387,9 @@ public class CardDemoScreen extends GameScreen {
         //only allow interaction if it's player's turn
 
         if (playerTurn) {
-            if(startedThinking)
-            {
+            if (startedThinking) {
                 // If the AI has been told to start thinking and it is now the player's turn
-                if(!aiOpponent.isFinished())
-                {
+                if (!aiOpponent.isFinished()) {
                     // Inform the AI to stop thinking as it has run out of time
                     aiOpponent.notifyOverTime();
                     startedThinking = false;
@@ -407,11 +398,9 @@ public class CardDemoScreen extends GameScreen {
             return;
         }
         // If it's the opponent turn
-        if(startedThinking)
-        {
+        if (startedThinking) {
             // If the AI has been told to started thinking
-            if(aiOpponent.isFinished())
-            {
+            if (aiOpponent.isFinished()) {
                 // If the AI has finished thinking
                 startedThinking = false;
                 // Get the AI action
@@ -419,10 +408,8 @@ public class CardDemoScreen extends GameScreen {
                 // Flag to check if the decision is to end turn
                 boolean ended = false;
                 // Decide what action to implement
-                switch (action.getAction())
-                {
-                    case AIDecision.END_TURN:
-                    {
+                switch (action.getAction()) {
+                    case AIDecision.END_TURN: {
                         // End turn
                         turnHandler.removeCallbacksAndMessages(null);
                         endTurn.run();
@@ -430,23 +417,20 @@ public class CardDemoScreen extends GameScreen {
                         ended = true;
                         break;
                     }
-                    case AIDecision.ATTACK_HERO:
-                    {
+                    case AIDecision.ATTACK_HERO: {
                         // Attack hero
                         player.takeDamage(action.getAttackerCard().getAttackValue());
                         action.getAttackerCard().setFinishedMove(true);
                         attackMessage.show();
                         break;
                     }
-                    case AIDecision.ATTACK_ACTIVE_CARD:
-                    {
+                    case AIDecision.ATTACK_ACTIVE_CARD: {
                         // Attack active card
                         action.getTargetCard().takeDamage(action.getSourceCard().getAttackValue());
                         action.getSourceCard().setFinishedMove(true);
                         break;
                     }
-                    case AIDecision.PLAY_CARD:
-                    {
+                    case AIDecision.PLAY_CARD: {
                         // Play Card
                         Card card = action.getCardPlayed();
                         card.position.set(mLayerViewport.halfWidth, mLayerViewport.getTop());
@@ -454,18 +438,15 @@ public class CardDemoScreen extends GameScreen {
                         break;
                     }
                 }
-                if(!ended)
-                {
+                if (!ended) {
                     // If the action wasn't end turn, start thinking again
-                    aiOpponent.startThinking(TURN_TIME/9);
+                    aiOpponent.startThinking(TURN_TIME / 9);
                     startedThinking = true;
                 }
             }
-        }
-        else
-        {
+        } else {
             // If the AI hasn't been told to start thinking, ask it to start thinking
-            aiOpponent.startThinking(TURN_TIME/9);
+            aiOpponent.startThinking(TURN_TIME / 9);
             startedThinking = true;
         }
         return;
@@ -478,7 +459,7 @@ public class CardDemoScreen extends GameScreen {
      * @param graphics2D  Graphics instance
      */
     @Override
-    public void draw (ElapsedTime elapsedTime, IGraphics2D graphics2D){
+    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
         /*Paint paint = new Paint(Color.BLACK);
         graphics2D.clear(Color.WHITE);*/
         BoardBackground.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
@@ -504,12 +485,10 @@ public class CardDemoScreen extends GameScreen {
             for (Card card : player.getActiveCards()) {
                 // If any card is active
                 Paint paint = new Paint();
-                if(card.getCardIsDead())
-                {
+                if (card.getCardIsDead()) {
                     paint.setColorFilter(new LightingColorFilter(Color.RED, 0));
                     card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport, paint);
-                }
-                else if (card.isCardIsActive()) {
+                } else if (card.isCardIsActive()) {
                     //Highlight the card if active on the board with a blue highlight
                     paint.setColorFilter(new LightingColorFilter(Color.BLUE, 0));
                     card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport, paint);
@@ -544,17 +523,18 @@ public class CardDemoScreen extends GameScreen {
         paint.setTextSize(48);
         paint.setARGB(255, 255, 255, 255);
         paint.setShadowLayer(5.0f, 2.0f, 2.0f, Color.BLACK);
-        graphics2D.drawText(turnRemaining, mLayerViewport.getWidth() / 8, (mLayerViewport.getHeight() / 2) - 100, paint);
-        graphics2D.drawText(whoseTurn, mLayerViewport.getWidth() / 8, (mLayerViewport.getHeight() / 2) - 50, paint);
-        graphics2D.drawText(canInteract, mLayerViewport.getWidth() / 8, mLayerViewport.getHeight() / 2, paint);
+        int i = 0;
+        graphics2D.drawText(turnRemaining, mGame.getScreenWidth()/40, paint.getTextSize() * (++i), paint);
+        graphics2D.drawText(whoseTurn, mGame.getScreenWidth()/40,  paint.getTextSize() * (++i), paint);
+        graphics2D.drawText(canInteract, mGame.getScreenWidth()/40,  paint.getTextSize() * (++i), paint);
     }
 
-    public void arrangeCards () {
+    public void arrangeCards() {
         float len = player.getHand().getCards().size();
-        float widthSteps = (mLayerViewport.getWidth()/(len+1)) / 1.4f, heightSteps = mLayerViewport.getHeight()/30;
-        for(int i = 0; i < len; i++) {
+        float widthSteps = (mLayerViewport.getWidth() / (len + 1)) / 1.4f, heightSteps = mLayerViewport.getHeight() / 30;
+        for (int i = 0; i < len; i++) {
             Card activeCard = player.getHand().getCards().get(i);
-            Vector2 handPosition = new Vector2((widthSteps*(i+1)) + 70f, heightSteps*6);
+            Vector2 handPosition = new Vector2((widthSteps * (i + 1)) + 70f, heightSteps * 6);
             activeCard.setAnchor(handPosition.x, handPosition.y);
         }
 
@@ -568,7 +548,7 @@ public class CardDemoScreen extends GameScreen {
         }
 
         len = opponent.getActiveCards().size();
-        widthSteps = (mLayerViewport.getWidth()/1.5f) / (len + 1);
+        widthSteps = (mLayerViewport.getWidth() / 1.5f) / (len + 1);
         offset = mLayerViewport.getWidth() / 6;
         for (int i = 0; i < len; i++) {
             Card activeCard = opponent.getActiveCards().get(i);

@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.gage.AITests;
+package uk.ac.qub.eeecs.gage.ai_Tests;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -6,15 +6,17 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIController;
+import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIController;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
 import static junit.framework.Assert.assertEquals;
 
 /**
  * Created by 40216004 Dewei Liu on 16/02/2018.
+ *
+ * 2 unit tests in this class
  * <p>
- * Although there may are some exceptions occurred in this test, but the test can pass successfully
+ * Although there may are some exceptions occurred in this rotatingObject_Test1NotFinished, but the rotatingObject_Test1NotFinished can pass successfully
  * because the AI mController runs in another thread and uses many features of the mock object of board which may occur NullPointerExceptions
  */
 @RunWith(MockitoJUnitRunner.class)

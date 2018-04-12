@@ -199,11 +199,7 @@ public class Hero extends Sprite {
     }
 
     public boolean isAlive(){
-        if(this.getCurrentHealth()>0){
-            return true;
-        }else{
-            return false;
-        }
+        return this.getCurrentHealth() > 0;
     }
 
     public int getCurrentMana(){

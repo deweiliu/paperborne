@@ -133,9 +133,13 @@ public abstract class HelpScreenSuperClass extends GameScreen {
         mHeader.update(elapsedTime);
 
         if (mBackIcon.isPushTriggered()) {
-            mController.previousScreen();
+            if (!mController.previousScreen()) {
+                this.setPopUpMessage("Hey, this is the first page.", 2);
+            }
         } else if (mNextIcon.isPushTriggered()) {
-            mController.nextScreen();
+            if (!mController.nextScreen()) {
+                this.setPopUpMessage("Hey, this is the last page.", 2);
+            }
         } else if (home.isPushTriggered()) {
             mController.setUpNewScreen(new MenuScreen(mGame));
         } else if (startPlay.isPushTriggered()) {
@@ -170,11 +174,32 @@ public abstract class HelpScreenSuperClass extends GameScreen {
         }
     }
 
-    abstract void drawGameHelp(ElapsedTime elapsedTime, IGraphics2D graphics2D);
+    abstract protected void drawGameHelp(ElapsedTime elapsedTime, IGraphics2D graphics2D);
 
+    /**
+     * Use default bitmap for pop up message
+     *
+     * @param message  the message you want to display
+     * @param duration the period you the pop up message
+     */
     public void setPopUpMessage(String message, long duration) {
-        this.popUpMessage = new PopUp(message, duration, 72, mGame.getAssetManager().getBitmap(PopUp.POPUP_BITMAP_ID), this);
+        this.setPopUpMessage(message, duration, mGame.getAssetManager().getBitmap(PopUp.POPUP_BITMAP_ID));
+    }
+
+    /**
+     * Use personalise bitmap for pop up message
+     *
+     * @param message  the message you want to display
+     * @param duration the period you the pop up message
+     * @param bitmap   the bitmap you want to use
+     */
+    public void setPopUpMessage(String message, long duration, Bitmap bitmap) {
+        this.popUpMessage = new PopUp(message, duration, 72, bitmap, this);
         // Display the popup
         popUpMessage.show();
+    }
+
+    public PopUp getPopUpMessage() {
+        return popUpMessage;
     }
 }

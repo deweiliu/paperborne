@@ -201,7 +201,7 @@ public class TextDescription extends HelpScreenSuperClass {
      * @param graphics2D  Graphics instance
      */
     @Override
-    public void drawGameHelp(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+    protected void drawGameHelp(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
         for (int i = 0; i < gameRules.size(); i++) {
             float x = X_firstLine;
             float y = Y_firstLine + i * (textSize + textLineSpacing);

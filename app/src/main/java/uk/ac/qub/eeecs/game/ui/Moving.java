@@ -21,8 +21,9 @@ public final class Moving extends GameObject implements BasicEndGameStuff {
     private Position destination;
     private Position startingPoint;
 
-    private long period;
     private Position distancePerMillis;
+
+    //The time of the last call of void update(ElapsedTime elapsedTime);
     private long lastTime;
 
     public void setDestination(float x, float y) {
@@ -44,11 +45,25 @@ public final class Moving extends GameObject implements BasicEndGameStuff {
         public float y;
     }
 
+    /**
+     * @param x          starting x location of the object
+     * @param y          starting  y location of the object
+     * @param width      width of the object
+     * @param height     height of the object
+     * @param bitmap     Bitmap used to represent this object
+     * @param gameScreen Gamescreen to which this object belongs
+     */
     public Moving(float x, float y, float width, float height, Bitmap bitmap, GameScreen gameScreen) {
         super(x, y, width, height, bitmap, gameScreen);
         initialize(x, y);
     }
 
+    /**
+     * @param x          starting x location of the object
+     * @param y          starting  y location of the object
+     * @param bitmap     Bitmap used to represent this object
+     * @param gameScreen Gamescreen to which this object belongs
+     */
     public Moving(float x, float y, Bitmap bitmap, GameScreen gameScreen) {
         super(x, y, bitmap, gameScreen);
         initialize(x, y);
@@ -63,69 +78,71 @@ public final class Moving extends GameObject implements BasicEndGameStuff {
         isResumed = false;
     }
 
-    public boolean start(long movingTimeInMilliSecond) {
+    /**
+     * Please do call void setDestination(float x, float y); before calling this function
+     *
+     * @param period The period for moving in millisecond
+     * @return
+     */
+    public boolean start(long period) {
         if (destination != null) {
-            if (startingPoint != null) {
-                this.period = movingTimeInMilliSecond;
+            float x = destination.x - startingPoint.x;
+            float y = destination.y - startingPoint.y;
+            distancePerMillis = new Position(x / period, y / period);
 
-                float x = destination.x - startingPoint.x;
-                float y = destination.y - startingPoint.y;
-                distancePerMillis = new Position(x / period, y / period);
-
-
-                super.setPosition(startingPoint.x, startingPoint.y);
-                isStarted = true;
-                return resume();
-            } else {
-                //Log.d("The starting point is null", "Hello");
-                return false;
-
-            }
+            super.setPosition(startingPoint.x, startingPoint.y);
+            isStarted = true;
+            return resume();
         } else {
-            // Log.d("The moving destination is null", "Please set call setDestination(float x, float y); first");
-            return false;
+            throw new IllegalStateException("The moving destination is null, Please set call setDestination(float x, float y); first");
         }
     }
 
     public void stop() {
         pause();
         isStarted = false;
-
     }
 
+    /**
+     * Please do call  boolean start(long period); before calling this function
+     * @return
+     */
     public boolean resume() {
-        if (isStarted == true) {
+        if (isStarted) {
             this.isFinished = false;
             isResumed = true;
             lastTime = System.currentTimeMillis();
-            startTime = lastTime;
             return true;
+        } else {
+            throw new IllegalStateException("You have to start the animation before you call boolean resume();");
         }
-        return false;
     }
 
     public void pause() {
-        if (isResumed == true) {
+        if (isResumed) {
             isResumed = false;
         }
-
     }
 
-    private long startTime;
-
+    /**
+     * Please do call  boolean start(long period); OR boolean resume(); before calling this function
+     * Update the game object
+     *
+     * @param elapsedTime Elapsed time information
+     */
     @Override
     public void update(ElapsedTime elapsedTime) {
-
         if (isResumed) {
+            //Compute the moving distance depending on time
             long currentTime = System.currentTimeMillis();
             float movingX = (currentTime - this.lastTime) * distancePerMillis.x;
             float movingY = (currentTime - this.lastTime) * distancePerMillis.y;
 
             lastTime = System.currentTimeMillis();
-            float x = super.position.x + movingX;
-            float y = super.position.y + movingY;
-            super.setPosition(x, y);
+            //Update the new position in GameObject
+            super.setPosition(position.x + movingX, position.y + movingY);
 
+            //Check if it has reach the destination
             if (super.position.x > startingPoint.x && super.position.x > destination.x) {
                 finish();
             } else if (super.position.x < startingPoint.x && super.position.x < destination.x) {

@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.gage.AITests;
+package uk.ac.qub.eeecs.gage.ai_Tests;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,8 +10,8 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertNotEquals;
 
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.AIDecision;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.AttackActiveCardAlgorithm;
+import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIDecision;
+import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms.AttackActiveCardAlgorithm;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
@@ -20,6 +20,8 @@ import static org.mockito.Mockito.when;
 
 /**
  * Created by Dewei Liu 40216004 on 10/03/2018.
+ *
+ * 5 unit tests in this class
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AttackActiveCardAlgorithmTest {

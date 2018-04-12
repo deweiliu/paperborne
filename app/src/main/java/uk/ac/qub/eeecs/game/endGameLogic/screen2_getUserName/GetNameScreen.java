@@ -5,14 +5,14 @@ import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.endGameLogic.EndGameController;
-import uk.ac.qub.eeecs.game.endGameLogic.interfaces_superclass_forScreens.EndGameScreenSuperClass;
+import uk.ac.qub.eeecs.game.endGameLogic.interfaces_superclass_forScreens.EndGameScreenSuperclass;
 import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.interface_superclass.GetNameInterface;
 
 /**
  * Created by 40216004 Dewei Liu on 22/01/2018.
  */
 
-public class GetNameScreen extends EndGameScreenSuperClass {
+public class GetNameScreen extends EndGameScreenSuperclass {
 
     //hello this work
     private GetNameInterface getName;

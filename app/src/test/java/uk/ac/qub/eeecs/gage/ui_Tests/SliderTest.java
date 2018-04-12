@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.gage.UITests;
+package uk.ac.qub.eeecs.gage.ui_Tests;
 
 import android.content.Context;
 import android.content.res.AssetManager;

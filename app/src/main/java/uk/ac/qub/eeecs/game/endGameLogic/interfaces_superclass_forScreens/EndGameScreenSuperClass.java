@@ -1,6 +1,7 @@
 package uk.ac.qub.eeecs.game.endGameLogic.interfaces_superclass_forScreens;
 
 import android.graphics.Color;
+
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
@@ -11,7 +12,7 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.endGameLogic.EndGameController;
 
-public abstract class EndGameScreenSuperClass implements EndGameScreen {
+public abstract class EndGameScreenSuperclass implements EndGameScreen {
     protected boolean isFinished;
     protected EndGameController mController;
     protected ScreenViewport mScreenViewport;
@@ -19,7 +20,7 @@ public abstract class EndGameScreenSuperClass implements EndGameScreen {
     private GameObject background;
     private GameObject title;
 
-    public EndGameScreenSuperClass(EndGameController controller) {
+    public EndGameScreenSuperclass(EndGameController controller) {
         this.mController = controller;
         mScreenViewport = mController.getScreenViewport();
         mLayerViewport = mController.getLayerViewport();
@@ -101,8 +102,8 @@ public abstract class EndGameScreenSuperClass implements EndGameScreen {
         return mController.hasPlayer1Won();
     }
 
-    public GameScreen getBattleScreen() {
-        return mController.getBattleScreen();
+    public GameScreen getCardDemoScreen() {
+        return mController.getCardDemoScreen();
     }
 
 }

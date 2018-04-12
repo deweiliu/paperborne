@@ -1,10 +1,10 @@
-package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm;
+package uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm;
 
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.AlgorithmSuperClass;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.AttackActiveCardAlgorithm;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.AttackHeroAlgorithm;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.EndTurnAlgorithm;
-import uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm.algorithms.PlayCardAlgorithm;
+import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms.AlgorithmSuperclass;
+import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms.AttackActiveCardAlgorithm;
+import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms.AttackHeroAlgorithm;
+import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms.EndTurnAlgorithm;
+import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms.PlayCardAlgorithm;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
@@ -43,7 +43,7 @@ public class AIAlgorithm implements Runnable {
     public void run() {
         /*******************************************************************************************/
         //PlayCardAlgorithm
-        AlgorithmSuperClass algorithm = new PlayCardAlgorithm(humanPlayer, AIPlayer);
+        AlgorithmSuperclass algorithm = new PlayCardAlgorithm(humanPlayer, AIPlayer);
         if (algorithm.isValid()) {
             this.sourceCard = ((PlayCardAlgorithm) algorithm).getCardPlayed();
         }

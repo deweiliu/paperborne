@@ -38,12 +38,12 @@ public abstract class GameOverSuperclass implements GameOverInterface {
     }
 
     @Override
-    public boolean start(long movingTimeInMillis) {
+    public boolean start(long period) {
         boolean success = true;
         for (Moving each : animations) {
 
             //If there is at least one which has not been success, it fails
-            if (!each.start(movingTimeInMillis)) {
+            if (!each.start(period)) {
                 success = false;
             }
         }

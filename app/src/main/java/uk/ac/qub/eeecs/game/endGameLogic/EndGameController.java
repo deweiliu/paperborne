@@ -40,7 +40,7 @@ public class EndGameController extends GameScreen {
     private boolean isSinglePlayer;
     private boolean hasPlayer1Won;
     private EndGameScreen mEndGameScreen;
-    private GameScreen mBattleScreen;
+    private GameScreen mCardDemoScreen;
     private ScreenViewport mScreenViewport;
     private LayerViewport mLayerViewport;
     private Rotating loading;
@@ -72,7 +72,7 @@ public class EndGameController extends GameScreen {
         /***************************************************************************************************/
 
         //Set of variables
-        this.mBattleScreen = cardDemoScreen;
+        this.mCardDemoScreen = cardDemoScreen;
         this.isSinglePlayer = isSinglePlayer;
         this.hasPlayer1Won = hasPlayer1Won;
 
@@ -89,7 +89,7 @@ public class EndGameController extends GameScreen {
         //Start to run End game screen in the game
         this.mEndGameScreen = new GameOverScreen(this);
         this.state = GAME_OVER_SCREEN;
-        mGame.getScreenManager().removeScreen(mBattleScreen.getName());
+        mGame.getScreenManager().removeScreen(mCardDemoScreen.getName());
         mGame.getScreenManager().addScreen(this);
         mGame.getScreenManager().setAsCurrentScreen(this.getName());
     }
@@ -176,8 +176,8 @@ public class EndGameController extends GameScreen {
         return hasPlayer1Won;
     }
 
-    public GameScreen getBattleScreen() {
-        return mBattleScreen;
+    public GameScreen getCardDemoScreen() {
+        return mCardDemoScreen;
     }
 
     public ScreenViewport getScreenViewport() {

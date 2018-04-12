@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.cardDemo.AIAlgorithm;
+package uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm;
 
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 
