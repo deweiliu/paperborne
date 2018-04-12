@@ -95,12 +95,12 @@ public class PerformanceScreen extends GameScreen{
         // and aspect ratio of the screen.
         if (mScreenViewport.width > mScreenViewport.height)
             mLayerViewport = new LayerViewport(240.0f, 240.0f
-                    * mScreenViewport.height / mScreenViewport.width, 240,
+                    * mScreenViewport.height / mScreenViewport.width, 240.0f,
                     240.0f * mScreenViewport.height / mScreenViewport.width);
         else
-            mLayerViewport = new LayerViewport(240.0f * mScreenViewport.height
-                    / mScreenViewport.width, 240.0f, 240.0f
-                    * mScreenViewport.height / mScreenViewport.width, 240);
+            mLayerViewport = new LayerViewport(240.0f * mScreenViewport.width
+                    / mScreenViewport.height, 240.0f, 240.0f
+                    * mScreenViewport.width / mScreenViewport.height, 240.0f);
 
         // init paint params
         paintFPS = new Paint();
@@ -214,5 +214,13 @@ public class PerformanceScreen extends GameScreen{
 
     public PushButton getmRectanglesDown() {
         return mRectanglesDown;
+    }
+
+    public LayerViewport getmLayerViewport() {
+        return mLayerViewport;
+    }
+
+    public ScreenViewport getmScreenViewport() {
+        return mScreenViewport;
     }
 }
