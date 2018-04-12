@@ -133,9 +133,14 @@ public class CardsOnBoardTest
     
         // Create a hero, deck card etc.
         Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
-        
-        // Play a randomly drawn card
-        hero.playCard(hero.getDeck().drawCard());
+
+        // Play a card
+        for(Card card : hero.getHand().getCards()) {
+            if(card.getManaCost() == 1) {
+                hero.playCard(card);
+                break;
+            }
+        }
         
         // Pick a card from the board
         Card boardCard = hero.getActiveCards().get(0);
@@ -193,8 +198,20 @@ public class CardsOnBoardTest
         game.getScreenManager().addScreen(cardDemoScreen);
         Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
 
-        //play five cards
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < 9; i++) {
+            hero.incrementManaLimit();
+        }
+
+        for(Card card : hero.getHand().getCards()) { // a card of mana cost 1 must be played first for some reason
+            if(card.getManaCost() == 1) {
+                hero.playCard(card);
+                hero.refillMana();
+                break;
+            }
+        }
+
+        //play five cards total
+        for(int i = 0; i < 4; i++) {
             hero.playCard(hero.getHand().getCards().get(0));
             hero.refillMana();
         }
@@ -207,6 +224,5 @@ public class CardsOnBoardTest
 
         assertTrue(hero.getActiveCards().size() == 4);
     }
-
 
 }

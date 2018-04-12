@@ -225,12 +225,16 @@ public class CardTests {
         //Creates new Hero
         Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
 
-        // Play a randomly drawn card
-        hero.playCard(hero.getDeck().drawCard());
+        // Play a card - has to be 1 mana cost or it can't be played
+        for(Card card : hero.getHand().getCards()) {
+            if(card.getManaCost() == 1){
+                hero.playCard(card);
+                break;
+            }
+        }
 
         // Pick a card from the board
         Card card = hero.getActiveCards().get(0);
-
 
 
         // Create a touch position

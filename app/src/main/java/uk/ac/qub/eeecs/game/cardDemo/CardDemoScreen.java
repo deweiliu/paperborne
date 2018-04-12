@@ -556,7 +556,6 @@ public class CardDemoScreen extends GameScreen {
             Card activeCard = player.getHand().getCards().get(i);
             Vector2 handPosition = new Vector2((widthSteps*(i+1)) + 70f, heightSteps*6);
             activeCard.setAnchor(handPosition.x, handPosition.y);
-//            activeCard.setPosition(handPosition.x, handPosition.y);
         }
 
         len = player.getActiveCards().size();
@@ -566,7 +565,6 @@ public class CardDemoScreen extends GameScreen {
             Card activeCard = player.getActiveCards().get(i);
             Vector2 handPosition = new Vector2((widthSteps * (i + 1)) + offset, mLayerViewport.getHeight() / 2);
             activeCard.setAnchor(handPosition.x, handPosition.y);
-//            activeCard.setPosition(handPosition.x, handPosition.y);
         }
 
         len = opponent.getActiveCards().size();
@@ -576,17 +574,6 @@ public class CardDemoScreen extends GameScreen {
             Card activeCard = opponent.getActiveCards().get(i);
             Vector2 handPosition = new Vector2((widthSteps * (i + 1)) + offset, (mLayerViewport.getHeight() / 5) * 4);
             activeCard.setAnchor(handPosition.x, handPosition.y);
-//            activeCard.setPosition(handPosition.x, handPosition.y);
         }
     }
 }
-
-    /*  float len = player.getHand().getCards().size();
-        float widthSteps = (mLayerViewport.getWidth()/(len+1)) / 1.4f, heightSteps = mLayerViewport.getHeight()/30;
-        for(int i = 0; i < len; i++) {
-            Card activeCard = player.getHand().getCards().get(i);
-            Vector2 handPosition = new Vector2((widthSteps*(i+1)), heightSteps*6);
-            activeCard.setAnchor(handPosition.x + 70f, handPosition.y);
-            activeCard.setPosition(handPosition);
-        }
-        */

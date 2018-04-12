@@ -126,7 +126,7 @@ public class HeroTests {
 
         hero = new Hero(0,0, bitmap, cardDemoScreen, game);
         hero.incrementManaLimit();
-        assertTrue(hero.getManaLimit() == 1);
+        assertTrue(hero.getManaLimit() == 2);
 
     }
 
