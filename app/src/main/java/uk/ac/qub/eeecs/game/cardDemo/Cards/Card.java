@@ -167,16 +167,6 @@ public class Card extends Sprite {
                     && (layerPos.y < position.y + cardCentre.y) && this.finishedMove == false) {
                 cardPressedDown = true;
                 cardIsActive = true;
-                //finishedMove = false;
-
-                /*
-                //Checks what image is held on card, if clicked, swaps it with the alternative
-                if (mBitmap == mGameScreen.getGame().getAssetManager().getBitmap("Card")) {
-                    mBitmap = mGameScreen.getGame().getAssetManager().getBitmap("Back");
-                } else {
-                    mBitmap = mGameScreen.getGame().getAssetManager().getBitmap("Card");
-                }
-                */
             }
             if (touch.type == TouchEvent.TOUCH_UP) {
                 
@@ -195,19 +185,12 @@ public class Card extends Sprite {
                         if (hero.getCurrentMana() >= this.getManaCost()) {
                             //If the card is dropped onto the top half of the screen, place it onto the board
                             if (this.position.y > layerViewport.getHeight() / 2) {
-//                                //Place the cards accordingly
-//                                if (this.position.x > layerViewport.getWidth() / 2) {
-//                                    this.anchor.x += 20;
-//                                } else {
-//                                    this.anchor.x -= 20;
-//                                }
                                 //Moves the card from the players hand to their active cards
                                 hero.playCard(this);
                                 this.finishedMove = true;
                             }
                         }
                     }
-                    //position = new Vector2(this.anchor.x, this.anchor.y);
                 }
                 cardPressedDown = false;
                 //Checks if card is dragged

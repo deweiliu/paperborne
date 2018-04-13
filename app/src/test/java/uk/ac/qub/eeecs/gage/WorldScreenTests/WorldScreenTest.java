@@ -460,6 +460,6 @@ public class WorldScreenTest {
 			assertEquals(worldScreen.getLevels().get(worldScreen.getCurrentLevel()).getId(), levels.get(i).getId());
 		}
 	}
-	
+
 }
 
