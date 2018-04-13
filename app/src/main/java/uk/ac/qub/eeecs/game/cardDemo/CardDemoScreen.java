@@ -351,9 +351,7 @@ public class CardDemoScreen extends GameScreen {
         }
         input.getTouchEvents().clear();
 
-        // Check for a touch down event, if one is found deselect all the cards
         //only allow interaction if it's player's turn
-
         if (turnController.isPlayerTurn()) {
             if (startedThinking) {
                 // If the AI has been told to start thinking and it is now the player's turn
@@ -407,13 +405,13 @@ public class CardDemoScreen extends GameScreen {
                 }
                 if (!ended) {
                     // If the action wasn't end turn, start thinking again
-                    aiOpponent.startThinking(TurnController.TURN_TIME / 9);
+                    aiOpponent.startThinking(TurnController.getTurnTime() / 9);
                     startedThinking = true;
                 }
             }
         } else {
             // If the AI hasn't been told to start thinking, ask it to start thinking
-            aiOpponent.startThinking(TurnController.TURN_TIME / 9);
+            aiOpponent.startThinking(TurnController.getTurnTime() / 9);
             startedThinking = true;
         }
     }

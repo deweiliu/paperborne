@@ -19,7 +19,8 @@ import uk.ac.qub.eeecs.gage.world.ScreenViewport;
  * created this class to put those things together
  */
 public class TurnController {
-    public final static long TURN_TIME = 30000;
+
+    private final static long TURN_TIME = 30000; //milliseconds
 
     private boolean endTurnButtonPushed;
     private Paint mPaint;
@@ -72,6 +73,10 @@ public class TurnController {
 
     public boolean isPlayerTurn() {
         return playerTurn;
+    }
+
+    public static long getTurnTime() {
+        return TURN_TIME;
     }
 
 
