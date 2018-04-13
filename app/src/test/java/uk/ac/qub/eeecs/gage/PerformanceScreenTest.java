@@ -4,35 +4,27 @@ package uk.ac.qub.eeecs.gage;
  * Created by JC on 12/04/2018
  */
 
-import android.content.res.AssetManager;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
+import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
-import uk.ac.qub.eeecs.gage.util.InputHelper;
-import uk.ac.qub.eeecs.gage.util.Vector2;
-import uk.ac.qub.eeecs.gage.world.LayerViewport;
-import uk.ac.qub.eeecs.gage.world.ScreenViewport;
+import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.game.performanceScreen.PerformanceScreen;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
-
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.assertFalse;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PerformanceScreenTest {
@@ -52,6 +44,9 @@ public class PerformanceScreenTest {
 
     @Mock
     AssetStore assetManager;
+
+    @Mock
+    private IGraphics2D graphics2D;
 
     @Before
     public void setUp(){
@@ -108,49 +103,17 @@ public class PerformanceScreenTest {
         PerformanceScreen performanceScreen = new PerformanceScreen(game);
         game.getScreenManager().addScreen(performanceScreen);
 
-        // Create viewports to allow conversion from touch coordinates into screen coords
-        ScreenViewport screenViewport = new ScreenViewport(0, 0, performanceScreen.getGame().getScreenWidth(), performanceScreen.getGame().getScreenHeight());
+        //get button
+        PushButton rectsDownButton = performanceScreen.getmRectanglesDown();
 
-        LayerViewport layerViewport;
+        List<TouchEvent> touchEvents = TestUtil.touchObject(rectsDownButton, graphics2D);
 
-        if (screenViewport.width > screenViewport.height)
-            layerViewport = new LayerViewport(240.0f, 240.0f
-                    * screenViewport.height / screenViewport.width, 240,
-                    240.0f * screenViewport.height / screenViewport.width);
-        else
-            layerViewport = new LayerViewport(240.0f * screenViewport.height
-                    / screenViewport.width, 240.0f, 240.0f
-                    * screenViewport.height / screenViewport.width, 240);
-
-        // Create a touch position
-        Vector2 touchPos = new Vector2(performanceScreen.getmRectanglesDown().position);
-
-        // Set up the touch event
-        TouchEvent touchPosition = new TouchEvent();
-        touchPosition.x = touchPos.x;
-        touchPosition.y = touchPos.y;
-        touchPosition.type = TouchEvent.TOUCH_DOWN;
-        List<TouchEvent> touchEvents = new ArrayList<>();
-        touchEvents.add(touchPosition);
-
-        // Convert the touch coordinates into screen coordinates
-        Vector2 buttonPos = new Vector2();
-        InputHelper.convertScreenPosIntoLayer(
-                screenViewport,
-                new Vector2(touchPos.x, touchPos.y),
-                layerViewport, buttonPos);
-
-        //move button
-        performanceScreen.getmRectanglesDown().position = new Vector2(buttonPos);
-
-        // Set up simulated return for touch events
         when(input.getTouchEvents()).thenReturn(touchEvents);
-
-        //update screen
         performanceScreen.update(elapsedTime);
 
-        //did the number of rectangles decrease as expected?
-        assertTrue(performanceScreen.getNumRectangles() == 50);
+        assertEquals(50, performanceScreen.getNumRectangles());
+
+
     }
 
     @Test
@@ -161,49 +124,15 @@ public class PerformanceScreenTest {
         PerformanceScreen performanceScreen = new PerformanceScreen(game);
         game.getScreenManager().addScreen(performanceScreen);
 
-        // Create viewports to allow conversion from touch coordinates into screen coords
-        ScreenViewport screenViewport = new ScreenViewport(0, 0, performanceScreen.getGame().getScreenWidth(), performanceScreen.getGame().getScreenHeight());
+        //get button
+        PushButton rectsDownButton = performanceScreen.getmRectanglesUp();
 
-        LayerViewport layerViewport;
+        List<TouchEvent> touchEvents = TestUtil.touchObject(rectsDownButton, graphics2D);
 
-        if (screenViewport.width > screenViewport.height)
-            layerViewport = new LayerViewport(240.0f, 240.0f
-                    * screenViewport.height / screenViewport.width, 240,
-                    240.0f * screenViewport.height / screenViewport.width);
-        else
-            layerViewport = new LayerViewport(240.0f * screenViewport.height
-                    / screenViewport.width, 240.0f, 240.0f
-                    * screenViewport.height / screenViewport.width, 240);
-
-        // Create a touch position
-        Vector2 touchPos = new Vector2(performanceScreen.getmRectanglesUp().position);
-
-        // Set up the touch event
-        TouchEvent touchPosition = new TouchEvent();
-        touchPosition.x = touchPos.x;
-        touchPosition.y = touchPos.y;
-        touchPosition.type = TouchEvent.TOUCH_DOWN;
-        List<TouchEvent> touchEvents = new ArrayList<>();
-        touchEvents.add(touchPosition);
-
-        // Convert the touch coordinates into screen coordinates
-        Vector2 buttonPos = new Vector2();
-        InputHelper.convertScreenPosIntoLayer(
-                screenViewport,
-                new Vector2(touchPos.x, touchPos.y),
-                layerViewport, buttonPos);
-
-        //move button
-        performanceScreen.getmRectanglesUp().position = new Vector2(buttonPos);
-
-        // Set up simulated return for touch events
         when(input.getTouchEvents()).thenReturn(touchEvents);
-
-        //update screen
         performanceScreen.update(elapsedTime);
 
-        //did the number of rectangles increase as expected?
-        assertTrue(performanceScreen.getNumRectangles() == 150);
+        assertEquals(150, performanceScreen.getNumRectangles());
     }
 
 }
