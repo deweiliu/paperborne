@@ -54,11 +54,12 @@ public abstract class HelpScreenSuperClass extends GameScreen {
     /**
      * Create a new game screen associated with the specified game instance
      *
-     * @param name the name of screen
-     * @param game Game instance to which the game screen belongs
+     * @param name       the name of screen
+     * @param game       Game instance to which the game screen belongs
+     * @param controller the controller of help screen
      */
     public HelpScreenSuperClass(String name, Game game, GameHelpController controller) {
-        super(name, game);
+        super("Game help - " + name, game);
         this.mController = controller;
         //Set up viewports
         mScreen = new ScreenViewport(0, 0, mGame.getScreenWidth(), mGame.getScreenHeight());
@@ -201,5 +202,8 @@ public abstract class HelpScreenSuperClass extends GameScreen {
 
     public PopUp getPopUpMessage() {
         return popUpMessage;
+    }
+
+    public void reset() {
     }
 }

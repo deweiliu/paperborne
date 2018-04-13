@@ -34,7 +34,7 @@ public class ForTestingEndGameLogic extends HelpScreenSuperClass {
      * Create a new game screen associated with the specified game instance
      *
      * @param game       Game instance to which the game screen belongs
-     * @param controller
+     * @param controller the controller of help screen
      */
     public ForTestingEndGameLogic(Game game, GameHelpController controller) {
         super("For Developer to Test End Game Logic", game, controller);
@@ -110,7 +110,7 @@ public class ForTestingEndGameLogic extends HelpScreenSuperClass {
 
         /****************************************************************************************************************/
         //Draw prompt text
-        int index = text.size() - 1;
+        int index = text.size();
         float x = mGame.getScreenWidth() / 8;
         for (String each : text) {
             graphics2D.drawText(each, x, mGame.getScreenHeight() - mPaint.getTextSize() * index--, mPaint);
