@@ -46,6 +46,11 @@ public class LevelCard
 		this.healthValue = healthValue;
 		this.attackValue = attackValue;
 	}
+
+	//Copy constructor
+	public LevelCard(LevelCard blankCard){
+		this(blankCard.name, blankCard.bitmap, blankCard.manaCost, blankCard.healthValue, blankCard.attackValue);
+	}
 	
 	public String getName()
 	{

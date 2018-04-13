@@ -96,12 +96,6 @@ public class PerformanceScreenTest {
         PerformanceScreen performanceScreen = new PerformanceScreen(game);
         game.getScreenManager().addScreen(performanceScreen);
 
-        System.out.println(game.getScreenWidth());
-        System.out.println(game.getScreenHeight());
-
-        System.out.println(performanceScreen.getmScreenViewport().width);
-        System.out.println(performanceScreen.getmScreenViewport().height);
-
         assertTrue(performanceScreen.getmLayerViewport().x < performanceScreen.getmLayerViewport().y);
         assertTrue(performanceScreen.getmLayerViewport().halfWidth < performanceScreen.getmLayerViewport().halfHeight);
     }
@@ -155,11 +149,6 @@ public class PerformanceScreenTest {
         //update screen
         performanceScreen.update(elapsedTime);
 
-        System.out.println("Button position x,y: " + performanceScreen.getmRectanglesDown().position.x + ", " + performanceScreen.getmRectanglesDown().position.y);
-        System.out.println("Touch position x,y: " + touchPosition.x + "," + touchPosition.y);
-        System.out.println("TouchEvent position: " + touchPosition.x + ", " + touchPosition.y);
-        System.out.println("Converted position: " + buttonPos.x + ", " + buttonPos.y);
-
         //did the number of rectangles decrease as expected?
         assertTrue(performanceScreen.getNumRectangles() == 50);
     }
@@ -212,11 +201,6 @@ public class PerformanceScreenTest {
 
         //update screen
         performanceScreen.update(elapsedTime);
-
-        System.out.println("Button position x,y: " + performanceScreen.getmRectanglesUp().position.x + ", " + performanceScreen.getmRectanglesUp().position.y);
-        System.out.println("Touch position x,y: " + touchPosition.x + "," + touchPosition.y);
-        System.out.println("TouchEvent position: " + touchPosition.x + ", " + touchPosition.y);
-        System.out.println("Converted position: " + buttonPos.x + ", " + buttonPos.y);
 
         //did the number of rectangles increase as expected?
         assertTrue(performanceScreen.getNumRectangles() == 150);

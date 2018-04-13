@@ -32,13 +32,15 @@ import uk.ac.qub.eeecs.game.cardDemo.Hero;
 import uk.ac.qub.eeecs.game.worldScreen.Level;
 import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by Jamie on 28/01/2018.
+ * Created by Jamie C on 28/01/2018.
  */
 
 @RunWith(MockitoJUnitRunner.class)
@@ -69,7 +71,7 @@ public class CardTests {
     IGraphics2D iGraphics2D;
 
     @Mock
-    List<LevelCard> playerDeck, opponentDeck;
+    ArrayList<LevelCard> playerDeck, opponentDeck;
 
     @Mock
     Level level;
@@ -408,7 +410,7 @@ public class CardTests {
         card = new Card(0,"Test",0,0,bitmap,cardDemoScreen,0,0,0);
 
         card.setCardName("New Card Name");
-        assertTrue(card.getCardName() == "New Card Name");
+        assertTrue(card.getCardName().equals("New Card Name"));
     }
 
     //CS
@@ -419,6 +421,130 @@ public class CardTests {
         card = new Card(0,"Test",0,0,bitmap,cardDemoScreen,0,0,0);
 
         card.setFinishedMove(true);
-        assertTrue(card.isFinishedMove() == true);
+        assertTrue(card.isFinishedMove());
+    }
+
+    @Test
+    public void heroesWithDeck() {
+
+        //create levelcard lists
+
+        String bitmapString = "";
+
+        LevelCard oneCostCard = new LevelCard("Weak Man", bitmapString, 1, 1, 1);
+        LevelCard twoCostCard = new LevelCard("Dog", bitmapString, 2, 2, 2);
+        LevelCard threeCostCard = new LevelCard("Fat Man", bitmapString, 3, 2, 3);
+        LevelCard fourCostCard = new LevelCard("Sword", bitmapString, 4, 1, 4);
+        LevelCard fiveCostCard = new LevelCard("Dragon", bitmapString, 5, 7, 5);
+
+        playerDeck = new ArrayList<>();
+        opponentDeck = new ArrayList<>();
+        for(int i = 0; i< 5; i++) {
+            playerDeck.add(new LevelCard(oneCostCard));
+            opponentDeck.add(new LevelCard(oneCostCard));
+        }
+        for (int i = 0; i < 4; i++) {
+            playerDeck.add(new LevelCard(twoCostCard));
+            opponentDeck.add(new LevelCard(twoCostCard));
+        }
+        for (int i = 0; i < 3; i++) {
+            playerDeck.add(new LevelCard(threeCostCard));
+            opponentDeck.add(new LevelCard(threeCostCard));
+        }
+        for (int i = 0; i < 2; i++) {
+            playerDeck.add(new LevelCard(fourCostCard));
+            opponentDeck.add(new LevelCard(fourCostCard));
+        }
+        playerDeck.add(new LevelCard(fiveCostCard));
+        opponentDeck.add(new LevelCard(fiveCostCard));
+
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game, opponentDeck, playerDeck, level);
+        game.getScreenManager().addScreen(cardDemoScreen);
+
+        int plCount1 = 0, plCount2 = 0, plCount3 = 0, plCount4 = 0, plCount5 = 0;
+        int opCount1 = 0, opCount2 = 0, opCount3 = 0, opCount4 = 0, opCount5 = 0;
+
+
+        for(Card card : cardDemoScreen.getPlayer().getDeck().getCardsInDeck()) {
+            switch(card.getManaCost()) {
+                case 1: plCount1++;
+                    break;
+                case 2: plCount2++;
+                    break;
+                case 3: plCount3++;
+                    break;
+                case 4: plCount4++;
+                    break;
+                case 5: plCount5++;
+                    break;
+                default: fail(); //really shouldn't ever see this
+                    break;
+            }
+        }
+        for(Card card : cardDemoScreen.getPlayer().getHand().getCards()) {
+            switch(card.getManaCost()) {
+                case 1: plCount1++;
+                    break;
+                case 2: plCount2++;
+                    break;
+                case 3: plCount3++;
+                    break;
+                case 4: plCount4++;
+                    break;
+                case 5: plCount5++;
+                    break;
+                default: fail(); //really shouldn't ever see this
+                    break;
+            }
+        }
+
+        for(Card card : cardDemoScreen.getOpponent().getDeck().getCardsInDeck()) {
+            switch(card.getManaCost()) {
+                case 1: opCount1++;
+                    break;
+                case 2: opCount2++;
+                    break;
+                case 3: opCount3++;
+                    break;
+                case 4: opCount4++;
+                    break;
+                case 5: opCount5++;
+                    break;
+                default: fail(); //really shouldn't ever see this
+                    break;
+            }
+        }
+
+        for(Card card : cardDemoScreen.getOpponent().getHand().getCards()) {
+            switch(card.getManaCost()) {
+                case 1: opCount1++;
+                    break;
+                case 2: opCount2++;
+                    break;
+                case 3: opCount3++;
+                    break;
+                case 4: opCount4++;
+                    break;
+                case 5: opCount5++;
+                    break;
+                default: fail(); //really shouldn't ever see this
+                    break;
+            }
+        }
+
+
+        //check number of cards are correct
+
+        assertEquals(5, plCount1);
+        assertEquals(4, plCount2);
+        assertEquals(3, plCount3);
+        assertEquals(2, plCount4);
+        assertEquals(1, plCount5);
+
+        assertEquals(5, opCount1);
+        assertEquals(4, opCount2);
+        assertEquals(3, opCount3);
+        assertEquals(2, opCount4);
+        assertEquals(1, opCount5);
     }
 }

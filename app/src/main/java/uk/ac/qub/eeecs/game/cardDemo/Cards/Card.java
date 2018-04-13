@@ -282,12 +282,6 @@ public class Card extends Sprite {
         return lastPosition;
     }
 
-    public void setLastPosition(){
-        setPosition(this.lastPosition.x,this.lastPosition.y);
-        finishedMove = false;
-        cardIsActive = false;
-    }
-
     public void setLastPosition(Vector2 lastPosition) {
         this.lastPosition = lastPosition;
     }

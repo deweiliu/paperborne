@@ -556,4 +556,12 @@ public class CardDemoScreen extends GameScreen {
             activeCard.setAnchor(handPosition.x, handPosition.y);
         }
     }
+
+    public Hero getPlayer() {
+        return player;
+    }
+
+    public Hero getOpponent() {
+        return opponent;
+    }
 }
