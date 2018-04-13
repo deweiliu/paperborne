@@ -297,6 +297,8 @@ public class CardDemoScreen extends GameScreen {
         Input input = mGame.getInput();
         if (playerTurn) {
             for (TouchEvent touch : input.getTouchEvents()) {
+
+
                 if (touch.type == TouchEvent.TOUCH_DOWN) {
                     touchDown = true;
                 }

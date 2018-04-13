@@ -74,6 +74,7 @@ public class NameerUnitTests {
     }
 
     //This tests that when a Hand is created, the size of the hand is as should be expected
+    //NS
     @Test
     public void testHandCreation(){
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);

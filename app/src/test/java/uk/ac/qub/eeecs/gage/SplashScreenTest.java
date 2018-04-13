@@ -78,6 +78,7 @@ public class SplashScreenTest {
 
     //This test checks that if touch event occurs when on the splash screen,
     //it should change to the menu screen
+    //NS
     @Test
     public void testScreenChange(){
         //Sets up test data

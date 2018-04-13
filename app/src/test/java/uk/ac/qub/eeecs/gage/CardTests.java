@@ -88,7 +88,10 @@ public class CardTests {
     @Before
     public void setUp() {
         screenManager = new ScreenManager();
+        int screenWidth = 1920, screenHeight = 1080;
 
+        when(game.getScreenWidth()).thenReturn(screenWidth);
+        when(game.getScreenHeight()).thenReturn(screenHeight);
 
         when(game.getInput()).thenReturn(input);
         when(game.getScreenManager()).thenReturn(screenManager);
@@ -153,123 +156,59 @@ public class CardTests {
 
 
     //Tests if the card is active when touched
+    //NS
     @Test
     public void cardActiveTest(){
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
 
-        card = new Card(1, "TestCard", 10, 10, bitmap, cardDemoScreen, 10, 5, 10);
-        ElapsedTime elapsedTime = new ElapsedTime();
+        ScreenViewport mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
+                game.getScreenHeight());
 
-        card.draw(elapsedTime, iGraphics2D);
+        LayerViewport mLayerViewport;
 
-        TouchEvent touchEvent = new TouchEvent();
-        touchEvent.type = TouchEvent.TOUCH_DOWN;
-        touchEvent.x = 10;
-        touchEvent.y = 10;
-
-        List<TouchEvent> touchEvents = new ArrayList<>();
-
-        touchEvents.add(touchEvent);
-
-        when(input.getTouchEvents()).thenReturn(touchEvents);
-
-        card.update(elapsedTime);
-        assertTrue(card.isCardIsActive());
-    }
-
-    @Test
-    public void cardNotActiveTest(){
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
-        game.getScreenManager().addScreen(cardDemoScreen);
-
-        card = new Card(1, "TestCard", 10, 10, bitmap, cardDemoScreen, 10, 5, 10);
-        ElapsedTime elapsedTime = new ElapsedTime();
-
-        card.draw(elapsedTime, iGraphics2D);
-
-        TouchEvent touchEvent = new TouchEvent();
-        touchEvent.type = TouchEvent.TOUCH_UP;
-        touchEvent.x = 10;
-        touchEvent.y = 10;
-
-        List<TouchEvent> touchEvents = new ArrayList<>();
-
-        touchEvents.add(touchEvent);
-
-        when(input.getTouchEvents()).thenReturn(touchEvents);
-
-        card.update(elapsedTime);
-        assertFalse(card.isCardIsActive());
-    }
-
-    @Test
-    public void cardIsPressedTest(){
-        ElapsedTime elapsedTime = new ElapsedTime();
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
-        game.getScreenManager().addScreen(cardDemoScreen);
-
-        ScreenViewport screenViewport = new ScreenViewport(0, 0, cardDemoScreen.getGame().getScreenWidth(), cardDemoScreen.getGame().getScreenHeight());
-
-        LayerViewport layerViewport;
-
-        if (screenViewport.width > screenViewport.height)
-            layerViewport = new LayerViewport(240.0f, 240.0f
-                    * screenViewport.height / screenViewport.width, 240,
-                    240.0f * screenViewport.height / screenViewport.width);
+        if (mScreenViewport.width > mScreenViewport.height)
+            mLayerViewport = new LayerViewport(240.0f, 240.0f
+                    * mScreenViewport.height / mScreenViewport.width, 240,
+                    240.0f * mScreenViewport.height / mScreenViewport.width);
         else
-            layerViewport = new LayerViewport(240.0f * screenViewport.height
-                    / screenViewport.width, 240.0f, 240.0f
-                    * screenViewport.height / screenViewport.width, 240);
+            mLayerViewport = new LayerViewport(240.0f * mScreenViewport.height
+                    / mScreenViewport.width, 240.0f, 240.0f
+                    * mScreenViewport.height / mScreenViewport.width, 240);
 
-
-
-        //Creates new Hero
         Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
 
-        // Play a card - has to be 1 mana cost or it can't be played
-        for(Card card : hero.getHand().getCards()) {
-            if(card.getManaCost() == 1){
-                hero.playCard(card);
-                break;
-            }
-        }
+        Card card = new Card(1, "TestCard", 10, 10, bitmap, cardDemoScreen, 0, 0, 0);
+        ElapsedTime elapsedTime = new ElapsedTime();
 
-        // Pick a card from the board
-        Card card = hero.getActiveCards().get(0);
+        Vector2 touchPos = new Vector2();
+        touchPos.x = 10;
+        touchPos.y = 10;
 
-
-        // Create a touch position
-        Vector2 touchPos = new Vector2(50.0f, 50.0f);
+        TestUtil.convertLayerPosIntoScreen(mScreenViewport, touchPos, mLayerViewport, card.getPosition());
 
         TouchEvent touchEvent = new TouchEvent();
         touchEvent.type = TouchEvent.TOUCH_DOWN;
         touchEvent.x = touchPos.x;
         touchEvent.y = touchPos.y;
-        List<TouchEvent> touchEvents = new ArrayList<TouchEvent>();
+
+        List<TouchEvent> touchEvents = new ArrayList<>();
         touchEvents.add(touchEvent);
 
         when(input.getTouchEvents()).thenReturn(touchEvents);
 
-        // Convert the touch coordinates into screen coordinates
-        TestUtil.convertLayerPosIntoScreen(screenViewport, touchPos, layerViewport, card.getPosition());
-
-        //Call update method
-        cardDemoScreen.update(elapsedTime);
-        card.update(elapsedTime, screenViewport, layerViewport, hero);
-
-        assertTrue(card.isCardPressedDown());
+        card.update(elapsedTime, mScreenViewport, mLayerViewport, hero);
+        assertTrue(card.isCardIsActive());
     }
 
+    //Tests If the card remains not active when a touch event takes place outside the card
+    //NS
     @Test
-    public void cardPlayedTest(){
-        int ScreenWidth = 1920;
-        int ScreenHeight = 1080;
-        when(game.getScreenWidth()).thenReturn(ScreenWidth);
-        when(game.getScreenHeight()).thenReturn(ScreenHeight);
-
+    public void cardNotActiveTest(){
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
+        Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
+
         ScreenViewport mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
                 game.getScreenHeight());
 
@@ -285,34 +224,86 @@ public class CardTests {
                     * mScreenViewport.height / mScreenViewport.width, 240);
 
 
+
+        card = new Card(1, "TestCard", 10, 10, bitmap, cardDemoScreen, 10, 5, 10);
+        ElapsedTime elapsedTime = new ElapsedTime();
+
+        Vector2 touchPos = new Vector2();
+        touchPos.x = 100; touchPos.y = 100;
+        TestUtil.convertLayerPosIntoScreen(mScreenViewport, touchPos, mLayerViewport, card.position);
+
+        TouchEvent touchEvent = new TouchEvent();
+        touchEvent.type = TouchEvent.TOUCH_UP;
+        touchEvent.x = touchPos.x;
+        touchEvent.y = touchPos.y;
+
+        List<TouchEvent> touchEvents = new ArrayList<>();
+
+        touchEvents.add(touchEvent);
+
+        when(input.getTouchEvents()).thenReturn(touchEvents);
+
+        card.update(elapsedTime, mScreenViewport, mLayerViewport, hero);
+        assertFalse(card.isCardIsActive());
+    }
+
+    //Tests a card is played when it has been dropped in the correct area
+    //NS
+    @Test
+    public void cardPlayedTest(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        game.getScreenManager().addScreen(cardDemoScreen);
+
         Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
         hero.incrementManaLimit();
         hero.refillMana();
 
-        Card card = new Card(0, "Test", ScreenWidth / 5.0f, (ScreenHeight / 3.0f) * 1.5f, bitmap, cardDemoScreen, 1, 1, 1);
+        ScreenViewport mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
+                game.getScreenHeight());
+
+        LayerViewport mLayerViewport;
+
+        if (mScreenViewport.width > mScreenViewport.height)
+            mLayerViewport = new LayerViewport(240.0f, 240.0f
+                    * mScreenViewport.height / mScreenViewport.width, 240,
+                    240.0f * mScreenViewport.height / mScreenViewport.width);
+        else
+            mLayerViewport = new LayerViewport(240.0f * mScreenViewport.height
+                    / mScreenViewport.width, 240.0f, 240.0f
+                    * mScreenViewport.height / mScreenViewport.width, 240);
+
+
+        hero.incrementManaLimit();
+        hero.refillMana();
+
+        card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
         card.setCardState(Card.CardState.CARD_IN_HAND);
 
         ElapsedTime elapsedTime = new ElapsedTime();
+        Vector2 touchPos = new Vector2();
+        touchPos.x = 60;
+        touchPos.y = 1000;
+
+        InputHelper.convertScreenPosIntoLayer(mScreenViewport,touchPos,mLayerViewport,card.getPosition());
 
         TouchEvent touchEvent = new TouchEvent();
         touchEvent.type = TouchEvent.TOUCH_UP;
-        touchEvent.x = card.getPosition().x;
-        touchEvent.y = card.getPosition().y;
+        touchEvent.x = touchPos.x;
+        touchEvent.y = touchPos.y;
         List<TouchEvent> touchEvents = new ArrayList<>();
         touchEvents.add(touchEvent);
 
         card.setCardPressedDown(true);
-        Vector2 tempPos = new Vector2();
-        InputHelper.convertScreenPosIntoLayer(mScreenViewport, new Vector2(touchEvent.x, touchEvent.y),
-                mLayerViewport, tempPos);
-
-        card.setPosition(tempPos.x, tempPos.y);
+        card.setPosition(touchPos.x, touchPos.y);
         when(input.getTouchEvents()).thenReturn(touchEvents);
+
         card.update(elapsedTime, mScreenViewport, mLayerViewport, hero);
 
         assertTrue(card.getCardState() == Card.CardState.CARD_ON_BOARD);
     }
 
+    //The following tests test various setter methods
+    //NS
     @Test
     public void cardSetPositionTest(){
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
@@ -324,7 +315,7 @@ public class CardTests {
         assertTrue(card.getPosition().x == 100 && card.getPosition().y == 100);
 
     }
-
+    //NS
     @Test
     public void cardSetAnchorTest(){
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
@@ -335,7 +326,7 @@ public class CardTests {
         assertTrue(card.getAnchor().x == 50 && card.getAnchor().y == 50);
     }
 
-
+    //NS
     @Test
     public void cardSetCardStateTest(){
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
@@ -345,7 +336,7 @@ public class CardTests {
         assertTrue(card.getCardState() == Card.CardState.CARD_ON_BOARD);
     }
 
-
+    //NS
     @Test
     public void cardSetLastPosition(){
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
@@ -359,6 +350,7 @@ public class CardTests {
         assertTrue(card.getLastPosition() == lastPosition);
     }
 
+    //NS
     @Test
     public void cardSetManaCost(){
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
@@ -546,5 +538,53 @@ public class CardTests {
         assertEquals(3, opCount3);
         assertEquals(2, opCount4);
         assertEquals(1, opCount5);
+    }
+
+    //Tests if a card acknowledges when a touch event takes place on it
+    //NS
+    @Test
+    public void cardIsPressedTest(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        game.getScreenManager().addScreen(cardDemoScreen);
+        ElapsedTime elapsedTime = new ElapsedTime();
+
+
+        ScreenViewport mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
+                game.getScreenHeight());
+
+        LayerViewport mLayerViewport;
+
+        if (mScreenViewport.width > mScreenViewport.height)
+            mLayerViewport = new LayerViewport(240.0f, 240.0f
+                    * mScreenViewport.height / mScreenViewport.width, 240,
+                    240.0f * mScreenViewport.height / mScreenViewport.width);
+        else
+            mLayerViewport = new LayerViewport(240.0f * mScreenViewport.height
+                    / mScreenViewport.width, 240.0f, 240.0f
+                    * mScreenViewport.height / mScreenViewport.width, 240);
+
+        Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
+
+        card = new Card(0, "Test",10, 10, bitmap, cardDemoScreen, 0, 0, 0);
+        card.setCardState(Card.CardState.CARD_IN_HAND);
+
+        Vector2 touchPos = new Vector2();
+        touchPos.x = 10;
+        touchPos.y = 10;
+
+        TestUtil.convertLayerPosIntoScreen(mScreenViewport, touchPos, mLayerViewport, card.getPosition());
+
+        List<TouchEvent> touchEvents = new ArrayList<>();
+        TouchEvent touchEvent = new TouchEvent();
+        touchEvent.type = TouchEvent.TOUCH_DOWN;
+        touchEvent.x = touchPos.x;
+        touchEvent.y = touchPos.y;
+
+        touchEvents.add(touchEvent);
+        when(input.getTouchEvents()).thenReturn(touchEvents);
+        card.setFinishedMove(false);
+        card.update(elapsedTime, mScreenViewport, mLayerViewport, hero);
+
+        assertTrue(card.isCardPressedDown());
     }
 }

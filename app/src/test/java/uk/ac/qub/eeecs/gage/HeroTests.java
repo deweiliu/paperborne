@@ -118,7 +118,7 @@ public class HeroTests {
         assertTrue(hero.getHeroIsDead());
     }
 
-
+    //NS
     @Test
     public void testManaIncrement(){
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
@@ -130,6 +130,7 @@ public class HeroTests {
 
     }
 
+    //NS
     @Test
     public void setHeroTouched(){
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
