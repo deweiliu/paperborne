@@ -1,0 +1,110 @@
+package uk.ac.qub.eeecs.game.cardDemo;
+
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.os.Handler;
+import android.os.Looper;
+
+import uk.ac.qub.eeecs.gage.Game;
+import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
+import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
+import uk.ac.qub.eeecs.gage.ui.PushButton;
+import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.gage.world.LayerViewport;
+import uk.ac.qub.eeecs.gage.world.ScreenViewport;
+
+/**
+ * Created on 13 Apr
+ * For improving code quality of card demo screen
+ * created this class to put those things together
+ */
+public class TurnController {
+    public final static long TURN_TIME = 30000;
+
+    private boolean endTurnButtonPushed;
+    private Paint mPaint;
+    private PushButton mEndTurnButton;
+    private ScreenViewport mScreenViewport;
+    private LayerViewport mLayerViewport;
+    private boolean playerTurn;
+    private long startTime;
+    private Runnable endTurnTask;
+    private Handler turnHandler;
+    private GameScreen gameScreen;
+
+    public void setEndTurnTask(Runnable endTurnTask) {
+        this.endTurnTask = endTurnTask;
+        turnHandler = new Handler(Looper.getMainLooper());
+        turnHandler.postDelayed(this.endTurnTask, TURN_TIME);
+    }
+
+    public TurnController(GameScreen cardDemoScreen) {
+        //Set up variables
+        playerTurn = true;
+        this.gameScreen = cardDemoScreen;
+        Game game = this.gameScreen.getGame();
+        /*******************************************************************/
+        //Set up end turn button
+        game.getAssetManager().loadAndAddBitmap("EndTurn", "img/Board/End_Turn.png");
+        mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(), game.getScreenHeight());
+        mLayerViewport = new LayerViewport(0, 0, mScreenViewport.width / 2, mScreenViewport.height / 2);
+        final float BUTTON_SIZE = mLayerViewport.halfWidth / 7;
+        mEndTurnButton = new PushButton(mLayerViewport.x + mLayerViewport.halfWidth - BUTTON_SIZE, mLayerViewport.y,
+                BUTTON_SIZE * 2, BUTTON_SIZE, "EndTurn", gameScreen);
+        mEndTurnButton.processInLayerSpace(true);
+        /*******************************************************************/
+
+        //paint for status
+        mPaint = new Paint();
+        mPaint.setTextSize(60);
+        mPaint.setARGB(255, 255, 255, 255);
+        mPaint.setShadowLayer(5.0f, 2.0f, 2.0f, Color.BLACK);
+
+        //record the start time for first turn
+        this.startTime = System.currentTimeMillis();
+    }
+
+    public void switchTurn() {
+        playerTurn = !playerTurn;
+        turnHandler.postDelayed(this.endTurnTask, TURN_TIME);
+        startTime = System.currentTimeMillis();
+    }
+
+    public boolean isPlayerTurn() {
+        return playerTurn;
+    }
+
+
+    /**
+     * @return if the end turn button is pushed IN THIS UPDATE
+     */
+    public boolean isEndTurnButtonPushed() {
+        return endTurnButtonPushed;
+    }
+
+    public void update(ElapsedTime elapsedTime) {
+        mEndTurnButton.update(elapsedTime, mLayerViewport, mScreenViewport);
+        if (endTurnButtonPushed = mEndTurnButton.isPushTriggered()) {
+            this.doEndTurn();
+        }
+    }
+
+    public void doEndTurn() {
+        turnHandler.removeCallbacks(endTurnTask);
+        endTurnTask.run();
+    }
+
+    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+        String turnRemaining = (((startTime + TURN_TIME) - System.currentTimeMillis()) / 1000) + " seconds left in current turn";
+        String whoseTurn = "Player turn: " + playerTurn;
+        String canInteract = "Player " + (playerTurn ? "can" : "cannot") + " interact";
+
+        int i = 0;
+        final float x = gameScreen.getGame().getScreenWidth() / 40;
+        graphics2D.drawText(turnRemaining, x, mPaint.getTextSize() * (++i), mPaint);
+        graphics2D.drawText(whoseTurn, x, mPaint.getTextSize() * (++i), mPaint);
+        graphics2D.drawText(canInteract, x, mPaint.getTextSize() * (++i), mPaint);
+        mEndTurnButton.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+
+    }
+}

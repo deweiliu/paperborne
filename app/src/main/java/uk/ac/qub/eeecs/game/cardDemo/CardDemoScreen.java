@@ -3,8 +3,6 @@ package uk.ac.qub.eeecs.game.cardDemo;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
-import android.os.Handler;
-import android.os.Looper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +14,6 @@ import uk.ac.qub.eeecs.gage.engine.audio.Music;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
-import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
@@ -41,29 +38,16 @@ import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 
 public class CardDemoScreen extends GameScreen {
-
-    private static final long TURN_TIME = 30000;
-
-    private OptionsManager mOptionsManager;
-    private Hero player, opponent;
+    private Hero player;
+    private Hero opponent;
     private ScreenViewport mScreenViewport;
     private LayerViewport mLayerViewport;
     private GameObject BoardBackground;
-    private PushButton mEndTurnButton;
-    private final float LEVEL_WIDTH = 1000.0f;
-    private final float LEVEL_HEIGHT = 1000.0f;
-    private boolean playerTurn;
-    private Handler turnHandler;
-    private Runnable endTurn;
-    long startTime, turnTime;
-
-    final private float SLIDER_WIDTH = 175f;
-    final private float SLIDER_HEIGHT = 450f;
     private VerticalSlider manaSlider;
 
     private AIController aiOpponent;
     private boolean startedThinking;
-
+    private TurnController turnController;
     private PopUp attackMessage;
 
     private Level level;
@@ -88,7 +72,7 @@ public class CardDemoScreen extends GameScreen {
      */
     public CardDemoScreen(Game game, List<LevelCard> opponentDeck, List<LevelCard> playerDeck, Level level) {
         super("CardScreen", game);
-        mOptionsManager = new OptionsManager(game.getContext());
+        OptionsManager mOptionsManager = new OptionsManager(game.getContext());
         this.level = level;
 
         mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
@@ -110,16 +94,11 @@ public class CardDemoScreen extends GameScreen {
         assetManager.loadAndAddBitmap("Board", "img/Board/Paper Board.jpg");
         assetManager.loadAndAddBitmap("Hero", "img/Hero/Knight Hero.JPG");
         assetManager.loadAndAddBitmap("Enemy", "img/Hero/Dragon Hero.JPG");
-        assetManager.loadAndAddBitmap("EndTurn", "img/Board/End_Turn.png");
 
         BoardBackground = new GameObject(mLayerViewport.getWidth() / 2f, mLayerViewport.getHeight() / 2f,
                 mLayerViewport.getWidth(),
                 mLayerViewport.getHeight(),
-                getGame()
-                        .getAssetManager().getBitmap("Board"), this);
-
-        mEndTurnButton = new PushButton(
-                mLayerViewport.getWidth() * 0.5f, mLayerViewport.getHeight() * 2, 200, 100, "EndTurn", this);
+                getGame().getAssetManager().getBitmap("Board"), this);
 
         player = new Hero(mLayerViewport.getWidth() / 8f - 8.0f, mLayerViewport.getHeight() / 6f - 2f, assetManager.getBitmap("Hero"), this, mGame);
         opponent = new Hero(mLayerViewport.getWidth() / 8f - 8.0f, mLayerViewport.getHeight() - mLayerViewport.getHeight() / 5f, assetManager.getBitmap("Enemy"), this, mGame);
@@ -163,10 +142,9 @@ public class CardDemoScreen extends GameScreen {
         }
 
         arrangeCards();
+        turnController = new TurnController(this);
 
-        playerTurn = true;
-
-        endTurn = new Runnable() {
+        Runnable endTurn = new Runnable() {
             @Override
             public void run() {
 
@@ -191,7 +169,7 @@ public class CardDemoScreen extends GameScreen {
                 }
 
 
-                if (!playerTurn) { //last turn was opponents and we haven't changed it to the player's - it's player turn to draw
+                if (!turnController.isPlayerTurn()) { //last turn was opponents and we haven't changed it to the player's - it's player turn to draw
 
                     //When it's the start of the player's turn, Increment mana by 1, refill mana, and change mana slider to that value
                     player.incrementManaLimit();
@@ -216,18 +194,10 @@ public class CardDemoScreen extends GameScreen {
                 }
 
                 arrangeCards();
-                playerTurn = !playerTurn;
-                turnHandler.postDelayed(this, 30000);
-                startTime = System.currentTimeMillis();
+                turnController.switchTurn();
             }
         };
-
-
-        turnHandler = new Handler(Looper.getMainLooper());
-        turnHandler.postDelayed(endTurn, 30000);
-
-        startTime = System.currentTimeMillis();
-
+        turnController.setEndTurnTask(endTurn);
 
         assetManager.loadAndAddBitmap("SliderBase", "img/SliderBase.png");
         assetManager.loadAndAddBitmap("SliderFill", "img/SliderFill.png");
@@ -251,6 +221,8 @@ public class CardDemoScreen extends GameScreen {
         sliderPainter.setTextAlign(Paint.Align.CENTER);
 
         //creates new vertical slider for the players mana
+        float SLIDER_WIDTH = 175f;
+        float SLIDER_HEIGHT = 450f;
         manaSlider = new VerticalSlider(0, 10, player.getCurrentMana(), sliderPainter,
                 game.getScreenWidth() - 135f, game.getScreenHeight() - 230f, SLIDER_WIDTH, SLIDER_HEIGHT,
                 "SliderBase", "VerticalSliderFill", this, false);
@@ -281,8 +253,6 @@ public class CardDemoScreen extends GameScreen {
         }
         //Else continue to play the game
 
-        turnTime = ((startTime + TURN_TIME) - System.currentTimeMillis()) / 1000;
-
 
         player.update(elapsedTime);
         opponent.update(elapsedTime);
@@ -291,11 +261,10 @@ public class CardDemoScreen extends GameScreen {
         manaSlider.setVal(player.getCurrentMana());
         manaSlider.update(elapsedTime);
 
-
         // Check for touchdown event if it's the player's turn
         boolean touchDown = false;
         Input input = mGame.getInput();
-        if (playerTurn) {
+        if (turnController.isPlayerTurn()) {
             for (TouchEvent touch : input.getTouchEvents()) {
 
 
@@ -304,15 +273,12 @@ public class CardDemoScreen extends GameScreen {
                 }
             }
         }
-
+        turnController.update(elapsedTime);
+        if (turnController.isEndTurnButtonPushed()) {
+            return;
+        }
         // If there has been a touch down
         if (touchDown) {
-            mEndTurnButton.update(elapsedTime);
-            if (mEndTurnButton.isPushTriggered()) {
-                turnHandler.removeCallbacks(endTurn);
-                endTurn.run();
-                return;
-            }
             // Go through each opponent card on the board
             for (Card opponentCard : opponent.getActiveCards()) {
                 opponentCard.update(elapsedTime, mScreenViewport, mLayerViewport, opponent);
@@ -358,7 +324,7 @@ public class CardDemoScreen extends GameScreen {
             }
         }
 
-        if (playerTurn) { //don't allow interaction if it's not their turn
+        if (turnController.isPlayerTurn()) { //don't allow interaction if it's not their turn
             if (!player.getActiveCards().isEmpty()) {
                 // If the player has played cards
                 for (Card card : player.getActiveCards()) {
@@ -388,7 +354,7 @@ public class CardDemoScreen extends GameScreen {
         // Check for a touch down event, if one is found deselect all the cards
         //only allow interaction if it's player's turn
 
-        if (playerTurn) {
+        if (turnController.isPlayerTurn()) {
             if (startedThinking) {
                 // If the AI has been told to start thinking and it is now the player's turn
                 if (!aiOpponent.isFinished()) {
@@ -413,8 +379,7 @@ public class CardDemoScreen extends GameScreen {
                 switch (action.getAction()) {
                     case AIDecision.END_TURN: {
                         // End turn
-                        turnHandler.removeCallbacksAndMessages(null);
-                        endTurn.run();
+                        turnController.doEndTurn();
                         // Decision is to end turn so update flag
                         ended = true;
                         break;
@@ -442,17 +407,18 @@ public class CardDemoScreen extends GameScreen {
                 }
                 if (!ended) {
                     // If the action wasn't end turn, start thinking again
-                    aiOpponent.startThinking(TURN_TIME / 9);
+                    aiOpponent.startThinking(TurnController.TURN_TIME / 9);
                     startedThinking = true;
                 }
             }
         } else {
             // If the AI hasn't been told to start thinking, ask it to start thinking
-            aiOpponent.startThinking(TURN_TIME / 9);
+            aiOpponent.startThinking(TurnController.TURN_TIME / 9);
             startedThinking = true;
         }
-        return;
     }
+
+    ;
 
     /**
      * Draw the card demo screen
@@ -515,20 +481,7 @@ public class CardDemoScreen extends GameScreen {
                 } else
                     card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
             }
-
-        mEndTurnButton.draw(elapsedTime, graphics2D);
-
-        String turnRemaining = turnTime + " seconds left in current turn";
-        String whoseTurn = "Player turn: " + playerTurn;
-        String canInteract = "Player " + (playerTurn ? "can" : "cannot") + " interact";
-        Paint paint = new Paint();
-        paint.setTextSize(48);
-        paint.setARGB(255, 255, 255, 255);
-        paint.setShadowLayer(5.0f, 2.0f, 2.0f, Color.BLACK);
-        int i = 0;
-        graphics2D.drawText(turnRemaining, mGame.getScreenWidth()/40, paint.getTextSize() * (++i), paint);
-        graphics2D.drawText(whoseTurn, mGame.getScreenWidth()/40,  paint.getTextSize() * (++i), paint);
-        graphics2D.drawText(canInteract, mGame.getScreenWidth()/40,  paint.getTextSize() * (++i), paint);
+        turnController.draw(elapsedTime, graphics2D);
     }
 
     public void arrangeCards() {

@@ -22,9 +22,6 @@ public class ShowRecordsScreen extends EndGameScreenSuperclass {
 
         this.playerName = playerName;
 
-
-
-
         manager = new RecordsManager(getGame().getContext());
         if (playerName.isSinglePlayer()) {
             if (playerName.isWinnerPlayer1()) {

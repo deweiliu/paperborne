@@ -71,7 +71,7 @@ public class EndGameController extends GameScreen {
         }
         /***************************************************************************************************/
 
-        //Set of variables
+        //Set the variables
         this.mCardDemoScreen = cardDemoScreen;
         this.isSinglePlayer = isSinglePlayer;
         this.hasPlayer1Won = hasPlayer1Won;
@@ -133,7 +133,7 @@ public class EndGameController extends GameScreen {
                 this.state = SHOW_RECORDS_SCREEN;
                 break;
 
-            //All eng game screens have finished,
+            //All end game screens have finished,
             case SHOW_RECORDS_SCREEN:
 
                 // Go back to the main menu.
