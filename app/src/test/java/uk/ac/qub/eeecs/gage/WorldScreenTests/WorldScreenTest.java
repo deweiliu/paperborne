@@ -386,7 +386,7 @@ public class WorldScreenTest {
 							return outputStream;
 							
 						}
-					});;
+					});
 		}
 		catch(IOException e)
 		{

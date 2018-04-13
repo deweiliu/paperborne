@@ -7,14 +7,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.stubbing.Answer;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import uk.ac.qub.eeecs.game.GameUtil;
 
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
@@ -35,30 +38,39 @@ public class GameUtilTest {
     @Mock
     InputStream inputStream;
 
-    //TODO - fix all the GameUtil.getJSONAsset tests
     @Before
     public void setUp() {
-        String expected = "expected";
         when(context.getAssets()).thenReturn(assetManager);
     }
 
     @Test
     public void getJSONAssetCorrect() {
+
+        try {
+            when(assetManager.open(any(String.class))).thenAnswer(
+                    new Answer<InputStream>() {
+                        public InputStream answer(InvocationOnMock invocation) {
+                            return inputStream;
+                        }
+                    });
+            when(inputStream.available()).thenReturn(8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         String filename = "filename";
-        assertTrue(GameUtil.getJSONAsset(context, filename).isEmpty());
+        assertFalse(GameUtil.getJSONAsset(context, filename).isEmpty());
     }
 
     @Test
     public void getJSONAssetWrong() {
-
+        try {
+            when(assetManager.open(any(String.class))).thenThrow(new IOException());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Ignore any IOException here. It's meant to be here.");
+        assertNull(GameUtil.getJSONAsset(context, ""));
     }
-
-    @Test
-    public void getJSONAssetTest() {
-        String filename = "";
-        GameUtil.getJSONAsset(context, filename);
-    }
-
 
     @Test
     public void invalidJSONTest() {
