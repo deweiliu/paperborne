@@ -20,7 +20,7 @@ import uk.ac.qub.eeecs.gage.world.ScreenViewport;
  */
 public class TurnController {
 
-    private final static long TURN_TIME = 30000; //milliseconds
+    private static long TURN_TIME = 30000; //milliseconds
 
     private boolean endTurnButtonPushed;
     private Paint mPaint;
