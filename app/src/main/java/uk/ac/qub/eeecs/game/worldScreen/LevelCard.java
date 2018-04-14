@@ -46,10 +46,13 @@ public class LevelCard
 		this.healthValue = healthValue;
 		this.attackValue = attackValue;
 	}
-
-	//Copy constructor
-	public LevelCard(LevelCard blankCard){
-		this(blankCard.name, blankCard.bitmap, blankCard.manaCost, blankCard.healthValue, blankCard.attackValue);
+	
+	/**
+	 * Copy constructor for level card
+	 * @param copyCard the card to copy
+	 */
+	public LevelCard(LevelCard copyCard){
+		this(copyCard.name, copyCard.bitmap, copyCard.manaCost, copyCard.healthValue, copyCard.attackValue);
 	}
 	
 	public String getName()

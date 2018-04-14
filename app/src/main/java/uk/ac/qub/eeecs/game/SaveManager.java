@@ -41,7 +41,7 @@ public class SaveManager
 	// Save games filename
 	public static final String SAVE_FILE = "save_games.json";
 	// Maximum number of save slots
-	public static final int MAX_SAVE_SLOTS = 3;
+	private static final int MAX_SAVE_SLOTS = 3;
 	// Default save slot
 	// TODO: Allow the user to choose a save slot rather than just using the default
 	public static final int DEFAULT_SAVE_SLOT = 1;
