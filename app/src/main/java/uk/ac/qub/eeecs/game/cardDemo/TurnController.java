@@ -44,15 +44,18 @@ public class TurnController {
         playerTurn = true;
         this.gameScreen = cardDemoScreen;
         Game game = this.gameScreen.getGame();
+
         /*******************************************************************/
+
         //Set up end turn button
         game.getAssetManager().loadAndAddBitmap("EndTurn", "img/Board/End_Turn.png");
         mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(), game.getScreenHeight());
         mLayerViewport = new LayerViewport(0, 0, mScreenViewport.width / 2, mScreenViewport.height / 2);
+
         final float BUTTON_SIZE = mLayerViewport.halfWidth / 7;
-        mEndTurnButton = new PushButton(mLayerViewport.x + mLayerViewport.halfWidth - BUTTON_SIZE, mLayerViewport.y,
+        mEndTurnButton = new PushButton(mLayerViewport.getWidth() / 10.0f, mLayerViewport.getHeight() / 2.0f,
                 BUTTON_SIZE * 2, BUTTON_SIZE, "EndTurn", gameScreen);
-        mEndTurnButton.processInLayerSpace(true);
+
         /*******************************************************************/
 
         //paint for status
