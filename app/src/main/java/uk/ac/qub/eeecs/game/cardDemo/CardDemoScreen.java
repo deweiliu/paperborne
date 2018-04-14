@@ -20,12 +20,11 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.VerticalSlider;
+import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIController;
 import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIDecision;
-import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.endGameLogic.EndGameController;
 import uk.ac.qub.eeecs.game.options.OptionsManager;
-import uk.ac.qub.eeecs.game.ui.PopUp;
 import uk.ac.qub.eeecs.game.worldScreen.Level;
 import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
@@ -48,7 +47,6 @@ public class CardDemoScreen extends GameScreen {
     private AIController aiOpponent;
     private boolean startedThinking;
     private TurnController turnController;
-    private PopUp attackMessage;
 
     private Level level;
 
@@ -202,10 +200,8 @@ public class CardDemoScreen extends GameScreen {
         assetManager.loadAndAddBitmap("SliderBase", "img/SliderBase.png");
         assetManager.loadAndAddBitmap("SliderFill", "img/SliderFill.png");
         assetManager.loadAndAddBitmap("VerticalSliderFill", "img/Board/VerticalSliderFill.png");
-        assetManager.loadAndAddBitmap(PopUp.POPUP_BITMAP_ID, PopUp.POPUP_BITMAP_PATH);
         assetManager.loadAndAddMusic("BattleMusic", "music/BattleMusic.mp3");
 
-        attackMessage = new PopUp("Attack Hero", 3, 70, assetManager.getBitmap(PopUp.POPUP_BITMAP_ID), this);
         Music battleMusic = assetManager.getMusic("BattleMusic");
         battleMusic.setLopping(true);
 
@@ -382,7 +378,6 @@ public class CardDemoScreen extends GameScreen {
                         // Attack hero
                         player.takeDamage(action.getAttackerCard().getAttackValue());
                         action.getAttackerCard().setFinishedMove(true);
-                        attackMessage.show();
                         break;
                     }
                     case AIDecision.ATTACK_ACTIVE_CARD: {

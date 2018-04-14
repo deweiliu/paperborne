@@ -1,5 +1,8 @@
 package uk.ac.qub.eeecs.game.gameHelp.helpScreens;
 
+import android.util.Log;
+
+import java.util.ArrayList;
 import java.util.Vector;
 
 import uk.ac.qub.eeecs.gage.Game;
@@ -29,9 +32,9 @@ public class TextDescription extends HelpScreenSuperClass {
     private final float X_FACTOR = 1.0f;
 
     // Define textual game rules
-    private Vector<String> gameRules;
+    private ArrayList<String> gameRules;
 
-    private final float textSize = 100;
+    private float textSize;
     private float textLineSpacing;
 
     //the position of the textual game rules
@@ -68,32 +71,39 @@ public class TextDescription extends HelpScreenSuperClass {
         mScreenViewport = new ScreenViewport(0, (int) (SCREEN_HEIGHT / 5), (int) SCREEN_WIDTH, (int) SCREEN_HEIGHT);
         mLayerViewport = new LayerViewport(centerX, centerY, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
+        textSize = SCREEN_WIDTH / 30;
         mPaint.setTextSize(textSize);
         textLineSpacing = textSize / 5;
 
-        //Define the text in help screen
-        gameRules = new Vector<String>();
+        /**************************************************************************************/
+        //set the text in help screen
+        gameRules = new ArrayList<>();
         gameRules.add("Hello, welcome to check out our game rules!");
         gameRules.add("");
-        gameRules.add("First, press the \"PLAY\" button.");
+        gameRules.add("First, press the \"Singleplayer\" button.");
+        gameRules.add("You will be leaded to the World Screen where");
+        gameRules.add("you can choose the level you want to play.");
+        gameRules.add("Then press \"LAUNCH\" to start.");
         gameRules.add("");
-        gameRules.add("/*Here is the details of the first step.*/");
+        gameRules.add("Second, play your cards by dragging them out of");
+        gameRules.add("the bottom of screen, attack opponent by clicking one");
+        gameRules.add("of card followed by clicking the opponent's card.");
+        gameRules.add("(You can attack either opponent's hero or cards)");
+        gameRules.add("The cards on board which are gray are currently");
+        gameRules.add("unavailable to be used.");
         gameRules.add("");
-        gameRules.add("Second, choose the hero you want to use.");
+        gameRules.add("Third, if you win, the next level will be unlocked");
+        gameRules.add("and you will be able to take the harder challenge.");
+        gameRules.add("Whether you win or lose, we will record you name and");
+        gameRules.add("save it safely, so you can check you win rate at the");
+        gameRules.add("next time you play the game.");
         gameRules.add("");
-        gameRules.add("/*Here is the details of the second step.*/");
+        gameRules.add("Unfortunately, the Multiplayer mode is under construction");
+        gameRules.add("now and it will be coming soon! But you can still find tests");
+        gameRules.add("of end game logic for both Singleplayer and Multiplayer");
+        gameRules.add("at somewhere in the game :)");
         gameRules.add("");
-        gameRules.add("Third, play cards to beat your component!");
-        gameRules.add("");
-        gameRules.add("/*Here is the details of the third step.*/");
-        gameRules.add("");
-        gameRules.add("Copyrights 2018");
-        gameRules.add("");
-        gameRules.add("Cam Stevenson, Dewei Liu, Jamie Caldwell,");
-        gameRules.add("Jamie Thompson and Nameer Shahzad.");
-        gameRules.add("");
-        gameRules.add("All Rights Reserved.");
-
+        gameRules.add("Good luck with playing the game!");
     }
 
 

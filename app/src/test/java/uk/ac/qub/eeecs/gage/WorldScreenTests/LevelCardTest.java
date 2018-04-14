@@ -76,4 +76,27 @@ public class LevelCardTest
 		// Check the JSON output is valid
 		assertTrue(GameUtil.isJSONValid(levelCard.toJSON()));
 	}
+	
+	@Test
+	public void copyCardTest()
+	{
+		// Set up test card
+		LevelCard levelCard = new LevelCard(
+				TEST_NAME,
+				TEST_BITMAP,
+				TEST_MANA,
+				TEST_HEALTH,
+				TEST_ATTACK
+		);
+		
+		// Use copy constructor to create a new card
+		LevelCard copyCard = new LevelCard(levelCard);
+		
+		// Check values are as expected
+		assertEquals(levelCard.getName(), copyCard.getName());
+		assertEquals(levelCard.getBitmap(), copyCard.getBitmap());
+		assertEquals(levelCard.getManaCost(), copyCard.getManaCost());
+		assertEquals(levelCard.getHealthValue(), copyCard.getHealthValue());
+		assertEquals(levelCard.getAttackValue(), copyCard.getAttackValue());
+	}
 }

@@ -6,6 +6,7 @@ import java.util.Arrays;
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.gameHelp.helpScreens.CardDescription;
+import uk.ac.qub.eeecs.game.gameHelp.helpScreens.Copyright;
 import uk.ac.qub.eeecs.game.gameHelp.helpScreens.ForTestingEndGameLogic;
 import uk.ac.qub.eeecs.game.gameHelp.helpScreens.HelpScreenSuperClass;
 import uk.ac.qub.eeecs.game.gameHelp.helpScreens.HeroDescription;
@@ -34,20 +35,16 @@ public class GameHelpController {
 
         /***************************************************************************************/
         //set up all help game screens
-        HelpScreenSuperClass textDescription = new TextDescription(mGame, this);
-        HelpScreenSuperClass heroDescription = new HeroDescription(mGame, this);
-        HelpScreenSuperClass cardDescription = new CardDescription(mGame, this);
-        HelpScreenSuperClass forDeveloperTesting = new ForTestingEndGameLogic(mGame, this);
-
         screens = new ArrayList<>();
-        screens.add(textDescription);
-        screens.add(heroDescription);
-        screens.add(cardDescription);
-        screens.add(forDeveloperTesting);
+        screens.add(new TextDescription(mGame, this));
+        screens.add(new HeroDescription(mGame, this));
+        screens.add( new CardDescription(mGame, this));
+        screens.add(new Copyright(mGame, this));
+        screens.add(new ForTestingEndGameLogic(mGame, this));
 
         /***************************************************************************************/
         //The first page to display
-        setUpNewScreen(textDescription);
+        setUpNewScreen(screens.get(0));
     }
 
     /**
@@ -102,6 +99,7 @@ public class GameHelpController {
         mGame.getScreenManager().setAsCurrentScreen(newScreen.getName());
         if (newScreen instanceof HelpScreenSuperClass) {
             this.currentScreen = (HelpScreenSuperClass) newScreen;
+            this.currentScreen.reset();
         }
     }
 

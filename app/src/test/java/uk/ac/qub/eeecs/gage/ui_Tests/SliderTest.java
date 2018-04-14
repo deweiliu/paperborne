@@ -17,6 +17,7 @@ import uk.ac.qub.eeecs.gage.TestUtil;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
+import uk.ac.qub.eeecs.gage.engine.audio.Sound;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
@@ -66,6 +67,7 @@ public class SliderTest
 	private final static float TEST_WIDTH = 10.0f;
 	private final static float TEST_HEIGHT = 30.0f;
 	private final static String TEST_BITMAP = "bitmap";
+	private final static String TEST_SOUND = "sound";
 	
 	// Mock values for creating the slider and game screen
 	@Mock
@@ -84,6 +86,8 @@ public class SliderTest
 	private ScreenManager screenManager;
 	@Mock
 	private IGraphics2D graphics2D;
+	@Mock
+	private Sound sound;
 	
 	// Test game screen for creating sliders in
 	private GameScreen testGameScreen;
@@ -96,6 +100,7 @@ public class SliderTest
 		when(game.getScreenManager()).thenReturn(screenManager);
 		when(game.getAssetManager()).thenReturn(assetManager);
 		when(assetManager.getBitmap(any(String.class))).thenReturn(bitmap);
+		when(assetManager.getSound(any(String.class))).thenReturn(sound);
 		when(game.getInput()).thenReturn(input);
 		// Mock Context
 		when(game.getContext()).thenReturn(context);
@@ -141,7 +146,7 @@ public class SliderTest
 				testGameScreen,
 				true
 		);
-		// Check the value provided int he constructor is the value returned by getVal
+		// Check the value provided in the constructor is the value returned by getVal
 		assertEquals(TEST_VAL, testSlider.getVal());
 	}
 	
@@ -239,5 +244,56 @@ public class SliderTest
 		
 		// Check value is as expected
 		assertEquals(expectedValue, testSlider.getVal());
+	}
+	
+	/**
+	 * Tests the slider is created correctly with the constructor with no sound provided
+	 */
+	@Test
+	public void createSliderTest()
+	{
+		// Create test slider
+		Slider testSlider = new Slider(
+				TEST_MIN,
+				TEST_MAX,
+				TEST_VAL,
+				null,
+				TEST_X,
+				TEST_Y,
+				TEST_WIDTH,
+				TEST_HEIGHT,
+				TEST_BITMAP,
+				TEST_BITMAP,
+				testGameScreen,
+				true
+		);
+		// Test the slider is created with no sound
+		assertEquals(null, testSlider.getTriggerSound());
+	}
+	
+	/**
+	 * Tests the slider is created correctly with the constructor with a sound provided
+	 */
+	@Test
+	public void createSliderTestWithSound()
+	{
+		// Create test slider
+		Slider testSlider = new Slider(
+				TEST_MIN,
+				TEST_MAX,
+				TEST_VAL,
+				null,
+				TEST_X,
+				TEST_Y,
+				TEST_WIDTH,
+				TEST_HEIGHT,
+				TEST_BITMAP,
+				TEST_BITMAP,
+				TEST_SOUND,
+				testGameScreen,
+				true
+		);
+		// Test the slider is created with the sound provided
+		assertEquals(sound, testSlider.getTriggerSound());
 	}
 }

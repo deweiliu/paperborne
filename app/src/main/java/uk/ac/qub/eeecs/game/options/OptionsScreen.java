@@ -22,34 +22,52 @@ import uk.ac.qub.eeecs.game.ui.Slider;
 
 
 /**
+ * Created by Jamie T on 08/12/2017.
  * Screen to display user options and allow users to edit them
  */
 public class OptionsScreen extends GameScreen
 {
+	// Name of the game screen
+	private static final String OPTIONS_SCREEN_NAME = "OptionsScreen";
+	
+	/**
+	 * Asset ID's and paths for retrieval from asset storage
+	 */
+	private static final String OPTIONS_BACKGROUND_BITMAP_ID = "OptionsBackground";
+	private static final String OPTIONS_BACKGROUND_BITMAP_PATH = "img/OptionsScreenBackground.jpg";
+	private static final String FPS_UNCHECKED_BITMAP_ID = "FPSUnchecked";
+	private static final String FPS_UNCHECKED_BITMAP_PATH = "img/FPSUnchecked.jpg";
+	private static final String FPS_CHECKED_BITMAP_ID = "FPSChecked";
+	private static final String FPS_CHECKED_BITMAP_PATH = "img/FPSChecked.jpg";
+	private static final String SLIDER_BASE_BITMAP_ID = "SliderBase";
+	private static final String SLIDER_BASE_BITMAP_PATH = "img/SliderBase.jpg";
+	private static final String SLIDER_FILL_BITMAP_ID = "SliderFill";
+	private static final String SLIDER_FILL_BITMAP_PATH = "img/SliderFill.jpg";
+	
 	/**
 	 * Minimum, maximum and default volumes the music and sound effects can be set to
 	 */
-	final private int MAX_VOLUME = 10;
-	final private int MIN_VOLUME = 0;
-	final private int DEFAULT_VOLUME = 7;
+	private static final int MAX_VOLUME = 10;
+	private static final int MIN_VOLUME = 0;
+	private static final int DEFAULT_VOLUME = 7;
 	
 	/**
 	 * Width and height of the toggle buttons
 	 */
-	final private float TOGGLE_WIDTH = 128.0f;
-	final private float TOGGLE_HEIGHT = 128.0f;
+	private static final float TOGGLE_WIDTH = 128.0f;
+	private static final float TOGGLE_HEIGHT = 128.0f;
 	
 	/**
 	 * Width and height of the sliders
 	 */
-	final private float SLIDER_WIDTH = 768.0f;
-	final private float SLIDER_HEIGHT = 128.0f;
+	private static final float SLIDER_WIDTH = 768.0f;
+	private static final float SLIDER_HEIGHT = 128.0f;
 	
 	// Vertical separation between each option between each option
-	final private float OPTION_SEPARATION = 192.0f;
+	private static final float OPTION_SEPARATION = 192.0f;
 	
 	// The entire option width, space to leave to fit in text and the UI elements
-	final private float OPTION_WIDTH = 768.0f;
+	private static final float OPTION_WIDTH = 768.0f;
 	
 	// Calling activity
 	private Activity mActivity;
@@ -99,7 +117,7 @@ public class OptionsScreen extends GameScreen
 	 */
 	public OptionsScreen(Game game)
 	{
-		super("OptionsScreen", game);
+		super(OPTIONS_SCREEN_NAME, game);
 		
 		// Set up viewports
 		// Create the screen viewport
@@ -133,11 +151,11 @@ public class OptionsScreen extends GameScreen
 		AssetStore assetManager = mGame.getAssetManager();
 		
 		// Load in bitmaps
-		assetManager.loadAndAddBitmap("OptionsBackground", "img/OptionsScreenBackground.jpg");
-		assetManager.loadAndAddBitmap("FPSChecked", "img/FPSChecked.jpg");
-		assetManager.loadAndAddBitmap("FPSUnchecked", "img/FPSUnchecked.jpg");
-		assetManager.loadAndAddBitmap("SliderBase", "img/SliderBase.png");
-		assetManager.loadAndAddBitmap("SliderFill", "img/SliderFill.png");
+		assetManager.loadAndAddBitmap(OPTIONS_BACKGROUND_BITMAP_ID, OPTIONS_BACKGROUND_BITMAP_PATH);
+		assetManager.loadAndAddBitmap(FPS_CHECKED_BITMAP_ID, FPS_CHECKED_BITMAP_PATH);
+		assetManager.loadAndAddBitmap(FPS_UNCHECKED_BITMAP_ID, FPS_UNCHECKED_BITMAP_PATH);
+		assetManager.loadAndAddBitmap(SLIDER_BASE_BITMAP_ID, SLIDER_BASE_BITMAP_PATH);
+		assetManager.loadAndAddBitmap(SLIDER_FILL_BITMAP_ID, SLIDER_FILL_BITMAP_PATH);
 		
 		// Set up background
 		mOptionsBackground = new GameObject(
@@ -145,7 +163,7 @@ public class OptionsScreen extends GameScreen
 				mLayerViewport.getHeight() / 2.0f,
 				mLayerViewport.getWidth(),
 				mLayerViewport.getHeight(),
-				assetManager.getBitmap("OptionsBackground"),
+				assetManager.getBitmap(OPTIONS_BACKGROUND_BITMAP_ID),
 				this);
 		
 		// Set up text painter with styles
@@ -162,8 +180,8 @@ public class OptionsScreen extends GameScreen
 				OPTION_SEPARATION,
 				TOGGLE_WIDTH,
 				TOGGLE_HEIGHT,
-				"FPSChecked",
-				"FPSUnchecked",
+				FPS_CHECKED_BITMAP_ID,
+				FPS_UNCHECKED_BITMAP_ID,
 				this
 		);
 		
@@ -176,8 +194,8 @@ public class OptionsScreen extends GameScreen
 				(OPTION_SEPARATION *2),
 				TOGGLE_WIDTH,
 				TOGGLE_HEIGHT,
-				"FPSChecked",
-				"FPSUnchecked",
+				FPS_CHECKED_BITMAP_ID,
+				FPS_CHECKED_BITMAP_ID,
 				this
 		);
 		
@@ -200,8 +218,8 @@ public class OptionsScreen extends GameScreen
 				(OPTION_SEPARATION *3),
 				SLIDER_WIDTH,
 				SLIDER_HEIGHT,
-				"SliderBase",
-				"SliderFill",
+				SLIDER_BASE_BITMAP_ID,
+				SLIDER_FILL_BITMAP_ID,
 				this,
 				false);
 		
@@ -215,8 +233,8 @@ public class OptionsScreen extends GameScreen
 				(OPTION_SEPARATION *4),
 				SLIDER_WIDTH,
 				SLIDER_HEIGHT,
-				"SliderBase",
-				"SliderFill",
+				SLIDER_BASE_BITMAP_ID,
+				SLIDER_BASE_BITMAP_ID,
 				this,
 				false);
 		

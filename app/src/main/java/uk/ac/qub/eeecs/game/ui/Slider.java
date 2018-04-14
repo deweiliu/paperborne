@@ -23,15 +23,15 @@ import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 
 public class Slider extends Button
 {
+	// Separation between the size labels and the slider bar
+	private static final int TEXT_SEPARATION = 48;
+	
 	/**
 	 * Minimum, maximum and current slider values
 	 */
 	private int mMax;
 	private int mMin;
 	private int mVal;
-	
-	// Separation between the size labels and the slider bar
-	final private int TEXT_SEPARATION = 48;
 	
 	private boolean mProcessInLayerSpace;
 	
@@ -223,5 +223,14 @@ public class Slider extends Button
 			// If the value is within the min-max range, set it to the value provided
 			this.mVal = val;
 		}
+	}
+	
+	/**
+	 * Get the current trigger sound played when the slider is pressed
+	 * @return the current slider trigger sound
+	 */
+	public Sound getTriggerSound()
+	{
+		return mTriggerSound;
 	}
 }

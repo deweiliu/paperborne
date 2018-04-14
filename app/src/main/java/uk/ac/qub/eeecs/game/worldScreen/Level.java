@@ -28,7 +28,7 @@ public class Level
 	private String id;
 	// Level name
 	private String name;
-	// Level button representation
+	// Level button representationss
 	private PushButton button;
 	// Cards that make up a deck the opponent will play for this level
 	private List<LevelCard> deck;

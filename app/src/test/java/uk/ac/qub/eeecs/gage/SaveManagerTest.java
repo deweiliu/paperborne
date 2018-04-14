@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.gage.WorldScreenTests;
+package uk.ac.qub.eeecs.gage;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
@@ -27,6 +26,8 @@ import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.SaveManager;
 import uk.ac.qub.eeecs.game.worldScreen.Level;
+import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
+import uk.ac.qub.eeecs.game.worldScreen.SaveGame;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
@@ -424,6 +425,26 @@ public class SaveManagerTest
 			// Add new ID to the level list
 			levelIDs.add(level.getId());
 		}
+	}
+	
+	@Test
+	public void loadSavedGameTest()
+	{
+		SaveGame saveGame = SaveManager.loadSavedGame(SaveManager.DEFAULT_SAVE_SLOT, game);
+		assertNotNull(saveGame);
+	}
+	
+	@Test
+	public void writeSaveFileTest()
+	{
+		SaveManager.writeSaveFile(
+				new SaveGame(
+						SaveManager.DEFAULT_SAVE_SLOT,
+						new ArrayList<LevelCard>(),
+						new ArrayList<String>()
+				),
+				game
+		);
 	}
 	
 }
