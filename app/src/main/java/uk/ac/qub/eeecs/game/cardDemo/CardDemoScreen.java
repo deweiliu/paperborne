@@ -253,7 +253,6 @@ public class CardDemoScreen extends GameScreen {
         }
         //Else continue to play the game
 
-
         player.update(elapsedTime);
         opponent.update(elapsedTime);
 
@@ -266,8 +265,6 @@ public class CardDemoScreen extends GameScreen {
         Input input = mGame.getInput();
         if (turnController.isPlayerTurn()) {
             for (TouchEvent touch : input.getTouchEvents()) {
-
-
                 if (touch.type == TouchEvent.TOUCH_DOWN) {
                     touchDown = true;
                 }
@@ -315,7 +312,6 @@ public class CardDemoScreen extends GameScreen {
                     }
                 }
             }
-
 
             // If there has been a touchdown event, mark each player card on the board as inactive
             for (Card card : player.getActiveCards()) {
@@ -416,8 +412,6 @@ public class CardDemoScreen extends GameScreen {
         }
     }
 
-    ;
-
     /**
      * Draw the card demo screen
      *
@@ -426,14 +420,11 @@ public class CardDemoScreen extends GameScreen {
      */
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
-        /*Paint paint = new Paint(Color.BLACK);
-        graphics2D.clear(Color.WHITE);*/
+
         BoardBackground.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
 
         player.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
         manaSlider.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
-        //highly inconsistent for some unknown reason
-
 
         for (Card card : player.getHand().getCards()) {
             if (card.isCardIsActive()) {

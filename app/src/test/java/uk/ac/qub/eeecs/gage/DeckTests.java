@@ -25,7 +25,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by Jamie on 28/01/2018.
+ * Created by Jamie C on 28/01/2018.
  */
 
 @RunWith(MockitoJUnitRunner.class)
@@ -67,6 +67,7 @@ public class DeckTests {
         when(context.getSharedPreferences(any(String.class), any(Integer.class))).thenReturn(sharedPreferences);
     }
 
+    //JC
     @Test
     public void testDeck() {
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
@@ -75,6 +76,7 @@ public class DeckTests {
         Deck deck = new Deck(cardDemoScreen, game);
     }
 
+    //JC
     @Test
     public void testCardRemoval() {
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
@@ -115,6 +117,5 @@ public class DeckTests {
             assertTrue(card.getCardState() == Card.CardState.CARD_IN_DECK);
         }
     }
-
 
 }

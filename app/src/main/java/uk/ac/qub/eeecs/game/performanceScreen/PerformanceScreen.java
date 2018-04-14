@@ -149,7 +149,6 @@ public class PerformanceScreen extends GameScreen{
 
         List<TouchEvent> touchEvents = input.getTouchEvents();
         if (touchEvents.size() > 0) {
-            TouchEvent touchEvent = touchEvents.get(0);
 
             mRectanglesUp.update(elapsedTime);
             mRectanglesDown.update(elapsedTime);
@@ -159,17 +158,6 @@ public class PerformanceScreen extends GameScreen{
             else if (mRectanglesDown.isPushTriggered())
                 numRectangles -=rectangleStepChange;
         }
-
-        // Ensure the viewport cannot leave the confines of the world
-        if (mLayerViewport.getLeft() < 0)
-            mLayerViewport.x -= mLayerViewport.getLeft();
-        else if (mLayerViewport.getRight() > LEVEL_WIDTH)
-            mLayerViewport.x -= (mLayerViewport.getRight() - LEVEL_WIDTH);
-
-        if (mLayerViewport.getBottom() < 0)
-            mLayerViewport.y -= mLayerViewport.getBottom();
-        else if (mLayerViewport.getTop() > LEVEL_HEIGHT)
-            mLayerViewport.y -= (mLayerViewport.getTop() - LEVEL_HEIGHT);
 
         mRectangles.clear();
         Random random = new Random();

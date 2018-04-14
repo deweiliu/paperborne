@@ -191,6 +191,7 @@ public class CardsOnBoardTest
         
     }
 
+    //JC
     @Test
     public void checkCardRemovedOnDeath() {
 

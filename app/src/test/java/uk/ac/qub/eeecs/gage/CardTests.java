@@ -103,6 +103,7 @@ public class CardTests {
         when(context.getSharedPreferences(any(String.class), any(Integer.class))).thenReturn(sharedPreferences);
     }
 
+    //JC
     @Test
     public void cardCopyTest() {
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
@@ -125,6 +126,7 @@ public class CardTests {
         assertTrue(newCard.getHealthValue() == card.getHealthValue());
     }
 
+    //JC
     @Test
     public void damageTest() {
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
@@ -136,6 +138,7 @@ public class CardTests {
         assertTrue(card.getHealthValue() == 9);
     }
 
+    //JC
     @Test
     public void deathTest() {
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
@@ -416,6 +419,7 @@ public class CardTests {
         assertTrue(card.isFinishedMove());
     }
 
+    //JC
     @Test
     public void heroesWithDeck() {
 

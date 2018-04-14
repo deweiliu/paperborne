@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 
 
 /**
- * Created by Jamie on 28/01/2018.
+ * Created by Jamie C on 28/01/2018.
  */
 
 @RunWith(MockitoJUnitRunner.class)
