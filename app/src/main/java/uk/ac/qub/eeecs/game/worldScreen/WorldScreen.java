@@ -2,6 +2,8 @@ package uk.ac.qub.eeecs.game.worldScreen;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -74,6 +76,12 @@ public class WorldScreen extends GameScreen
 	private AssetStore mAssetManager;
 	// Pop up message to display to the user if there is a level they try to launch that is locked
 	private PopUp mPopUp;
+
+	/**
+	 * Handler and Runnable for toast message
+	 */
+	private Handler toastHandler;
+	private Runnable toastRunner;
 	
 	public WorldScreen(Game game)
 	{
@@ -121,7 +129,14 @@ public class WorldScreen extends GameScreen
 		{
 			// If there are no loaded levels
 			// Display an error and return to the main menu
-			Toast.makeText(game.getActivity(), game.getContext().getString(R.string.broken_level_file), Toast.LENGTH_LONG).show();
+			toastHandler = new Handler(Looper.getMainLooper());
+			toastRunner = new Runnable() {
+				@Override
+				public void run() {
+					Toast.makeText(getGame().getContext(), getGame().getContext().getString(R.string.broken_level_file), Toast.LENGTH_SHORT).show();
+				}
+			};
+			toastHandler.post(toastRunner);
 			mGame.getScreenManager().removeScreen(this.getName());
 			mGame.getScreenManager().addScreen(new MenuScreen(mGame));
 		}

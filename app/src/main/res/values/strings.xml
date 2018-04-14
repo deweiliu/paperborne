@@ -11,5 +11,6 @@
     <string name="music_description">Music Volume</string>
     <string name="sound_description">Sound Effects Volume</string>
     <string name="broken_level_file">Level file missing or corrupted</string>
+    <string name="multiplayer_selection">We had such big dreams back then...</string>
 
 </resources>

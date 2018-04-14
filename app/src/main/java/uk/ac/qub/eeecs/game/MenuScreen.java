@@ -1,10 +1,14 @@
 package uk.ac.qub.eeecs.game;
 
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.Toast;
 
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
+import uk.ac.qub.eeecs.gage.R;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
@@ -53,6 +57,12 @@ public class MenuScreen extends GameScreen {
      */
     private GameObject mTitleBackground;
     private GameObject mGameTitle;
+
+    /**
+     * Handler and Runnable for toast message
+     */
+    private Handler toastHandler;
+    private Runnable toastRunner;
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
@@ -107,6 +117,14 @@ public class MenuScreen extends GameScreen {
                 spacingX * 3.0f, game.getScreenHeight() / 2, spacingX, spacingY * 2, "MPButton", this);
         mMuteButton = new ToggleButton(
                 spacingX * 0.25f, game.getScreenHeight() - (spacingY / 4), spacingX / 2, spacingY / 2, "Mute", "Unmute", this);
+
+        toastHandler = new Handler(Looper.getMainLooper());
+        toastRunner = new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getGame().getContext(), getGame().getContext().getString(R.string.multiplayer_selection), Toast.LENGTH_SHORT).show();
+            }
+        };
     }
     // /////////////////////////////////////////////////////////////////////////
     // Methods
@@ -152,8 +170,8 @@ public class MenuScreen extends GameScreen {
                 new GameHelpController(mGame);
             else if (mSinglePlayerButton.isPushTriggered())
                 changeToScreen(new WorldScreen(mGame));
-            else if (mMultiPlayerButton.isPushTriggered()) ;
-                //do nothing
+            else if (mMultiPlayerButton.isPushTriggered())
+                toastHandler.post(toastRunner);
             else if (soundOn != mMuteButton.isToggledOn())
                 soundOn = mMuteButton.isToggledOn();
         }
