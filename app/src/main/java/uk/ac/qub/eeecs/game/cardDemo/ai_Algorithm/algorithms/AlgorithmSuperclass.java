@@ -2,6 +2,7 @@ package uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms;
 
 import java.util.ArrayList;
 import java.util.Random;
+
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
 

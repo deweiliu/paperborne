@@ -1,9 +1,6 @@
 package uk.ac.qub.eeecs.game.gameHelp.helpScreens;
 
-import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.Vector;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;

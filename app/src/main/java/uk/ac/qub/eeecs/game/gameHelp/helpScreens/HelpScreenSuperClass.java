@@ -2,7 +2,6 @@ package uk.ac.qub.eeecs.game.gameHelp.helpScreens;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 
 import java.util.ArrayList;

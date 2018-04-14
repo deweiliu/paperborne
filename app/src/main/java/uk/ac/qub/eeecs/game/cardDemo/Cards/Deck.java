@@ -102,10 +102,10 @@ public class Deck {
     }
 
     //draws a random card
-    public Card drawCard(){
+    public Card drawCard() {
         Random randomCard = new Random();
         int maximum;
-        if(cardsInDeck.size() > 1) {
+        if (cardsInDeck.size() > 1) {
             maximum = cardsInDeck.size() - 1;
         } else {
             maximum = 1;
@@ -116,19 +116,6 @@ public class Deck {
         temp.setCardState(Card.CardState.CARD_IN_HAND);
         return temp;
     }
-
-    //broke this with drawcard changes but it's not used anyway, can fix it if we need it - jc
-/*    //Draws 3 random cards and adds then to your first hand
-    public ArrayList<Integer> firstHand() {
-        ArrayList<Integer> firstHand = new ArrayList<>();
-        ArrayList<Integer> tempArray = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            int card = drawCard();
-            firstHand.add(drawCard());
-            cardsInDeck.remove(card);
-        }
-        return firstHand;
-    }*/
 
     //Checks of the Deck is empty
     public boolean isDeckEmpty(){

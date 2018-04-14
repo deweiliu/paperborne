@@ -6,16 +6,15 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
+import uk.ac.qub.eeecs.game.cardDemo.Hero;
+import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIDecision;
+import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms.AttackActiveCardAlgorithm;
+
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertNotEquals;
-
-import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIDecision;
-import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms.AttackActiveCardAlgorithm;
-import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
-import uk.ac.qub.eeecs.game.cardDemo.Hero;
-
-import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 /**

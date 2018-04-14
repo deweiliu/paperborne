@@ -2,12 +2,12 @@ package uk.ac.qub.eeecs.game.performanceScreen;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Paint;
 
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-import android.graphics.Paint;
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;

@@ -1,7 +1,6 @@
 package uk.ac.qub.eeecs.game.gameHelp;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.world.GameScreen;

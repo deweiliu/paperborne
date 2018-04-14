@@ -1,6 +1,7 @@
 package uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm;
 
 import java.util.Random;
+
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
 /**

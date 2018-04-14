@@ -1,12 +1,12 @@
 package uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm;
 
+import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
+import uk.ac.qub.eeecs.game.cardDemo.Hero;
 import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms.AlgorithmSuperclass;
 import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms.AttackActiveCardAlgorithm;
 import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms.AttackHeroAlgorithm;
 import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms.EndTurnAlgorithm;
 import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms.PlayCardAlgorithm;
-import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
-import uk.ac.qub.eeecs.game.cardDemo.Hero;
 
 /**
  * Give an over view structure of the AI

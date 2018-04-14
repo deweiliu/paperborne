@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
@@ -14,7 +13,6 @@ import uk.ac.qub.eeecs.gage.util.BoundingBox;
 import uk.ac.qub.eeecs.gage.util.CollisionDetector;
 import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameObject;
-import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.spaceDemo.AISpaceship;
 import uk.ac.qub.eeecs.game.spaceDemo.SpaceshipDemoScreen;
 

@@ -1,7 +1,7 @@
 package uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms;
 
-import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIDecision;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
+import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIDecision;
 
 /**
  * Created by 40216004 Dewei Liu on 08/03/2018.

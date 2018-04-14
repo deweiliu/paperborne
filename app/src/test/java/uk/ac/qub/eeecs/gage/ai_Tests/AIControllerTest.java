@@ -6,8 +6,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIController;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
+import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIController;
 
 import static junit.framework.Assert.assertEquals;
 

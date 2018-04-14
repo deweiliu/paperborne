@@ -3,16 +3,15 @@ package uk.ac.qub.eeecs.gage.ai_Tests;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 
-import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms.AlgorithmSuperclass;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Deck;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Hand;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
+import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.algorithms.AlgorithmSuperclass;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.when;

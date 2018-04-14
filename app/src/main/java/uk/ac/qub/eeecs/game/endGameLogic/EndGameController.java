@@ -9,12 +9,12 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.MenuScreen;
 import uk.ac.qub.eeecs.game.SaveManager;
-import uk.ac.qub.eeecs.game.ui.Rotating;
-import uk.ac.qub.eeecs.game.endGameLogic.screen1_showGameOver.GameOverScreen;
-import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.*;
-import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.GetNameScreen;
 import uk.ac.qub.eeecs.game.endGameLogic.interfaces_superclass_forScreens.EndGameScreen;
+import uk.ac.qub.eeecs.game.endGameLogic.screen1_showGameOver.GameOverScreen;
+import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.GetNameScreen;
+import uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName.User;
 import uk.ac.qub.eeecs.game.endGameLogic.screen3_showRecords.ShowRecordsScreen;
+import uk.ac.qub.eeecs.game.ui.Rotating;
 import uk.ac.qub.eeecs.game.worldScreen.Level;
 import uk.ac.qub.eeecs.game.worldScreen.SaveGame;
 

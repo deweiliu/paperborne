@@ -176,7 +176,6 @@ public class Card extends Sprite {
                     cardIsActive = false;
                 }
 
-
                 // If there is a touch up event, return the pressed card back to anchor position
                 if(cardPressedDown && cardState == CardState.CARD_IN_HAND) {
                     //are we allowed to play a card?

@@ -4,10 +4,7 @@ package uk.ac.qub.eeecs.gage;
  * Created by nshah on 08/12/2017.
  */
 
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.view.InputEvent;
-import android.text.method.Touch;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,24 +13,20 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.mockito.Matchers.any;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
-import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
-import uk.ac.qub.eeecs.gage.engine.input.Input;
-import uk.ac.qub.eeecs.game.SplashScreen;
-import uk.ac.qub.eeecs.game.MenuScreen;
-import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
-import uk.ac.qub.eeecs.gage.world.GameObject;
+import uk.ac.qub.eeecs.gage.engine.input.Input;
+import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
+import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.game.MenuScreen;
+import uk.ac.qub.eeecs.game.SplashScreen;
 
-import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
