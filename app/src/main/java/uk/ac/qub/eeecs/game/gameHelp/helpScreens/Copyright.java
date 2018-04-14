@@ -33,7 +33,7 @@ public class Copyright extends HelpScreenSuperClass {
         /*****************************************************************************************************/
         //Set descriptions
         descriptions = new ArrayList<>();
-        descriptions.add("This project is developed for CSC2040.");
+        descriptions.add("This project is developed for CSC2044.");
         descriptions.add("2017 - 2018 All rights reserved.");
 
         /*****************************************************************************************************/
