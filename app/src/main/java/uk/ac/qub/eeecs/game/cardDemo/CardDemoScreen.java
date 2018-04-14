@@ -25,7 +25,6 @@ import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIController;
 import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIDecision;
 import uk.ac.qub.eeecs.game.endGameLogic.EndGameController;
 import uk.ac.qub.eeecs.game.options.OptionsManager;
-import uk.ac.qub.eeecs.game.ui.PopUp;
 import uk.ac.qub.eeecs.game.worldScreen.Level;
 import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
@@ -48,7 +47,6 @@ public class CardDemoScreen extends GameScreen {
     private AIController aiOpponent;
     private boolean startedThinking;
     private TurnController turnController;
-    private PopUp attackMessage;
 
     private Level level;
 

@@ -11,19 +11,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import uk.ac.qub.eeecs.gage.engine.AssetStore;
-import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.gage.engine.audio.Music;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
-import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
-import uk.ac.qub.eeecs.gage.util.InputHelper;
-import uk.ac.qub.eeecs.gage.util.Vector2;
-import uk.ac.qub.eeecs.gage.world.LayerViewport;
-import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.cardDemo.Cards.Card;
 import uk.ac.qub.eeecs.game.cardDemo.Hero;
@@ -102,95 +93,6 @@ public class CardsOnBoardTest
         }
     }
     
-    /**
-     * Checks if when a card is tapped it is selected
-     */
-    @Test
-    public void checkCardSelection()
-    {
-        // Elapsed time for updates
-        ElapsedTime elapsedTime = new ElapsedTime();
-        // Set up screen
-        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
-        game.getScreenManager().addScreen(cardDemoScreen);
-    
-        // Create viewports to allow conversion from touch coordinates into screen coords
-        ScreenViewport screenViewport = new ScreenViewport(0, 0, cardDemoScreen.getGame().getScreenWidth(), cardDemoScreen.getGame().getScreenHeight());
-        
-        LayerViewport layerViewport;
-    
-        if (screenViewport.width > screenViewport.height)
-            layerViewport = new LayerViewport(240.0f, 240.0f
-                    * screenViewport.height / screenViewport.width, 240,
-                    240.0f * screenViewport.height / screenViewport.width);
-        else
-            layerViewport = new LayerViewport(240.0f * screenViewport.height
-                    / screenViewport.width, 240.0f, 240.0f
-                    * screenViewport.height / screenViewport.width, 240);
-        
-        // Create a touch position
-        Vector2 touchPos = new Vector2(50.0f, 50.0f);
-    
-        // Create a hero, deck card etc.
-        Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
-
-        // Play a card
-        for(Card card : hero.getHand().getCards()) {
-            if(card.getManaCost() == 1) {
-                hero.playCard(card);
-                break;
-            }
-        }
-        
-        // Pick a card from the board
-        Card boardCard = hero.getActiveCards().get(0);
-        
-        // Set up the touch event
-        TouchEvent touchPosition = new TouchEvent();
-        touchPosition.x = touchPos.x;
-        touchPosition.y = touchPos.y;
-        touchPosition.type = TouchEvent.TOUCH_DOWN;
-        List<TouchEvent> touchEvents = new ArrayList<>();
-        touchEvents.add(touchPosition);
-    
-        // Convert the touch coordinates into screen coordinates
-        Vector2 cardPos = new Vector2();
-        InputHelper.convertScreenPosIntoLayer(
-                screenViewport,
-                new Vector2(touchPos.x, touchPos.y),
-                layerViewport, cardPos);
-        
-        // Place the card in the exact position of the touch
-        boardCard.position = new Vector2(cardPos.x, cardPos.y);
-        
-        // Set up simulated return for touch events
-        when(input.getTouchEvents()).thenReturn(touchEvents);
-        
-        // Update the card
-        cardDemoScreen.update(elapsedTime);
-        boardCard.update(elapsedTime, screenViewport, layerViewport, hero);
-        
-        // Check it is selected, it is pressed and the cards move hasn't finished
-        assertTrue(boardCard.isCardIsActive());
-        assertTrue(boardCard.isCardPressedDown());
-        assertTrue(!boardCard.isFinishedMove());
-    
-        // Set up the touch up event
-        touchPosition = new TouchEvent();
-        touchPosition.type = TouchEvent.TOUCH_UP;
-        touchEvents.add(touchPosition);
-    
-        // Update card
-        cardDemoScreen.update(elapsedTime);
-        boardCard.update(elapsedTime, screenViewport, layerViewport, hero);
-        
-        // Check that the card is selected, it isn't pressed and the cards move hasn't finished
-        assertTrue(boardCard.isCardIsActive());
-        assertTrue(!boardCard.isCardPressedDown());
-        assertTrue(!boardCard.isFinishedMove());
-        
-    }
-
     @Test
     public void checkCardRemovedOnDeath() {
 
