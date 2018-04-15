@@ -14,7 +14,7 @@ import static junit.framework.Assert.assertEquals;
 
 /**
  * Created by Dewei Liu 40216004 on 10/03/2018.
- *
+ * <p>
  * 1 unit test in this class
  */
 @RunWith(MockitoJUnitRunner.class)

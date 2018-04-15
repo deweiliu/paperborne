@@ -32,13 +32,13 @@ public class CamUnitTest {
 
     @Mock
     Game game;
-    
+
     @Mock
     private SharedPreferences sharedPreferences;
-    
+
     @Mock
     private Music music;
-    
+
     @Mock
     private Context context;
 
@@ -71,7 +71,7 @@ public class CamUnitTest {
 
 
     @Test
-    public void cardConstructionTest(){
+    public void cardConstructionTest() {
         //Define expected properties
         int expectedID = 1;
         String expectedName = "Test";
@@ -87,10 +87,10 @@ public class CamUnitTest {
 
         //Creates Card1 and Card2 for comparison that the values get added to the repective vairables
         Card card1 = new Card(1, "Test", 100.0f, 100.0f
-        ,bitmap,cardDemoScreen,1,1,1);
+                , bitmap, cardDemoScreen, 1, 1, 1);
 
-        Card card2 = new Card(expectedID,expectedName,expectedX,expectedY
-                ,expectedBitmap,cardDemoScreen,expectedMana,expectedAttack,expectedHealth);
+        Card card2 = new Card(expectedID, expectedName, expectedX, expectedY
+                , expectedBitmap, cardDemoScreen, expectedMana, expectedAttack, expectedHealth);
 
         //Checks if not equal in memory
         assertTrue(card1 != card);

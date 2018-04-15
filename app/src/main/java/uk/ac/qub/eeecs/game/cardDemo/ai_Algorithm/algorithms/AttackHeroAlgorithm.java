@@ -15,6 +15,7 @@ public class AttackHeroAlgorithm extends AlgorithmSuperclass {
     public AttackHeroAlgorithm(Hero humanPlayer, Hero AIPlayer) {
         super(humanPlayer, AIPlayer);
     }
+
     private Card attacker;
 
     @Override

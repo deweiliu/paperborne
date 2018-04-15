@@ -27,19 +27,20 @@ public class SplashScreen extends GameScreen {
 
     private float viewportYPos = 400.0f;
 
-    public SplashScreen(Game game){
+    public SplashScreen(Game game) {
         super("CardSplashScreen", game);
         timeFromLoading = 0;
         mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
                 game.getScreenHeight());
         //starts the viewport from below the screen
-        if (mScreenViewport.width > mScreenViewport.height)
+        if (mScreenViewport.width > mScreenViewport.height) {
             mLayerViewport = new LayerViewport(240.0f, 400.0f, 240,
                     240.0f * mScreenViewport.height / mScreenViewport.width);
-        else
+        } else {
             mLayerViewport = new LayerViewport(240.0f * mScreenViewport.height
                     / mScreenViewport.width, 240.0f, 240.0f
                     * mScreenViewport.height / mScreenViewport.width, 240);
+        }
 
 
         AssetStore assetManager = mGame.getAssetManager();
@@ -51,7 +52,7 @@ public class SplashScreen extends GameScreen {
                 mLayerViewport.getWidth(),
                 mLayerViewport.getHeight(),
                 getGame()
-                .getAssetManager().getBitmap("SplashBackground"), this);
+                        .getAssetManager().getBitmap("SplashBackground"), this);
     }
 
     @Override
@@ -73,10 +74,10 @@ public class SplashScreen extends GameScreen {
         //brings the screen up into place
         viewportYPos -= 15;
         if (viewportYPos <= 240.0f
-                * mScreenViewport.height / mScreenViewport.width){
+                * mScreenViewport.height / mScreenViewport.width) {
             viewportYPos = 240.0f
                     * mScreenViewport.height / mScreenViewport.width;
-            }
+        }
         mLayerViewport.set(240.0f, viewportYPos, mLayerViewport.halfWidth, mLayerViewport.halfHeight);
 
         timeFromLoading += 0.1;

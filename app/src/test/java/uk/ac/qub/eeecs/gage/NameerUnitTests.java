@@ -28,13 +28,13 @@ import static org.mockito.Mockito.when;
 public class NameerUnitTests {
     @Mock
     Game game;
-    
+
     @Mock
     private SharedPreferences sharedPreferences;
-    
+
     @Mock
     private Music music;
-    
+
     @Mock
     private Context context;
 
@@ -60,7 +60,7 @@ public class NameerUnitTests {
     ScreenManager screenManager;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         //hero = new Hero(0, 0, bitmap, cardGameScreen, game);
 
         screenManager = new ScreenManager();
@@ -76,11 +76,11 @@ public class NameerUnitTests {
     //This tests that when a Hand is created, the size of the hand is as should be expected
     //NS
     @Test
-    public void testHandCreation(){
+    public void testHandCreation() {
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
 
-        Hero hero = new Hero(0,0, bitmap, cardDemoScreen, game);
+        Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
 
         assertEquals(9, hero.getHand().getCards().size());
 

@@ -36,7 +36,7 @@ public class ScreenManagerTest {
     public void addScreen_ValidData_TestSuccess() throws Exception {
         ScreenManager manager = new ScreenManager();
         manager.addScreen(menuScreen);
-        assertEquals(menuScreen , manager.getCurrentScreen());
+        assertEquals(menuScreen, manager.getCurrentScreen());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class ScreenManagerTest {
     @Test
     public void getCurrentScreen_DefaultScreen_TestSuccess() throws Exception {
         ScreenManager manager = new ScreenManager();
-        manager.addScreen(menuScreen );
+        manager.addScreen(menuScreen);
         manager.addScreen(gameScreen);
         assertEquals(menuScreen, manager.getCurrentScreen());
     }
@@ -59,15 +59,15 @@ public class ScreenManagerTest {
     @Test
     public void getScreen_ValidData_TestSuccess() throws Exception {
         ScreenManager manager = new ScreenManager();
-        manager.addScreen(menuScreen );
+        manager.addScreen(menuScreen);
         manager.addScreen(gameScreen);
-        assertEquals(menuScreen , manager.getScreen(menuScreenName));
+        assertEquals(menuScreen, manager.getScreen(menuScreenName));
     }
 
     @Test
     public void removeScreen_ValidData_TestSuccess() throws Exception {
         ScreenManager manager = new ScreenManager();
-        manager.addScreen(menuScreen );
+        manager.addScreen(menuScreen);
         manager.addScreen(gameScreen);
         assertTrue(manager.removeScreen(menuScreenName));
     }
@@ -75,7 +75,7 @@ public class ScreenManagerTest {
     @Test
     public void removeScreen_NotFound_TestSuccess() throws Exception {
         ScreenManager manager = new ScreenManager();
-        manager.addScreen(menuScreen );
+        manager.addScreen(menuScreen);
         manager.addScreen(gameScreen);
         manager.removeScreen(menuScreenName);
         assertFalse(manager.removeScreen(menuScreenName));

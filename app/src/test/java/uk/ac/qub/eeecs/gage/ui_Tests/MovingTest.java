@@ -21,7 +21,7 @@ import static org.junit.Assert.assertNotEquals;
 /**
  * Created by 40216004 Dewei Liu on 24/01/2018.
  * Test for Moving.java
- *
+ * <p>
  * 8 unit tests in this class
  */
 @RunWith(MockitoJUnitRunner.class)

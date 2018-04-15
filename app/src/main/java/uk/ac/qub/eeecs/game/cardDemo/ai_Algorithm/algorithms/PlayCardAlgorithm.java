@@ -14,8 +14,8 @@ import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIDecision;
 public class PlayCardAlgorithm extends AlgorithmSuperclass {
     private Card cardPlayed;
 
-    public PlayCardAlgorithm(Hero humanPlayer, Hero AIPlayer){
-        super(humanPlayer,AIPlayer);
+    public PlayCardAlgorithm(Hero humanPlayer, Hero AIPlayer) {
+        super(humanPlayer, AIPlayer);
     }
 
     @Override

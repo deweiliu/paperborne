@@ -13,7 +13,7 @@ import static junit.framework.Assert.assertEquals;
 
 /**
  * Created by 40216004 Dewei Liu on 16/02/2018.
- *
+ * <p>
  * 2 unit tests in this class
  * <p>
  * Although there may are some exceptions occurred in this rotatingObject_Test1NotFinished, but the rotatingObject_Test1NotFinished can pass successfully

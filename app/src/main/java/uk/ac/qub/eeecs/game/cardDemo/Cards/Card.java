@@ -138,8 +138,7 @@ public class Card extends Sprite {
 
     }
 
-    public Card(int cardID, String cardName, float startX, float startY, Bitmap bitmap, GameScreen gameScreen, int manaCost, int attackValue, int healthValue)
-    {
+    public Card(int cardID, String cardName, float startX, float startY, Bitmap bitmap, GameScreen gameScreen, int manaCost, int attackValue, int healthValue) {
         this(cardID, cardName, startX, startY, bitmap, gameScreen, manaCost, attackValue, healthValue, false);
     }
 
@@ -219,7 +218,7 @@ public class Card extends Sprite {
             // If the card hasn't been pressed down on - i.e not being dragged
             if (position.x != anchor.x || position.y != anchor.y) {
                 // If the card is not at it's anchor position
-                if(effectsEnabled) {
+                if (effectsEnabled) {
                     // If visual effects are enabled
                     // Calculate distance between the position and the anchor
                     Vector2 anchorDistance = new Vector2();
@@ -239,9 +238,7 @@ public class Card extends Sprite {
                         velocity.set(Vector2.Zero);
                         position.set(anchor);
                     }
-                }
-                else
-                {
+                } else {
                     // If visual effects are disabled
                     // Jump to anchor position without animation
                     position.set(anchor);

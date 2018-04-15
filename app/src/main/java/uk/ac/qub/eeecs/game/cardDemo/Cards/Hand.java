@@ -10,16 +10,16 @@ public class Hand {
     private final int MAX_HAND_SIZE = 10;
     private ArrayList<Card> cards;
 
-    public Hand(Deck deck){
+    public Hand(Deck deck) {
 
         cards = new ArrayList<>();
         //Draws random cards from the deck and adds them to the hand
-        for (int i = 0; i < MAX_HAND_SIZE - 1; i++){
+        for (int i = 0; i < MAX_HAND_SIZE - 1; i++) {
             this.cards.add(deck.drawCard());
         }
     }
 
-    public ArrayList<Card> getCards(){
+    public ArrayList<Card> getCards() {
         return this.cards;
     }
 

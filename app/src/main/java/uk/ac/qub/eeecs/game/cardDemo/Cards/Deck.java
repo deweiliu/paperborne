@@ -17,11 +17,12 @@ public class Deck {
     private static final boolean DEFAULT_EFFECTS_ENABLED = true;
     private final int MAX_DECK_SIZE = 15;
     private ArrayList<Card> cardsInDeck;
-    
+
     /**
      * Constructor for deck that uses default card setup
+     *
      * @param gameScreen gameScreen the deck exists in
-     * @param game game the deck exists in
+     * @param game       game the deck exists in
      */
     public Deck(GameScreen gameScreen, Game game) {
         game.getAssetManager().loadAndAddBitmap("Card", "img/Hearthstone_Card_Template.png");
@@ -70,15 +71,16 @@ public class Deck {
         cardsInDeck.add(new Card(fiveCostCard));
 
     }
-    
+
     /**
      * Constructor for deck that uses a card set up supplied by parameter
+     *
      * @param gameScreen gameScreen the deck exists in
-     * @param game game the deck exists in
-     * @param deck supplied cards to create the deck with
+     * @param game       game the deck exists in
+     * @param deck       supplied cards to create the deck with
      */
     public Deck(GameScreen gameScreen, Game game, List<LevelCard> deck) {
-    
+
         game.getAssetManager().loadAndAddBitmap("Card", "img/Cards/Card Back.jpg");
         game.getAssetManager().loadAndAddBitmap("1 cost", "img/Cards/Weakman.JPG");
         game.getAssetManager().loadAndAddBitmap("2 cost", "img/Cards/Dog.JPG");
@@ -87,8 +89,7 @@ public class Deck {
         game.getAssetManager().loadAndAddBitmap("5 cost", "img/Cards/Dragon.JPG");
         boolean effectsEnabled = new OptionsManager(game.getContext()).getBoolOption(OptionsManager.VISUAL_EFFECTS, DEFAULT_EFFECTS_ENABLED);
         cardsInDeck = new ArrayList<>();
-        for(int i = 0; i < deck.size(); i++)
-        {
+        for (int i = 0; i < deck.size(); i++) {
             LevelCard card = deck.get(i);
             cardsInDeck.add(new Card(
                     i,
@@ -103,7 +104,7 @@ public class Deck {
                     effectsEnabled
             ));
         }
-        
+
     }
 
     //draws a random card
@@ -123,7 +124,7 @@ public class Deck {
     }
 
     //Checks of the Deck is empty
-    public boolean isDeckEmpty(){
+    public boolean isDeckEmpty() {
         return cardsInDeck.isEmpty();
     }
 

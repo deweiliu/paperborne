@@ -2,7 +2,7 @@ package uk.ac.qub.eeecs.game.endGameLogic.screen2_getUserName;
 
 /**
  * Created by 40216004 on 24/01/2018.
- *
+ * <p>
  * To store user information
  */
 
@@ -36,17 +36,20 @@ public class User {
     }
 
     public String getWinner() {
-        if(winner==null){
+        if (winner == null) {
             return null;
-        }else{
-        return winner.name;
-    }}
+        } else {
+            return winner.name;
+        }
+    }
 
-    public String getLoser() {if(loser==null){
-        return null;
-    }else{
-        return loser.name;
-    }}
+    public String getLoser() {
+        if (loser == null) {
+            return null;
+        } else {
+            return loser.name;
+        }
+    }
 
     public class UserName {
         private String name;

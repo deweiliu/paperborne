@@ -17,8 +17,7 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 
 
-public class VerticalSlider extends Button
-{
+public class VerticalSlider extends Button {
     /**
      * Minimum, maximum and current slider values
      */
@@ -54,9 +53,8 @@ public class VerticalSlider extends Button
      * @param gameScreen    Gamescreen to which this control belongs
      */
     public VerticalSlider(int min, int max, int val, Paint textStyle, float x, float y, float width, float height,
-                  String defaultBitmap, String sliderFillBitmap, String triggerSound, GameScreen gameScreen,
-                  Boolean processInLayerSpace)
-    {
+                          String defaultBitmap, String sliderFillBitmap, String triggerSound, GameScreen gameScreen,
+                          Boolean processInLayerSpace) {
         super(x, y, width, height, defaultBitmap, processInLayerSpace, gameScreen);
         mProcessInLayerSpace = processInLayerSpace;
         // Load in slider fill bitmap
@@ -83,20 +81,17 @@ public class VerticalSlider extends Button
      * @param gameScreen Gamescreen to which this control belongs
      */
     public VerticalSlider(int min, int max, int val, Paint textStyle, float x, float y, float width, float height,
-                  String bitmap, String sliderFillBitmap, GameScreen gameScreen, Boolean processInLayerSpace)
-    {
+                          String bitmap, String sliderFillBitmap, GameScreen gameScreen, Boolean processInLayerSpace) {
         this(min, max, val, textStyle, x, y, width, height, bitmap, sliderFillBitmap, null, gameScreen, processInLayerSpace);
     }
 
     @Override
-    protected void updateTriggerActions(TouchEvent touchEvent, Vector2 touchLocation)
-    {
+    protected void updateTriggerActions(TouchEvent touchEvent, Vector2 touchLocation) {
     }
 
 
     @Override
-    protected void updateTouchActions(Vector2 touchLocation)
-    {
+    protected void updateTouchActions(Vector2 touchLocation) {
 
     }
 
@@ -105,22 +100,18 @@ public class VerticalSlider extends Button
      * to the default bitmap and state.
      */
     @Override
-    protected void updateDefaultActions()
-    {
+    protected void updateDefaultActions() {
         mBitmap = mSliderBitmap;
     }
 
     @Override
-    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport)
-    {
-        if (mProcessInLayerSpace)
-        {
+    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport) {
+        if (mProcessInLayerSpace) {
             // If in layer space, then determine an appropriate screen space bound
-            if (GraphicsHelper.getClippedSourceAndScreenRect(this, layerViewport, screenViewport, drawSourceRect, drawScreenRect))
-            {
+            if (GraphicsHelper.getClippedSourceAndScreenRect(this, layerViewport, screenViewport, drawSourceRect, drawScreenRect)) {
                 Rect fillRect = new Rect(
                         drawScreenRect.left,
-                        drawScreenRect.bottom - (int) ((float) drawScreenRect.height() * ((float) mVal / (float) mMax)) ,
+                        drawScreenRect.bottom - (int) ((float) drawScreenRect.height() * ((float) mVal / (float) mMax)),
                         drawScreenRect.right,
                         drawScreenRect.bottom);
 
@@ -133,15 +124,13 @@ public class VerticalSlider extends Button
                 graphics2D.drawText(String.valueOf(mMax), (float) drawScreenRect.right, drawScreenRect.top, mTextStyle);
                 graphics2D.drawText(String.valueOf(mVal), drawScreenRect.exactCenterX(), drawScreenRect.centerY(), mTextStyle);
             }
-        }
-        else
-        {
+        } else {
 
             Rect fillRect = new Rect(
                     drawScreenRect.left,
                     drawScreenRect.bottom - (int) ((float) drawScreenRect.height() * ((float) mVal / (float) mMax)),
                     drawScreenRect.right,
-                    drawScreenRect.bottom );
+                    drawScreenRect.bottom);
 
             draw(elapsedTime, graphics2D);
             graphics2D.drawBitmap(mSliderFillBitmap, fillRect, fillRect, null);
@@ -154,31 +143,26 @@ public class VerticalSlider extends Button
 
     /**
      * Get the current slider value
+     *
      * @return the slider value
      */
-    public int getVal()
-    {
+    public int getVal() {
         return mVal;
     }
 
     /**
      * Set the slider value
+     *
      * @param val the value to set the slider to
      */
-    public void setVal(int val)
-    {
-        if (val > mMax)
-        {
+    public void setVal(int val) {
+        if (val > mMax) {
             // If the value is greater than the maximum, set the value to the maximum
             this.mVal = mMax;
-        }
-        else if (val < mMin)
-        {
+        } else if (val < mMin) {
             // If the value is less than the minimum, set the value to the minimum
             this.mVal = mMin;
-        }
-        else
-        {
+        } else {
             // If the value is within the min-max range, set it to the value provided
             this.mVal = val;
         }

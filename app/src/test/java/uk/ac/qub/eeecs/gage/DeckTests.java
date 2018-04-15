@@ -33,13 +33,13 @@ public class DeckTests {
 
     @Mock
     Game game;
-    
+
     @Mock
     private SharedPreferences sharedPreferences;
-    
+
     @Mock
     private Music music;
-    
+
     @Mock
     private Context context;
 
@@ -91,7 +91,7 @@ public class DeckTests {
     }
 
     @Test
-    public void testDeckIsEmpty(){
+    public void testDeckIsEmpty() {
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
 
@@ -103,17 +103,15 @@ public class DeckTests {
 
 
     }
-    
+
     @Test
-    public void testCardStates()
-    {
+    public void testCardStates() {
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
-        
+
         // Check that each card in the deck is the expected cardstate
         Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
-        for(Card card : hero.getDeck().getCardsInDeck())
-        {
+        for (Card card : hero.getDeck().getCardsInDeck()) {
             assertTrue(card.getCardState() == Card.CardState.CARD_IN_DECK);
         }
     }

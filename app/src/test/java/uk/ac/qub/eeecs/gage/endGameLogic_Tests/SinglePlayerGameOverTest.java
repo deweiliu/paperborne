@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 
 /**
  * Created by 40216004 Dewei Liu on 10/04/2018.
- *
+ * <p>
  * 3 unit tests in this class
  */
 
@@ -104,6 +104,7 @@ public class SinglePlayerGameOverTest {
             sleep(PERIOD / 10, singlePlayer);
         }
     }
+
     private void sleep(long millis, GameOverSuperclass object) {
         try {
             Thread.sleep(millis);

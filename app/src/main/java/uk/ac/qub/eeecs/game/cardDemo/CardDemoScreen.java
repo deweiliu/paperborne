@@ -37,9 +37,9 @@ import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 
 public class CardDemoScreen extends GameScreen {
-    
+
     private static final int DEFAULT_MUSIC_VOLUME = 10;
-    
+
     private Hero player;
     private Hero opponent;
     private ScreenViewport mScreenViewport;
@@ -80,14 +80,15 @@ public class CardDemoScreen extends GameScreen {
         mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
                 game.getScreenHeight());
 
-        if (mScreenViewport.width > mScreenViewport.height)
+        if (mScreenViewport.width > mScreenViewport.height) {
             mLayerViewport = new LayerViewport(240.0f, 240.0f
                     * mScreenViewport.height / mScreenViewport.width, 240.0f,
                     240.0f * mScreenViewport.height / mScreenViewport.width);
-        else
+        } else {
             mLayerViewport = new LayerViewport(240.0f * mScreenViewport.width
                     / mScreenViewport.height, 240.0f, 240.0f
                     * mScreenViewport.width / mScreenViewport.height, 240.0f);
+        }
 
 
         AssetStore assetManager = mGame.getAssetManager();
@@ -180,20 +181,22 @@ public class CardDemoScreen extends GameScreen {
                     manaSlider.setVal(player.getCurrentMana());
 
 
-                    if (!player.getDeck().isDeckEmpty() && player.getHand().getCards().size() < player.getHand().getMaxHandSize())
+                    if (!player.getDeck().isDeckEmpty() && player.getHand().getCards().size() < player.getHand().getMaxHandSize()) {
                         player.getHand().getCards().add(player.getDeck().drawCard());
-                    else
+                    } else {
                         player.takeDamage(1);
+                    }
                 } else { //it's end of player's turn and opponent's turn to draw
 
                     //increments opponents mana and refill opponents mana on the start of their turn
                     opponent.incrementManaLimit();
                     opponent.refillMana();
 
-                    if (!opponent.getDeck().isDeckEmpty() && opponent.getHand().getCards().size() < opponent.getHand().getMaxHandSize())
+                    if (!opponent.getDeck().isDeckEmpty() && opponent.getHand().getCards().size() < opponent.getHand().getMaxHandSize()) {
                         opponent.getHand().getCards().add(opponent.getDeck().drawCard());
-                    else
+                    } else {
                         opponent.takeDamage(1);
+                    }
                 }
 
                 arrangeCards();
@@ -211,7 +214,7 @@ public class CardDemoScreen extends GameScreen {
         Music battleMusic = assetManager.getMusic("BattleMusic");
         battleMusic.setLopping(true);
 
-        battleMusic.setVolume(mOptionsManager.getIntOption(OptionsManager.MUSIC_VOLUME, DEFAULT_MUSIC_VOLUME) / (float)10);
+        battleMusic.setVolume(mOptionsManager.getIntOption(OptionsManager.MUSIC_VOLUME, DEFAULT_MUSIC_VOLUME) / (float) 10);
         if (!mOptionsManager.getBoolOption(OptionsManager.MUSIC_MUTED, false)) {
             battleMusic.play();
         }
@@ -462,15 +465,17 @@ public class CardDemoScreen extends GameScreen {
         }
         opponent.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
 
-        if (opponent.getActiveCards() != null)
+        if (opponent.getActiveCards() != null) {
             for (Card card : opponent.getActiveCards()) {
                 if (card.getCardIsDead()) {
                     Paint paint = new Paint();
                     paint.setColorFilter(new LightingColorFilter(Color.RED, 0));
                     card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport, paint);
-                } else
+                } else {
                     card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+                }
             }
+        }
         turnController.draw(elapsedTime, graphics2D);
     }
 

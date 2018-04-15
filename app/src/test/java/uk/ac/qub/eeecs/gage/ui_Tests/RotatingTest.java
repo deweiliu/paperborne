@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by 40216004 Dewei Liu on 26/01/2018.
  * Test for Rotating.java
- *
+ * <p>
  * 4 unit tests in this class
  */
 

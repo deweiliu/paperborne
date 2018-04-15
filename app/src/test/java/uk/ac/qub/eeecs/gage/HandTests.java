@@ -26,15 +26,14 @@ import static org.mockito.Mockito.when;
  */
 
 @RunWith(MockitoJUnitRunner.class)
-public class HandTests
-{
-    
+public class HandTests {
+
     @Mock
     private SharedPreferences sharedPreferences;
-    
+
     @Mock
     private Music music;
-    
+
     @Mock
     private Context context;
 
@@ -62,18 +61,16 @@ public class HandTests
         when(context.getSharedPreferences(any(String.class), any(Integer.class))).thenReturn(sharedPreferences);
 
     }
-    
-    
+
+
     @Test
-    public void testCardDrawnStates()
-    {
+    public void testCardDrawnStates() {
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
-        
+
         // Check that each card in the deck is the expected cardstate
         Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
-        for(Card card : hero.getHand().getCards())
-        {
+        for (Card card : hero.getHand().getCards()) {
             assertTrue(card.getCardState() == Card.CardState.CARD_IN_HAND);
         }
     }

@@ -145,8 +145,9 @@ public class Hero extends Sprite {
         Iterator<Card> i = activeCards.iterator();
         while (i.hasNext()) {
             Card current = i.next();
-            if (current.getCardIsDead())
+            if (current.getCardIsDead()) {
                 i.remove();
+            }
         }
     }
 

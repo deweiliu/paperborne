@@ -29,10 +29,10 @@ import uk.ac.qub.eeecs.game.ui.PopUp;
  */
 
 public class WorldScreen extends GameScreen {
-    
+
     // Name of the game screen
     private static final String WORLD_SCREEN_NAME = "WorldScreen";
-    
+
     // Bitmap paths and IDs
     private static final String WORLD_MAP_BITMAP_ID = "worldmap";
     private static final String WORLD_MAP_BITMAP_PATH = "img/WorldMap.png";

@@ -57,7 +57,7 @@ public class SplashScreenTest {
     Input input;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         screenManager = new ScreenManager();
         when(game.getScreenManager()).thenReturn(screenManager);
 
@@ -73,7 +73,7 @@ public class SplashScreenTest {
     //it should change to the menu screen
     //NS
     @Test
-    public void testScreenChange(){
+    public void testScreenChange() {
         //Sets up test data
         SplashScreen splashScreen = new SplashScreen(game);
         game.getScreenManager().addScreen(splashScreen);

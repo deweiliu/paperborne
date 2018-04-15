@@ -90,8 +90,9 @@ public class TurnController {
     }
 
     public void update(ElapsedTime elapsedTime) {
-        if (playerTurn)
+        if (playerTurn) {
             mEndTurnButton.update(elapsedTime, mLayerViewport, mScreenViewport);
+        }
         if (endTurnButtonPushed = mEndTurnButton.isPushTriggered()) {
             this.doEndTurn();
         }

@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 
 /**
  * Created by 40216004 Dewei Liu on 10/04/2018.
- *
+ * <p>
  * 4 unit tests in this class
  */
 
@@ -42,7 +42,7 @@ public class EndGameControllerTest {
         hasPlayer1Won = random.nextBoolean();
 
         //Set up game screen
-        Bitmap bitmap=Mockito.mock(Bitmap.class);
+        Bitmap bitmap = Mockito.mock(Bitmap.class);
         AssetStore assetManager = Mockito.mock(AssetStore.class);
         when(assetManager.getBitmap("loadingToMainMenuFromEndGameLogic")).thenReturn(bitmap);
         when(assetManager.getBitmap("WinAnimation")).thenReturn(bitmap);

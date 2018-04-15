@@ -149,18 +149,19 @@ public class MenuScreen extends GameScreen {
             mMuteButton.update(elapsedTime);
 
 
-            if (mPerformanceButton.isPushTriggered())
+            if (mPerformanceButton.isPushTriggered()) {
                 changeToScreen(new PerformanceScreen(mGame));
-            else if (mOptionsButton.isPushTriggered())
+            } else if (mOptionsButton.isPushTriggered()) {
                 changeToScreen(new OptionsScreen(mGame));
-            else if (mHelpButton.isPushTriggered())
+            } else if (mHelpButton.isPushTriggered()) {
                 new GameHelpController(mGame);
-            else if (mSinglePlayerButton.isPushTriggered())
+            } else if (mSinglePlayerButton.isPushTriggered()) {
                 changeToScreen(new WorldScreen(mGame));
-            else if (mMultiPlayerButton.isPushTriggered())
+            } else if (mMultiPlayerButton.isPushTriggered()) {
                 toastHandler.post(toastRunner);
-            else if (soundOn != mMuteButton.isToggledOn())
+            } else if (soundOn != mMuteButton.isToggledOn()) {
                 soundOn = mMuteButton.isToggledOn();
+            }
         }
     }
 

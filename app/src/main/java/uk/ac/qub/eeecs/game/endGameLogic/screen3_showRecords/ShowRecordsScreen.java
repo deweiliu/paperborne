@@ -55,7 +55,8 @@ public class ShowRecordsScreen extends EndGameScreenSuperclass {
             }
         }
     }
-    public void homeButtonPushed(){
+
+    public void homeButtonPushed() {
         isFinished = true;
     }
 

@@ -25,7 +25,6 @@ public interface BasicEndGameStuff {
     void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D);
 
     /**
-     *
      * @return if all action of this object has been finished
      */
     boolean isFinished();

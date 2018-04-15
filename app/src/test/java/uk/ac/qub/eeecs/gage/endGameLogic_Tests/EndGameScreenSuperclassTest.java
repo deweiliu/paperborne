@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 
 /**
  * Created by 40216004 on 10/04/2018.
- *
+ * <p>
  * 10 unit tests in this class
  */
 

@@ -15,7 +15,7 @@ import static junit.framework.Assert.assertTrue;
 
 /**
  * Created by Dewei Liu 40216004 on 10/03/2018.
- *
+ * <p>
  * 2 unit tests in this class
  */
 @RunWith(MockitoJUnitRunner.class)

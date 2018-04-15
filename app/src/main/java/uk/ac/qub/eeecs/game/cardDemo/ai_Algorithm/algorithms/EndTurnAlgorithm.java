@@ -8,9 +8,9 @@ import uk.ac.qub.eeecs.game.cardDemo.ai_Algorithm.AIDecision;
  */
 
 public class EndTurnAlgorithm extends AlgorithmSuperclass {
-public EndTurnAlgorithm(Hero humanPlayer, Hero AIPlayer){
-    super(humanPlayer,AIPlayer);
-}
+    public EndTurnAlgorithm(Hero humanPlayer, Hero AIPlayer) {
+        super(humanPlayer, AIPlayer);
+    }
 
     @Override
     public final int actionNumber() {
@@ -18,7 +18,7 @@ public EndTurnAlgorithm(Hero humanPlayer, Hero AIPlayer){
     }
 
     @Override
-      protected final void algorithm() {
+    protected final void algorithm() {
         //Make this action valid without thinking anymore
         super.isValid = true;
     }

@@ -37,7 +37,7 @@ public class GameHelpController {
         screens = new ArrayList<>();
         screens.add(new TextDescription(mGame, this));
         screens.add(new HeroDescription(mGame, this));
-        screens.add( new CardDescription(mGame, this));
+        screens.add(new CardDescription(mGame, this));
         screens.add(new Copyright(mGame, this));
         screens.add(new ForTestingEndGameLogic(mGame, this));
 

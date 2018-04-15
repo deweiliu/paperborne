@@ -20,8 +20,7 @@ import static junit.framework.Assert.assertTrue;
  */
 
 @RunWith(MockitoJUnitRunner.class)
-public class SaveGameTest
-{
+public class SaveGameTest {
     // Test values for the save game
     private static final int TEST_SAVE_SLOT = 1;
     private static final int TEST_ATTACK = 1;
@@ -32,14 +31,12 @@ public class SaveGameTest
     private static final String TEST_REQUIRED_LEVEL = "test_level";
     // Number of cards to create for the test
     private static final int TEST_NUM_OF_CARDS = 10;
-    
+
     @Test
-    public void saveGameInitTest()
-    {
+    public void saveGameInitTest() {
         // Create list of cards with test data
         List<LevelCard> testCards = new ArrayList<>();
-        for(int i = 0; i < TEST_NUM_OF_CARDS; i++)
-        {
+        for (int i = 0; i < TEST_NUM_OF_CARDS; i++) {
             testCards.add(new LevelCard(
                     TEST_NAME,
                     TEST_BITMAP,
@@ -48,43 +45,41 @@ public class SaveGameTest
                     TEST_ATTACK
             ));
         }
-    
+
         // Create list of levels with the test data
         List<String> testLevels = new ArrayList<>();
         testLevels.add(TEST_REQUIRED_LEVEL);
-        
+
         // Set up save game by constructor
         SaveGame saveGame = new SaveGame(
                 TEST_SAVE_SLOT,
                 testCards,
                 testLevels
         );
-        
+
         // Check values are as expected
         assertEquals(saveGame.getSlot(), TEST_SAVE_SLOT);
         assertEquals(saveGame.getPlayerDeck(), testCards);
         assertEquals(saveGame.getCompleted(), testLevels);
-        
+
         // Set up save game by setter methods
         SaveGame setSavegame = new SaveGame(0, null, null);
         setSavegame.setSlot(TEST_SAVE_SLOT);
         setSavegame.setCompleted(testLevels);
         setSavegame.setPlayerDeck(testCards);
-        
+
         // Check values are as expected
         assertEquals(setSavegame.getSlot(), TEST_SAVE_SLOT);
         assertEquals(setSavegame.getPlayerDeck(), testCards);
         assertEquals(setSavegame.getCompleted(), testLevels);
-        
+
     }
-    
+
     @Test
-    public void saveGameJSONTest()
-    {
+    public void saveGameJSONTest() {
         // Create list of cards with test data
         List<LevelCard> testCards = new ArrayList<>();
-        for(int i = 0; i < TEST_NUM_OF_CARDS; i++)
-        {
+        for (int i = 0; i < TEST_NUM_OF_CARDS; i++) {
             testCards.add(new LevelCard(
                     TEST_NAME,
                     TEST_BITMAP,
@@ -93,20 +88,20 @@ public class SaveGameTest
                     TEST_ATTACK
             ));
         }
-        
+
         // Create list of levels with the test data
         List<String> testLevels = new ArrayList<>();
         testLevels.add(TEST_REQUIRED_LEVEL);
-    
+
         // Set up save game by constructor
         SaveGame saveGame = new SaveGame(
                 TEST_SAVE_SLOT,
                 testCards,
                 testLevels
         );
-        
+
         // Check the JSON output is valid
         assertTrue(GameUtil.isJSONValid(saveGame.toJSON()));
     }
-    
+
 }

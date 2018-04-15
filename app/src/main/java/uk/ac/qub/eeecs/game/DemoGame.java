@@ -56,10 +56,11 @@ public class DemoGame extends Game {
     @Override
     public boolean onBackPressed() {
         // If we are already at the menu screen then exit
-        if (mScreenManager.getCurrentScreen().getName().equals("MenuScreen"))
+        if (mScreenManager.getCurrentScreen().getName().equals("MenuScreen")) {
             return false;
+        }
         //If on the Card Screen stop the music playing
-        if(mScreenManager.getCurrentScreen().getName().equals("CardScreen")){
+        if (mScreenManager.getCurrentScreen().getName().equals("CardScreen")) {
             getAssetManager().getMusic("BattleMusic").stop();
             //Returns to the WorldScreen instead of MenuScreen
             getScreenManager().removeScreen(mScreenManager.getCurrentScreen().getName());

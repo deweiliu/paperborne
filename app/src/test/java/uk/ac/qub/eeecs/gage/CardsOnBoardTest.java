@@ -25,41 +25,40 @@ import static org.mockito.Mockito.when;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class CardsOnBoardTest
-{
+public class CardsOnBoardTest {
     // Screen width and height for touch events
     private final int SCREEN_WIDTH = 1280;
     private final int SCREEN_HEIGHT = 720;
-    
+
     // Mocked input
     @Mock
     private Input input;
-    
+
     @Mock
     private SharedPreferences sharedPreferences;
-    
+
     @Mock
     private Music music;
-    
+
     @Mock
     private Context context;
-    
+
     @Mock
     private Game game;
-    
+
     @Mock
     private Bitmap bitmap;
-    
+
     @Mock
     private AssetStore assetManager;
-    
+
     @Mock
     private ScreenManager screenManager;
-    
+
     @Before
     public void setUp() {
         screenManager = new ScreenManager();
-    
+
         when(game.getScreenManager()).thenReturn(screenManager);
         when(game.getAssetManager()).thenReturn(assetManager);
         when(game.getScreenWidth()).thenReturn(SCREEN_WIDTH);
@@ -70,29 +69,26 @@ public class CardsOnBoardTest
         when(game.getContext()).thenReturn(context);
         when(context.getSharedPreferences(any(String.class), any(Integer.class))).thenReturn(sharedPreferences);
     }
-    
+
     /**
      * Checks that cards that are played from the hand to the board have the correct cardstate
      */
     @Test
-    public void checkCardPlayedState()
-    {
+    public void checkCardPlayedState() {
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
-    
+
         // Check that each card in the deck is the expected cardstate
         Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
         // Draw 5 cards and play them on the board
-        for(int i = 0; i < 3; i++)
-        {
+        for (int i = 0; i < 3; i++) {
             hero.playCard(hero.getHand().getCards().get(i));
         }
-        for(Card card : hero.getActiveCards())
-        {
+        for (Card card : hero.getActiveCards()) {
             assertTrue(card.getCardState() == Card.CardState.CARD_ON_BOARD);
         }
     }
-    
+
     //JC
     @Test
     public void checkCardRemovedOnDeath() {
@@ -101,12 +97,12 @@ public class CardsOnBoardTest
         game.getScreenManager().addScreen(cardDemoScreen);
         Hero hero = new Hero(0, 0, bitmap, cardDemoScreen, game);
 
-        for(int i = 0; i < 9; i++) {
+        for (int i = 0; i < 9; i++) {
             hero.incrementManaLimit();
         }
 
-        for(Card card : hero.getHand().getCards()) { // a card of mana cost 1 must be played first for some reason
-            if(card.getManaCost() == 1) {
+        for (Card card : hero.getHand().getCards()) { // a card of mana cost 1 must be played first for some reason
+            if (card.getManaCost() == 1) {
                 hero.playCard(card);
                 hero.refillMana();
                 break;
@@ -114,7 +110,7 @@ public class CardsOnBoardTest
         }
 
         //play five cards total
-        for(int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
             hero.playCard(hero.getHand().getCards().get(0));
             hero.refillMana();
         }

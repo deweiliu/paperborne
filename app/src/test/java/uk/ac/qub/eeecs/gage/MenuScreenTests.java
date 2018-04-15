@@ -56,7 +56,7 @@ public class MenuScreenTests {
     }
 
     @Test
-    public void menuScreenCreation(){
+    public void menuScreenCreation() {
         MenuScreen menuScreen = new MenuScreen(game);
         game.getScreenManager().addScreen(menuScreen);
         assertNotNull(menuScreen);

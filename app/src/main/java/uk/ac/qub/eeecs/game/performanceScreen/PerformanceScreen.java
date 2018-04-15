@@ -21,13 +21,12 @@ import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 
 
-
 /**
  * A screen for measuring performance.
  *
  * @version 1.0
  */
-public class PerformanceScreen extends GameScreen{
+public class PerformanceScreen extends GameScreen {
 
     // /////////////////////////////////////////////////////////////////////////
     // Properties
@@ -58,7 +57,7 @@ public class PerformanceScreen extends GameScreen{
     private int rectangleStepChange = 50;
 
     /**
-     *  Define rectangles
+     * Define rectangles
      */
     private List<Sprite> mRectangles;
 
@@ -87,14 +86,15 @@ public class PerformanceScreen extends GameScreen{
 
         // Create the layer viewport, taking into account the orientation
         // and aspect ratio of the screen.
-        if (mScreenViewport.width > mScreenViewport.height)
+        if (mScreenViewport.width > mScreenViewport.height) {
             mLayerViewport = new LayerViewport(240.0f, 240.0f
                     * mScreenViewport.height / mScreenViewport.width, 240.0f,
                     240.0f * mScreenViewport.height / mScreenViewport.width);
-        else
+        } else {
             mLayerViewport = new LayerViewport(240.0f * mScreenViewport.width
                     / mScreenViewport.height, 240.0f, 240.0f
                     * mScreenViewport.width / mScreenViewport.height, 240.0f);
+        }
 
         // init paint params
         paintFPS = new Paint();
@@ -113,7 +113,7 @@ public class PerformanceScreen extends GameScreen{
         Random random = new Random();
         mRectangles = new ArrayList<>(numRectangles);
         for (int i = 0; i < numRectangles; ++i) {
-            mRectangles.add(new Sprite(random.nextFloat() * game.getScreenWidth()/4, random.nextFloat() * game.getScreenHeight()/4,
+            mRectangles.add(new Sprite(random.nextFloat() * game.getScreenWidth() / 4, random.nextFloat() * game.getScreenHeight() / 4,
                     random.nextFloat() * maxRectWidth, random.nextFloat() * maxRectHeight, rect, this));
         }
 
@@ -147,22 +147,24 @@ public class PerformanceScreen extends GameScreen{
             mRectanglesUp.update(elapsedTime);
             mRectanglesDown.update(elapsedTime);
 
-            if(mRectanglesUp.isPushTriggered())
+            if (mRectanglesUp.isPushTriggered()) {
                 numRectangles += rectangleStepChange;
-            else if (mRectanglesDown.isPushTriggered())
-                numRectangles -=rectangleStepChange;
+            } else if (mRectanglesDown.isPushTriggered()) {
+                numRectangles -= rectangleStepChange;
+            }
         }
 
         mRectangles.clear();
         Random random = new Random();
         Bitmap rect = mGame.getAssetManager().getBitmap("Rectangle");
         for (int i = 0; i < numRectangles; ++i) {
-            mRectangles.add(new Sprite(random.nextFloat() * mGame.getScreenWidth()/4, random.nextFloat() * mGame.getScreenHeight()/4,
+            mRectangles.add(new Sprite(random.nextFloat() * mGame.getScreenWidth() / 4, random.nextFloat() * mGame.getScreenHeight() / 4,
                     random.nextFloat() * maxRectWidth, random.nextFloat() * maxRectHeight, rect, this));
         }
 
-        for (Sprite rectangle : mRectangles)
+        for (Sprite rectangle : mRectangles) {
             rectangle.update(elapsedTime);
+        }
 
     }
 
@@ -176,8 +178,9 @@ public class PerformanceScreen extends GameScreen{
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
         graphics2D.clear(Color.WHITE);
 
-        for (Sprite rect : mRectangles)
+        for (Sprite rect : mRectangles) {
             rect.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+        }
 
         String fps = "FPS: " + this.getGame().getAverageFramesPerSecond();
         graphics2D.drawText(fps, 10, 50, paintFPS);

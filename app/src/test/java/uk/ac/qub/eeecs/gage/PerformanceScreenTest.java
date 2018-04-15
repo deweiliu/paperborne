@@ -49,7 +49,7 @@ public class PerformanceScreenTest {
     private IGraphics2D graphics2D;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         screenManager = new ScreenManager();
         when(game.getScreenManager()).thenReturn(screenManager);
         when(game.getAssetManager()).thenReturn(assetManager);

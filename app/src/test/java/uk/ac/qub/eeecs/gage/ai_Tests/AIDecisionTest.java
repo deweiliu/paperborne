@@ -15,7 +15,7 @@ import static org.junit.Assert.assertNotEquals;
 
 /**
  * Created by 40216004 Dewei Liu on 16/02/2018.
- *
+ * <p>
  * 3 unit tests in this class
  */
 @RunWith(MockitoJUnitRunner.class)

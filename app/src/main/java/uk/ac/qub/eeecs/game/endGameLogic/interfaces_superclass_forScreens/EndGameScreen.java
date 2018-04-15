@@ -52,7 +52,6 @@ public interface EndGameScreen extends BasicEndGameStuff {
     AssetStore getAssetManager();
 
     /**
-     *
      * @return if is single player mode or multiplayer mode
      */
     boolean isSinglePlayer();
@@ -60,12 +59,12 @@ public interface EndGameScreen extends BasicEndGameStuff {
     /**
      * in single player mode, player 1 will be the human player
      * in multiplayer mode, player1 will be the player has at the bottom of the screen
+     *
      * @return if player1 has won
      */
     boolean hasPlayer1Won();
 
     /**
-     *
      * @return The GameScreen which for the battle (the main game screen)
      */
     GameScreen getCardDemoScreen();

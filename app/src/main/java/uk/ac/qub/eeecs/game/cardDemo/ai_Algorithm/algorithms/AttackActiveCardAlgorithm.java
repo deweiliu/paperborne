@@ -36,7 +36,7 @@ public class AttackActiveCardAlgorithm extends AlgorithmSuperclass {
     /*******************************************************************************************/
 
     @Override
-     protected final void algorithm() {
+    protected final void algorithm() {
 
         //If can win within two turns, then don't attack any active card, and attack the hero directly
         if (canWinWithin2Turns()) {
