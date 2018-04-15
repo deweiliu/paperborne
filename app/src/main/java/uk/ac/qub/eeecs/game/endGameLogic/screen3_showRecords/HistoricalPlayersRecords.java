@@ -41,7 +41,7 @@ public class HistoricalPlayersRecords extends RecordsSuperclass {
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
         super.draw(elapsedTime, graphics2D);
         float width = mScreen.getScreenWidth();
-        float height = mScreen.getScreenHeight();
+        float height = mScreen.getScreenHeight() / 30 * 29;
         float gap = width / users.size() / 4;
         int index = 1;
         for (UserRecord each : users) {
@@ -53,14 +53,14 @@ public class HistoricalPlayersRecords extends RecordsSuperclass {
         graphics2D.drawText("Name:", 0, ((height / 5) * ++index) - mPaint.getTextSize(), mPaint);
         graphics2D.drawText("Win:", 0, ((height / 5) * ++index) - mPaint.getTextSize(), mPaint);
         graphics2D.drawText("Lose:", 0, ((height / 5) * ++index) - mPaint.getTextSize(), mPaint);
-        graphics2D.drawText("Win rate:", 0, ((height / 5) * ++index) - mPaint.getTextSize(), mPaint);
+        graphics2D.drawText("Win ratio:", 0, ((height / 5) * ++index) - mPaint.getTextSize(), mPaint);
         String playerNumber;
         if (users.size() > 1) {
             playerNumber = users.size() + " players ";
         } else {
             playerNumber = users.size() + " player ";
         }
-        graphics2D.drawText("Showing the top " + playerNumber + "with highest win rate historically", 0, height, mPaint);
+        graphics2D.drawText("Showing the top " + playerNumber + "with highest win ratio in the past.", 0, height, mPaint);
     }
 
 

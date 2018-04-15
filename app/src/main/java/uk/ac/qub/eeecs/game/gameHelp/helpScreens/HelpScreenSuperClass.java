@@ -69,7 +69,7 @@ public abstract class HelpScreenSuperClass extends GameScreen {
 
         //Set up paint
         mPaint = new Paint();
-        mPaint.setTextSize(60);
+        mPaint.setTextSize(mGame.getScreenWidth() / 45);
         mPaint.setColor(Color.WHITE);
 
         assetManager = mGame.getAssetManager();
@@ -103,7 +103,7 @@ public abstract class HelpScreenSuperClass extends GameScreen {
         //Create the start play button
         assetManager.loadAndAddBitmap("HelpScreenStartPlay", DIR + "Start play.png");
         startPlay = new PushButton(mLayer.getRight() - ICON_WIDTH / 2, mLayer.getTop() - ICON_HEIGHT / 2,
-                ICON_WIDTH, ICON_WIDTH, "HelpScreenStartPlay", this);
+                ICON_WIDTH, ICON_HEIGHT, "HelpScreenStartPlay", this);
         icons.add(startPlay);
 
         // Create the back button
@@ -194,7 +194,7 @@ public abstract class HelpScreenSuperClass extends GameScreen {
      * @param bitmap   the bitmap you want to use
      */
     public void setPopUpMessage(String message, long duration, Bitmap bitmap) {
-        this.popUpMessage = new PopUp(message, duration, 72, bitmap, this);
+        this.popUpMessage = new PopUp(message, duration, mGame.getScreenWidth() / 40, bitmap, this);
         // Display the popup
         popUpMessage.show();
     }

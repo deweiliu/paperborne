@@ -69,12 +69,6 @@ public class PerformanceScreen extends GameScreen{
     private final float maxRectWidth = 100f;
     private final float maxRectHeight = 100f;
 
-    /**
-     * Width and height of the level
-     */
-    private final float LEVEL_WIDTH = 1000.0f;
-    private final float LEVEL_HEIGHT = 1000.0f;
-
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
@@ -117,7 +111,7 @@ public class PerformanceScreen extends GameScreen{
 
         // create rectangles
         Random random = new Random();
-        mRectangles = new ArrayList<Sprite>(numRectangles);
+        mRectangles = new ArrayList<>(numRectangles);
         for (int i = 0; i < numRectangles; ++i) {
             mRectangles.add(new Sprite(random.nextFloat() * game.getScreenWidth()/4, random.nextFloat() * game.getScreenHeight()/4,
                     random.nextFloat() * maxRectWidth, random.nextFloat() * maxRectHeight, rect, this));
@@ -206,9 +200,5 @@ public class PerformanceScreen extends GameScreen{
 
     public LayerViewport getmLayerViewport() {
         return mLayerViewport;
-    }
-
-    public ScreenViewport getmScreenViewport() {
-        return mScreenViewport;
     }
 }

@@ -59,10 +59,10 @@ public class EndGameController extends GameScreen {
         if (levelID != null) {
 
             //If the player was playing against computer
-            if (isSinglePlayer == true) {
+            if (isSinglePlayer) {
 
                 //If the player has won
-                if (hasPlayer1Won == true) {
+                if (hasPlayer1Won) {
 
                     //Record it and unlock new level
                     this.setCompletedLevelRecords(levelID);

@@ -33,7 +33,7 @@ public class Copyright extends HelpScreenSuperClass {
         /*****************************************************************************************************/
         //Set descriptions
         descriptions = new ArrayList<>();
-        descriptions.add("This project is developed for CSC2044.");
+        descriptions.add("This project was developed for CSC2044.");
         descriptions.add("2017 - 2018 All rights reserved.");
 
         /*****************************************************************************************************/
@@ -51,7 +51,7 @@ public class Copyright extends HelpScreenSuperClass {
         //Set paint
         mPaint = new Paint();
         mPaint.setColor(Color.WHITE);
-        mPaint.setTextSize((mGame.getScreenHeight() / 2) / developers.size() / (4 / 3));
+        mPaint.setTextSize((mGame.getScreenHeight() / 2) / (3 * developers.size()));
 
 
     }

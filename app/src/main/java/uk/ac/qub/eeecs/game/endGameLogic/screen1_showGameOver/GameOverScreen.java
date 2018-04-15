@@ -20,12 +20,13 @@ public class GameOverScreen extends EndGameScreenSuperclass {
     private final static long ANIMATION_PERIOD = 3000;
     private Paint mPaint;
     private GameOverInterface mAnimation;
-    private final static int TEXT_SIZE = 100;
+    private int TEXT_SIZE = 100;
 
     public GameOverScreen(EndGameController controller) {
         super(controller);
 
         //Set up the paint
+        TEXT_SIZE = getScreenWidth() / 28;
         mPaint = new Paint();
         this.mPaint.setColor(Color.GREEN);
         this.mPaint.setTextSize(TEXT_SIZE);

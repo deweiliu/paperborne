@@ -12,7 +12,7 @@ public class Hand {
 
     public Hand(Deck deck){
 
-        cards = new ArrayList<Card>();
+        cards = new ArrayList<>();
         //Draws random cards from the deck and adds them to the hand
         for (int i = 0; i < MAX_HAND_SIZE - 1; i++){
             this.cards.add(deck.drawCard());

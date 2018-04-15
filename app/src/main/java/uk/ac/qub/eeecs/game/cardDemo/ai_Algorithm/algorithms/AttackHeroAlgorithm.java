@@ -31,7 +31,7 @@ public class AttackHeroAlgorithm extends AlgorithmSuperclass {
     @Override
     protected final void algorithm() {
         ArrayList<Card> myBoardCards = super.getMyBoardCards();
-        ArrayList<Card3> cards = new ArrayList<Card3>();
+        ArrayList<Card3> cards = new ArrayList<>();
         for (Card each : myBoardCards) {
             if (!each.isFinishedMove()) {
 

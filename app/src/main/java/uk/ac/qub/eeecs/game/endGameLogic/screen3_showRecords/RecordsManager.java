@@ -53,7 +53,7 @@ public class RecordsManager {
         //Set up the player name in record
         Set<String> names = getNames();
         if ((names) == null) {
-            names = new HashSet<String>();
+            names = new HashSet<>();
 
         }
         boolean newPlayer = true;

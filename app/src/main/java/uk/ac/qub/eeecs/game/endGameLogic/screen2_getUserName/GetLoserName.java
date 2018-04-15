@@ -16,11 +16,6 @@ public class GetLoserName extends GetNameSuperclass {
     }
 
     @Override
-    public void update(ElapsedTime elapsedTime) {
-        super.update(elapsedTime);
-    }
-
-    @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
         super.draw(elapsedTime, graphics2D);
         graphics2D.drawText("Sorry for losing the game,", paint.getTextSize(), mScreen.getScreenHeight() / 5 + paint.getTextSize(), super.paint);

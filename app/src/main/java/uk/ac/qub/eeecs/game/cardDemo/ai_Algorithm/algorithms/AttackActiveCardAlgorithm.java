@@ -46,7 +46,7 @@ public class AttackActiveCardAlgorithm extends AlgorithmSuperclass {
 
         //Simulate all possible actions
         ArrayList<Card> attackers = super.getMyBoardCards(), attackees = super.getPlayerBoardCards();
-        ArrayList<Action> actions = new ArrayList<Action>();
+        ArrayList<Action> actions = new ArrayList<>();
         for (Card eachAttacker : attackers) {
             if (!eachAttacker.isFinishedMove()) {
                 for (Card eachAttackee : attackees) {

@@ -24,6 +24,7 @@ import uk.ac.qub.eeecs.game.gameHelp.GameHelpController;
 public class CardDescription extends HelpScreenSuperClass {
     private ArrayList<CardPicture> cards = new ArrayList<>();
     private Vector<String> description;
+    private Paint paint = new Paint();
 
     /**
      * Create a new game screen associated with the specified game instance
@@ -48,6 +49,9 @@ public class CardDescription extends HelpScreenSuperClass {
         description.add("health value (left bottom) and mana-cost (left top).");
         description.add("The card it not able to attack only in the turn you play it,");
         description.add("The card with health lower than or equaling to 0 will be destroyed.");
+
+        paint.setTextSize(mGame.getScreenWidth() / 36);
+        paint.setColor(Color.BLUE);
     }
 
 
@@ -63,7 +67,7 @@ public class CardDescription extends HelpScreenSuperClass {
     @Override
     protected void drawGameHelp(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
         for (CardPicture each : cards) {
-            each.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+            each.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport, paint);
         }
         for (int i = 0; i < description.size(); i++) {
             float x = mPaint.getTextSize();
@@ -75,25 +79,23 @@ public class CardDescription extends HelpScreenSuperClass {
     private class CardPicture {
         private GameObject card;
         private String name;
-        private Paint paint = new Paint();
         private float width;
 
         public CardPicture(AssetStore assetManager, float x, float y, float width, float height, String bitmapName, GameScreen gameScreen) {
             this.width = width;
             String assetName = "Card " + bitmapName;
             assetManager.loadAndAddBitmap("Game Help " + assetName, "img/Game Help/" + assetName + ".JPG");
-            Bitmap bitmap = assetManager.getBitmap("Game Help "  + assetName);
+            Bitmap bitmap = assetManager.getBitmap("Game Help " + assetName);
             card = new GameObject(x, y, width, height, bitmap, gameScreen);
             name = bitmapName;
-            paint.setTextSize(80);
-            paint.setColor(Color.BLUE);
+
         }
 
         public void update(ElapsedTime elapsedTime) {
             card.update(elapsedTime);
         }
 
-        public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport mLayerViewport, ScreenViewport mScreenViewport) {
+        public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport mLayerViewport, ScreenViewport mScreenViewport, Paint paint) {
             card.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
             graphics2D.drawText(name, card.position.x + mLayerViewport.halfWidth - width / 2,
                     card.position.y + mLayerViewport.halfHeight, paint);

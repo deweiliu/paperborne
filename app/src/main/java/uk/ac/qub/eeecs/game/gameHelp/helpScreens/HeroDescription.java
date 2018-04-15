@@ -24,14 +24,14 @@ import uk.ac.qub.eeecs.game.gameHelp.GameHelpController;
 public class HeroDescription extends HelpScreenSuperClass {
 
     private ArrayList<HeroPicture> heroes = new ArrayList<>();
-
+    private Paint paint = new Paint();
     private Vector<String> description;
 
     /**
      * Create a new game screen associated with the specified game instance
      *
      * @param game       Game instance to which the game screen belongs
-     * @param controller
+     * @param controller Controller which this belongs to
      */
     public HeroDescription(Game game, GameHelpController controller) {
         super("HeroDescription", game, controller);
@@ -49,6 +49,9 @@ public class HeroDescription extends HelpScreenSuperClass {
         description.add("You will get a random hero above with 30 health.");
         description.add("If your hero's health is lower than or equal to 0, you lost.");
         description.add("If the opponent hero's health is lower than or equal to 0, you win.");
+
+        paint.setTextSize(mGame.getScreenWidth() / 36);
+        paint.setColor(Color.BLUE);
     }
 
 
@@ -64,7 +67,7 @@ public class HeroDescription extends HelpScreenSuperClass {
     protected void drawGameHelp(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
         for (HeroPicture each : heroes) {
-            each.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+            each.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport, paint);
         }
         for (int i = 0; i < description.size(); i++) {
             float x = mPaint.getTextSize();
@@ -77,27 +80,25 @@ public class HeroDescription extends HelpScreenSuperClass {
     private class HeroPicture {
         private GameObject hero;
         private String name;
-        private Paint paint = new Paint();
         private float width;
 
         public HeroPicture(AssetStore assetManager, float x, float y, float width, float height, String bitmapName, GameScreen gameScreen) {
             this.width = width;
             String assetName = "Hero " + bitmapName;
             assetManager.loadAndAddBitmap("Game Help " + assetName, "img/Game Help/" + assetName + ".JPG");
-            Bitmap bitmap = assetManager.getBitmap("Game Help "  + assetName);
+            Bitmap bitmap = assetManager.getBitmap("Game Help " + assetName);
             hero = new GameObject(x, y, width, height, bitmap, gameScreen);
             name = bitmapName;
-            paint.setTextSize(80);
-            paint.setColor(Color.BLUE);
         }
 
         public void update(ElapsedTime elapsedTime) {
             hero.update(elapsedTime);
         }
 
-        public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport mLayerViewport, ScreenViewport mScreenViewport) {
+        public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport mLayerViewport, ScreenViewport mScreenViewport, Paint paint) {
             hero.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
-            graphics2D.drawText(name, hero.position.x + mLayerViewport.halfWidth - width / 2, hero.position.y + mLayerViewport.halfHeight, paint);
+            graphics2D.drawText(name, hero.position.x + mLayerViewport.halfWidth - width / 2,
+                    hero.position.y + mLayerViewport.halfHeight, paint);
         }
     }
 

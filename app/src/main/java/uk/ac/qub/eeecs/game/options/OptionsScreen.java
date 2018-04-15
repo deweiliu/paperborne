@@ -35,14 +35,14 @@ public class OptionsScreen extends GameScreen
 	 */
 	private static final String OPTIONS_BACKGROUND_BITMAP_ID = "OptionsBackground";
 	private static final String OPTIONS_BACKGROUND_BITMAP_PATH = "img/OptionsScreenBackground.jpg";
-	private static final String FPS_UNCHECKED_BITMAP_ID = "FPSUnchecked";
-	private static final String FPS_UNCHECKED_BITMAP_PATH = "img/FPSUnchecked.jpg";
-	private static final String FPS_CHECKED_BITMAP_ID = "FPSChecked";
-	private static final String FPS_CHECKED_BITMAP_PATH = "img/FPSChecked.jpg";
+	private static final String UNCHECKED_BITMAP_ID = "Unchecked";
+	private static final String UNCHECKED_BITMAP_PATH = "img/Unchecked.jpg";
+	private static final String CHECKED_BITMAP_ID = "Checked";
+	private static final String CHECKED_BITMAP_PATH = "img/Checked.jpg";
 	private static final String SLIDER_BASE_BITMAP_ID = "SliderBase";
-	private static final String SLIDER_BASE_BITMAP_PATH = "img/SliderBase.jpg";
+	private static final String SLIDER_BASE_BITMAP_PATH = "img/SliderBase.png";
 	private static final String SLIDER_FILL_BITMAP_ID = "SliderFill";
-	private static final String SLIDER_FILL_BITMAP_PATH = "img/SliderFill.jpg";
+	private static final String SLIDER_FILL_BITMAP_PATH = "img/SliderFill.png";
 	
 	/**
 	 * Minimum, maximum and default volumes the music and sound effects can be set to
@@ -152,8 +152,8 @@ public class OptionsScreen extends GameScreen
 		
 		// Load in bitmaps
 		assetManager.loadAndAddBitmap(OPTIONS_BACKGROUND_BITMAP_ID, OPTIONS_BACKGROUND_BITMAP_PATH);
-		assetManager.loadAndAddBitmap(FPS_CHECKED_BITMAP_ID, FPS_CHECKED_BITMAP_PATH);
-		assetManager.loadAndAddBitmap(FPS_UNCHECKED_BITMAP_ID, FPS_UNCHECKED_BITMAP_PATH);
+		assetManager.loadAndAddBitmap(CHECKED_BITMAP_ID, CHECKED_BITMAP_PATH);
+		assetManager.loadAndAddBitmap(UNCHECKED_BITMAP_ID, UNCHECKED_BITMAP_PATH);
 		assetManager.loadAndAddBitmap(SLIDER_BASE_BITMAP_ID, SLIDER_BASE_BITMAP_PATH);
 		assetManager.loadAndAddBitmap(SLIDER_FILL_BITMAP_ID, SLIDER_FILL_BITMAP_PATH);
 		
@@ -180,13 +180,13 @@ public class OptionsScreen extends GameScreen
 				OPTION_SEPARATION,
 				TOGGLE_WIDTH,
 				TOGGLE_HEIGHT,
-				FPS_CHECKED_BITMAP_ID,
-				FPS_UNCHECKED_BITMAP_ID,
+				CHECKED_BITMAP_ID,
+				UNCHECKED_BITMAP_ID,
 				this
 		);
 		
 		// Update toggle button with loaded value
-		mFpsToggle.setToggled(mFpsCurrentVal);
+		mFpsToggle.setToggled(!mFpsCurrentVal);
 		
 		// Set up visual effects toggle button
 		mEffectsToggle = new ToggleButton(
@@ -194,13 +194,13 @@ public class OptionsScreen extends GameScreen
 				(OPTION_SEPARATION *2),
 				TOGGLE_WIDTH,
 				TOGGLE_HEIGHT,
-				FPS_CHECKED_BITMAP_ID,
-				FPS_CHECKED_BITMAP_ID,
+				CHECKED_BITMAP_ID,
+				UNCHECKED_BITMAP_ID,
 				this
 		);
 		
 		// Update toggle button with loaded value
-		mEffectsToggle.setToggled(mEffectsCurrentVal);
+		mEffectsToggle.setToggled(!mEffectsCurrentVal);
 		
 		// Set up text painter with styles
 		Paint sliderPainter = new Paint();
@@ -234,7 +234,7 @@ public class OptionsScreen extends GameScreen
 				SLIDER_WIDTH,
 				SLIDER_HEIGHT,
 				SLIDER_BASE_BITMAP_ID,
-				SLIDER_BASE_BITMAP_ID,
+				SLIDER_FILL_BITMAP_ID,
 				this,
 				false);
 		
@@ -254,11 +254,6 @@ public class OptionsScreen extends GameScreen
 		
 		if (touchEvents.size() > 0)
 		{
-			// Just check the first touch event that occurred in the frame.
-			// It means pressing the screen with several fingers may not
-			// trigger a 'button', but, hey, it's an exceedingly basic menu.
-			TouchEvent touchEvent = touchEvents.get(0);
-			
 			// Update UI elements
 			mFpsToggle.update(elapsedTime);
 			mEffectsToggle.update(elapsedTime);
@@ -269,13 +264,13 @@ public class OptionsScreen extends GameScreen
 		{
 			// If currently loaded value is not the same as the UI element value
 			// Update the stored user options
-			mManager.setOption(OptionsManager.FPS_COUNTER, mFpsToggle.isToggledOn());
+			mManager.setOption(OptionsManager.FPS_COUNTER, !mFpsToggle.isToggledOn());
 			// Update currently loaded value
 			mFpsCurrentVal = mFpsToggle.isToggledOn();
 		}
 		if(mEffectsCurrentVal != mEffectsToggle.isToggledOn())
 		{
-			mManager.setOption(OptionsManager.VISUAL_EFFECTS, mEffectsToggle.isToggledOn());
+			mManager.setOption(OptionsManager.VISUAL_EFFECTS, !mEffectsToggle.isToggledOn());
 			mEffectsCurrentVal = mEffectsToggle.isToggledOn();
 		}
 		if(mMusicCurrentVal != mMusicSlider.getVal())

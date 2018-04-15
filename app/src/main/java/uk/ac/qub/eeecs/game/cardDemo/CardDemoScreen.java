@@ -150,12 +150,14 @@ public class CardDemoScreen extends GameScreen {
                 opponent.clearDeadCards();
                 for (Card card : player.getActiveCards()) { //reset card movement states and snap to anchor positions
                     card.setFinishedMove(false);
+                    card.setCardIsActive(false);
                     card.acceleration.set(Vector2.Zero);
                     card.velocity.set(Vector2.Zero);
                     card.position.set(card.getAnchor());
                 }
                 for (Card card : opponent.getActiveCards()) {
                     card.setFinishedMove(false);
+                    card.setCardIsActive(false);
                     card.acceleration.set(Vector2.Zero);
                     card.velocity.set(Vector2.Zero);
                     card.position.set(card.getAnchor());
@@ -213,13 +215,13 @@ public class CardDemoScreen extends GameScreen {
 
         // Set up text painter with styles
         Paint sliderPainter = new Paint();
-        sliderPainter.setTextSize(60);
+        sliderPainter.setTextSize(mGame.getScreenWidth() / 36);
         sliderPainter.setColor(Color.BLACK);
         sliderPainter.setTextAlign(Paint.Align.CENTER);
 
         //creates new vertical slider for the players mana
-        float SLIDER_WIDTH = 175f;
-        float SLIDER_HEIGHT = 450f;
+        float SLIDER_WIDTH = game.getScreenWidth() / 16;
+        float SLIDER_HEIGHT = game.getScreenHeight() / 3.2f;
         manaSlider = new VerticalSlider(0, 10, player.getCurrentMana(), sliderPainter,
                 game.getScreenWidth() - 135f, game.getScreenHeight() - 230f, SLIDER_WIDTH, SLIDER_HEIGHT,
                 "SliderBase", "VerticalSliderFill", this, false);
@@ -241,10 +243,10 @@ public class CardDemoScreen extends GameScreen {
     @Override
     public void update(ElapsedTime elapsedTime) {
         //If some one has died, end the game
-        if (!player.isAlive()) {
+        if (player.getHeroIsDead()) {
             new EndGameController(this, true, false, level);
         } else {
-            if (!opponent.isAlive()) {
+            if (opponent.getHeroIsDead()) {
                 new EndGameController(this, true, true, level);
             }
         }
@@ -281,8 +283,8 @@ public class CardDemoScreen extends GameScreen {
                 if (opponentCard.isCardIsActive()) {
                     // Check for any selected player cards on the board
                     for (Card playerCard : player.getActiveCards()) {
-                        if (playerCard.isCardIsActive() && !playerCard.isFinishedMove()) {
-                            // If there is a selected player card that hasn't finished it's move
+                        if (playerCard.isCardIsActive() && !playerCard.isFinishedMove() && !opponentCard.getCardIsDead()) {
+                            // If there is a selected player card that hasn't finished it's move and and isn't dead
                             // attack the tapped opponent card
                             opponentCard.takeDamage(playerCard.getAttackValue());
                             // Deselect player card and mark it as finished its move
