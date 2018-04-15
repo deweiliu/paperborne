@@ -213,13 +213,13 @@ public class CardDemoScreen extends GameScreen {
 
         // Set up text painter with styles
         Paint sliderPainter = new Paint();
-        sliderPainter.setTextSize(60);
+        sliderPainter.setTextSize(mGame.getScreenWidth() / 48);
         sliderPainter.setColor(Color.BLACK);
         sliderPainter.setTextAlign(Paint.Align.CENTER);
 
         //creates new vertical slider for the players mana
-        float SLIDER_WIDTH = 175f;
-        float SLIDER_HEIGHT = 450f;
+        float SLIDER_WIDTH = game.getScreenWidth() / 16;
+        float SLIDER_HEIGHT = game.getScreenHeight() / 3.2f;
         manaSlider = new VerticalSlider(0, 10, player.getCurrentMana(), sliderPainter,
                 game.getScreenWidth() - 135f, game.getScreenHeight() - 230f, SLIDER_WIDTH, SLIDER_HEIGHT,
                 "SliderBase", "VerticalSliderFill", this, false);

@@ -37,7 +37,7 @@ public abstract class RecordsSuperclass implements RecordsInterface {
         this.manager = manager;
         mPaint = new Paint();
         mPaint.setColor(Color.BLACK);
-        mPaint.setTextSize(100);
+        mPaint.setTextSize(mEndGameScreen.getScreenWidth() / 28);
 
 
         //Set up buttons
@@ -78,7 +78,7 @@ public abstract class RecordsSuperclass implements RecordsInterface {
         if (homeButton.isPushTriggered()) {
             if (mScreen instanceof ShowRecordsScreen) {
                 ((ShowRecordsScreen) mScreen).homeButtonPushed();
-            }else{
+            } else {
                 //Some thing goes wrong.
             }
         }

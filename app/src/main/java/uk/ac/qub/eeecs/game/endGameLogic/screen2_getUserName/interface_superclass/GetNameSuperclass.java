@@ -44,11 +44,11 @@ public abstract class GetNameSuperclass implements GetNameInterface {
 
         //Set up paints
         this.paint = new Paint();
-        paint.setTextSize(90);
+        paint.setTextSize(gameScreen.getScreenWidth() / 32);
         paint.setColor(Color.BLACK);
 
         mPaint = new Paint();
-        mPaint.setTextSize(150);
+        mPaint.setTextSize(gameScreen.getScreenWidth() / 20);
         mPaint.setColor(Color.BLACK);
 
         //Other fields

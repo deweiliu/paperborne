@@ -27,7 +27,7 @@ import uk.ac.qub.eeecs.game.cardDemo.Hero;
 public class Card extends Sprite {
 
     // Card stats text size
-    private final static float STATS_TEXT_SIZE = 40.0f;
+    private float STATS_TEXT_SIZE = 40.0f;
     private final static float STATS_MARGIN = 15.0f;
 
     // Card dimensions
@@ -45,8 +45,7 @@ public class Card extends Sprite {
      * CardState class for specifying where the card is in the game, either in the deck, hand or
      * board
      */
-    public static class CardState
-    {
+    public static class CardState {
         public static final int CARD_IN_DECK = 0;
         public static final int CARD_IN_HAND = 1;
         public static final int CARD_ON_BOARD = 2;
@@ -71,7 +70,7 @@ public class Card extends Sprite {
     private boolean cardIsActive;
 
     //Checks if the card is pressed down
-    private  boolean cardPressedDown;
+    private boolean cardPressedDown;
 
     //Checks if the card is finished moving
     private boolean finishedMove;
@@ -95,12 +94,14 @@ public class Card extends Sprite {
     private Paint textStyle;
 
 
-    public Card (int cardID, String cardName, float startX, float startY, Bitmap bitmap, GameScreen gameScreen, int manaCost, int attackValue, int healthValue) {
+    public Card(int cardID, String cardName, float startX, float startY, Bitmap bitmap, GameScreen gameScreen, int manaCost, int attackValue, int healthValue) {
         super(startX, startY, CARD_WIDTH, CARD_HEIGHT, bitmap, gameScreen);
 
+        STATS_TEXT_SIZE = gameScreen.getGame().getScreenWidth() / 72;
+
         //Dimensions of the card from the super
-        this.cardCentre.x = CARD_WIDTH/2f;
-        this.cardCentre.y = CARD_HEIGHT/2f;
+        this.cardCentre.x = CARD_WIDTH / 2f;
+        this.cardCentre.y = CARD_HEIGHT / 2f;
 
         // Set anchor as start position
         anchor.set(position);
@@ -133,20 +134,20 @@ public class Card extends Sprite {
     }
 
     //Copy constructor for the Card game object to allow mulitple cards to be created
-    public Card(Card blankCard){
+    public Card(Card blankCard) {
         this(blankCard.getCardID(), blankCard.getCardName(), blankCard.position.x, blankCard.position.y,
-                blankCard.getBitmap(), blankCard.mGameScreen, blankCard.getManaCost(), blankCard.getAttackValue(), blankCard.getHealthValue() );
+                blankCard.getBitmap(), blankCard.mGameScreen, blankCard.getManaCost(), blankCard.getAttackValue(), blankCard.getHealthValue());
     }
 
     //Method for card to take damage
-    public void takeDamage(int damageDealt){
+    public void takeDamage(int damageDealt) {
         healthValue -= damageDealt;
-        if(healthValue < 0){
+        if (healthValue < 0) {
             healthValue = 0;
         }
 
         //Checks the healthValue to determine if the Card is dead
-        if(healthValue == 0){
+        if (healthValue == 0) {
             cardIsDead = true;
         }
     }
@@ -169,17 +170,16 @@ public class Card extends Sprite {
                 cardIsActive = true;
             }
             if (touch.type == TouchEvent.TOUCH_UP) {
-                
-                if(cardState != CardState.CARD_ON_BOARD)
-                {
+
+                if (cardState != CardState.CARD_ON_BOARD) {
                     // If the card is not on the board mark it as deselected
                     cardIsActive = false;
                 }
 
                 // If there is a touch up event, return the pressed card back to anchor position
-                if(cardPressedDown && cardState == CardState.CARD_IN_HAND) {
+                if (cardPressedDown && cardState == CardState.CARD_IN_HAND) {
                     //are we allowed to play a card?
-                    if(hero.getActiveCards().size() < hero.getMaxActiveCards()) {
+                    if (hero.getActiveCards().size() < hero.getMaxActiveCards()) {
                         //Checks if the hero has enough mana to play the card
                         if (hero.getCurrentMana() >= this.getManaCost()) {
                             //If the card is dropped onto the top half of the screen, place it onto the board
@@ -205,7 +205,7 @@ public class Card extends Sprite {
                 }
             }
         }
-        if(!cardPressedDown) {
+        if (!cardPressedDown) {
             // If the card hasn't been pressed down on - i.e not being dragged
             if (position.x != anchor.x || position.y != anchor.y) {
                 // If the card is not at it's anchor position
@@ -231,19 +231,18 @@ public class Card extends Sprite {
         }
         super.update(elapsedTime);
     }
-    
+
     @Override
-    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport, Paint paint)
-    {
+    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport, Paint paint) {
         super.draw(elapsedTime, graphics2D, layerViewport, screenViewport, paint);
         if (GraphicsHelper.getClippedSourceAndScreenRect(this, layerViewport,
                 screenViewport, drawSourceRect, drawScreenRect)) {
-            
+
             Rect textBounds = new Rect();
             textStyle.getTextBounds(String.valueOf(manaCost), 0, String.valueOf(manaCost).length(), textBounds);
             // Draw mana in blue
             textStyle.setColor(Color.BLUE);
-            graphics2D.drawText(String.valueOf(manaCost), drawScreenRect.left + STATS_MARGIN, drawScreenRect.top + (STATS_MARGIN + textBounds.height()/2), textStyle);
+            graphics2D.drawText(String.valueOf(manaCost), drawScreenRect.left + STATS_MARGIN, drawScreenRect.top + (STATS_MARGIN + textBounds.height() / 2), textStyle);
             // Draw health in green
             textStyle.setColor(Color.GREEN);
             graphics2D.drawText(String.valueOf(healthValue), drawScreenRect.left + STATS_MARGIN, drawScreenRect.bottom - STATS_MARGIN, textStyle);
@@ -252,13 +251,12 @@ public class Card extends Sprite {
             graphics2D.drawText(String.valueOf(attackValue), drawScreenRect.right - STATS_MARGIN, drawScreenRect.bottom - STATS_MARGIN, textStyle);
         }
     }
-    
+
     @Override
-    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport)
-    {
+    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport) {
         this.draw(elapsedTime, graphics2D, layerViewport, screenViewport, new Paint());
     }
-    
+
     //Getters and Setters
     public Vector2 getLastPosition() {
         return lastPosition;
@@ -268,9 +266,13 @@ public class Card extends Sprite {
         this.lastPosition = lastPosition;
     }
 
-    public Vector2 getPosition() { return position; }
+    public Vector2 getPosition() {
+        return position;
+    }
 
-    public void setPosition(Vector2 position) { this.position = position; }
+    public void setPosition(Vector2 position) {
+        this.position = position;
+    }
 
     public void setPosition(float x, float y) {
         this.position.x = x;
@@ -289,7 +291,9 @@ public class Card extends Sprite {
         return cardPressedDown;
     }
 
-    public void setCardPressedDown(boolean cardPressedDown) {this.cardPressedDown = cardPressedDown;}
+    public void setCardPressedDown(boolean cardPressedDown) {
+        this.cardPressedDown = cardPressedDown;
+    }
 
     public boolean isFinishedMove() {
         return finishedMove;
@@ -299,13 +303,17 @@ public class Card extends Sprite {
         this.finishedMove = finishedMove;
     }
 
-    public String getCardName() {return cardName;}
+    public String getCardName() {
+        return cardName;
+    }
 
     public void setCardName(String cardName) {
         this.cardName = cardName;
     }
 
-    public int getCardID() { return cardID;}
+    public int getCardID() {
+        return cardID;
+    }
 
     public void setCardID(int cardID) {
         this.cardID = cardID;
@@ -335,27 +343,23 @@ public class Card extends Sprite {
         this.healthValue = healthValue;
     }
 
-    public boolean getCardIsDead(){
+    public boolean getCardIsDead() {
         return this.cardIsDead;
     }
 
-    public int getCardState()
-    {
+    public int getCardState() {
         return cardState;
     }
 
-    public void setCardState(int cardState)
-    {
+    public void setCardState(int cardState) {
         this.cardState = cardState;
     }
 
-    public Vector2 getAnchor()
-    {
+    public Vector2 getAnchor() {
         return anchor;
     }
 
-    public void setAnchor(float x, float y)
-    {
+    public void setAnchor(float x, float y) {
         this.anchor.x = x;
         this.anchor.y = y;
         this.acceleration.set(Vector2.Zero);
