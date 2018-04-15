@@ -47,6 +47,7 @@ public class CardDemoScreen extends GameScreen {
     private AIController aiOpponent;
     private boolean startedThinking;
     private TurnController turnController;
+    private Runnable endTurn;
 
     private Level level;
 
@@ -78,12 +79,12 @@ public class CardDemoScreen extends GameScreen {
 
         if (mScreenViewport.width > mScreenViewport.height)
             mLayerViewport = new LayerViewport(240.0f, 240.0f
-                    * mScreenViewport.height / mScreenViewport.width, 240,
+                    * mScreenViewport.height / mScreenViewport.width, 240.0f,
                     240.0f * mScreenViewport.height / mScreenViewport.width);
         else
-            mLayerViewport = new LayerViewport(240.0f * mScreenViewport.height
-                    / mScreenViewport.width, 240.0f, 240.0f
-                    * mScreenViewport.height / mScreenViewport.width, 240);
+            mLayerViewport = new LayerViewport(240.0f * mScreenViewport.width
+                    / mScreenViewport.height, 240.0f, 240.0f
+                    * mScreenViewport.width / mScreenViewport.height, 240.0f);
 
 
         AssetStore assetManager = mGame.getAssetManager();
@@ -140,9 +141,8 @@ public class CardDemoScreen extends GameScreen {
         }
 
         arrangeCards();
-        turnController = new TurnController(this);
 
-        Runnable endTurn = new Runnable() {
+        endTurn = new Runnable() {
             @Override
             public void run() {
 
@@ -195,7 +195,8 @@ public class CardDemoScreen extends GameScreen {
                 turnController.switchTurn();
             }
         };
-        turnController.setEndTurnTask(endTurn);
+
+        turnController = new TurnController(this);
 
         assetManager.loadAndAddBitmap("SliderBase", "img/SliderBase.png");
         assetManager.loadAndAddBitmap("SliderFill", "img/SliderFill.png");
@@ -502,5 +503,13 @@ public class CardDemoScreen extends GameScreen {
 
     public Hero getOpponent() {
         return opponent;
+    }
+
+    public Runnable getEndTurn() {
+        return endTurn;
+    }
+
+    public TurnController getTurnController() {
+        return turnController;
     }
 }

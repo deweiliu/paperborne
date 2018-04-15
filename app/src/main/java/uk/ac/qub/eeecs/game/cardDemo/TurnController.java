@@ -9,7 +9,6 @@ import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
-import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 
@@ -31,19 +30,14 @@ public class TurnController {
     private long startTime;
     private Runnable endTurnTask;
     private Handler turnHandler;
-    private GameScreen gameScreen;
+    private CardDemoScreen gameScreen;
 
-    public void setEndTurnTask(Runnable endTurnTask) {
-        this.endTurnTask = endTurnTask;
-        turnHandler = new Handler(Looper.getMainLooper());
-        turnHandler.postDelayed(this.endTurnTask, TURN_TIME);
-    }
 
-    public TurnController(GameScreen cardDemoScreen) {
+    public TurnController(CardDemoScreen cardDemoScreen) {
         //Set up variables
         playerTurn = true;
-        this.gameScreen = cardDemoScreen;
-        Game game = this.gameScreen.getGame();
+        gameScreen = cardDemoScreen;
+        Game game = gameScreen.getGame();
 
         /*******************************************************************/
 
@@ -64,8 +58,13 @@ public class TurnController {
         mPaint.setARGB(255, 255, 255, 255);
         mPaint.setShadowLayer(5.0f, 2.0f, 2.0f, Color.BLACK);
 
+        //get the runnable
+        endTurnTask = cardDemoScreen.getEndTurn();
+        turnHandler = new Handler(Looper.getMainLooper());
+        turnHandler.postDelayed(this.endTurnTask, TURN_TIME);
+
         //record the start time for first turn
-        this.startTime = System.currentTimeMillis();
+        startTime = System.currentTimeMillis();
     }
 
     public void switchTurn() {
@@ -91,7 +90,8 @@ public class TurnController {
     }
 
     public void update(ElapsedTime elapsedTime) {
-        mEndTurnButton.update(elapsedTime, mLayerViewport, mScreenViewport);
+        if (playerTurn)
+            mEndTurnButton.update(elapsedTime, mLayerViewport, mScreenViewport);
         if (endTurnButtonPushed = mEndTurnButton.isPushTriggered()) {
             this.doEndTurn();
         }

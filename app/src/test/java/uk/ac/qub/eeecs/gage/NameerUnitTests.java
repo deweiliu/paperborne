@@ -82,7 +82,7 @@ public class NameerUnitTests {
 
         Hero hero = new Hero(0,0, bitmap, cardDemoScreen, game);
 
-        assertEquals(hero.getHand().getCards().size(), 10);
+        assertEquals(9, hero.getHand().getCards().size());
 
     }
 }
