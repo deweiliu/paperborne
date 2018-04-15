@@ -45,7 +45,7 @@ public class PlayCardAlgorithm extends AlgorithmSuperclass {
 
         //Get all information needed for cards
         ArrayList<Card> myHandCards = super.getMyHandCards();
-        ArrayList<Card2> cards = new ArrayList<Card2>();
+        ArrayList<Card2> cards = new ArrayList<>();
         for (Card each : myHandCards) {
 
             //Check the card is usable

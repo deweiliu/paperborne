@@ -213,7 +213,7 @@ public class CardDemoScreen extends GameScreen {
 
         // Set up text painter with styles
         Paint sliderPainter = new Paint();
-        sliderPainter.setTextSize(mGame.getScreenWidth() / 48);
+        sliderPainter.setTextSize(mGame.getScreenWidth() / 36);
         sliderPainter.setColor(Color.BLACK);
         sliderPainter.setTextAlign(Paint.Align.CENTER);
 
@@ -241,10 +241,10 @@ public class CardDemoScreen extends GameScreen {
     @Override
     public void update(ElapsedTime elapsedTime) {
         //If some one has died, end the game
-        if (!player.isAlive()) {
+        if (player.getHeroIsDead()) {
             new EndGameController(this, true, false, level);
         } else {
-            if (!opponent.isAlive()) {
+            if (opponent.getHeroIsDead()) {
                 new EndGameController(this, true, true, level);
             }
         }

@@ -103,7 +103,7 @@ public abstract class HelpScreenSuperClass extends GameScreen {
         //Create the start play button
         assetManager.loadAndAddBitmap("HelpScreenStartPlay", DIR + "Start play.png");
         startPlay = new PushButton(mLayer.getRight() - ICON_WIDTH / 2, mLayer.getTop() - ICON_HEIGHT / 2,
-                ICON_WIDTH, ICON_WIDTH, "HelpScreenStartPlay", this);
+                ICON_WIDTH, ICON_HEIGHT, "HelpScreenStartPlay", this);
         icons.add(startPlay);
 
         // Create the back button

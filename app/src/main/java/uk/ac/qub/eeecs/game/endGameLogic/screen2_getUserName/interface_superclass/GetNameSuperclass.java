@@ -175,23 +175,23 @@ public abstract class GetNameSuperclass implements GetNameInterface {
         }
 
         public void update(int input, ElapsedTime elapsedTime) {
-            if (input == NEXT_ALPHABET) {
-                if (name[currentPosition] < 'Z') {
-                    name[currentPosition] += 1;
-                }
-            } else if (input == PREVIOUS_ALPHABET) {
-                if (name[currentPosition] > 'A') {
-                    name[currentPosition] -= 1;
-                }
-            } else if (input == ENTER_BUTTON) {
-
-                if (currentPosition < max - 1) {
-
-
-                    currentPosition += 1;
-                    name[currentPosition] = 'A';
-
-                }
+            switch (input) {
+                case NEXT_ALPHABET:
+                    if (name[currentPosition] < 'Z') {
+                        name[currentPosition] += 1;
+                    }
+                    break;
+                case PREVIOUS_ALPHABET:
+                    if (name[currentPosition] > 'A') {
+                        name[currentPosition] -= 1;
+                    }
+                    break;
+                case ENTER_BUTTON:
+                    if (currentPosition < max - 1) {
+                        currentPosition += 1;
+                        name[currentPosition] = 'A';
+                    }
+                    break;
             }
 
             long currentTime = System.currentTimeMillis();

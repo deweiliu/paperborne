@@ -82,7 +82,6 @@ public final class Moving extends GameObject implements BasicEndGameStuff {
      * Please do call void setDestination(float x, float y); before calling this function
      *
      * @param period The period for moving in millisecond
-     * @return
      */
     public boolean start(long period) {
         if (destination != null) {
@@ -105,7 +104,6 @@ public final class Moving extends GameObject implements BasicEndGameStuff {
 
     /**
      * Please do call  boolean start(long period); before calling this function
-     * @return
      */
     public boolean resume() {
         if (isStarted) {
@@ -159,11 +157,6 @@ public final class Moving extends GameObject implements BasicEndGameStuff {
     private void finish() {
         stop();
         this.isFinished = true;
-    }
-
-    @Override
-    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport) {
-        super.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
     }
 
     @Override

@@ -254,11 +254,6 @@ public class OptionsScreen extends GameScreen
 		
 		if (touchEvents.size() > 0)
 		{
-			// Just check the first touch event that occurred in the frame.
-			// It means pressing the screen with several fingers may not
-			// trigger a 'button', but, hey, it's an exceedingly basic menu.
-			TouchEvent touchEvent = touchEvents.get(0);
-			
 			// Update UI elements
 			mFpsToggle.update(elapsedTime);
 			mEffectsToggle.update(elapsedTime);

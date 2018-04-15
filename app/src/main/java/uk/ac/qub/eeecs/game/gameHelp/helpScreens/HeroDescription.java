@@ -31,7 +31,7 @@ public class HeroDescription extends HelpScreenSuperClass {
      * Create a new game screen associated with the specified game instance
      *
      * @param game       Game instance to which the game screen belongs
-     * @param controller
+     * @param controller Controller which this belongs to
      */
     public HeroDescription(Game game, GameHelpController controller) {
         super("HeroDescription", game, controller);

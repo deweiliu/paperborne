@@ -97,7 +97,7 @@ public class Card extends Sprite {
     public Card(int cardID, String cardName, float startX, float startY, Bitmap bitmap, GameScreen gameScreen, int manaCost, int attackValue, int healthValue) {
         super(startX, startY, CARD_WIDTH, CARD_HEIGHT, bitmap, gameScreen);
 
-        STATS_TEXT_SIZE = gameScreen.getGame().getScreenWidth() / 72;
+        STATS_TEXT_SIZE = gameScreen.getGame().getScreenWidth() / 48;
 
         //Dimensions of the card from the super
         this.cardCentre.x = CARD_WIDTH / 2f;
@@ -165,7 +165,7 @@ public class Card extends Sprite {
             if (touch.type == TouchEvent.TOUCH_DOWN && (layerPos.x > position.x - cardCentre.x)
                     && (layerPos.x < position.x + cardCentre.x)
                     && (layerPos.y > position.y - cardCentre.y)
-                    && (layerPos.y < position.y + cardCentre.y) && this.finishedMove == false) {
+                    && (layerPos.y < position.y + cardCentre.y) && !this.finishedMove) {
                 cardPressedDown = true;
                 cardIsActive = true;
             }

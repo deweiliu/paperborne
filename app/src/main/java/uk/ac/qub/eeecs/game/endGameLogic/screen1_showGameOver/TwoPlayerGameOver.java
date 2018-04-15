@@ -42,9 +42,8 @@ public class TwoPlayerGameOver extends GameOverSuperclass {
      * Got this function from Stackoverflow on 23 Jan 2018
      * https://stackoverflow.com/questions/9015372/how-to-rotate-a-bitmap-90-degrees
      *
-     * @param source
-     * @param angle
-     * @return
+     * @param source The bitmap we are rotating
+     * @param angle The angle we rotate the bitmap by
      */
     private static Bitmap RotateBitmap(Bitmap source, float angle) {
         Matrix matrix = new Matrix();

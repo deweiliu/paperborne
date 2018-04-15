@@ -75,7 +75,7 @@ public class Hero extends Sprite {
      */
     public Hero(float x, float y, Bitmap bitmap, GameScreen gameScreen, Game game, List<LevelCard> levelDeck) {
         super(x, y, 70.0f, 105.0f, bitmap, gameScreen);
-        STATS_TEXT_SIZE = game.getScreenWidth() / 41;
+        STATS_TEXT_SIZE = game.getScreenWidth() / 32;
         currentHealth = MAX_HEALTH;
         manaLimit = 1;
         currentMana = manaLimit;
@@ -189,10 +189,6 @@ public class Hero extends Sprite {
     //Getters
     public int getCurrentHealth() {
         return this.currentHealth;
-    }
-
-    public boolean isAlive() {
-        return this.getCurrentHealth() > 0;
     }
 
     public int getCurrentMana() {

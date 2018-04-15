@@ -28,7 +28,7 @@ public class Deck {
         game.getAssetManager().loadAndAddBitmap("3 cost", "img/Cards/Fatman.JPG");
         game.getAssetManager().loadAndAddBitmap("4 cost", "img/Cards/Sword.JPG");
         game.getAssetManager().loadAndAddBitmap("5 cost", "img/Cards/Dragon.JPG");
-        cardsInDeck = new ArrayList<Card>();
+        cardsInDeck = new ArrayList<>();
 
         //Creates a card with certain values
         Card oneCostCard = new Card(1, "Weak Man",
@@ -119,10 +119,7 @@ public class Deck {
 
     //Checks of the Deck is empty
     public boolean isDeckEmpty(){
-        if(cardsInDeck.isEmpty()){
-            return true;
-        }
-        return false;
+        return cardsInDeck.isEmpty();
     }
 
 

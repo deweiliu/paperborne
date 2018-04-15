@@ -18,7 +18,6 @@ import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.ui.ToggleButton;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
-import uk.ac.qub.eeecs.game.cardDemo.CardDemoScreen;
 import uk.ac.qub.eeecs.game.gameHelp.GameHelpController;
 import uk.ac.qub.eeecs.game.options.OptionsScreen;
 import uk.ac.qub.eeecs.game.performanceScreen.PerformanceScreen;
@@ -139,11 +138,6 @@ public class MenuScreen extends GameScreen {
 
         List<TouchEvent> touchEvents = input.getTouchEvents();
         if (touchEvents.size() > 0) {
-
-            // Just check the first touch event that occurred in the frame.
-            // It means pressing the screen with several fingers may not
-            // trigger a 'button', but, hey, it's an exceedingly basic menu.
-            TouchEvent touchEvent = touchEvents.get(0);
 
             // Update each button and transition if needed
 

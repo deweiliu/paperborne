@@ -54,7 +54,7 @@ public class TurnController {
 
         //paint for status
         mPaint = new Paint();
-        mPaint.setTextSize(cardDemoScreen.getGame().getScreenWidth() / 48);
+        mPaint.setTextSize(cardDemoScreen.getGame().getScreenWidth() / 36);
         mPaint.setARGB(255, 255, 255, 255);
         mPaint.setShadowLayer(5.0f, 2.0f, 2.0f, Color.BLACK);
 

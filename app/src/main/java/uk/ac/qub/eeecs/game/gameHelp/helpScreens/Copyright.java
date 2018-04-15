@@ -51,7 +51,7 @@ public class Copyright extends HelpScreenSuperClass {
         //Set paint
         mPaint = new Paint();
         mPaint.setColor(Color.WHITE);
-        mPaint.setTextSize((mGame.getScreenHeight() / 2) / developers.size() / (3 / 2));
+        mPaint.setTextSize((mGame.getScreenHeight() / 2) / (3 * developers.size()));
 
 
     }

@@ -33,13 +33,13 @@ public class VerticalSlider extends Button
     private Paint mTextStyle;
 
     // Graphical asset used to represent the slider
-    protected Bitmap mSliderBitmap;
+    private Bitmap mSliderBitmap;
 
     // Graphical asset used to represent the slider fill
-    protected Bitmap mSliderFillBitmap;
+    private Bitmap mSliderFillBitmap;
 
     // Sound played whenever the slider is pressed
-    protected Sound mTriggerSound;
+    private Sound mTriggerSound;
 
     /**
      * Create new slider with sound
