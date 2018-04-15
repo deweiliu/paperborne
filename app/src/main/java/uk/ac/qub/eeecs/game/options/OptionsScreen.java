@@ -35,14 +35,14 @@ public class OptionsScreen extends GameScreen
 	 */
 	private static final String OPTIONS_BACKGROUND_BITMAP_ID = "OptionsBackground";
 	private static final String OPTIONS_BACKGROUND_BITMAP_PATH = "img/OptionsScreenBackground.jpg";
-	private static final String FPS_UNCHECKED_BITMAP_ID = "FPSUnchecked";
-	private static final String FPS_UNCHECKED_BITMAP_PATH = "img/FPSUnchecked.jpg";
-	private static final String FPS_CHECKED_BITMAP_ID = "FPSChecked";
-	private static final String FPS_CHECKED_BITMAP_PATH = "img/FPSChecked.jpg";
+	private static final String UNCHECKED_BITMAP_ID = "Unchecked";
+	private static final String UNCHECKED_BITMAP_PATH = "img/Unchecked.jpg";
+	private static final String CHECKED_BITMAP_ID = "Checked";
+	private static final String CHECKED_BITMAP_PATH = "img/Checked.jpg";
 	private static final String SLIDER_BASE_BITMAP_ID = "SliderBase";
-	private static final String SLIDER_BASE_BITMAP_PATH = "img/SliderBase.jpg";
+	private static final String SLIDER_BASE_BITMAP_PATH = "img/SliderBase.png";
 	private static final String SLIDER_FILL_BITMAP_ID = "SliderFill";
-	private static final String SLIDER_FILL_BITMAP_PATH = "img/SliderFill.jpg";
+	private static final String SLIDER_FILL_BITMAP_PATH = "img/SliderFill.png";
 	
 	/**
 	 * Minimum, maximum and default volumes the music and sound effects can be set to
@@ -152,8 +152,8 @@ public class OptionsScreen extends GameScreen
 		
 		// Load in bitmaps
 		assetManager.loadAndAddBitmap(OPTIONS_BACKGROUND_BITMAP_ID, OPTIONS_BACKGROUND_BITMAP_PATH);
-		assetManager.loadAndAddBitmap(FPS_CHECKED_BITMAP_ID, FPS_CHECKED_BITMAP_PATH);
-		assetManager.loadAndAddBitmap(FPS_UNCHECKED_BITMAP_ID, FPS_UNCHECKED_BITMAP_PATH);
+		assetManager.loadAndAddBitmap(CHECKED_BITMAP_ID, CHECKED_BITMAP_PATH);
+		assetManager.loadAndAddBitmap(UNCHECKED_BITMAP_ID, UNCHECKED_BITMAP_PATH);
 		assetManager.loadAndAddBitmap(SLIDER_BASE_BITMAP_ID, SLIDER_BASE_BITMAP_PATH);
 		assetManager.loadAndAddBitmap(SLIDER_FILL_BITMAP_ID, SLIDER_FILL_BITMAP_PATH);
 		
@@ -180,8 +180,8 @@ public class OptionsScreen extends GameScreen
 				OPTION_SEPARATION,
 				TOGGLE_WIDTH,
 				TOGGLE_HEIGHT,
-				FPS_CHECKED_BITMAP_ID,
-				FPS_UNCHECKED_BITMAP_ID,
+				CHECKED_BITMAP_ID,
+				UNCHECKED_BITMAP_ID,
 				this
 		);
 		
@@ -194,8 +194,8 @@ public class OptionsScreen extends GameScreen
 				(OPTION_SEPARATION *2),
 				TOGGLE_WIDTH,
 				TOGGLE_HEIGHT,
-				FPS_CHECKED_BITMAP_ID,
-				FPS_CHECKED_BITMAP_ID,
+				CHECKED_BITMAP_ID,
+				UNCHECKED_BITMAP_ID,
 				this
 		);
 		
@@ -234,7 +234,7 @@ public class OptionsScreen extends GameScreen
 				SLIDER_WIDTH,
 				SLIDER_HEIGHT,
 				SLIDER_BASE_BITMAP_ID,
-				SLIDER_BASE_BITMAP_ID,
+				SLIDER_FILL_BITMAP_ID,
 				this,
 				false);
 		
