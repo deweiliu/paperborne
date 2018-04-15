@@ -52,6 +52,12 @@ public class OptionsScreen extends GameScreen
 	private static final int DEFAULT_VOLUME = 7;
 	
 	/**
+	 * Default toggle values
+	 */
+	private static final boolean DEFAULT_EFFECTS_TOGGLE = true;
+	private static final boolean DEFAULT_FPS_TOGGLE = false;
+	
+	/**
 	 * Width and height of the toggle buttons
 	 */
 	private static final float TOGGLE_WIDTH = 128.0f;
@@ -70,45 +76,45 @@ public class OptionsScreen extends GameScreen
 	private static final float OPTION_WIDTH = 768.0f;
 	
 	// Calling activity
-	private Activity mActivity;
+	private Activity activity;
 	
 	// The background object
-	private GameObject mOptionsBackground;
+	private GameObject optionsBackground;
 	
 	// The options manager for setting and retrieving user options
-	private OptionsManager mManager;
+	private OptionsManager optionsManager;
 	
 	// Each option's leftmost horizontal position
-	private float mOptionXPos;
+	private float optionXPos;
 	
 	/**
 	 * Toggle buttons for user options
 	 */
-	private ToggleButton mFpsToggle;
-	private ToggleButton mEffectsToggle;
+	private ToggleButton fpsToggle;
+	private ToggleButton effectsToggle;
 	
 	/**
 	 * Sliders for user options
 	 */
-	private Slider mMusicSlider;
-	private Slider mSoundsSlider;
+	private Slider musicSlider;
+	private Slider soundsSlider;
 	
 	// Painter for text style
-	private Paint mTextPainter;
+	private Paint textPainter;
 	
 	/**
 	 * Currently loaded user options
 	 */
-	private boolean mFpsCurrentVal = false;
-	private boolean mEffectsCurrentVal = false;
-	private int mMusicCurrentVal = DEFAULT_VOLUME;
-	private int mSoundCurrentVal = DEFAULT_VOLUME;
+	private boolean fpsCurrentVal = DEFAULT_FPS_TOGGLE;
+	private boolean effectsCurrentVal = DEFAULT_EFFECTS_TOGGLE;
+	private int musicCurrentVal = DEFAULT_VOLUME;
+	private int soundCurrentVal = DEFAULT_VOLUME;
 	
 	/**
 	 * Define viewports for this layer and the associated screen projection
 	 */
-	private ScreenViewport mScreenViewport;
-	private LayerViewport mLayerViewport;
+	private ScreenViewport screenViewport;
+	private LayerViewport layerViewport;
 	
 	/**
 	 * Create the Options screen
@@ -121,31 +127,39 @@ public class OptionsScreen extends GameScreen
 		
 		// Set up viewports
 		// Create the screen viewport
-		mScreenViewport = new ScreenViewport(0, 0, game.getScreenWidth(),
-				game.getScreenHeight());
-
+		screenViewport = new ScreenViewport(
+				0,
+				0,
+				game.getScreenWidth(),
+				game.getScreenHeight()
+		);
+		
 		// Create the layer viewport, taking into account the orientation
 		// and aspect ratio of the screen.
-		if (mScreenViewport.width > mScreenViewport.height)
-			mLayerViewport = new LayerViewport(240.0f, 240.0f
-					* mScreenViewport.height / mScreenViewport.width, 240,
-					240.0f * mScreenViewport.height / mScreenViewport.width);
+		if (screenViewport.width > screenViewport.height)
+		{
+			layerViewport = new LayerViewport(240.0f, 240.0f
+					* screenViewport.height / screenViewport.width, 240,
+					240.0f * screenViewport.height / screenViewport.width);
+		}
 		else
-			mLayerViewport = new LayerViewport(240.0f * mScreenViewport.height
-					/ mScreenViewport.width, 240.0f, 240.0f
-					* mScreenViewport.height / mScreenViewport.width, 240);
+		{
+			layerViewport = new LayerViewport(240.0f * screenViewport.height
+					/ screenViewport.width, 240.0f, 240.0f
+					* screenViewport.height / screenViewport.width, 240);
+		}
 		
 		// Get calling activity
-		mActivity = game.getActivity();
+		activity = game.getActivity();
 		
 		// Create OptionsManager
-		mManager = new OptionsManager(game.getContext());
+		optionsManager = new OptionsManager(game.getContext());
 		
 		// Get any current user options values
-		mFpsCurrentVal = mManager.getBoolOption(OptionsManager.FPS_COUNTER);
-		mEffectsCurrentVal = mManager.getBoolOption(OptionsManager.VISUAL_EFFECTS);
-		mMusicCurrentVal = mManager.getIntOption(OptionsManager.MUSIC_VOLUME, DEFAULT_VOLUME);
-		mSoundCurrentVal = mManager.getIntOption(OptionsManager.SOUND_VOLUME, DEFAULT_VOLUME);
+		fpsCurrentVal = optionsManager.getBoolOption(OptionsManager.FPS_COUNTER, DEFAULT_FPS_TOGGLE);
+		effectsCurrentVal = optionsManager.getBoolOption(OptionsManager.VISUAL_EFFECTS, DEFAULT_EFFECTS_TOGGLE);
+		musicCurrentVal = optionsManager.getIntOption(OptionsManager.MUSIC_VOLUME, DEFAULT_VOLUME);
+		soundCurrentVal = optionsManager.getIntOption(OptionsManager.SOUND_VOLUME, DEFAULT_VOLUME);
 		
 		// Load in the assets used by this layer
 		AssetStore assetManager = mGame.getAssetManager();
@@ -158,49 +172,49 @@ public class OptionsScreen extends GameScreen
 		assetManager.loadAndAddBitmap(SLIDER_FILL_BITMAP_ID, SLIDER_FILL_BITMAP_PATH);
 		
 		// Set up background
-		mOptionsBackground = new GameObject(
-				mLayerViewport.getWidth() / 2.0f,
-				mLayerViewport.getHeight() / 2.0f,
-				mLayerViewport.getWidth(),
-				mLayerViewport.getHeight(),
+		optionsBackground = new GameObject(
+				layerViewport.getWidth() / 2.0f,
+				layerViewport.getHeight() / 2.0f,
+				layerViewport.getWidth(),
+				layerViewport.getHeight(),
 				assetManager.getBitmap(OPTIONS_BACKGROUND_BITMAP_ID),
 				this);
 		
 		// Set up text painter with styles
-		mTextPainter = new Paint();
-		mTextPainter.setTextSize(60);
-		mTextPainter.setColor(Color.BLACK);
+		textPainter = new Paint();
+		textPainter.setTextSize(60);
+		textPainter.setColor(Color.BLACK);
 		
 		// Calculate leftmost horizontal position of options
-		mOptionXPos = game.getScreenWidth() / 2.0f - OPTION_WIDTH / 2.0f;
+		optionXPos = game.getScreenWidth() / 2.0f - OPTION_WIDTH / 2.0f;
 		
 		// Set up FPS toggle button
-		mFpsToggle = new ToggleButton(
-				mOptionXPos,
+		fpsToggle = new ToggleButton(
+				optionXPos,
 				OPTION_SEPARATION,
 				TOGGLE_WIDTH,
 				TOGGLE_HEIGHT,
-				CHECKED_BITMAP_ID,
 				UNCHECKED_BITMAP_ID,
+				CHECKED_BITMAP_ID,
 				this
 		);
 		
 		// Update toggle button with loaded value
-		mFpsToggle.setToggled(!mFpsCurrentVal);
+		fpsToggle.setToggled(fpsCurrentVal);
 		
 		// Set up visual effects toggle button
-		mEffectsToggle = new ToggleButton(
-				mOptionXPos,
-				(OPTION_SEPARATION *2),
+		effectsToggle = new ToggleButton(
+				optionXPos,
+				(OPTION_SEPARATION * 2),
 				TOGGLE_WIDTH,
 				TOGGLE_HEIGHT,
-				CHECKED_BITMAP_ID,
 				UNCHECKED_BITMAP_ID,
+				CHECKED_BITMAP_ID,
 				this
 		);
 		
 		// Update toggle button with loaded value
-		mEffectsToggle.setToggled(!mEffectsCurrentVal);
+		effectsToggle.setToggled(effectsCurrentVal);
 		
 		// Set up text painter with styles
 		Paint sliderPainter = new Paint();
@@ -209,13 +223,13 @@ public class OptionsScreen extends GameScreen
 		sliderPainter.setTextAlign(Paint.Align.CENTER);
 		
 		// Set up music slider, as part of constructor supply loaded value
-		mMusicSlider = new Slider(
+		musicSlider = new Slider(
 				MIN_VOLUME,
 				MAX_VOLUME,
-				mMusicCurrentVal,
+				musicCurrentVal,
 				sliderPainter,
-				game.getScreenWidth()/2.0f,
-				(OPTION_SEPARATION *3),
+				game.getScreenWidth() / 2.0f,
+				(OPTION_SEPARATION * 3),
 				SLIDER_WIDTH,
 				SLIDER_HEIGHT,
 				SLIDER_BASE_BITMAP_ID,
@@ -224,19 +238,24 @@ public class OptionsScreen extends GameScreen
 				false);
 		
 		// Set up sound slider, as part of constructor supply loaded value
-		mSoundsSlider = new Slider(
+		soundsSlider = new Slider(
 				MIN_VOLUME,
 				MAX_VOLUME,
-				mSoundCurrentVal,
+				soundCurrentVal,
 				sliderPainter,
-				game.getScreenWidth()/2.0f,
-				(OPTION_SEPARATION *4),
+				game.getScreenWidth() / 2.0f,
+				(OPTION_SEPARATION * 4),
 				SLIDER_WIDTH,
 				SLIDER_HEIGHT,
 				SLIDER_BASE_BITMAP_ID,
 				SLIDER_FILL_BITMAP_ID,
 				this,
 				false);
+		
+		optionsManager.setOption(OptionsManager.FPS_COUNTER, fpsCurrentVal);
+		optionsManager.setOption(OptionsManager.VISUAL_EFFECTS, effectsCurrentVal);
+		optionsManager.setOption(OptionsManager.MUSIC_VOLUME, musicCurrentVal);
+		optionsManager.setOption(OptionsManager.SOUND_VOLUME, soundCurrentVal);
 		
 	}
 	
@@ -255,33 +274,33 @@ public class OptionsScreen extends GameScreen
 		if (touchEvents.size() > 0)
 		{
 			// Update UI elements
-			mFpsToggle.update(elapsedTime);
-			mEffectsToggle.update(elapsedTime);
-			mMusicSlider.update(elapsedTime);
-			mSoundsSlider.update(elapsedTime);
+			fpsToggle.update(elapsedTime);
+			effectsToggle.update(elapsedTime);
+			musicSlider.update(elapsedTime);
+			soundsSlider.update(elapsedTime);
 		}
-		if(mFpsCurrentVal != mFpsToggle.isToggledOn())
+		if (fpsCurrentVal != fpsToggle.isToggledOn())
 		{
 			// If currently loaded value is not the same as the UI element value
 			// Update the stored user options
-			mManager.setOption(OptionsManager.FPS_COUNTER, !mFpsToggle.isToggledOn());
+			optionsManager.setOption(OptionsManager.FPS_COUNTER, fpsToggle.isToggledOn());
 			// Update currently loaded value
-			mFpsCurrentVal = mFpsToggle.isToggledOn();
+			fpsCurrentVal = fpsToggle.isToggledOn();
 		}
-		if(mEffectsCurrentVal != mEffectsToggle.isToggledOn())
+		if (effectsCurrentVal != effectsToggle.isToggledOn())
 		{
-			mManager.setOption(OptionsManager.VISUAL_EFFECTS, !mEffectsToggle.isToggledOn());
-			mEffectsCurrentVal = mEffectsToggle.isToggledOn();
+			optionsManager.setOption(OptionsManager.VISUAL_EFFECTS, effectsToggle.isToggledOn());
+			effectsCurrentVal = effectsToggle.isToggledOn();
 		}
-		if(mMusicCurrentVal != mMusicSlider.getVal())
+		if (musicCurrentVal != musicSlider.getVal())
 		{
-			mManager.setOption(OptionsManager.MUSIC_VOLUME, mMusicSlider.getVal());
-			mMusicCurrentVal = mMusicSlider.getVal();
+			optionsManager.setOption(OptionsManager.MUSIC_VOLUME, musicSlider.getVal());
+			musicCurrentVal = musicSlider.getVal();
 		}
-		if(mSoundCurrentVal != mSoundsSlider.getVal())
+		if (soundCurrentVal != soundsSlider.getVal())
 		{
-			mManager.setOption(OptionsManager.SOUND_VOLUME, mSoundsSlider.getVal());
-			mSoundCurrentVal = mSoundsSlider.getVal();
+			optionsManager.setOption(OptionsManager.SOUND_VOLUME, soundsSlider.getVal());
+			soundCurrentVal = soundsSlider.getVal();
 		}
 	}
 	
@@ -297,37 +316,37 @@ public class OptionsScreen extends GameScreen
 		// Draw the background first of all
 		graphics2D.clear(Color.WHITE);
 		// Draw background image
-		mOptionsBackground.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+		optionsBackground.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
 		// Draw UI elements
-		mFpsToggle.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
-		mEffectsToggle.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
-		mMusicSlider.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
-		mSoundsSlider.draw(elapsedTime, graphics2D, mLayerViewport, mScreenViewport);
+		fpsToggle.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
+		effectsToggle.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
+		musicSlider.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
+		soundsSlider.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
 		// Draw options text
-		graphics2D.drawText(mActivity.getString(R.string.fps_description), mOptionXPos + TOGGLE_WIDTH, OPTION_SEPARATION, mTextPainter);
-		graphics2D.drawText(mActivity.getString(R.string.effects_description), mOptionXPos + TOGGLE_WIDTH, OPTION_SEPARATION *2, mTextPainter);
-		graphics2D.drawText(mActivity.getString(R.string.music_description), mOptionXPos + TOGGLE_WIDTH, OPTION_SEPARATION *3, mTextPainter);
-		graphics2D.drawText(mActivity.getString(R.string.sound_description), mOptionXPos + TOGGLE_WIDTH, OPTION_SEPARATION *4, mTextPainter);
+		graphics2D.drawText(activity.getString(R.string.fps_description), optionXPos + TOGGLE_WIDTH, OPTION_SEPARATION, textPainter);
+		graphics2D.drawText(activity.getString(R.string.effects_description), optionXPos + TOGGLE_WIDTH, OPTION_SEPARATION * 2, textPainter);
+		graphics2D.drawText(activity.getString(R.string.music_description), optionXPos + TOGGLE_WIDTH, OPTION_SEPARATION * 3, textPainter);
+		graphics2D.drawText(activity.getString(R.string.sound_description), optionXPos + TOGGLE_WIDTH, OPTION_SEPARATION * 4, textPainter);
 		
 	}
 	
 	public ToggleButton getFpsToggle()
 	{
-		return mFpsToggle;
+		return fpsToggle;
 	}
 	
 	public ToggleButton getEffectsToggle()
 	{
-		return mEffectsToggle;
+		return effectsToggle;
 	}
 	
 	public Slider getMusicSlider()
 	{
-		return mMusicSlider;
+		return musicSlider;
 	}
 	
 	public Slider getSoundsSlider()
 	{
-		return mSoundsSlider;
+		return soundsSlider;
 	}
 }

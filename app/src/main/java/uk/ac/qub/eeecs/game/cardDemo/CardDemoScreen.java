@@ -37,6 +37,9 @@ import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 
 
 public class CardDemoScreen extends GameScreen {
+    
+    private static final int DEFAULT_MUSIC_VOLUME = 10;
+    
     private Hero player;
     private Hero opponent;
     private ScreenViewport mScreenViewport;
@@ -208,8 +211,8 @@ public class CardDemoScreen extends GameScreen {
         Music battleMusic = assetManager.getMusic("BattleMusic");
         battleMusic.setLopping(true);
 
-        battleMusic.setVolume(mOptionsManager.getIntOption(OptionsManager.MUSIC_VOLUME));
-        if (!mOptionsManager.getBoolOption(OptionsManager.MUSIC_MUTED)) {
+        battleMusic.setVolume(mOptionsManager.getIntOption(OptionsManager.MUSIC_VOLUME, DEFAULT_MUSIC_VOLUME) / (float)10);
+        if (!mOptionsManager.getBoolOption(OptionsManager.MUSIC_MUTED, false)) {
             battleMusic.play();
         }
 

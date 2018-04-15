@@ -157,11 +157,11 @@ public class EndGameController extends GameScreen {
         try {
             String levelID = level.getId();
             if (levelID != null) {
-                SaveGame save = SaveManager.loadSavedGame(SaveManager.DEFAULT_SAVE_SLOT, mGame);
+                SaveGame save = SaveManager.loadSavedGame(SaveManager.DEFAULT_SAVE_SLOT, mGame.getActivity());
                 List<String> completedLevel = save.getCompleted();
                 completedLevel.add(levelID);
                 save.setCompleted(completedLevel);
-                SaveManager.writeSaveFile(save, mGame);
+                SaveManager.writeSaveFile(save, mGame.getActivity());
             }
         } catch (Exception e) {
             // throw new Exception("Cannot save record correctly.");

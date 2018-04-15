@@ -378,9 +378,9 @@ public class WorldScreenTest {
 						}
 					});
 			// Whenever a save file is requested to be opened, return null
-			when(activity.openFileInput(SaveManager.SAVE_FILE)).thenReturn(null);
+			when(context.openFileInput(SaveManager.SAVE_FILE)).thenReturn(null);
 			// Whenever a save file is requested to be opened for writing, return a mocked output stream
-			when(activity.openFileOutput(SaveManager.SAVE_FILE, Context.MODE_PRIVATE)).thenAnswer(
+			when(context.openFileOutput(SaveManager.SAVE_FILE, Context.MODE_PRIVATE)).thenAnswer(
 					new Answer<FileOutputStream>() {
 						public FileOutputStream answer(InvocationOnMock invocation) {
 							return outputStream;

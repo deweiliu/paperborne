@@ -1,8 +1,6 @@
 package uk.ac.qub.eeecs.game;
 
-import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,8 +15,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.ac.qub.eeecs.gage.Game;
-import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.worldScreen.Level;
 import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
 import uk.ac.qub.eeecs.game.worldScreen.SaveGame;
@@ -50,10 +46,10 @@ public class SaveManager
 	 * Loads and returns the default starting deck for a campaign, used if it is a new save and
 	 * the player doesn't have their own deck yet
 	 * @param levelFileName the level file to load
-	 * @param game the game the levels are to be loaded into
+	 * @param context the context to load the starting deck with
 	 * @return the starting deck for the specified level file in a list
 	 */
-	private static List<LevelCard> loadStartingDeck(String levelFileName, Game game)
+	private static List<LevelCard> loadStartingDeck(String levelFileName, Context context)
 	{
 		try
 		{
@@ -62,7 +58,7 @@ public class SaveManager
 			// with the save game will be used
 			
 			// Gets the  JSON in string form form the file
-			JSONObject jsonData = new JSONObject(GameUtil.getJSONAsset(game.getContext(), levelFileName));
+			JSONObject jsonData = new JSONObject(GameUtil.getJSONAsset(context, levelFileName));
 			
 			// Load the player's starting deck list
 			JSONArray jsonPlayerDeck = jsonData.getJSONArray(PLAYER_STARTING_DECK);
@@ -94,14 +90,15 @@ public class SaveManager
 	 * Loads a world's levels from a level file
 	 *
 	 * @param levelFileName level file path, root folder is assets/
+	 * @param context the context to load the levels with
 	 * @return The loaded levels
 	 */
-	public static List<Level> loadLevels(String levelFileName, GameScreen gameScreen)
+	public static List<Level> loadLevels(String levelFileName, Context context)
 	{
 		try
 		{
 			// Gets the  JSON in string form form the file
-			JSONObject jsonData = new JSONObject(GameUtil.getJSONAsset(gameScreen.getGame().getContext(), levelFileName));
+			JSONObject jsonData = new JSONObject(GameUtil.getJSONAsset(context, levelFileName));
 			// Gets the levels as a JSON array
 			JSONArray jsonLevels = jsonData.getJSONArray(LEVEL_LIST);
 			// Sets up return list containing all parsed levels
@@ -196,12 +193,13 @@ public class SaveManager
 	/**
 	 * Loads a save game, specified by save slot, if one doesn't exists it creates a new one
 	 * @param saveSlot the save slot of the save game to load
+	 * @param context the context to load the save with
 	 * @return the loaded save game
 	 */
-	public static SaveGame loadSavedGame(int saveSlot, Game game)
+	public static SaveGame loadSavedGame(int saveSlot, Context context)
 	{
 		// Get any existing save games
-		List<SaveGame> saveGames = readSaveFile(game.getActivity());
+		List<SaveGame> saveGames = readSaveFile(context);
 		if(!saveGames.isEmpty())
 		{
 			// If there are existing save games
@@ -217,24 +215,25 @@ public class SaveManager
 		}
 		// If there is no save game with a matching save slot, or no existing saves, create a new
 		// save file and return it
-		SaveGame saveGame = new SaveGame(DEFAULT_SAVE_SLOT, loadStartingDeck(LEVEL_FILE, game), new ArrayList<String>());
-		writeSaveFile(saveGame, game);
+		SaveGame saveGame = new SaveGame(DEFAULT_SAVE_SLOT, loadStartingDeck(LEVEL_FILE, context), new ArrayList<String>());
+		writeSaveFile(saveGame, context);
 		return saveGame;
 	}
 	
 	/**
 	 * Used to attempt to load in the save game file which can contain multiple save games,
 	 * loads from JSON string and parses into Java objects
+	 * @param context context to use to load the save file in
 	 * @return List of save games that have been loaded, if no saves exists will be empty list
 	 */
-	private static List<SaveGame> readSaveFile(Activity activity)
+	private static List<SaveGame> readSaveFile(Context context)
 	{
 		try
 		{
 			try
 			{
 				// Open save file stream
-				InputStream inputStream = activity.openFileInput(SAVE_FILE);
+				InputStream inputStream = context.openFileInput(SAVE_FILE);
 				if (inputStream != null)
 				{
 					// Get stream reader
@@ -255,7 +254,6 @@ public class SaveManager
 					inputStream.close();
 					// Get the final string from the string builder
 					String saveString = stringBuilder.toString();
-					Log.d("debug", saveString);
 					try
 					{
 						// Convert string that has been read into a JSON object
@@ -332,12 +330,12 @@ public class SaveManager
 	 * Updates the save file with the current save, if no saves exists creates a new save file with
 	 * starting save states
 	 * @param save the save game to update
-	 * @param game the game the save is in
+	 * @param context the context to write with
 	 */
-	public static void writeSaveFile(SaveGame save, Game game)
+	public static void writeSaveFile(SaveGame save, Context context)
 	{
 		// Read in any existing save file
-		List<SaveGame> saveList = readSaveFile(game.getActivity());
+		List<SaveGame> saveList = readSaveFile(context);
 		if(!saveList.isEmpty())
 		{
 			// If there are existing save games
@@ -382,7 +380,7 @@ public class SaveManager
 				// Create output stream
 				OutputStream outputStream;
 				// Open save file for writing to
-				outputStream = game.getActivity().openFileOutput(SAVE_FILE, Context.MODE_PRIVATE);
+				outputStream = context.openFileOutput(SAVE_FILE, Context.MODE_PRIVATE);
 				// Write to the save file
 				outputStream.write(saveString.getBytes());
 				// Close stream

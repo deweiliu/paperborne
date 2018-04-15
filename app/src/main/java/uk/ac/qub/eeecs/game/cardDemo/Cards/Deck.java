@@ -14,6 +14,7 @@ import uk.ac.qub.eeecs.game.worldScreen.LevelCard;
  */
 
 public class Deck {
+    private static final boolean DEFAULT_EFFECTS_ENABLED = true;
     private final int MAX_DECK_SIZE = 15;
     private ArrayList<Card> cardsInDeck;
     
@@ -30,7 +31,7 @@ public class Deck {
         game.getAssetManager().loadAndAddBitmap("4 cost", "img/Cards/Sword.JPG");
         game.getAssetManager().loadAndAddBitmap("5 cost", "img/Cards/Dragon.JPG");
         cardsInDeck = new ArrayList<>();
-        boolean effectsEnabled = new OptionsManager(game.getContext()).getBoolOption(OptionsManager.VISUAL_EFFECTS);
+        boolean effectsEnabled = new OptionsManager(game.getContext()).getBoolOption(OptionsManager.VISUAL_EFFECTS, DEFAULT_EFFECTS_ENABLED);
 
         //Creates a card with certain values
         Card oneCostCard = new Card(1, "Weak Man",
@@ -84,7 +85,7 @@ public class Deck {
         game.getAssetManager().loadAndAddBitmap("3 cost", "img/Cards/Fatman.JPG");
         game.getAssetManager().loadAndAddBitmap("4 cost", "img/Cards/Sword.JPG");
         game.getAssetManager().loadAndAddBitmap("5 cost", "img/Cards/Dragon.JPG");
-        boolean effectsEnabled = new OptionsManager(game.getContext()).getBoolOption(OptionsManager.VISUAL_EFFECTS);
+        boolean effectsEnabled = new OptionsManager(game.getContext()).getBoolOption(OptionsManager.VISUAL_EFFECTS, DEFAULT_EFFECTS_ENABLED);
         cardsInDeck = new ArrayList<>();
         for(int i = 0; i < deck.size(); i++)
         {

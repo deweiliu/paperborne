@@ -1,5 +1,6 @@
 package uk.ac.qub.eeecs.game.worldScreen;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
@@ -28,6 +29,10 @@ import uk.ac.qub.eeecs.game.ui.PopUp;
  */
 
 public class WorldScreen extends GameScreen {
+    
+    // Name of the game screen
+    private static final String WORLD_SCREEN_NAME = "WorldScreen";
+    
     // Bitmap paths and IDs
     private static final String WORLD_MAP_BITMAP_ID = "worldmap";
     private static final String WORLD_MAP_BITMAP_PATH = "img/WorldMap.png";
@@ -58,23 +63,25 @@ public class WorldScreen extends GameScreen {
     private static final String LEVEL_LOCKED_MESSAGE = "Level locked!";
 
     // Paint defining how text is to be drawn
-    private Paint mTextPainter;
+    private Paint textPainter;
     // Button to launch a battle
-    private PushButton mLaunchButton;
+    private PushButton launchButton;
     // World Map Background
-    private GameObject mWorldBackground;
+    private GameObject worldBackground;
     // List of available levels for the player to choose from
-    private List<Level> mLevels;
+    private List<Level> levels;
     // The player character sprite
-    private GameObject mWorldPlayer;
+    private GameObject worldPlayer;
     // The index in the available levels of the currently selected level
-    private int mCurrentLevel = 0;
+    private int currentLevel = 0;
     // The currently loaded save file
-    private SaveGame mLoadedSave;
+    private SaveGame loadedSave;
     // Game asset manager
-    private AssetStore mAssetManager;
+    private AssetStore assetManager;
     // Pop up message to display to the user if there is a level they try to launch that is locked
-    private PopUp mPopUp;
+    private PopUp popUp;
+    // Game activity
+    private Activity activity;
 
     /**
      * Handler and Runnable for toast message
@@ -83,33 +90,34 @@ public class WorldScreen extends GameScreen {
     private Runnable toastRunner;
 
     public WorldScreen(Game game) {
-        super("WorldScreen", game);
+        super(WORLD_SCREEN_NAME, game);
+        activity = game.getActivity();
         // Initialise level list
-        mLevels = new ArrayList<>();
+        levels = new ArrayList<>();
         // Get asset manager
-        mAssetManager = game.getAssetManager();
+        assetManager = game.getAssetManager();
         // Load in any bitmaps used in the world screen
-        mAssetManager.loadAndAddBitmap(WORLD_MAP_BITMAP_ID, WORLD_MAP_BITMAP_PATH);
-        mAssetManager.loadAndAddBitmap(CHARACTER_BITMAP_ID, CHARACTER_BITMAP_PATH);
-        mAssetManager.loadAndAddBitmap(LAUNCH_BUTTON_BITMAP_ID, LAUNCH_BUTTON_BITMAP_PATH);
-        mAssetManager.loadAndAddBitmap(PopUp.POPUP_BITMAP_ID, PopUp.POPUP_BITMAP_PATH);
+        assetManager.loadAndAddBitmap(WORLD_MAP_BITMAP_ID, WORLD_MAP_BITMAP_PATH);
+        assetManager.loadAndAddBitmap(CHARACTER_BITMAP_ID, CHARACTER_BITMAP_PATH);
+        assetManager.loadAndAddBitmap(LAUNCH_BUTTON_BITMAP_ID, LAUNCH_BUTTON_BITMAP_PATH);
+        assetManager.loadAndAddBitmap(PopUp.POPUP_BITMAP_ID, PopUp.POPUP_BITMAP_PATH);
 
         // Create the world map background
-        mWorldBackground = new GameObject(
+        worldBackground = new GameObject(
                 game.getScreenWidth() / 2,
                 game.getScreenHeight() / 2,
                 mGame.getScreenWidth(),
                 mGame.getScreenHeight(),
-                mAssetManager.getBitmap(WORLD_MAP_BITMAP_ID),
+                assetManager.getBitmap(WORLD_MAP_BITMAP_ID),
                 this
         );
 
         // Load in levels from JSON campaign definition
-        mLevels = SaveManager.loadLevels(SaveManager.LEVEL_FILE, this);
+        levels = SaveManager.loadLevels(SaveManager.LEVEL_FILE, game.getContext());
 
-        for (Level level : mLevels) {
+        for (Level level : levels) {
             // Load any required bitmaps for the level
-            mAssetManager.loadAndAddBitmap(level.getBitmapID(), level.getBitmapPath());
+            assetManager.loadAndAddBitmap(level.getBitmapID(), level.getBitmapPath());
             level.setButton(new PushButton( // Create the game level's button
                     getGame().getScreenWidth() * (float) level.getxPercent(), // Calculate button's X position from X percentage supplied
                     getGame().getScreenHeight() * (float) level.getyPercent(),
@@ -120,9 +128,9 @@ public class WorldScreen extends GameScreen {
             ));
         }
         // Load the default save slot save, if none exists create a new one
-        mLoadedSave = SaveManager.loadSavedGame(SaveManager.DEFAULT_SAVE_SLOT, game);
+        loadedSave = SaveManager.loadSavedGame(SaveManager.DEFAULT_SAVE_SLOT, game.getContext());
 
-        if (mLevels.size() < 1) {
+        if (levels.size() < 1) {
             // If there are no loaded levels
             // Display an error and return to the main menu
             toastHandler = new Handler(Looper.getMainLooper());
@@ -138,17 +146,17 @@ public class WorldScreen extends GameScreen {
         }
 
         // Create the world player sprite, with their X and Y aligned to current/default level
-        mWorldPlayer = new GameObject(
-                mLevels.get(mCurrentLevel).getButton().position.x,
-                mLevels.get(mCurrentLevel).getButton().position.y - DEFAULT_LEVEL_HEIGHT,
+        worldPlayer = new GameObject(
+                levels.get(currentLevel).getButton().position.x,
+                levels.get(currentLevel).getButton().position.y - DEFAULT_LEVEL_HEIGHT,
                 PLAYER_WIDTH,
                 PLAYER_HEIGHT,
-                mAssetManager.getBitmap(CHARACTER_BITMAP_ID),
+                assetManager.getBitmap(CHARACTER_BITMAP_ID),
                 this
         );
 
         // Create the launch battle button
-        mLaunchButton = new PushButton(
+        launchButton = new PushButton(
                 game.getScreenWidth() / 2,
                 game.getScreenHeight() - LAUNCH_BUTTON_Y_SEPERATION,
                 LAUNCH_BUTTON_WIDTH,
@@ -158,62 +166,62 @@ public class WorldScreen extends GameScreen {
         );
 
         // Set up text painter with styles
-        mTextPainter = new Paint();
-        mTextPainter.setTextSize(mGame.getScreenWidth() / 48);
-        mTextPainter.setColor(Color.BLACK);
-        mTextPainter.setTextAlign(Paint.Align.CENTER);
+        textPainter = new Paint();
+        textPainter.setTextSize(mGame.getScreenWidth() / 48);
+        textPainter.setColor(Color.BLACK);
+        textPainter.setTextAlign(Paint.Align.CENTER);
     }
 
     @Override
     public void update(ElapsedTime elapsedTime) {
         // For each available level
-        for (int i = 0; i < mLevels.size(); i++) {
+        for (int i = 0; i < levels.size(); i++) {
             // Get the button for the level
-            PushButton button = mLevels.get(i).getButton();
+            PushButton button = levels.get(i).getButton();
             // Update the button
             button.update(elapsedTime);
             if (button.isPushTriggered()) {
                 // If the button for the level has been pressed
                 // Set the currently selected level index to the index of the pressed level
-                mCurrentLevel = i;
+                currentLevel = i;
                 // Move the player sprite to above the level sprite
-                mWorldPlayer.setPosition(button.position.x, button.position.y - DEFAULT_LEVEL_HEIGHT);
+                worldPlayer.setPosition(button.position.x, button.position.y - DEFAULT_LEVEL_HEIGHT);
             }
         }
         // Update launch button
-        mLaunchButton.update(elapsedTime);
-        if (mLaunchButton.isPushTriggered()) {
+        launchButton.update(elapsedTime);
+        if (launchButton.isPushTriggered()) {
             // If the launch button has been pressed load the selected level's battle
             loadBattle();
         }
-        if (mPopUp != null) {
-            mPopUp.update(elapsedTime);
+        if (popUp != null) {
+            popUp.update(elapsedTime);
         }
     }
 
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
         // Draw the world map background
-        mWorldBackground.draw(elapsedTime, graphics2D);
+        worldBackground.draw(elapsedTime, graphics2D);
         // For each level loaded
-        for (int i = 0; i < mLevels.size(); i++) {
+        for (int i = 0; i < levels.size(); i++) {
             // Draw the level's button
-            mLevels.get(i).getButton().draw(elapsedTime, graphics2D);
+            levels.get(i).getButton().draw(elapsedTime, graphics2D);
         }
         // Draw the player sprite and launch button
-        mWorldPlayer.draw(elapsedTime, graphics2D);
-        mLaunchButton.draw(elapsedTime, graphics2D);
+        worldPlayer.draw(elapsedTime, graphics2D);
+        launchButton.draw(elapsedTime, graphics2D);
         // Draw the text stating which level is currently selected above the launch button
         graphics2D.drawText(
-                mLevels.get(mCurrentLevel).getName(),
+                levels.get(currentLevel).getName(),
                 mGame.getScreenWidth() / 2,
-                mLaunchButton.position.y - LAUNCH_BUTTON_HEIGHT,
-                mTextPainter
+                launchButton.position.y - LAUNCH_BUTTON_HEIGHT,
+                textPainter
         );
-        if (mPopUp != null) {
-            if (mPopUp.isVisible()) {
+        if (popUp != null) {
+            if (popUp.isVisible()) {
                 // If the pop up should be visible, draw it
-                mPopUp.draw(elapsedTime, graphics2D);
+                popUp.draw(elapsedTime, graphics2D);
             }
         }
     }
@@ -224,11 +232,11 @@ public class WorldScreen extends GameScreen {
     private void loadBattle() {
         boolean locked = true;
         // Get the level attempting to be loaded
-        Level level = mLevels.get(mCurrentLevel);
+        Level level = levels.get(currentLevel);
         if (level == null) {
             // If the level isn't loaded correctly
             // load the first level instead
-            level = mLevels.get(0);
+            level = levels.get(0);
         }
         if (level.getPrerequisites().isEmpty()) {
             // If the level has no prerequisite levels, the level is unlocked to the user
@@ -239,13 +247,13 @@ public class WorldScreen extends GameScreen {
                 // If the loaded save game has the level ID in it's completed levels list
                 // The level is unlocked to the user
                 // otherwise the level is locked to the user
-                locked = !mLoadedSave.getCompleted().contains(level.getPrerequisites().get(i));
+                locked = !loadedSave.getCompleted().contains(level.getPrerequisites().get(i));
             }
         }
         if (locked) {
             // Can't play level, haven't completed previous levels
             // Create new popup with error message
-            mPopUp = new PopUp(
+            popUp = new PopUp(
                     String.format("%s", LEVEL_LOCKED_MESSAGE),
                     POPUP_DURATION,
                     POPUP_FONT_SIZE,
@@ -253,7 +261,7 @@ public class WorldScreen extends GameScreen {
                     this
             );
             // Display the popup
-            mPopUp.show();
+            popUp.show();
         } else {
             // Load the battle screen
             mGame.getScreenManager().removeScreen(this.getName());
@@ -261,18 +269,18 @@ public class WorldScreen extends GameScreen {
             mGame.getScreenManager().addScreen(new CardDemoScreen(
                     mGame,
                     level.getDeck(),
-                    mLoadedSave.getPlayerDeck(),
+                    loadedSave.getPlayerDeck(),
                     level
             ));
         }
     }
 
     public List<Level> getLevels() {
-        return mLevels;
+        return levels;
     }
 
     public int getCurrentLevel() {
-        return mCurrentLevel;
+        return currentLevel;
     }
 
 }
