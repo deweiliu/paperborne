@@ -281,8 +281,8 @@ public class CardDemoScreen extends GameScreen {
                 if (opponentCard.isCardIsActive()) {
                     // Check for any selected player cards on the board
                     for (Card playerCard : player.getActiveCards()) {
-                        if (playerCard.isCardIsActive() && !playerCard.isFinishedMove()) {
-                            // If there is a selected player card that hasn't finished it's move
+                        if (playerCard.isCardIsActive() && !playerCard.isFinishedMove() && !opponentCard.getCardIsDead()) {
+                            // If there is a selected player card that hasn't finished it's move and and isn't dead
                             // attack the tapped opponent card
                             opponentCard.takeDamage(playerCard.getAttackValue());
                             // Deselect player card and mark it as finished its move
