@@ -93,8 +93,10 @@ public class Card extends Sprite {
     // The card stats drawing text style
     private Paint textStyle;
 
+    private boolean effectsEnabled;
 
-    public Card(int cardID, String cardName, float startX, float startY, Bitmap bitmap, GameScreen gameScreen, int manaCost, int attackValue, int healthValue) {
+
+    public Card(int cardID, String cardName, float startX, float startY, Bitmap bitmap, GameScreen gameScreen, int manaCost, int attackValue, int healthValue, boolean effectsEnabled) {
         super(startX, startY, CARD_WIDTH, CARD_HEIGHT, bitmap, gameScreen);
 
         STATS_TEXT_SIZE = gameScreen.getGame().getScreenWidth() / 72;
@@ -112,6 +114,9 @@ public class Card extends Sprite {
         this.manaCost = manaCost;
         this.attackValue = attackValue;
         this.healthValue = healthValue;
+
+        // Set up animation effects flag
+        this.effectsEnabled = effectsEnabled;
 
         // Assign card constant values
         this.maxAcceleration = MAX_ACCELERATION;
@@ -133,10 +138,15 @@ public class Card extends Sprite {
 
     }
 
+    public Card(int cardID, String cardName, float startX, float startY, Bitmap bitmap, GameScreen gameScreen, int manaCost, int attackValue, int healthValue)
+    {
+        this(cardID, cardName, startX, startY, bitmap, gameScreen, manaCost, attackValue, healthValue, false);
+    }
+
     //Copy constructor for the Card game object to allow mulitple cards to be created
     public Card(Card blankCard) {
         this(blankCard.getCardID(), blankCard.getCardName(), blankCard.position.x, blankCard.position.y,
-                blankCard.getBitmap(), blankCard.mGameScreen, blankCard.getManaCost(), blankCard.getAttackValue(), blankCard.getHealthValue());
+                blankCard.getBitmap(), blankCard.mGameScreen, blankCard.getManaCost(), blankCard.getAttackValue(), blankCard.getHealthValue(), blankCard.isEffectsEnabled());
     }
 
     //Method for card to take damage
@@ -209,22 +219,31 @@ public class Card extends Sprite {
             // If the card hasn't been pressed down on - i.e not being dragged
             if (position.x != anchor.x || position.y != anchor.y) {
                 // If the card is not at it's anchor position
-                // Calculate distance between the position and the anchor
-                Vector2 anchorDistance = new Vector2();
-                anchorDistance.set(anchor.x - position.x, anchor.y - position.y);
-                if (anchorDistance.length() > STOP_RADIUS) {
-                    // If the distance between the position and the anchor is more than the stop
-                    // radius
-                    // Accelerate towards the anchor
-                    SteeringBehaviours.seek(this,
-                            anchor,
-                            acceleration);
-                } else {
-                    // If the distance between the position and the anchor is less than the stop
-                    // distance
-                    // Snap the card to the anchor, reset velocity and acceleration
-                    acceleration.set(Vector2.Zero);
-                    velocity.set(Vector2.Zero);
+                if(effectsEnabled) {
+                    // If visual effects are enabled
+                    // Calculate distance between the position and the anchor
+                    Vector2 anchorDistance = new Vector2();
+                    anchorDistance.set(anchor.x - position.x, anchor.y - position.y);
+                    if (anchorDistance.length() > STOP_RADIUS) {
+                        // If the distance between the position and the anchor is more than the stop
+                        // radius
+                        // Accelerate towards the anchor
+                        SteeringBehaviours.seek(this,
+                                anchor,
+                                acceleration);
+                    } else {
+                        // If the distance between the position and the anchor is less than the stop
+                        // distance
+                        // Snap the card to the anchor, reset velocity and acceleration
+                        acceleration.set(Vector2.Zero);
+                        velocity.set(Vector2.Zero);
+                        position.set(anchor);
+                    }
+                }
+                else
+                {
+                    // If visual effects are disabled
+                    // Jump to anchor position without animation
                     position.set(anchor);
                 }
             }
@@ -364,6 +383,14 @@ public class Card extends Sprite {
         this.anchor.y = y;
         this.acceleration.set(Vector2.Zero);
         this.velocity.set(Vector2.Zero);
+    }
+
+    public boolean isEffectsEnabled() {
+        return effectsEnabled;
+    }
+
+    public void setEffectsEnabled(boolean effectsEnabled) {
+        this.effectsEnabled = effectsEnabled;
     }
 }
 
