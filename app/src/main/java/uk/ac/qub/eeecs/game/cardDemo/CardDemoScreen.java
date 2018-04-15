@@ -94,11 +94,13 @@ public class CardDemoScreen extends GameScreen {
         assetManager.loadAndAddBitmap("Hero", "img/Hero/Knight Hero.JPG");
         assetManager.loadAndAddBitmap("Enemy", "img/Hero/Dragon Hero.JPG");
 
+        //creates and sets the board image
         BoardBackground = new GameObject(mLayerViewport.getWidth() / 2f, mLayerViewport.getHeight() / 2f,
                 mLayerViewport.getWidth(),
                 mLayerViewport.getHeight(),
                 getGame().getAssetManager().getBitmap("Board"), this);
 
+        //creates a player hero and an enemy hero with the appropriate positioning on screen
         player = new Hero(mLayerViewport.getWidth() / 8f - 8.0f, mLayerViewport.getHeight() / 6f - 2f, assetManager.getBitmap("Hero"), this, mGame);
         opponent = new Hero(mLayerViewport.getWidth() / 8f - 8.0f, mLayerViewport.getHeight() - mLayerViewport.getHeight() / 5f, assetManager.getBitmap("Enemy"), this, mGame);
         if (opponentDeck.isEmpty()) {
@@ -200,11 +202,14 @@ public class CardDemoScreen extends GameScreen {
 
         turnController = new TurnController(this);
 
+        //assets for the vertical mana slider
         assetManager.loadAndAddBitmap("SliderBase", "img/SliderBase.png");
         assetManager.loadAndAddBitmap("SliderFill", "img/SliderFill.png");
         assetManager.loadAndAddBitmap("VerticalSliderFill", "img/Board/VerticalSliderFill.png");
-        assetManager.loadAndAddMusic("BattleMusic", "music/BattleMusic.mp3");
 
+        //assets for the games music
+        assetManager.loadAndAddMusic("BattleMusic", "music/BattleMusic.mp3");
+        
         Music battleMusic = assetManager.getMusic("BattleMusic");
         battleMusic.setLopping(true);
 
