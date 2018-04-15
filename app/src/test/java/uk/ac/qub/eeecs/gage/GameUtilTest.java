@@ -43,6 +43,7 @@ public class GameUtilTest {
         when(context.getAssets()).thenReturn(assetManager);
     }
 
+    //JC
     @Test
     public void getJSONAssetCorrect() {
 
@@ -61,6 +62,7 @@ public class GameUtilTest {
         assertFalse(GameUtil.getJSONAsset(context, filename).isEmpty());
     }
 
+    //JC
     @Test
     public void getJSONAssetWrong() {
         try {
@@ -72,6 +74,7 @@ public class GameUtilTest {
         assertNull(GameUtil.getJSONAsset(context, ""));
     }
 
+    //JC
     @Test
     public void invalidJSONTest() {
         String testString = "<>";
@@ -79,6 +82,7 @@ public class GameUtilTest {
         assertFalse(GameUtil.isJSONValid(testString));
     }
 
+    //JC
     @Test
     public void validJSONTest() {
         String validJSON = "{age:18}";

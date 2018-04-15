@@ -43,17 +43,7 @@ public class HeroTests {
     private Context context;
 
     @Mock
-    GameScreen cardDemoScreen = Mockito.mock(GameScreen.class);
-
-    @Mock
     Hero hero;
-
-    @Mock
-    Deck deck;
-
-
-    @Mock
-    Hand hand;
 
     @Mock
     Bitmap bitmap;
@@ -79,6 +69,7 @@ public class HeroTests {
         when(context.getSharedPreferences(any(String.class), any(Integer.class))).thenReturn(sharedPreferences);
     }
 
+    //JC
     @Test
     public void testHero() {
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
