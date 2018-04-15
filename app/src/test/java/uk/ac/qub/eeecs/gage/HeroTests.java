@@ -177,5 +177,5 @@ public class HeroTests {
         assertTrue(hero.getCurrentMana() == 5);
 
     }
-    
+
 }

@@ -90,13 +90,4 @@ public class TurnControllerTest {
         turnController.doEndTurn(); //should swap turns
         assertFalse(turn == turnController.isPlayerTurn());
     }
-
-    @Test
-    public void testEndTurnButton() {
-        cardDemoScreen = new CardDemoScreen(game);
-        turnController = cardDemoScreen.getTurnController();
-    }
-
-
-
 }
