@@ -58,6 +58,7 @@ public class PerformanceScreenTest {
         when(game.getInput()).thenReturn(input);
     }
 
+    //JC
     @Test
     public void makeScreen() {
         PerformanceScreen performanceScreen = new PerformanceScreen(game);
@@ -66,6 +67,7 @@ public class PerformanceScreenTest {
         assertNotNull(game.getScreenManager().getScreen(performanceScreen.getName()));
     }
 
+    //JC
     public void buttonsExist() {
         PerformanceScreen performanceScreen = new PerformanceScreen(game);
         game.getScreenManager().addScreen(performanceScreen);
@@ -74,6 +76,7 @@ public class PerformanceScreenTest {
         assertNotNull(performanceScreen.getmRectanglesUp());
     }
 
+    //JC
     @Test
     public void initialRects() {
         PerformanceScreen performanceScreen = new PerformanceScreen(game);
@@ -82,6 +85,7 @@ public class PerformanceScreenTest {
         assertEquals(performanceScreen.getNumRectangles(), 100);
     }
 
+    //JC
     @Test
     public void layerViewportCreationTest() {
         //not a mistake - making width < height
@@ -95,6 +99,7 @@ public class PerformanceScreenTest {
         assertTrue(performanceScreen.getmLayerViewport().halfWidth < performanceScreen.getmLayerViewport().halfHeight);
     }
 
+    //JC
     @Test
     public void lowerRectangles() {
         // Elapsed time for updates
@@ -116,6 +121,7 @@ public class PerformanceScreenTest {
 
     }
 
+    //JC
     @Test
     public void raiseRectangles() {
         // Elapsed time for updates

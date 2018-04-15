@@ -43,9 +43,6 @@ public class MenuScreenTests {
     @Mock
     Bitmap bitmap;
 
-    @Mock
-    private IGraphics2D graphics2D;
-
     @Before
     public void setUp() {
         screenManager = new ScreenManager();
@@ -55,6 +52,7 @@ public class MenuScreenTests {
         when(game.getInput()).thenReturn(input);
     }
 
+    //JC
     @Test
     public void menuScreenCreation() {
         MenuScreen menuScreen = new MenuScreen(game);
@@ -63,13 +61,4 @@ public class MenuScreenTests {
         assertEquals(game.getScreenManager().getCurrentScreen(), menuScreen);
     }
 
-    @Test
-    public void drawMenuScreen() {
-        ElapsedTime elapsedTime = new ElapsedTime();
-        MenuScreen menuScreen = new MenuScreen(game);
-        game.getScreenManager().addScreen(menuScreen);
-        menuScreen.update(elapsedTime);
-        menuScreen.draw(elapsedTime, graphics2D);
-        //if we didn't crash we passed
-    }
 }

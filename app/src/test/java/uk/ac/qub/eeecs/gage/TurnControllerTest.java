@@ -64,6 +64,7 @@ public class TurnControllerTest {
         when(context.getSharedPreferences(any(String.class), any(Integer.class))).thenReturn(sharedPreferences);
     }
 
+    //JC
     @Test
     public void testSwitchTurn() {
         cardDemoScreen = new CardDemoScreen(game);
@@ -73,6 +74,7 @@ public class TurnControllerTest {
         assertFalse(turn == turnController.isPlayerTurn());
     }
 
+    //JC
     @Test
     public void testReturnTurn() {
         cardDemoScreen = new CardDemoScreen(game);
@@ -82,6 +84,7 @@ public class TurnControllerTest {
         assertFalse(turnController.isPlayerTurn());
     }
 
+    //JC
     @Test
     public void testEndTurn() {
         cardDemoScreen = new CardDemoScreen(game);
@@ -90,11 +93,4 @@ public class TurnControllerTest {
         turnController.doEndTurn(); //should swap turns
         assertFalse(turn == turnController.isPlayerTurn());
     }
-
-    @Test
-    public void testEndTurnButton() {
-        cardDemoScreen = new CardDemoScreen(game);
-        turnController = cardDemoScreen.getTurnController();
-    }
-
 }
