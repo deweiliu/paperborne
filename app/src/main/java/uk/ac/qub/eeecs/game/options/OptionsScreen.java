@@ -186,7 +186,7 @@ public class OptionsScreen extends GameScreen
 		);
 		
 		// Update toggle button with loaded value
-		mFpsToggle.setToggled(mFpsCurrentVal);
+		mFpsToggle.setToggled(!mFpsCurrentVal);
 		
 		// Set up visual effects toggle button
 		mEffectsToggle = new ToggleButton(
@@ -200,7 +200,7 @@ public class OptionsScreen extends GameScreen
 		);
 		
 		// Update toggle button with loaded value
-		mEffectsToggle.setToggled(mEffectsCurrentVal);
+		mEffectsToggle.setToggled(!mEffectsCurrentVal);
 		
 		// Set up text painter with styles
 		Paint sliderPainter = new Paint();
@@ -264,13 +264,13 @@ public class OptionsScreen extends GameScreen
 		{
 			// If currently loaded value is not the same as the UI element value
 			// Update the stored user options
-			mManager.setOption(OptionsManager.FPS_COUNTER, mFpsToggle.isToggledOn());
+			mManager.setOption(OptionsManager.FPS_COUNTER, !mFpsToggle.isToggledOn());
 			// Update currently loaded value
 			mFpsCurrentVal = mFpsToggle.isToggledOn();
 		}
 		if(mEffectsCurrentVal != mEffectsToggle.isToggledOn())
 		{
-			mManager.setOption(OptionsManager.VISUAL_EFFECTS, mEffectsToggle.isToggledOn());
+			mManager.setOption(OptionsManager.VISUAL_EFFECTS, !mEffectsToggle.isToggledOn());
 			mEffectsCurrentVal = mEffectsToggle.isToggledOn();
 		}
 		if(mMusicCurrentVal != mMusicSlider.getVal())
