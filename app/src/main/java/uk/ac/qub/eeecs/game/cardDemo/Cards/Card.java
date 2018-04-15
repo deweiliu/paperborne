@@ -205,7 +205,7 @@ public class Card extends Sprite {
                 //Checks if card is dragged
             } else if (touch.type == TouchEvent.TOUCH_DRAGGED && cardPressedDown) {
                 if (!Float.isNaN(layerPos.x)) {
-                    if (!Float.isNaN(layerPos.x)) {
+                    if (!Float.isNaN(layerPos.y)) {
                         if (cardState != CardState.CARD_ON_BOARD) {
                             this.position.x = layerPos.x;
                             //screenDimensions used to invert Y values

@@ -150,12 +150,14 @@ public class CardDemoScreen extends GameScreen {
                 opponent.clearDeadCards();
                 for (Card card : player.getActiveCards()) { //reset card movement states and snap to anchor positions
                     card.setFinishedMove(false);
+                    card.setCardIsActive(false);
                     card.acceleration.set(Vector2.Zero);
                     card.velocity.set(Vector2.Zero);
                     card.position.set(card.getAnchor());
                 }
                 for (Card card : opponent.getActiveCards()) {
                     card.setFinishedMove(false);
+                    card.setCardIsActive(false);
                     card.acceleration.set(Vector2.Zero);
                     card.velocity.set(Vector2.Zero);
                     card.position.set(card.getAnchor());
