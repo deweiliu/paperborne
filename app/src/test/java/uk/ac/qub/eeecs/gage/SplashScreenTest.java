@@ -26,6 +26,7 @@ import uk.ac.qub.eeecs.game.MenuScreen;
 import uk.ac.qub.eeecs.game.SplashScreen;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
@@ -97,6 +98,29 @@ public class SplashScreenTest {
 
         //Check the return
         assertEquals(game.getScreenManager().getCurrentScreen().getName(), menuScreen.getName());
+    }
+
+    //Tests the splash screen changes after a time period with no input
+    @Test
+    public void testTimingChange(){
+        //Sets up test data
+        SplashScreen splashScreen = new SplashScreen(game);
+        game.getScreenManager().addScreen(splashScreen);
+        MenuScreen menuScreen = new MenuScreen(game);
+
+        ElapsedTime elapsedTime = new ElapsedTime();
+
+        //Call the update method
+        splashScreen.update(elapsedTime);
+
+        assertFalse(game.getScreenManager().getCurrentScreen().getName().equals(menuScreen.getName()));
+
+        //updates enough times for the time limit to trigger a change
+        for (int i = 0; i <= 100; i++){
+            splashScreen.update(elapsedTime);
+        }
+
+        assertEquals(game.getScreenManager().getCurrentScreen().getName(), menuScreen.getName() );
     }
 
 }
