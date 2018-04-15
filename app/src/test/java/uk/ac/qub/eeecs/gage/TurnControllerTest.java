@@ -54,7 +54,7 @@ public class TurnControllerTest {
 
     @Mock
     CardDemoScreen cardDemoScreen;
-    
+
     @Before
     public void setUp() {
         when(game.getAssetManager()).thenReturn(assetManager);

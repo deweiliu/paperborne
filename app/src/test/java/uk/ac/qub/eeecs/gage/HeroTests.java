@@ -142,6 +142,21 @@ public class HeroTests {
     }
 
     @Test
+    public void testManaRefill(){
+        CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
+        game.getScreenManager().addScreen(cardDemoScreen);
+
+        hero = new Hero(0,0,bitmap,cardDemoScreen,game);
+        //set hero mana to 2, as hero starts with 1 mana
+        hero.incrementManaLimit();
+        assertTrue(hero.getManaLimit() == 2);
+
+        //refills hero's current mana to the mana limit
+        hero.refillMana();
+        assertTrue(hero.getCurrentMana() == 2);
+    }
+
+    @Test
     public void testHeroUsingMana(){
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
@@ -152,6 +167,8 @@ public class HeroTests {
 
         //Increments players mana to 10
         for(int i=0;i<10;i++){ hero.incrementManaLimit(); }
+        //checks if hero's mana limit is at 10
+        assertTrue(hero.getManaLimit() == 10);
 
         //Plays card
         hero.refillMana();
