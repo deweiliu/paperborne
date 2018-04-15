@@ -151,7 +151,7 @@ public class Hero extends Sprite {
                 i.remove();
         }
     }
-    
+
 
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport, Paint paint)
