@@ -286,23 +286,38 @@ public class CardTests {
         Vector2 touchPos = new Vector2();
         touchPos.x = 60;
         touchPos.y = 1000;
-
         InputHelper.convertScreenPosIntoLayer(mScreenViewport,touchPos,mLayerViewport,card.getPosition());
-
         TouchEvent touchEvent = new TouchEvent();
         touchEvent.type = TouchEvent.TOUCH_UP;
         touchEvent.x = touchPos.x;
         touchEvent.y = touchPos.y;
         List<TouchEvent> touchEvents = new ArrayList<>();
         touchEvents.add(touchEvent);
-
         card.setCardPressedDown(true);
         card.setPosition(touchPos.x, touchPos.y);
         when(input.getTouchEvents()).thenReturn(touchEvents);
-
         card.update(elapsedTime, mScreenViewport, mLayerViewport, hero);
-
         assertTrue(card.getCardState() == Card.CardState.CARD_ON_BOARD);
+
+        //Test a card remains in hand when dropped in the right area
+        Card card2 = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
+        card2.setCardState(Card.CardState.CARD_IN_HAND);
+        touchPos = new Vector2();
+        touchPos.x = 60;
+        touchPos.y = 10;
+
+        InputHelper.convertScreenPosIntoLayer(mScreenViewport,touchPos,mLayerViewport,card2.getPosition());
+        TouchEvent touchEvent2 = new TouchEvent();
+        touchEvent2.type = TouchEvent.TOUCH_UP;
+        touchEvent2.x = touchPos.x;
+        touchEvent2.y = touchPos.y;
+        List<TouchEvent> touchEvents2 = new ArrayList<>();
+        touchEvents.add(touchEvent2);
+        card2.setCardPressedDown(true);
+        card2.setPosition(touchPos.x, touchPos.y);
+        when(input.getTouchEvents()).thenReturn(touchEvents2);
+        card2.update(elapsedTime, mScreenViewport, mLayerViewport, hero);
+        assertTrue(card2.getCardState() == Card.CardState.CARD_IN_HAND);
     }
 
     //The following tests test various setter methods
@@ -312,7 +327,7 @@ public class CardTests {
         CardDemoScreen cardDemoScreen = new CardDemoScreen(game);
         game.getScreenManager().addScreen(cardDemoScreen);
 
-        card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
+        card = new Card(0,  "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
         card.setPosition(100, 100);
 
         assertTrue(card.getPosition().x == 100 && card.getPosition().y == 100);
@@ -327,6 +342,8 @@ public class CardTests {
         card.setAnchor(50, 50);
 
         assertTrue(card.getAnchor().x == 50 && card.getAnchor().y == 50);
+        card.setAnchor(10, 10);
+        assertTrue(card.getAnchor().x == 10 && card.getAnchor().y == 10);
     }
 
     //NS
@@ -337,6 +354,10 @@ public class CardTests {
         card = new Card(0, "Test", 0, 0, bitmap, cardDemoScreen, 1, 1, 1);
         card.setCardState(Card.CardState.CARD_ON_BOARD);
         assertTrue(card.getCardState() == Card.CardState.CARD_ON_BOARD);
+        card.setCardState(Card.CardState.CARD_IN_DECK);
+        assertTrue(card.getCardState() == Card.CardState.CARD_IN_DECK);
+        card.setCardState(Card.CardState.CARD_IN_HAND);
+        assertTrue(card.getCardState() == Card.CardState.CARD_IN_HAND);
     }
 
     //NS
@@ -351,6 +372,11 @@ public class CardTests {
 
         card.setLastPosition(lastPosition);
         assertTrue(card.getLastPosition() == lastPosition);
+
+        lastPosition.x = 100;
+        lastPosition.y = 200;
+        card.setLastPosition(lastPosition);
+        assertTrue(card.getLastPosition() == lastPosition);
     }
 
     //NS
@@ -362,6 +388,9 @@ public class CardTests {
 
         card.setManaCost(50);
         assertTrue(card.getManaCost() == 50);
+
+        card.setManaCost(10);
+        assertTrue(card.getManaCost() == 10);
     }
 
     //CS
@@ -373,6 +402,8 @@ public class CardTests {
 
         card.setAttackValue(20);
         assertTrue(card.getAttackValue() == 20);
+        card.setAttackValue(5);
+        assertTrue(card.getAttackValue() == 5);
     }
 
     //CS
