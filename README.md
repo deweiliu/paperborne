@@ -2,7 +2,10 @@
 ## Introduction
 This is a project that our team of five did in level 2 at Queen's University Belfast. It is a [Hearthstone](https://en.wikipedia.org/wiki/Hearthstone)-like card game that users can battle with our built-in AI.
 
-## To check out the game
+## Play the game online
+A live demo of this game is avaiable at [paperborne.deweiliu.com](https://paperborne.deweiliu.com/)
+
+## Play the game on your machine
 As we are trying to publish the game on Google Play, at the moment, you can only play it on an Android Virtual Device (AVD).
 ### Prerequisites
 * [Android Studio](https://developer.android.com/studio/)
