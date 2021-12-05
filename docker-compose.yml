@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  paperborne:
+    image: deweiliu/paperborne:latest
+    build:
+      context: .
+    ports:
+      - 80:80
+    container_name: paperborne-container
