@@ -5,6 +5,10 @@ services:
     image: deweiliu/paperborne:latest
     build:
       context: .
+      x-bake:
+        platforms:
+          - linux/amd64
+          - linux/arm64
     ports:
       - 80:80
     container_name: paperborne-container

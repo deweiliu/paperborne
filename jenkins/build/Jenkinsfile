@@ -9,23 +9,25 @@ pipeline {
     }
 
     stages {
-        stage('Build Docker Image') {
-            steps {
-                sh 'docker-compose build'
+        stage('Set up'){
+            steps{
+                sh 'docker buildx create --use'
             }
         }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker buildx bake'
+            }
+        }
+
         stage('Docker Push') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'username', passwordVariable: 'password')]) {
                     sh 'docker login --username $username --password $password'
                 }
 
-                sh 'docker-compose push'
-            }
-        }
-        stage('Docker Logout') {
-            steps {
-                sh 'docker logout'
+                sh 'docker buildx bake --push'
             }
         }
 
@@ -36,8 +38,10 @@ pipeline {
         }
     }
     post { 
-        always { 
+        always {
             cleanWs()
+            sh 'docker logout'
+            sh 'docker buildx rm'
         }
     }    
 }
